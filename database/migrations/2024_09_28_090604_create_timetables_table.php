@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('week_number');
             $table->timestamps();
             $table->unique(['mentor_id', 'day', 'time_slot', 'week_number', 'table_number'], 'mentor_schedule_unique');
+            $table->unique(['day', 'time_slot', 'week_number', 'table_number'], 'mentor_table_schedule_unique');
         });
     }
 
