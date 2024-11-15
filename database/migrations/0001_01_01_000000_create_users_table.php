@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('role', ['admin', 'mentor', 'student'])->default('student');
-            $table->string('lineQR_image')->nullable(); // Line QR image column
-            $table->string('profile_picture')->nullable();
+            $table->string('line_id')->nullable();
+            $table->string('phone_number')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

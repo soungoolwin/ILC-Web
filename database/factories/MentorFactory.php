@@ -19,7 +19,7 @@ class MentorFactory extends Factory
     {
         return [
             'user_id' => User::factory()->create(['role' => 'mentor'])->id,
-            'mentor_id' => $this->faker->unique()->bothify('M###'),
+            'mentor_id' => $this->faker->unique()->randomNumber(7),
         ];
     }
 }

@@ -19,7 +19,7 @@ class StudentFactory extends Factory
     {
         return [
             'user_id' => User::factory()->create(['role' => 'student'])->id,
-            'student_id' => $this->faker->unique()->randomNumber(6),
+            'student_id' => $this->faker->unique()->randomNumber(7),
         ];
     }
 }
