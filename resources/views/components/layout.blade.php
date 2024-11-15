@@ -16,10 +16,27 @@
         <nav class="bg-blue-600 p-4 shadow">
             <div class="container mx-auto flex justify-between items-center">
                 <h1 class="text-white text-lg font-bold">My Website</h1>
-                <div>
-                    <a href="#" class="text-white px-4">Home</a>
-                    <a href="#" class="text-white px-4">About</a>
-                    <a href="#" class="text-white px-4">Contact</a>
+                <div class="flex items-center space-x-4">
+                    <!-- Dynamic Links Based on Role -->
+                    @if (Auth::check())
+                        @if (Auth::user()->role === 'student')
+                            <a href="{{ route('student.dashboard') }}" class="text-white">Student</a>
+                        @elseif (Auth::user()->role === 'mentor')
+                            <a href="{{ route('mentor.dashboard') }}" class="text-white">Mentor</a>
+                        @elseif (Auth::user()->role === 'admin')
+                            <a href="{{ route('admin.dashboard') }}" class="text-white">Admin</a>
+                        @endif
+
+                        <!-- Logout Button -->
+                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                            @csrf
+                            <button type="submit" class="text-white">Logout</button>
+                        </form>
+                    @else
+                        <!-- Guest Links -->
+                        <a href="{{ route('login') }}" class="text-white">Login</a>
+                        <a href="{{ route('register.student') }}" class="text-white">Register</a>
+                    @endif
                 </div>
             </div>
         </nav>
@@ -33,7 +50,13 @@
                     <li><a href="#" class="block py-2 text-gray-700 hover:bg-gray-200">Dashboard</a></li>
                     <li><a href="#" class="block py-2 text-gray-700 hover:bg-gray-200">Profile</a></li>
                     <li><a href="#" class="block py-2 text-gray-700 hover:bg-gray-200">Settings</a></li>
-                    <li><a href="#" class="block py-2 text-gray-700 hover:bg-gray-200">Logout</a></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="block py-2 text-gray-700 hover:bg-gray-200 text-left w-full">Logout</button>
+                        </form>
+                    </li>
                 </ul>
             </aside>
 

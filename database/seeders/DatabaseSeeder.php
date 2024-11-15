@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
                     'day' => 'Monday', // Fixed for testing
                     'time_slot' => '9:00-9:30',
                     'table_number' => $tableNumber,
-                    'week_number' => $week,
+                    'week_number' => (string) $week, // Cast week to string for enum compatibility
                 ]);
 
                 // Second half-hour slot
@@ -54,17 +54,18 @@ class DatabaseSeeder extends Seeder
                     'day' => 'Monday',
                     'time_slot' => '9:30-10:00',
                     'table_number' => $tableNumber,
-                    'week_number' => $week,
+                    'week_number' => (string) $week, // Cast week to string for enum compatibility
                 ]);
             }
         }
 
-        // Assign appointments for each timetable
+        // Assign 10 random appointments for each student across different weeks
         $timetables = Timetable::all();
 
-        foreach ($timetables as $timetable) {
-            // Register exactly 5 students per half-hour slot
-            foreach ($students->random(5) as $student) {
+        foreach ($students as $student) {
+            $randomTimetables = $timetables->random(10);
+
+            foreach ($randomTimetables as $timetable) {
                 Appointment::factory()->create([
                     'student_id' => $student->id,
                     'timetable_id' => $timetable->id,
