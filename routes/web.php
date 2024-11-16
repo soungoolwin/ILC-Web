@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SignupController;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\StudentMiddleware;
+use App\Models\Mentor;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,21 +27,43 @@ Route::middleware(RedirectIfAuthenticated::class)->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
 });
 
-//After Login
-Route::middleware('auth')->group(function () {
-    Route::get('/student/dashboard', function () {
-        return view('components.dashboard');
-    })->name('student.dashboard');
 
+
+// Mentor Routes
+Route::middleware('auth', MentorMiddleware::class)->group(function () {
     Route::get('/mentor/dashboard', function () {
         return view('components.dashboard');
     })->name('mentor.dashboard');
 
+    Route::get('/mentor/profile', function () {
+        return view('mentor.profile');
+    })->name('mentor.profile');
+});
+
+
+//Student Routes
+Route::middleware('auth', StudentMiddleware::class)->group(function () {
+    Route::get('/student/dashboard', function () {
+        return view('components.dashboard');
+    })->name('student.dashboard');
+
+    Route::get('/student/profile', function () {
+        return view('student.profile');
+    })->name('student.profile');
+});
+
+
+//Admin Routes
+Route::middleware(`auth`, AdminMiddleware::class)->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('components.dashboard');
     })->name('admin.dashboard');
+
+    Route::get('/admin/profile', function () {
+        return view('admin.profile');
+    })->name('admin.profile');
 });
-//After Login
+
 
 //Logout
 
