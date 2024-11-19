@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MentorController;
 use App\Http\Controllers\SignupController;
+use App\Http\Controllers\StudentController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -35,9 +37,9 @@ Route::middleware('auth', MentorMiddleware::class)->group(function () {
         return view('components.dashboard');
     })->name('mentor.dashboard');
 
-    Route::get('/mentor/profile', function () {
-        return view('mentor.profile');
-    })->name('mentor.profile');
+    Route::get("/mentor/profile", [MentorController::class, 'show'])->name('mentor.profile');
+
+    Route::put('/mentor/profile', [MentorController::class, 'update'])->name('mentor.update');
 });
 
 
@@ -47,9 +49,8 @@ Route::middleware('auth', StudentMiddleware::class)->group(function () {
         return view('components.dashboard');
     })->name('student.dashboard');
 
-    Route::get('/student/profile', function () {
-        return view('student.profile');
-    })->name('student.profile');
+    Route::get("/student/profile", [StudentController::class, 'show'])->name('student.profile');
+    Route::put('/student/profile', [StudentController::class, 'update'])->name('student.update');
 });
 
 
