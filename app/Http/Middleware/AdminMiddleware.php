@@ -18,7 +18,7 @@ class AdminMiddleware
     {
         if (Auth::check()) {
             $user = Auth::user();
-
+            dd($user->role);
             if ($user->role !== 'admin') {
                 return redirect('/' . $user->role . '/dashboard');
             }
