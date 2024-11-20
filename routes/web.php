@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\SignupController;
@@ -8,7 +9,6 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\StudentMiddleware;
-use App\Models\Mentor;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,6 +24,9 @@ Route::middleware(RedirectIfAuthenticated::class)->group(function () {
     Route::get('/register/mentor', [SignupController::class, 'showMentorRegistrationForm'])->name('register.mentor');
     Route::post('/register/mentor', [SignupController::class, 'registerMentor']);
 
+    Route::get('/register/admin', [SignupController::class, 'showAdminRegistrationForm'])->name('register.admin');
+    Route::post('/register/admin', [SignupController::class, 'registerAdmin']);
+
 
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
@@ -32,7 +35,7 @@ Route::middleware(RedirectIfAuthenticated::class)->group(function () {
 
 
 // Mentor Routes
-Route::middleware('auth', MentorMiddleware::class)->group(function () {
+Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     Route::get('/mentor/dashboard', function () {
         return view('components.dashboard');
     })->name('mentor.dashboard');
@@ -44,7 +47,7 @@ Route::middleware('auth', MentorMiddleware::class)->group(function () {
 
 
 //Student Routes
-Route::middleware('auth', StudentMiddleware::class)->group(function () {
+Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
     Route::get('/student/dashboard', function () {
         return view('components.dashboard');
     })->name('student.dashboard');
@@ -55,14 +58,13 @@ Route::middleware('auth', StudentMiddleware::class)->group(function () {
 
 
 //Admin Routes
-Route::middleware(`auth`, AdminMiddleware::class)->group(function () {
+Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('components.dashboard');
     })->name('admin.dashboard');
 
-    Route::get('/admin/profile', function () {
-        return view('admin.profile');
-    })->name('admin.profile');
+    Route::get("/admin/profile", [AdminController::class, 'show'])->name('admin.profile');
+    Route::put('/admin/profile', [AdminController::class, 'update'])->name('admin.update');
 });
 
 

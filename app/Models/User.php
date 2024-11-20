@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Mentor::class);
     }
+
+    public function admins()
+    {
+        return $this->hasMany(Admin::class);
+    }
 }
