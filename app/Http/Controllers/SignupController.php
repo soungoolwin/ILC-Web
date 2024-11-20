@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Mentor;
 use App\Models\Student;
 use App\Models\User;
@@ -86,5 +87,43 @@ class SignupController extends Controller
         ]);
 
         return redirect()->route('login')->with('success', 'Mentor account created successfully!');
+    }
+
+
+    public function showAdminRegistrationForm()
+    {
+        return view('auth.register-admin'); // Create this Blade view
+    }
+
+    public function registerAdmin(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'nickname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'line_id' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:255',
+            'admin_id' => 'required|string|unique:admins,admin_id',
+        ]);
+
+        $user = User::create([
+            'name' => $data['name'],
+            'nickname' => $data['nickname'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']), // Use bcrypt for hashing
+            'role' => 'admin',
+            'line_id' => $data['line_id'],
+            'phone_number' => $data['phone_number'],
+        ]);
+
+
+        $admin = Admin::create([
+            'user_id' => $user->id,
+            'admin_id' => $data['admin_id'],
+        ]);
+
+
+        return redirect()->route('login')->with('success', 'Admin account created successfully!');
     }
 }
