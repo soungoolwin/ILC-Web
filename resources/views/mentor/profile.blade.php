@@ -12,6 +12,24 @@
             </button>
         </div>
 
+        <!-- Display Validation Errors -->
+        @if ($errors->any())
+            <div class="bg-red-100 text-red-800 p-4 rounded-md mt-4">
+                <ul class="list-disc pl-5 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- Success Message -->
+        @if (session('success'))
+            <div class="bg-green-100 text-green-800 p-4 rounded-md mt-4">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <!-- Profile Info -->
         <div id="profile-info" class="mt-6 space-y-4">
             <!-- Mentor Table Info -->
@@ -53,6 +71,9 @@
                 <label for="mentor_id" class="block text-sm font-medium text-gray-500">Mentor ID</label>
                 <input type="text" name="mentor_id" id="mentor_id" value="{{ old('mentor_id', $mentor->mentor_id) }}"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('mentor_id')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- User Table Info -->
@@ -60,18 +81,27 @@
                 <label for="name" class="block text-sm font-medium text-gray-500">Name</label>
                 <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('name')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div>
                 <label for="nickname" class="block text-sm font-medium text-gray-500">Nickname</label>
                 <input type="text" name="nickname" id="nickname" value="{{ old('nickname', $user->nickname) }}"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('nickname')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div>
                 <label for="line_id" class="block text-sm font-medium text-gray-500">Line ID</label>
                 <input type="text" name="line_id" id="line_id" value="{{ old('line_id', $user->line_id) }}"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('line_id')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div>
@@ -79,6 +109,9 @@
                 <input type="text" name="phone_number" id="phone_number"
                     value="{{ old('phone_number', $user->phone_number) }}"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('phone_number')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Password Fields -->
@@ -90,12 +123,18 @@
                         Password</label>
                     <input type="password" name="current_password" id="current_password"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    @error('current_password')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="mt-4">
                     <label for="password" class="block text-sm font-medium text-gray-500">New Password</label>
                     <input type="password" name="password" id="password"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    @error('password')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="mt-4">
@@ -103,6 +142,9 @@
                         Password</label>
                     <input type="password" name="password_confirmation" id="password_confirmation"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    @error('password_confirmation')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
