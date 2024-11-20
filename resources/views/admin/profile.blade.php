@@ -12,6 +12,24 @@
             </button>
         </div>
 
+        <!-- Display Validation Errors -->
+        @if ($errors->any())
+            <div class="bg-red-100 text-red-800 p-4 rounded-md mt-4">
+                <ul class="list-disc pl-5 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- Success Message -->
+        @if (session('success'))
+            <div class="bg-green-100 text-green-800 p-4 rounded-md mt-4">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <!-- Profile Info -->
         <div id="profile-info" class="mt-6 space-y-4">
             <!-- Admin Table Info -->

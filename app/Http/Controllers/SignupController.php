@@ -23,6 +23,11 @@ class SignupController extends Controller
         return view('auth.register-mentor'); // Create this Blade view
     }
 
+    public function showAdminRegistrationForm()
+    {
+        return view('auth.register-admin'); // Create this Blade view
+    }
+
     /**
      * Handle student registration.
      */
@@ -89,11 +94,6 @@ class SignupController extends Controller
         return redirect()->route('login')->with('success', 'Mentor account created successfully!');
     }
 
-
-    public function showAdminRegistrationForm()
-    {
-        return view('auth.register-admin'); // Create this Blade view
-    }
 
     public function registerAdmin(Request $request)
     {
