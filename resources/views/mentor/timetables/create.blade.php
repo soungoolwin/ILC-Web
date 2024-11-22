@@ -1,0 +1,73 @@
+<x-layout>
+    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Reserve Timetable</h2>
+
+        <!-- Display Validation Errors -->
+        @if ($errors->any())
+            <div class="bg-red-100 text-red-800 p-4 rounded-md mb-6">
+                <ul class="list-disc pl-5 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('mentor.timetables.store') }}" class="space-y-5">
+            @csrf
+
+            <!-- Day -->
+            <div>
+                <label for="day" class="block text-sm font-semibold text-gray-600 mb-1">Day</label>
+                <select name="day" id="day"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
+                    required>
+                    <option value="">Select a Day</option>
+                    @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as $day)
+                        <option value="{{ $day }}">{{ $day }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Time Slot -->
+            <div>
+                <label for="time_slot" class="block text-sm font-semibold text-gray-600 mb-1">Time Slot</label>
+                <select name="time_slot" id="time_slot"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
+                    required>
+                    <option value="">Select a Time Slot</option>
+                    @foreach (range(9, 19) as $hour)
+                        @php
+                            $start_time = sprintf('%02d:00', $hour);
+                            $end_time = sprintf('%02d:00', $hour + 1);
+                        @endphp
+                        <option value="{{ $start_time }}-{{ $end_time }}">
+                            {{ $start_time }}-{{ $end_time }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Table Number -->
+            <div>
+                <label for="table_number" class="block text-sm font-semibold text-gray-600 mb-1">Table Number</label>
+                <select name="table_number" id="table_number"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
+                    required>
+                    <option value="">Select a Table</option>
+                    @foreach (range(1, 25) as $table)
+                        <option value="{{ $table }}">Table {{ $table }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-purple-700 transition">
+                    Reserve Timetable
+                </button>
+            </div>
+        </form>
+    </div>
+</x-layout>
