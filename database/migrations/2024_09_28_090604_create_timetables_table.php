@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('time_slot');
             $table->integer('table_number');
             $table->boolean('reserved')->default(false);
-            $table->enum('week_number', ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']);
+            $table->enum('week_number', ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16']);
             $table->timestamps();
             $table->unique(['mentor_id', 'day', 'time_slot', 'week_number', 'table_number'], 'mentor_schedule_unique');
             $table->unique(['day', 'time_slot', 'week_number', 'table_number'], 'mentor_table_schedule_unique');

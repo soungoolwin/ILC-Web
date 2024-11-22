@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TimetableController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -41,8 +42,14 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     })->name('mentor.dashboard');
 
     Route::get("/mentor/profile", [MentorController::class, 'show'])->name('mentor.profile');
-
     Route::put('/mentor/profile', [MentorController::class, 'update'])->name('mentor.update');
+
+    //Timetable Routes
+    Route::get('/mentor/timetables/reserve', [TimetableController::class, 'create'])->name('mentor.timetables.create');
+    Route::post('/mentor/timetables/reserve', [TimetableController::class, 'store'])->name('mentor.timetables.store');
+
+    Route::get('/mentor/timetables/edit', [TimetableController::class, 'edit'])->name('timetables.edit');
+    Route::put('/mentor/timetables/update', [TimetableController::class, 'update'])->name('timetables.update');
 });
 
 
