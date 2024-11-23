@@ -35,28 +35,33 @@ class TimetableController extends Controller
         // Validate input
         $request->validate([
             'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
-            'time_slot' => 'required|string|max:20', // Add more time format validation if needed
-            'table_number' => 'required|integer|min:1',
+            'time_slot' => 'required|string|regex:/^\d{2}:\d{2}-\d{2}:\d{2}$/', // Format: HH:MM-HH:MM
+            'table_number' => 'required|integer|min:1|max:25',
         ]);
 
-        // Insert 16 rows for 16 weeks
+        // Split the one-hour time slot into two 30-minute slots
+        $timeSlots = $this->splitTimeSlot($request->time_slot);
+
+        // Insert 32 rows (2 slots per week for 16 weeks)
         $timetables = [];
         foreach (range(1, 16) as $week_number) {
-            $timetables[] = [
-                'mentor_id' => $mentor->id,
-                'day' => $request->day,
-                'time_slot' => $request->time_slot,
-                'table_number' => $request->table_number,
-                'week_number' => (string)$week_number,
-                'reserved' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
+            foreach ($timeSlots as $timeSlot) {
+                $timetables[] = [
+                    'mentor_id' => $mentor->id,
+                    'day' => $request->day,
+                    'time_slot' => $timeSlot,
+                    'table_number' => $request->table_number,
+                    'week_number' => (string)$week_number,
+                    'reserved' => true,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
         }
 
-        // Check for unique constraint violations (optional to prevent errors in runtime)
+        // Check for unique constraint violations
         $conflicts = Timetable::where('day', $request->day)
-            ->where('time_slot', $request->time_slot)
+            ->whereIn('time_slot', $timeSlots)
             ->where('table_number', $request->table_number)
             ->exists();
 
@@ -89,6 +94,21 @@ class TimetableController extends Controller
         return view('mentor.timetables.edit', compact('timetable'));
     }
 
+    private function splitTimeSlot(string $timeSlot): array
+    {
+        [$start, $end] = explode('-', $timeSlot);
+
+        // Convert to Carbon instances for easier manipulation
+        $startTime = \Carbon\Carbon::createFromFormat('H:i', $start);
+        $endTime = \Carbon\Carbon::createFromFormat('H:i', $end);
+
+        // Generate two 30-minute slots
+        $firstSlot = $startTime->format('H:i') . '-' . $startTime->copy()->addMinutes(30)->format('H:i');
+        $secondSlot = $startTime->copy()->addMinutes(30)->format('H:i') . '-' . $endTime->format('H:i');
+
+        return [$firstSlot, $secondSlot];
+    }
+
     public function update(Request $request)
     {
         $mentor_id = Auth::user()->mentors->first()->id;
@@ -100,20 +120,107 @@ class TimetableController extends Controller
             'table_number' => 'required|integer|between:1,25',
         ]);
 
-        // Fetch all the mentor's reserved timetables
+        // Split the one-hour time slot into two 30-minute slots
+        $timeSlots = $this->splitTimeSlot($request->time_slot);
+
+        // Fetch all the mentor's reserved timetables, ordered by week number
         $timetables = Timetable::where('mentor_id', $mentor_id)
             ->where('reserved', true)
+            ->orderBy('week_number')
             ->get();
 
-        // Update existing rows
+        // Check if the timetables exist
+        if ($timetables->isEmpty()) {
+            return back()->withErrors(['error' => 'No reservations found to update.']);
+        }
+
+        // Ensure we update the correct rows by week
+        $updatedIndex = 0; // Tracks the position for the time slot to update
         foreach ($timetables as $timetable) {
+            $timeSlotIndex = $updatedIndex % 2; // Alternates between 0 (first half) and 1 (second half)
+
             $timetable->update([
                 'day' => $request->day,
-                'time_slot' => $request->time_slot,
+                'time_slot' => $timeSlots[$timeSlotIndex],
                 'table_number' => $request->table_number,
             ]);
+
+            $updatedIndex++;
         }
 
         return redirect()->route('mentor.dashboard')->with('success', 'Reservation updated successfully.');
+    }
+
+
+    public function checkAvailability(Request $request)
+    {
+        // Define all possible combinations of days, one-hour time slots, and tables
+        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        $timeSlots = [
+            '09:00-10:00',
+            '10:00-11:00',
+            '11:00-12:00',
+            '12:00-13:00',
+            '13:00-14:00',
+            '14:00-15:00',
+            '15:00-16:00',
+            '16:00-17:00',
+            '17:00-18:00',
+            '18:00-19:00',
+            '19:00-20:00'
+        ];
+        $tables = range(1, 25);
+
+        // Fetch reserved timetables
+        $reservedTimetables = Timetable::select('day', 'time_slot', 'table_number')
+            ->distinct()
+            ->get()
+            ->toArray();
+
+        // Create a list of available timetables
+        $availableTimetables = [];
+        foreach ($days as $day) {
+            foreach ($timeSlots as $timeSlot) {
+                foreach ($tables as $table) {
+                    // Check if the current one-hour slot is reserved
+                    $isReserved = collect($reservedTimetables)->contains(function ($timetable) use ($day, $timeSlot, $table) {
+                        return $timetable['day'] === $day &&
+                            $timetable['time_slot'] === $timeSlot &&
+                            $timetable['table_number'] === $table;
+                    });
+
+                    // Add to available timetables if not reserved
+                    if (!$isReserved) {
+                        $availableTimetables[] = [
+                            'day' => $day,
+                            'time_slot' => $timeSlot,
+                            'table_number' => $table,
+                        ];
+                    }
+                }
+            }
+        }
+
+        // Filter based on search inputs
+        if ($request->filled('table_number')) {
+            $availableTimetables = collect($availableTimetables)
+                ->where('table_number', (int) $request->table_number)
+                ->values()
+                ->toArray();
+        }
+        if ($request->filled('time_slot')) {
+            $availableTimetables = collect($availableTimetables)
+                ->where('time_slot', $request->time_slot)
+                ->values()
+                ->toArray();
+        }
+        if ($request->filled('day')) {
+            $availableTimetables = collect($availableTimetables)
+                ->where('day', $request->day)
+                ->values()
+                ->toArray();
+        }
+
+        return view('mentor.timetables.availability', compact('availableTimetables', 'request'));
     }
 }
