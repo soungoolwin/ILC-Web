@@ -48,8 +48,8 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     Route::get('/mentor/timetables/reserve', [TimetableController::class, 'create'])->name('mentor.timetables.create');
     Route::post('/mentor/timetables/reserve', [TimetableController::class, 'store'])->name('mentor.timetables.store');
 
-    Route::get('/mentor/timetables/edit', [TimetableController::class, 'edit'])->name('timetables.edit');
-    Route::put('/mentor/timetables/update', [TimetableController::class, 'update'])->name('timetables.update');
+    Route::get('/mentor/timetables/edit', [TimetableController::class, 'edit'])->name('mentor.timetables.edit');
+    Route::put('/mentor/timetables/update', [TimetableController::class, 'update'])->name('mentor.timetables.update');
 });
 
 

@@ -2,6 +2,13 @@
     <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Reserve Timetable</h2>
 
+        <!-- Flash Message -->
+        @if (session('info'))
+            <div class="bg-blue-100 text-blue-800 p-4 rounded-md mb-6">
+                {{ session('info') }}
+            </div>
+        @endif
+
         <!-- Display Validation Errors -->
         @if ($errors->any())
             <div class="bg-red-100 text-red-800 p-4 rounded-md mb-6">
@@ -64,7 +71,7 @@
             <!-- Submit Button -->
             <div>
                 <button type="submit"
-                    class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-purple-700 transition">
+                    class="w-full bg-[#8E5C65] text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transition">
                     Reserve Timetable
                 </button>
             </div>
