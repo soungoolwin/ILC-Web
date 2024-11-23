@@ -17,7 +17,7 @@ class TimetableController extends Controller
 
         if ($existingTimetable) {
             // Redirect to the edit page if timetables exist
-            return redirect()->route('timetables.edit', ['mentor_id' => $mentor_id])
+            return redirect()->route('mentor.timetables.edit', ['mentor_id' => $mentor_id])
                 ->with('info', 'You already have a reserved timetable. You can edit it.');
         }
 
@@ -68,12 +68,20 @@ class TimetableController extends Controller
 
         return redirect()->route('mentor.dashboard')->with('success', 'Timetable reserved successfully.');
     }
-
     public function edit(Request $request)
     {
         $mentor_id = Auth::user()->mentors->first()->id;
 
-        // Get the first timetable row for the mentor's reserved slot
+        // Check if there are any timetables for this mentor
+        $existingTimetable = Timetable::where('mentor_id', $mentor_id)->exists();
+
+        if (!$existingTimetable) {
+            // Redirect to the create page if no timetables exist
+            return redirect()->route('mentor.timetables.create')
+                ->with('info', 'You haven\'t reserved yet. Please reserve your timetable first.');
+        }
+
+        // Proceed with edit logic if records exist
         $timetable = Timetable::where('mentor_id', $mentor_id)
             ->where('reserved', true)
             ->firstOrFail();

@@ -2,6 +2,13 @@
     <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-4">Edit Reservation</h2>
 
+        <!-- Flash Message -->
+        @if (session('info'))
+            <div class="bg-blue-100 text-blue-800 p-4 rounded-md mb-6">
+                {{ session('info') }}
+            </div>
+        @endif
+
         <!-- Display Validation Errors -->
         @if ($errors->any())
             <div class="bg-red-100 text-red-800 p-4 rounded-md mb-6">
@@ -13,7 +20,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('timetables.update') }}" class="space-y-5">
+        <form method="POST" action="{{ route('mentor.timetables.update') }}" class="space-y-5">
             @csrf
             @method('PUT')
 
@@ -58,8 +65,7 @@
 
             <!-- Submit Button -->
             <div>
-                <button type="submit"
-                    class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700">
+                <button type="submit" class="w-full bg-[#8E5C65] text-white font-bold py-2 px-4 rounded-md ">
                     Update Reservation
                 </button>
             </div>
