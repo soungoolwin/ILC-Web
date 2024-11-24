@@ -52,7 +52,7 @@ class TimetableController extends Controller
                     'time_slot' => $timeSlot,
                     'table_number' => $request->table_number,
                     'week_number' => (string)$week_number,
-                    'reserved' => true,
+                    'reserved' => false,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
@@ -75,11 +75,11 @@ class TimetableController extends Controller
     }
     public function edit(Request $request)
     {
+
         $mentor_id = Auth::user()->mentors->first()->id;
 
         // Check if there are any timetables for this mentor
         $existingTimetable = Timetable::where('mentor_id', $mentor_id)->exists();
-
         if (!$existingTimetable) {
             // Redirect to the create page if no timetables exist
             return redirect()->route('mentor.timetables.create')
@@ -88,7 +88,6 @@ class TimetableController extends Controller
 
         // Proceed with edit logic if records exist
         $timetable = Timetable::where('mentor_id', $mentor_id)
-            ->where('reserved', true)
             ->firstOrFail();
 
         return view('mentor.timetables.edit', compact('timetable'));
@@ -136,7 +135,6 @@ class TimetableController extends Controller
 
         // Fetch all the mentor's reserved timetables, ordered by week number
         $timetables = Timetable::where('mentor_id', $mentor_id)
-            ->where('reserved', true)
             ->orderBy('week_number')
             ->get();
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\SignupController;
@@ -63,6 +64,9 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
 
     Route::get("/student/profile", [StudentController::class, 'show'])->name('student.profile');
     Route::put('/student/profile', [StudentController::class, 'update'])->name('student.update');
+
+    Route::get('/student/appointments/create', [AppointmentController::class, 'create'])->name('student.appointments.create');
+    Route::post('/student/appointments/store', [AppointmentController::class, 'store'])->name('student.appointments.store');
 });
 
 
