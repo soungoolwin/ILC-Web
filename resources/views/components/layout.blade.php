@@ -21,6 +21,20 @@
                     @if (Auth::check())
                         @if (Auth::user()->role === 'student')
                             <a href="{{ route('student.dashboard') }}" class="text-white">Dashboard</a>
+                            <!-- Appointments Dropdown -->
+                            <div class="relative">
+                                <button id="dropdownButton" class="text-white focus:outline-none">Appointments</button>
+                                <div id="dropdownMenu" class="absolute mt-2 w-48 bg-white rounded-md shadow-lg hidden">
+                                    <a href="{{ route('student.appointments.create') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Create Appointments
+                                    </a>
+                                    <a href="{{ route('mentor.timetables.edit') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Edit Appointments
+                                    </a>
+                                </div>
+                            </div>
                         @elseif (Auth::user()->role === 'mentor')
                             <a href="{{ route('mentor.dashboard') }}" class="text-white">Dashboard</a>
 
