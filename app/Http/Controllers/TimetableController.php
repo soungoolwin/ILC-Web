@@ -123,6 +123,17 @@ class TimetableController extends Controller
         // Split the one-hour time slot into two 30-minute slots
         $timeSlots = $this->splitTimeSlot($request->time_slot);
 
+        // Check for conflicts with other mentors' reservations
+        $conflicts = Timetable::where('mentor_id', '!=', $mentor_id)
+            ->where('day', $request->day)
+            ->where('table_number', $request->table_number)
+            ->whereIn('time_slot', $timeSlots)
+            ->exists();
+
+        if ($conflicts) {
+            return back()->withErrors(['conflict' => 'The selected time slot and table number is already reserved by another mentor.']);
+        }
+
         // Fetch all the mentor's reserved timetables, ordered by week number
         $timetables = Timetable::where('mentor_id', $mentor_id)
             ->where('reserved', true)
@@ -134,7 +145,7 @@ class TimetableController extends Controller
             return back()->withErrors(['error' => 'No reservations found to update.']);
         }
 
-        // Ensure we update the correct rows by week
+        // Update the rows
         $updatedIndex = 0; // Tracks the position for the time slot to update
         foreach ($timetables as $timetable) {
             $timeSlotIndex = $updatedIndex % 2; // Alternates between 0 (first half) and 1 (second half)
@@ -177,26 +188,28 @@ class TimetableController extends Controller
             ->get()
             ->toArray();
 
-        // Create a list of available timetables
+        // Create a list of all timetables with their reserved status
         $availableTimetables = [];
         foreach ($days as $day) {
             foreach ($timeSlots as $timeSlot) {
                 foreach ($tables as $table) {
-                    // Check if the current one-hour slot is reserved
-                    $isReserved = collect($reservedTimetables)->contains(function ($timetable) use ($day, $timeSlot, $table) {
+                    // Split the one-hour time slot into two 30-minute slots
+                    [$firstSlot, $secondSlot] = $this->splitTimeSlot($timeSlot);
+
+                    // Check if either 30-minute slot is reserved
+                    $isReserved = collect($reservedTimetables)->contains(function ($timetable) use ($day, $firstSlot, $secondSlot, $table) {
                         return $timetable['day'] === $day &&
-                            $timetable['time_slot'] === $timeSlot &&
-                            $timetable['table_number'] === $table;
+                            $timetable['table_number'] === $table &&
+                            ($timetable['time_slot'] === $firstSlot || $timetable['time_slot'] === $secondSlot);
                     });
 
-                    // Add to available timetables if not reserved
-                    if (!$isReserved) {
-                        $availableTimetables[] = [
-                            'day' => $day,
-                            'time_slot' => $timeSlot,
-                            'table_number' => $table,
-                        ];
-                    }
+                    // Add timetable with reserved status
+                    $availableTimetables[] = [
+                        'day' => $day,
+                        'time_slot' => $timeSlot,
+                        'table_number' => $table,
+                        'is_reserved' => $isReserved ? 'Reserved' : 'Available',
+                    ];
                 }
             }
         }
