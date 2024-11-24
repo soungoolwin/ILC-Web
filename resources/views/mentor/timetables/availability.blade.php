@@ -44,8 +44,7 @@
 
             <!-- Search Button -->
             <div>
-                <button type="submit"
-                    class="w-full bg-[#8E5C65] text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">
+                <button type="submit" class="w-full bg-[#8E5C65] text-white font-bold py-2 px-4 rounded-lg transition">
                     Search
                 </button>
             </div>
@@ -59,6 +58,7 @@
                         <th class="border border-gray-300 px-4 py-2">Day</th>
                         <th class="border border-gray-300 px-4 py-2">Time Slot</th>
                         <th class="border border-gray-300 px-4 py-2">Table Number</th>
+                        <th class="border border-gray-300 px-4 py-2">Reserved?</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,6 +68,9 @@
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['time_slot'] }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">Table
                                 {{ $timetable['table_number'] }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">
+                                {{ $timetable['is_reserved'] }}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
