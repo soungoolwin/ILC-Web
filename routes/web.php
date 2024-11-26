@@ -53,6 +53,8 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     Route::put('/mentor/timetables/update', [TimetableController::class, 'update'])->name('mentor.timetables.update');
 
     Route::get('/timetables/availability', [TimetableController::class, 'checkAvailability'])->name('timetables.availability');
+
+    Route::get('/mentor/timetables/students', [TimetableController::class, 'searchStudents'])->name('mentor.timetables.students');
 });
 
 

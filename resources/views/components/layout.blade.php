@@ -33,6 +33,7 @@
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Edit Appointments
                                     </a>
+
                                 </div>
                             </div>
                         @elseif (Auth::user()->role === 'mentor')
@@ -49,6 +50,10 @@
                                     <a href="{{ route('mentor.timetables.edit') }}"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Edit Timetable
+                                    </a>
+                                    <a href="{{ route('mentor.timetables.students') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        See Your Students
                                     </a>
                                 </div>
                             </div>

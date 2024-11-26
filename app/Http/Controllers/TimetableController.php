@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Timetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -233,5 +234,42 @@ class TimetableController extends Controller
         }
 
         return view('mentor.timetables.availability', compact('availableTimetables', 'request'));
+    }
+
+    public function searchStudents(Request $request)
+    {
+        $students = collect(); // Default empty collection for students
+
+        // Check if the form is submitted with input values
+        if ($request->filled(['week_number', 'day', 'time_slot', 'table_number'])) {
+            // Validate the input
+            $request->validate([
+                'week_number' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16',
+                'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
+                'time_slot' => 'required|string',
+                'table_number' => 'required|integer|min:1|max:25',
+            ]);
+
+            // Fetch the timetable based on the provided search criteria
+            $timetable = Timetable::where('week_number', $request->week_number)
+                ->where('day', $request->day)
+                ->where('time_slot', $request->time_slot)
+                ->where('table_number', $request->table_number)
+                ->first();
+
+
+            // If a timetable is found, fetch the students registered for it
+            if ($timetable) {
+                $students = Appointment::where('timetable_id', $timetable->id)
+                    ->with('student.user') // Load the student user data
+                    ->get()
+                    ->pluck('student.user.name') // Extract student names
+                    ->unique(); // Ensure unique student names
+
+
+            }
+        }
+
+        return view('mentor.timetables.students', compact('students', 'request'));
     }
 }
