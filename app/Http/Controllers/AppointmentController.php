@@ -69,6 +69,7 @@ class AppointmentController extends Controller
 
     public function checkAvailability(Request $request)
     {
+
         // Fetch all timetables grouped by week, day, and time slot
         $query = Timetable::query();
 
