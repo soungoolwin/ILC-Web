@@ -66,4 +66,41 @@ class AppointmentController extends Controller
 
         return redirect()->route('student.dashboard')->with('success', 'Appointment created successfully.');
     }
+
+    public function checkAvailability(Request $request)
+    {
+        // Fetch all timetables grouped by week, day, and time slot
+        $query = Timetable::query();
+
+        // Apply search filters
+        if ($request->filled('week_number')) {
+            $query->where('week_number', $request->week_number);
+        }
+        if ($request->filled('day')) {
+            $query->where('day', $request->day);
+        }
+        if ($request->filled('time_slot')) {
+            $query->where('time_slot', $request->time_slot);
+        }
+        if ($request->filled('table_number')) {
+            $query->where('table_number', $request->table_number);
+        }
+
+        // Fetch timetables with reserved status
+        $availableTimetables = $query->orderBy('week_number')
+            ->orderBy('day')
+            ->orderBy('time_slot')
+            ->get()
+            ->map(function ($timetable) {
+                return [
+                    'week_number' => $timetable->week_number,
+                    'day' => $timetable->day,
+                    'time_slot' => $timetable->time_slot,
+                    'table_number' => $timetable->table_number,
+                    'is_reserved' => $timetable->reserved ? 'Reserved' : 'Available',
+                ];
+            });
+
+        return view('student.appointments.availability', compact('availableTimetables', 'request'));
+    }
 }
