@@ -67,6 +67,7 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
 
     Route::get('/student/appointments/create', [AppointmentController::class, 'create'])->name('student.appointments.create');
     Route::post('/student/appointments/store', [AppointmentController::class, 'store'])->name('student.appointments.store');
+    Route::get('/appointments/availability', [AppointmentController::class, 'checkAvailability'])->name('appointments.availability');
 });
 
 
