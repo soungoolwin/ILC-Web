@@ -68,8 +68,33 @@
                         </form>
                     @else
                         <!-- Guest Links -->
+                        <div class="relative">
+                            <button id="registerDropdownButton" class="text-white focus:outline-none">
+                                Register
+                            </button>
+                            <div id="registerDropdownMenu"
+                                class="absolute mt-2 w-48 bg-white rounded-md shadow-lg hidden">
+                                <a href="{{ route('register.student') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Student
+                                </a>
+                                <a href="{{ route('register.mentor') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Mentor
+                                </a>
+                                <a href="{{ route('register.team_leader') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Team Leader
+                                </a>
+                                {{-- <a href="{{ route('register.admin') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Admin
+                                </a> --}}
+                            </div>
+                        </div>
+
+                        <!-- Login Link -->
                         <a href="{{ route('login') }}" class="text-white">Login</a>
-                        <a href="{{ route('register.student') }}" class="text-white">Register</a>
                     @endif
                 </div>
             </div>
@@ -121,6 +146,21 @@
         });
 
         // Close the dropdown if clicked outside
+        document.addEventListener('click', (event) => {
+            if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const dropdownButton = document.getElementById('registerDropdownButton');
+        const dropdownMenu = document.getElementById('registerDropdownMenu');
+
+        dropdownButton.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('hidden');
+        });
+
         document.addEventListener('click', (event) => {
             if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
                 dropdownMenu.classList.add('hidden');
