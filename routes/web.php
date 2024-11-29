@@ -93,6 +93,8 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
         return view('components.dashboard');
     })->name('team_leader.dashboard');
 
+    Route::get('/team-leader/view-timetables', [TeamLeaderController::class, 'viewTimetables'])->name('team_leader.view_timetables');
+
     Route::get('/team-leader/profile', [TeamLeaderController::class, 'show'])->name('team_leader.profile');
     Route::put('/team-leader/profile', [TeamLeaderController::class, 'update'])->name('team_leader.update');
 });

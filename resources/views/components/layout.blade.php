@@ -57,6 +57,20 @@
                                     </a>
                                 </div>
                             </div>
+                        @elseif (Auth::user()->role === 'team_leader')
+                            <a href="{{ route('team_leader.dashboard') }}" class="text-white">Dashboard</a>
+
+                            <!-- Timetables Dropdown -->
+                            <div class="relative">
+                                <button id="dropdownButton" class="text-white focus:outline-none">Timetables</button>
+                                <div id="dropdownMenu" class="absolute mt-2 w-48 bg-white rounded-md shadow-lg hidden">
+                                    <a href="{{ route('team_leader.view_timetables') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Mentor-Students Timetable
+                                    </a>
+
+                                </div>
+                            </div>
                         @elseif (Auth::user()->role === 'admin')
                             <a href="{{ route('admin.dashboard') }}" class="text-white">Dashboard</a>
                         @endif
