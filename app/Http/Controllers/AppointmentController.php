@@ -44,6 +44,15 @@ class AppointmentController extends Controller
             return back()->withErrors(['error' => 'The selected timetable does not exist.']);
         }
 
+        // Check if the student has already booked this timetable
+        $existingAppointment = Appointment::where('timetable_id', $timetable->id)
+            ->where('student_id', $student->id)
+            ->first();
+
+        if ($existingAppointment) {
+            return back()->withErrors(['error' => 'You have already booked this time slot.']);
+        }
+
         // Check if the timetable is already fully booked (5 students)
         $appointmentCount = Appointment::where('timetable_id', $timetable->id)->count();
 
