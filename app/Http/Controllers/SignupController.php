@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Mentor;
 use App\Models\Student;
+use App\Models\TeamLeader;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -125,5 +126,41 @@ class SignupController extends Controller
 
 
         return redirect()->route('login')->with('success', 'Admin account created successfully!');
+    }
+
+
+    public function showTeamLeaderRegistrationForm()
+    {
+        return view('auth.register-team-leader'); // Create this Blade view
+    }
+
+    public function registerTeamLeader(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'nickname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'line_id' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:255',
+            'team_leader_id' => 'required|string|unique:team_leaders,team_leader_id',
+        ]);
+
+        $user = User::create([
+            'name' => $data['name'],
+            'nickname' => $data['nickname'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']), // Use bcrypt for hashing
+            'role' => 'team_leader',
+            'line_id' => $data['line_id'],
+            'phone_number' => $data['phone_number'],
+        ]);
+
+        TeamLeader::create([
+            'user_id' => $user->id,
+            'team_leader_id' => $data['team_leader_id'],
+        ]);
+
+        return redirect()->route('login')->with('success', 'Team Leader account created successfully!');
     }
 }

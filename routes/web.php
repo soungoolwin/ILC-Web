@@ -6,11 +6,13 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeamLeaderController;
 use App\Http\Controllers\TimetableController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\StudentMiddleware;
+use App\Http\Middleware\TeamLeaderMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,6 +31,8 @@ Route::middleware(RedirectIfAuthenticated::class)->group(function () {
     Route::get('/register/admin', [SignupController::class, 'showAdminRegistrationForm'])->name('register.admin');
     Route::post('/register/admin', [SignupController::class, 'registerAdmin']);
 
+    Route::get('/register/team-leader', [SignupController::class, 'showTeamLeaderRegistrationForm'])->name('register.team_leader');
+    Route::post('/register/team-leader', [SignupController::class, 'registerTeamLeader']);
 
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
@@ -81,6 +85,16 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 
     Route::get("/admin/profile", [AdminController::class, 'show'])->name('admin.profile');
     Route::put('/admin/profile', [AdminController::class, 'update'])->name('admin.update');
+});
+
+//Team Leader Routes
+Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
+    Route::get('/team-leader/dashboard', function () {
+        return view('components.dashboard');
+    })->name('team_leader.dashboard');
+
+    Route::get('/team-leader/profile', [TeamLeaderController::class, 'show'])->name('team_leader.profile');
+    Route::put('/team-leader/profile', [TeamLeaderController::class, 'update'])->name('team_leader.update');
 });
 
 
