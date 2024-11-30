@@ -7,6 +7,7 @@ use App\Http\Controllers\MentorController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeamLeaderController;
+use App\Http\Controllers\TeamLeaderTimetableController;
 use App\Http\Controllers\TimetableController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
@@ -97,6 +98,10 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
 
     Route::get('/team-leader/profile', [TeamLeaderController::class, 'show'])->name('team_leader.profile');
     Route::put('/team-leader/profile', [TeamLeaderController::class, 'update'])->name('team_leader.update');
+
+    //for reserve their timetables
+    Route::get('/team-leader/timetable', [TeamLeaderTimetableController::class, 'create'])->name('team_leader.timetable.create');
+    Route::post('/team-leader/timetable', [TeamLeaderTimetableController::class, 'store'])->name('team_leader.timetable.store');
 });
 
 

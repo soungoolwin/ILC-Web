@@ -76,6 +76,7 @@
                             </div>
                         @elseif (Auth::user()->role === 'admin')
                             <a href="{{ route('admin.dashboard') }}" class="text-white">Dashboard</a>
+                            <a href="{{ route('admin.profile') }}" class="text-white">Profile</a>
                         @endif
 
                         <!-- Logout Button -->
