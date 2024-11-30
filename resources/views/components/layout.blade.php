@@ -21,6 +21,7 @@
                     @if (Auth::check())
                         @if (Auth::user()->role === 'student')
                             <a href="{{ route('student.dashboard') }}" class="text-white">Dashboard</a>
+                            <a href="{{ route('student.profile') }}" class="text-white">Profile</a>
                             <!-- Appointments Dropdown -->
                             <div class="relative">
                                 <button id="dropdownButton" class="text-white focus:outline-none">Appointments</button>
@@ -38,6 +39,7 @@
                             </div>
                         @elseif (Auth::user()->role === 'mentor')
                             <a href="{{ route('mentor.dashboard') }}" class="text-white">Dashboard</a>
+                            <a href="{{ route('mentor.profile') }}" class="text-white">Profile</a>
 
                             <!-- Timetables Dropdown -->
                             <div class="relative">
@@ -59,6 +61,7 @@
                             </div>
                         @elseif (Auth::user()->role === 'team_leader')
                             <a href="{{ route('team_leader.dashboard') }}" class="text-white">Dashboard</a>
+                            <a href="{{ route('team_leader.profile') }}" class="text-white">Profile</a>
 
                             <!-- Timetables Dropdown -->
                             <div class="relative">
