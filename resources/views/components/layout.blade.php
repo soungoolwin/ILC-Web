@@ -71,6 +71,14 @@
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Mentor-Students Timetable
                                     </a>
+                                    <a href="{{ route('team_leader.timetable.create') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        TeamLeader Timetable
+                                    </a>
+                                    <a href="{{ route('team_leader.timetable.availability') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        TeamLeader Timetable Availability
+                                    </a>
 
                                 </div>
                             </div>
