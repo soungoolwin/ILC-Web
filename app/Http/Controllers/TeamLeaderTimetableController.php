@@ -19,6 +19,13 @@ class TeamLeaderTimetableController extends Controller
     {
         $teamLeader = Auth::user()->teamLeaders->first();
 
+        // Check if the team leader already has a reservation
+        $existingReservation = TeamLeaderTimetable::where('team_leader_id', $teamLeader->id)->first();
+
+        if ($existingReservation) {
+            return redirect()->route('team_leader.dashboard')->withErrors(['error' => 'You have already reserved a time slot.']);
+        }
+
         // Validate the request
         $request->validate([
             'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
