@@ -102,6 +102,10 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     //for reserve their timetables
     Route::get('/team-leader/timetable', [TeamLeaderTimetableController::class, 'create'])->name('team_leader.timetable.create');
     Route::post('/team-leader/timetable', [TeamLeaderTimetableController::class, 'store'])->name('team_leader.timetable.store');
+
+    //Check Availability
+    Route::get('/team-leader/timetable/availability', [TeamLeaderTimetableController::class, 'checkAvailability'])
+        ->name('team_leader.timetable.availability');
 });
 
 

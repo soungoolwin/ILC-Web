@@ -52,4 +52,43 @@ class TeamLeaderTimetableController extends Controller
 
         return redirect()->route('team_leader.dashboard')->with('success', 'Timetable reserved successfully!');
     }
+
+    public function checkAvailability(Request $request)
+    {
+        $timeSlots = ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00', '17:00-20:00'];
+        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+        // Initialize the results
+        $availability = [];
+
+        // Filter criteria
+        $day = $request->input('day');
+        $time_slot = $request->input('time_slot');
+
+        if ($day && $time_slot) {
+            // Get the count of reservations for the selected time slot and day
+            $reservedCount = TeamLeaderTimetable::where('day', $day)
+                ->where('time_slot', $time_slot)
+                ->count();
+
+            // Define the slot limits
+            $slotLimits = [
+                '09:00-11:00' => 5,
+                '11:00-13:00' => 10,
+                '13:00-15:00' => 10,
+                '15:00-17:00' => 10,
+                '17:00-20:00' => 5,
+            ];
+
+            $availability = [
+                'day' => $day,
+                'time_slot' => $time_slot,
+                'reserved' => $reservedCount,
+                'available' => $slotLimits[$time_slot] - $reservedCount,
+                'limit' => $slotLimits[$time_slot],
+            ];
+        }
+
+        return view('team_leader.timetables.availability', compact('timeSlots', 'days', 'availability', 'request'));
+    }
 }
