@@ -86,6 +86,9 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 
     Route::get("/admin/profile", [AdminController::class, 'show'])->name('admin.profile');
     Route::put('/admin/profile', [AdminController::class, 'update'])->name('admin.update');
+
+    //to check timetable of team leader
+    Route::get('/admin/team-leaders-timetables', [AdminController::class, 'viewTeamLeadersTimetable'])->name('admin.team_leaders_timetable');
 });
 
 //Team Leader Routes
