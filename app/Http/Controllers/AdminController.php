@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TeamLeaderTimetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -62,5 +63,27 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.profile')->with('success', 'Profile updated successfully.');
+    }
+    //for check timetable of team leader
+    public function viewTeamLeadersTimetable(Request $request)
+    {
+        // Fetch the search parameters
+        $day = $request->input('day');
+        $time_slot = $request->input('time_slot');
+
+        // Query the team leaders timetable based on search parameters
+        $query = TeamLeaderTimetable::query();
+
+        if ($day) {
+            $query->where('day', $day);
+        }
+
+        if ($time_slot) {
+            $query->where('time_slot', $time_slot);
+        }
+
+        $teamLeaderTimetables = $query->with('teamLeader.user')->get();
+
+        return view('admin.team-leaders-timetables', compact('teamLeaderTimetables', 'request'));
     }
 }
