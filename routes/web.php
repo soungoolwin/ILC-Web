@@ -89,6 +89,9 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 
     //to check timetable of team leader
     Route::get('/admin/team-leaders-timetables', [AdminController::class, 'viewTeamLeadersTimetable'])->name('admin.team_leaders_timetable');
+
+    //to check timetable of mentor-student timetable
+    Route::get('/admin/mentor-students-timetable', [AdminController::class, 'viewMentorStudentsTimetable'])->name('admin.mentor_students_timetable');
 });
 
 //Team Leader Routes
