@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TeamLeaderTimetable;
+use App\Models\Timetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -85,5 +86,34 @@ class AdminController extends Controller
         $teamLeaderTimetables = $query->with('teamLeader.user')->get();
 
         return view('admin.team-leaders-timetables', compact('teamLeaderTimetables', 'request'));
+    }
+
+    //for check timetable of mentor-student timetable
+    public function viewMentorStudentsTimetable(Request $request)
+    {
+        // Fetch search criteria
+        $day = $request->input('day');
+        $time_slot = $request->input('time_slot');
+        $week_number = $request->input('week_number');
+
+        // Base query
+        $query = Timetable::query();
+
+        if ($day) {
+            $query->where('day', $day);
+        }
+
+        if ($time_slot) {
+            $query->where('time_slot', $time_slot);
+        }
+
+        if ($week_number) {
+            $query->where('week_number', $week_number);
+        }
+
+        // Fetch timetables with mentors and students
+        $timetables = $query->with(['mentor.user', 'appointments.student.user'])->get();
+
+        return view('admin.mentor-students-timetable', compact('timetables', 'request'));
     }
 }
