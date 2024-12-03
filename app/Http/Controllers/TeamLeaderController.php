@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TeamLeader;
 use App\Models\Timetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -90,5 +91,12 @@ class TeamLeaderController extends Controller
         }
 
         return view('team_leader.view_timetables', compact('timetables', 'request'));
+    }
+
+    public function adminShow($id)
+    {
+        $teamLeader = TeamLeader::with('user')->findOrFail($id);
+
+        return view('admin.team-leader-profile', compact('teamLeader'));
     }
 }

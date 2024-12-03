@@ -75,12 +75,24 @@
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->day }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->time_slot }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
-                                {{ $timetable->mentor->user->name ?? 'N/A' }}
+                                <a href="{{ route('admin.mentors.show', $timetable->mentor->id) }}"
+                                    class="text-black hover:underline hover:font-bold">
+                                    {{ $timetable->mentor->user->name ?? 'N/A' }}
+                                </a>
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
-                                @foreach ($timetable->appointments as $appointment)
-                                    <div>{{ $appointment->student->user->name ?? 'N/A' }}</div>
-                                @endforeach
+                                @if ($timetable->appointments->isEmpty())
+                                    <span>N/A</span>
+                                @else
+                                    @foreach ($timetable->appointments as $appointment)
+                                        <div>
+                                            <a href="{{ route('admin.students.show', $appointment->student->id) }}"
+                                                class="text-black hover:font-bold hover:underline">
+                                                {{ $appointment->student->user->name ?? 'N/A' }}
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </td>
                         </tr>
                     @endforeach
