@@ -92,6 +92,11 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 
     //to check timetable of mentor-student timetable
     Route::get('/admin/mentor-students-timetable', [AdminController::class, 'viewMentorStudentsTimetable'])->name('admin.mentor_students_timetable');
+
+    //See Profiles
+    Route::get('/admin/mentors/{id}', [MentorController::class, 'adminShow'])->name('admin.mentors.show');
+    Route::get('/admin/students/{id}', [StudentController::class, 'adminShow'])->name('admin.students.show');
+    Route::get('/admin/team-leaders/{id}', [TeamLeaderController::class, 'adminShow'])->name('admin.team_leaders.show');
 });
 
 //Team Leader Routes

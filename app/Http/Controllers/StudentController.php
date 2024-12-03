@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -63,5 +64,11 @@ class StudentController extends Controller
         }
 
         return redirect()->route('student.profile')->with('success', 'Profile updated successfully.');
+    }
+
+    public function adminShow($id)
+    {
+        $student = Student::with('user')->findOrFail($id); // Fetch student with user info
+        return view('admin.student-profile', compact('student'));
     }
 }

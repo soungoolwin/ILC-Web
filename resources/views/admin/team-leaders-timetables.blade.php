@@ -59,7 +59,10 @@
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->day }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->time_slot }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
-                                {{ $timetable->teamLeader->user->name ?? 'N/A' }}
+                                <a href="{{ route('admin.team_leaders.show', $timetable->teamLeader->id) }}"
+                                    class="text-blue-600 hover:underline">
+                                    {{ $timetable->teamLeader->user->name ?? 'N/A' }}
+                                </a>
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
                                 {{ $timetable->teamLeader->user->nickname ?? 'N/A' }}

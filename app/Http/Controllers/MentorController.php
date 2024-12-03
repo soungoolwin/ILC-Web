@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mentor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -62,5 +63,11 @@ class MentorController extends Controller
         }
 
         return redirect()->route('mentor.profile')->with('success', 'Profile updated successfully.');
+    }
+
+    public function adminShow($id)
+    {
+        $mentor = Mentor::with('user')->findOrFail($id); // Fetch mentor with user info
+        return view('admin.mentor-profile', compact('mentor'));
     }
 }
