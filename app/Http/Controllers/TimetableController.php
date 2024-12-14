@@ -257,16 +257,13 @@ class TimetableController extends Controller
                 ->where('table_number', $request->table_number)
                 ->first();
 
-
             // If a timetable is found, fetch the students registered for it
             if ($timetable) {
                 $students = Appointment::where('timetable_id', $timetable->id)
                     ->with('student.user') // Load the student user data
                     ->get()
-                    ->pluck('student.user.name') // Extract student names
-                    ->unique(); // Ensure unique student names
-
-
+                    ->pluck('student') // Extract the student objects
+                    ->unique('id');    // Ensure unique students
             }
         }
 
