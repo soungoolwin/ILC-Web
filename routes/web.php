@@ -60,6 +60,9 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     Route::get('/timetables/availability', [TimetableController::class, 'checkAvailability'])->name('timetables.availability');
 
     Route::get('/mentor/timetables/students', [TimetableController::class, 'searchStudents'])->name('mentor.timetables.students');
+
+    // Route for mentors viewing student profile
+    Route::get('/mentor/students/{id}', [StudentController::class, 'mentorShow'])->name('mentor.students.show');
 });
 
 

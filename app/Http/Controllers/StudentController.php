@@ -77,4 +77,13 @@ class StudentController extends Controller
         $student = Student::with('user')->findOrFail($id);
         return view('team_leader.student-profile', compact('student'));
     }
+    // StudentController.php
+    public function mentorShow($id)
+    {
+        // Load student with related user details
+        $student = Student::with('user')->findOrFail($id);
+
+        // Return view with student data
+        return view('mentor.student-profile', compact('student'));
+    }
 }

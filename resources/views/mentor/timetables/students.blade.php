@@ -82,7 +82,12 @@
                 <tbody>
                     @foreach ($students as $student)
                         <tr>
-                            <td class="border border-gray-300 px-4 py-2 text-center">{{ $student }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">
+                                <a href="{{ route('mentor.students.show', $student->id) }}"
+                                    class="text-blue-600 hover:underline">
+                                    {{ $student->user->name ?? 'N/A' }}
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
