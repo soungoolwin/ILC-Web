@@ -71,4 +71,10 @@ class StudentController extends Controller
         $student = Student::with('user')->findOrFail($id); // Fetch student with user info
         return view('admin.student-profile', compact('student'));
     }
+
+    public function teamLeaderShow($id)
+    {
+        $student = Student::with('user')->findOrFail($id);
+        return view('team_leader.student-profile', compact('student'));
+    }
 }

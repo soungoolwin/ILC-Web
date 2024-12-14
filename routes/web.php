@@ -117,6 +117,10 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     //Check Availability
     Route::get('/team-leader/timetable/availability', [TeamLeaderTimetableController::class, 'checkAvailability'])
         ->name('team_leader.timetable.availability');
+
+    // Team Leader Viewing Student and Mentor Profiles
+    Route::get('/team-leader/students/{id}', [StudentController::class, 'teamLeaderShow'])->name('team_leader.students.show');
+    Route::get('/team-leader/mentors/{id}', [MentorController::class, 'teamLeaderShow'])->name('team_leader.mentors.show');
 });
 
 

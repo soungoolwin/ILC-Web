@@ -77,8 +77,19 @@
         <!-- Display Timetables -->
         @if ($timetables->isNotEmpty())
             @foreach ($timetables as $mentorName => $mentorTimetables)
+                @php
+                    // Get Mentor ID from the first timetable entry
+                    $mentorId = optional($mentorTimetables->first()->mentor)->id;
+                @endphp
+
                 <div class="mb-8">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">{{ $mentorName }}</h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                        <a href="{{ route('team_leader.mentors.show', $mentorId) }}"
+                            class="text-blue-600 hover:underline">
+                            {{ $mentorName }}
+                        </a>
+                    </h3>
+
                     <table class="table-auto w-full border-collapse border border-gray-300">
                         <thead>
                             <tr>
@@ -91,13 +102,20 @@
                             @foreach ($mentorTimetables as $timetable)
                                 <tr>
                                     <td class="border border-gray-300 px-4 py-2 text-center">
-                                        {{ $timetable->time_slot }}</td>
+                                        {{ $timetable->time_slot }}
+                                    </td>
                                     <td class="border border-gray-300 px-4 py-2 text-center">
-                                        {{ $timetable->table_number }}</td>
+                                        {{ $timetable->table_number }}
+                                    </td>
                                     <td class="border border-gray-300 px-4 py-2">
                                         <ul class="text-center">
                                             @forelse ($timetable->appointments as $appointment)
-                                                <li>{{ $appointment->student->user->name }}</li>
+                                                <li>
+                                                    <a href="{{ route('team_leader.students.show', $appointment->student->id) }}"
+                                                        class="text-blue-600 hover:underline">
+                                                        {{ $appointment->student->user->name ?? 'N/A' }}
+                                                    </a>
+                                                </li>
                                             @empty
                                                 <li>No students registered</li>
                                             @endforelse

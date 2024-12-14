@@ -70,4 +70,10 @@ class MentorController extends Controller
         $mentor = Mentor::with('user')->findOrFail($id); // Fetch mentor with user info
         return view('admin.mentor-profile', compact('mentor'));
     }
+
+    public function teamLeaderShow($id)
+    {
+        $mentor = Mentor::with('user')->findOrFail($id);
+        return view('team_leader.mentor-profile', compact('mentor'));
+    }
 }
