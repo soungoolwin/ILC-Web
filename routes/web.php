@@ -44,7 +44,7 @@ Route::middleware(RedirectIfAuthenticated::class)->group(function () {
 // Mentor Routes
 Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     Route::get('/mentor/dashboard', function () {
-        return view('components.dashboard');
+        return view('mentor.dashboard');
     })->name('mentor.dashboard');
 
     Route::get("/mentor/profile", [MentorController::class, 'show'])->name('mentor.profile');
@@ -69,7 +69,7 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
 //Student Routes
 Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
     Route::get('/student/dashboard', function () {
-        return view('components.dashboard');
+        return view('student.dashboard');
     })->name('student.dashboard');
 
     Route::get("/student/profile", [StudentController::class, 'show'])->name('student.profile');
@@ -83,7 +83,7 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
 
 //Admin Routes
 Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
-    Route::get('/admin/dashboard', function () {
+    Route::get('/admin/dashboard', action: function () {
         return view('components.dashboard');
     })->name('admin.dashboard');
 
@@ -105,7 +105,7 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 //Team Leader Routes
 Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     Route::get('/team-leader/dashboard', function () {
-        return view('components.dashboard');
+        return view('team_leader.dashboard');
     })->name('team_leader.dashboard');
 
     Route::get('/team-leader/view-timetables', [TeamLeaderController::class, 'viewTimetables'])->name('team_leader.view_timetables');

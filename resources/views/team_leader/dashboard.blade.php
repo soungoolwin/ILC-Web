@@ -45,28 +45,11 @@
                     <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1 ">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                <p>09:00 - 09:30 (20 Students)</p>
-                                <p>09:30 - 10:00 (20 Students)</p>
-                                <p>10:00 - 10:30 (25 Students)</p>
-                                <p>10:30 - 11:00 (25 Students)</p>
-                                <p>11:00 - 11:30 (75 Students)</p>
-                                <p>11:30 - 12:00 (75 Students)</p>
-                                <p>12:00 - 12:30 (75 Students)</p>
-                                <p>12:30 - 13:00 (75 Students)</p>
-                                <p>13:00 - 13:30 (75 Students)</p>
-                                <p>13:30 - 14:00 (75 Students)</p>
-                                <p>14:00 - 14:30 (75 Students)</p>
-                                <p>14:30 - 15:00 (75 Students)</p>
-                                <p>15:00 - 15:30 (75 Students)</p>
-                                <p>15:30 - 16:00 (75 Students)</p>
-                                <p>16:00 - 16:30 (75 Students)</p>
-                                <p>16:30 - 17:00 (75 Students)</p>
-                                <p>17:00 - 17:30 (20 Students)</p>
-                                <p>17:30 - 18:00 (20 Students)</p>
-                                <p>18:00 - 18:30 (20 Students)</p>
-                                <p>18:30 - 19:00 (20 Students)</p>
-                                <p>19:00 - 19:30 (20 Students)</p>
-                                <p>19:30 - 20:00 (20 Students)</p>
+                                <p>09:00 - 11:00 (5 Team Leader)</p>
+                                <p>11:00 - 13:00 (10 Team Leader)</p>
+                                <p>13:00 - 15:00 (10 Team Leader)</p>
+                                <p>15:00 - 17:00 (10 Team Leader)</p>
+                                <p>17:00 - 20:00 (5 Team Leader)</p>
                             </p>
                         </div>
                     </div>
@@ -88,28 +71,7 @@
                     <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                <p>09:00 - 09:30 (20 Students)</p>
-                                <p>09:30 - 10:00 (20 Students)</p>
-                                <p>10:00 - 10:30 (25 Students)</p>
-                                <p>10:30 - 11:00 (25 Students)</p>
-                                <p>11:00 - 11:30 (75 Students)</p>
-                                <p>11:30 - 12:00 (75 Students)</p>
-                                <p>12:00 - 12:30 (75 Students)</p>
-                                <p>12:30 - 13:00 (75 Students)</p>
-                                <p>13:00 - 13:30 (75 Students)</p>
-                                <p>13:30 - 14:00 (75 Students)</p>
-                                <p>14:00 - 14:30 (75 Students)</p>
-                                <p>14:30 - 15:00 (75 Students)</p>
-                                <p>15:00 - 15:30 (75 Students)</p>
-                                <p>15:30 - 16:00 (75 Students)</p>
-                                <p>16:00 - 16:30 (75 Students)</p>
-                                <p>16:30 - 17:00 (75 Students)</p>
-                                <p>17:00 - 17:30 (20 Students)</p>
-                                <p>17:30 - 18:00 (20 Students)</p>
-                                <p>18:00 - 18:30 (20 Students)</p>
-                                <p>18:30 - 19:00 (20 Students)</p>
-                                <p>19:00 - 19:30 (20 Students)</p>
-                                <p>19:30 - 20:00 (20 Students)</p>
+                                          <p>11:00 - 13:00 (10 Team Leader)</p>
                             </p>
                         </div>
                     </div>
@@ -131,28 +93,7 @@
                     <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                <p>09:00 - 09:30 (20 Students)</p>
-                                <p>09:30 - 10:00 (20 Students)</p>
-                                <p>10:00 - 10:30 (25 Students)</p>
-                                <p>10:30 - 11:00 (25 Students)</p>
-                                <p>11:00 - 11:30 (75 Students)</p>
-                                <p>11:30 - 12:00 (75 Students)</p>
-                                <p>12:00 - 12:30 (75 Students)</p>
-                                <p>12:30 - 13:00 (75 Students)</p>
-                                <p>13:00 - 13:30 (75 Students)</p>
-                                <p>13:30 - 14:00 (75 Students)</p>
-                                <p>14:00 - 14:30 (75 Students)</p>
-                                <p>14:30 - 15:00 (75 Students)</p>
-                                <p>15:00 - 15:30 (75 Students)</p>
-                                <p>15:30 - 16:00 (75 Students)</p>
-                                <p>16:00 - 16:30 (75 Students)</p>
-                                <p>16:30 - 17:00 (75 Students)</p>
-                                <p>17:00 - 17:30 (20 Students)</p>
-                                <p>17:30 - 18:00 (20 Students)</p>
-                                <p>18:00 - 18:30 (20 Students)</p>
-                                <p>18:30 - 19:00 (20 Students)</p>
-                                <p>19:00 - 19:30 (20 Students)</p>
-                                <p>19:30 - 20:00 (20 Students)</p>
+                                          <p>13:00 - 15:00 (10 Team Leader)</p>
                             </p>
                         </div>
                     </div>
@@ -174,28 +115,7 @@
                     <div id="accordion-collapse-body-4" class="hidden" aria-labelledby="accordion-collapse-heading-4">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                <p>09:00 - 09:30 (20 Students)</p>
-                                <p>09:30 - 10:00 (20 Students)</p>
-                                <p>10:00 - 10:30 (25 Students)</p>
-                                <p>10:30 - 11:00 (25 Students)</p>
-                                <p>11:00 - 11:30 (75 Students)</p>
-                                <p>11:30 - 12:00 (75 Students)</p>
-                                <p>12:00 - 12:30 (75 Students)</p>
-                                <p>12:30 - 13:00 (75 Students)</p>
-                                <p>13:00 - 13:30 (75 Students)</p>
-                                <p>13:30 - 14:00 (75 Students)</p>
-                                <p>14:00 - 14:30 (75 Students)</p>
-                                <p>14:30 - 15:00 (75 Students)</p>
-                                <p>15:00 - 15:30 (75 Students)</p>
-                                <p>15:30 - 16:00 (75 Students)</p>
-                                <p>16:00 - 16:30 (75 Students)</p>
-                                <p>16:30 - 17:00 (75 Students)</p>
-                                <p>17:00 - 17:30 (20 Students)</p>
-                                <p>17:30 - 18:00 (20 Students)</p>
-                                <p>18:00 - 18:30 (20 Students)</p>
-                                <p>18:30 - 19:00 (20 Students)</p>
-                                <p>19:00 - 19:30 (20 Students)</p>
-                                <p>19:30 - 20:00 (20 Students)</p>
+                                          <p>15:00 - 17:00 (10 Team Leader)</p>
                             </p>
                         </div>
                     </div>
@@ -217,28 +137,7 @@
                     <div id="accordion-collapse-body-5" class="hidden" aria-labelledby="accordion-collapse-heading-5">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                <p>09:00 - 09:30 (20 Students)</p>
-                                <p>09:30 - 10:00 (20 Students)</p>
-                                <p>10:00 - 10:30 (25 Students)</p>
-                                <p>10:30 - 11:00 (25 Students)</p>
-                                <p>11:00 - 11:30 (75 Students)</p>
-                                <p>11:30 - 12:00 (75 Students)</p>
-                                <p>12:00 - 12:30 (75 Students)</p>
-                                <p>12:30 - 13:00 (75 Students)</p>
-                                <p>13:00 - 13:30 (75 Students)</p>
-                                <p>13:30 - 14:00 (75 Students)</p>
-                                <p>14:00 - 14:30 (75 Students)</p>
-                                <p>14:30 - 15:00 (75 Students)</p>
-                                <p>15:00 - 15:30 (75 Students)</p>
-                                <p>15:30 - 16:00 (75 Students)</p>
-                                <p>16:00 - 16:30 (75 Students)</p>
-                                <p>16:30 - 17:00 (75 Students)</p>
-                                <p>17:00 - 17:30 (20 Students)</p>
-                                <p>17:30 - 18:00 (20 Students)</p>
-                                <p>18:00 - 18:30 (20 Students)</p>
-                                <p>18:30 - 19:00 (20 Students)</p>
-                                <p>19:00 - 19:30 (20 Students)</p>
-                                <p>19:30 - 20:00 (20 Students)</p>
+                                          <p>17:00 - 20:00 (5 Team Leader)</p>
                             </p>
                         </div>
                     </div>
