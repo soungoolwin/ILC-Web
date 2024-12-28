@@ -2,7 +2,7 @@
     <div class="flex items-center justify-center">
         <div id="container" class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
             <div id="signup_main_Div" class="w-full">
-                <img id="logo" class="mx-auto my-4 w-24 mb-6" src="c" alt="RSU Logo" />
+                <img id="logo" class="mx-auto my-4 w-24 mb-6" src="/images/logo.png" alt="RSU Logo" />
                 <form method="POST" action="{{ route('login') }}" class="space-y-5">
                     @csrf
                     <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-6">Login</h1>
