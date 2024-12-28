@@ -1,14 +1,10 @@
 <x-layout>
-    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
+    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6 w-1/2">
         <div class="flex justify-between items-center">
             <h2 class="text-2xl font-bold text-gray-800">Profile Information</h2>
             <!-- Edit Button -->
             <button id="edit-button" class="text-blue-600 hover:text-blue-800">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M11 17l-4 4m0 0l-4-4m4 4V3m7 6l-4 4m0 0l4-4m-4 4H3" />
-                </svg>
+                Edit
             </button>
         </div>
 
@@ -31,7 +27,7 @@
         @endif
 
         <!-- Profile Info -->
-        <div id="profile-info" class="mt-6 space-y-4">
+        <div id="profile-info" class="mt-6 space-y-4 w-1/2">
             <!-- Student Table Info -->
             <div>
                 <label class="text-sm font-medium text-gray-500">Student ID:</label>
@@ -152,7 +148,7 @@
             <!-- Submit Button -->
             <div>
                 <button type="submit"
-                    class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700">
+                    class="w-full bg-[#8E5C65] text-white font-bold py-2 px-4 rounded-md hover:bg-[#8E5C65]">
                     Save Changes
                 </button>
             </div>

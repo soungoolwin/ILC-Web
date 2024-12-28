@@ -51,7 +51,38 @@
                     <!-- No Account Link -->
                     <div id="loginPageDiv" class="flex justify-center gap-2 mt-4">
                         <p class="text-sm">Don't have an Account?</p>
-                        <a href="./signup.html" class="text-sm text-blue-500 hover:text-blue-700">Signup</a>
+                        <div class="relative inline-block text-left">
+                            <!-- Dropdown button with no border -->
+                            <button
+                                class="inline-flex items-center justify-center text-sm font-medium text-blue-500 hover:text-blue-700 focus:outline-none"
+                                onclick="document.getElementById('signupDropdown').classList.toggle('hidden')">
+                                Signup
+                                <!-- Optional chevron icon -->
+                                <svg class="ml-2 h-5 w-5 text-blue-500 hover:text-blue-700"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 10.62l3.71-3.39a.75.75 0 111.04 1.08l-4.24 3.88a.75.75 0 01-1.04 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown menu -->
+                            <div id="signupDropdown"
+                                class="absolute right-0 z-10 mt-2 hidden w-44 origin-top-right rounded-md bg-white shadow-lg">
+                                <a href="/register/student"
+                                    class="block px-4 py-2 text-sm text-blue-500 hover:text-blue-700">
+                                    Student
+                                </a>
+                                <a href="/register/mentor"
+                                    class="block px-4 py-2 text-sm text-blue-500 hover:text-blue-700">
+                                    Mentor
+                                </a>
+                                <a href="register/team-leader"
+                                    class="block px-4 py-2 text-sm text-blue-500 hover:text-blue-700">
+                                    Teamleader
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
