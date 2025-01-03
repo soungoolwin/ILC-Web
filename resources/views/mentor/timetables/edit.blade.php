@@ -55,7 +55,7 @@
                 <label for="table_number" class="block text-sm font-semibold text-gray-600 mb-1">Table Number</label>
                 <select name="table_number" id="table_number"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                    @for ($i = 1; $i <= 25; $i++)
+                    @for ($i = 1; $i <= 20; $i++)
                         <option value="{{ $i }}" {{ $timetable->table_number == $i ? 'selected' : '' }}>
                             Table {{ $i }}
                         </option>

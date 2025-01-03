@@ -39,7 +39,7 @@
                     <select name="week_number" id="week_number"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Weeks</option>
-                        @foreach (range(1, 16) as $week)
+                        @foreach (range(4, 13) as $week)
                             <option value="{{ $week }}" {{ request('week_number') == $week ? 'selected' : '' }}>
                                 Week {{ $week }}
                             </option>

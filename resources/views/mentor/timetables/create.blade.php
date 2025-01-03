@@ -62,7 +62,7 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Table</option>
-                    @foreach (range(1, 25) as $table)
+                    @foreach (range(1, 20) as $table)
                         <option value="{{ $table }}">Table {{ $table }}</option>
                     @endforeach
                 </select>
