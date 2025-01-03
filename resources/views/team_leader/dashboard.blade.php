@@ -71,7 +71,11 @@
                     <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                          <p>11:00 - 13:00 (10 Team Leader)</p>
+                                <p>09:00 - 11:00 (5 Team Leader)</p>
+                                <p>11:00 - 13:00 (10 Team Leader)</p>
+                                <p>13:00 - 15:00 (10 Team Leader)</p>
+                                <p>15:00 - 17:00 (10 Team Leader)</p>
+                                <p>17:00 - 20:00 (5 Team Leader)</p>
                             </p>
                         </div>
                     </div>
@@ -93,7 +97,11 @@
                     <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                          <p>13:00 - 15:00 (10 Team Leader)</p>
+                                <p>09:00 - 11:00 (5 Team Leader)</p>
+                                <p>11:00 - 13:00 (10 Team Leader)</p>
+                                <p>13:00 - 15:00 (10 Team Leader)</p>
+                                <p>15:00 - 17:00 (10 Team Leader)</p>
+                                <p>17:00 - 20:00 (5 Team Leader)</p>
                             </p>
                         </div>
                     </div>
@@ -115,7 +123,11 @@
                     <div id="accordion-collapse-body-4" class="hidden" aria-labelledby="accordion-collapse-heading-4">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                          <p>15:00 - 17:00 (10 Team Leader)</p>
+                                <p>09:00 - 11:00 (5 Team Leader)</p>
+                                <p>11:00 - 13:00 (10 Team Leader)</p>
+                                <p>13:00 - 15:00 (10 Team Leader)</p>
+                                <p>15:00 - 17:00 (10 Team Leader)</p>
+                                <p>17:00 - 20:00 (5 Team Leader)</p>
                             </p>
                         </div>
                     </div>
@@ -137,7 +149,11 @@
                     <div id="accordion-collapse-body-5" class="hidden" aria-labelledby="accordion-collapse-heading-5">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                          <p>17:00 - 20:00 (5 Team Leader)</p>
+                                <p>09:00 - 11:00 (5 Team Leader)</p>
+                                <p>11:00 - 13:00 (10 Team Leader)</p>
+                                <p>13:00 - 15:00 (10 Team Leader)</p>
+                                <p>15:00 - 17:00 (10 Team Leader)</p>
+                                <p>17:00 - 20:00 (5 Team Leader)</p>
                             </p>
                         </div>
                     </div>
