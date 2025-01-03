@@ -9,7 +9,7 @@ class TeamLeaderTimetable extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['team_leader_id', 'time_slot', 'date'];
+    protected $guarded = [];
 
     public function teamLeader()
     {
