@@ -108,6 +108,11 @@
                                         TeamLeader Timetable
                                     </a>
 
+                                    <a href="{{ route('dashboard.team_leaders') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Delete Teamleaders
+                                    </a>
+
                                 </div>
                             </div>
                             <a href="{{ route('admin.profile') }}"

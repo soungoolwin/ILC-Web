@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TeamLeader;
 use App\Models\TeamLeaderTimetable;
 use App\Models\Timetable;
 use Illuminate\Http\Request;
@@ -115,5 +116,34 @@ class AdminController extends Controller
         $timetables = $query->with(['mentor.user', 'appointments.student.user'])->get();
 
         return view('admin.mentor-students-timetable', compact('timetables', 'request'));
+    }
+
+
+    // View all team leaders
+    public function viewTeamLeaders(Request $request)
+    {
+        $query = TeamLeader::with('user');
+
+        // Check if a search term is provided
+        if ($request->filled('team_leader_id')) {
+            $query->where('team_leader_id', 'like', '%' . $request->team_leader_id . '%');
+        }
+
+        // Paginate the results
+        $teamLeaders = $query->paginate(10);
+
+        return view('admin.team_leaders.index', compact('teamLeaders', 'request'));
+    }
+
+    // Delete a team leader
+    public function deleteTeamLeader($id)
+    {
+        $teamLeader = TeamLeader::findOrFail($id); // Find team leader by ID
+
+        // Delete the associated user and team leader record
+        $teamLeader->user()->delete();
+        $teamLeader->delete();
+
+        return redirect()->route('dashboard.team_leaders')->with('success', 'Team Leader deleted successfully!');
     }
 }
