@@ -38,12 +38,24 @@
             </div>
 
             <!-- Time Slot -->
+            {{-- <div>
+                <label for="time_slot" class="block text-sm font-semibold text-gray-600 mb-1">Time Slot</label>
+
+                <select name="time_slot" id="time_slot"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                    @foreach (['09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00', '18:00-19:00', '19:00-20:00'] as $slot)
+                        <option value="{{ $slot }}" {{ $timetable->time_slot === $slot ? 'selected' : '' }}>
+                            {{ $slot }}
+                        </option>
+                    @endforeach
+                </select>
+            </div> --}}
             <div>
                 <label for="time_slot" class="block text-sm font-semibold text-gray-600 mb-1">Time Slot</label>
                 <select name="time_slot" id="time_slot"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                     @foreach (['09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00', '18:00-19:00', '19:00-20:00'] as $slot)
-                        <option value="{{ $slot }}" {{ $timetable->time_slot === $slot ? 'selected' : '' }}>
+                        <option value="{{ $slot }}" @if (strpos($timetable->time_slot, explode('-', $slot)[0]) === 0) selected @endif>
                             {{ $slot }}
                         </option>
                     @endforeach
