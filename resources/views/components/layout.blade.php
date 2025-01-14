@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>International Language Center - ILC</title>
     @vite('resources/css/app.css')
 </head>
 
@@ -15,7 +15,7 @@
         <!-- Navigation Bar -->
         <nav class="bg-[#D8E2E6] p-4 shadow">
             <div class="container mx-auto flex justify-between items-center">
-                <img id="logo" class="w-10" src="/images/logo.png" alt="Logo">
+                <img id="logo" class="w-10" src="/images/logo_new.png" alt="Logo">
                 <div class="flex items-center space-x-4 relative">
                     <!-- Dynamic Links Based on Role -->
                     @if (Auth::check())

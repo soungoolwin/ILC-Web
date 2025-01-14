@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="flex justify-center items-center min-h-screen">
         <div id="signup_main_Div" class="w-full max-w-lg bg-white shadow-xl rounded-lg p-8">
-            <img id="logo" class="mx-auto w-24 mb-6" src="/images/logo.png" alt="Logo">
+            <img id="logo" class="mx-auto w-24 mb-6" src="/images/logo_new.png" alt="Logo">
             <form method="POST" action="{{ route('register.mentor') }}" class="space-y-4">
                 @csrf
 
