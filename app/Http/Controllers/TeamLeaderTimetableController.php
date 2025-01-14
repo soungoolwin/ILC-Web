@@ -32,6 +32,8 @@ class TeamLeaderTimetableController extends Controller
             'time_slot' => 'required|in:09:00-11:00,11:00-13:00,13:00-15:00,15:00-17:00,17:00-20:00',
         ]);
 
+
+
         // Count the number of reservations for the selected time slot and day
         $count = TeamLeaderTimetable::where('time_slot', $request->time_slot)
             ->where('day', $request->day)
@@ -50,8 +52,10 @@ class TeamLeaderTimetableController extends Controller
             return back()->withErrors(['error' => 'All slots are full for the selected time and day.']);
         }
 
+
+
         // Create the reservation
-        TeamLeaderTimetable::create([
+        $new = TeamLeaderTimetable::create([
             'team_leader_id' => $teamLeader->id,
             'time_slot' => $request->time_slot,
             'day' => $request->day,
