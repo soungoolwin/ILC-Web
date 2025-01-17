@@ -21,7 +21,7 @@
         {{-- Youtube Video --}}
         <iframe
             class="w-1/2 m-auto aspect-video"
-            src="https://www.youtube.com/embed/XHOmBV4js_E"
+            src="https://youtu.be/rbr0DHSeyNw"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
