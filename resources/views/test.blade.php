@@ -1,13 +1,8 @@
 <x-layout>
     <h2 class="text-center mb-4 text-[28px] underline">RIC PAL Center</h2>
     {{-- Youtube Video --}}
-    <iframe
-        class="w-1/2 m-auto aspect-video"
-        src="https://www.youtube.com/embed/XHOmBV4js_E"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-    </iframe>
+    <iframe class="w-1/2 m-auto aspect-video"  src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
     {{-- Timetable --}}
 
 
