@@ -27,13 +27,13 @@
                 @if (Auth::check())
                     @if (Auth::user()->role === 'student')
                         <a href="{{ route('student.dashboard') }}"
-                            class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md mr-2">Dashboard</a>
+                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
                         <a href="{{ route('student.profile') }}"
-                            class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md mr-2">Profile</a>
+                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Profile</a>
                         <!-- Appointments Dropdown -->
                         <div class="relative mr-2">
                             <button id="dropdownButton"
-                                class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md focus:outline-none">Appointments</button>
+                                class="text-white bg-[#7D3C98] px-3 py-2 rounded-md focus:outline-none">Appointments</button>
                             <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
                                 <a href="{{ route('student.appointments.create') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -47,14 +47,14 @@
                         </div>
                     @elseif (Auth::user()->role === 'mentor')
                         <a href="{{ route('mentor.dashboard') }}"
-                            class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md mr-2">Dashboard</a>
+                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
                         <a href="{{ route('mentor.profile') }}"
-                            class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md mr-2">Profile</a>
+                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Profile</a>
 
                         <!-- Timetables Dropdown -->
                         <div class="relative mr-2">
                             <button id="dropdownButton"
-                                class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md focus:outline-none">Timetables</button>
+                                class="text-white bg-[#7D3C98] px-3 py-2 rounded-md focus:outline-none">Timetables</button>
                             <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
                                 <a href="{{ route('mentor.timetables.create') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -72,14 +72,14 @@
                         </div>
                     @elseif (Auth::user()->role === 'team_leader')
                         <a href="{{ route('team_leader.dashboard') }}"
-                            class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md mr-2">Dashboard</a>
+                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
                         <a href="{{ route('team_leader.profile') }}"
-                            class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md mr-2">Profile</a>
+                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Profile</a>
 
                         <!-- Timetables Dropdown -->
                         <div class="relative mr-2">
                             <button id="dropdownButton"
-                                class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md focus:outline-none">Timetables</button>
+                                class="text-white bg-[#7D3C98] px-3 py-2 rounded-md focus:outline-none">Timetables</button>
                             <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
                                 <a href="{{ route('team_leader.view_timetables') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -97,11 +97,11 @@
                         </div>
                     @elseif (Auth::user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}"
-                            class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md mr-2">Dashboard</a>
+                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
                         <!-- Timetables Dropdown -->
                         <div class="relative mr-2">
                             <button id="dropdownButton"
-                                class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md focus:outline-none">Timetables</button>
+                                class="text-white bg-[#7D3C98] px-3 py-2 rounded-md focus:outline-none">Timetables</button>
                             <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
                                 <a href="{{ route('admin.mentor_students_timetable') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -119,39 +119,42 @@
                             </div>
                         </div>
                         <a href="{{ route('admin.profile') }}"
-                            class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md mr-2">Profile</a>
+                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Profile</a>
                     @endif
 
                     <!-- Logout Button -->
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
                         <button type="submit"
-                            class="text-white bg-[#9c6cb7] px-3 py-2 rounded-md">Logout</button>
+                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md">Logout</button>
                     </form>
                 @else
-                <div class="flex justify-center items-center">
-                    <!-- Guest Links -->
-                    <a href="{{ route('login') }}"
-                        class="text-white bg-[#9c6cb7] px-4 py-2 rounded-md mr-2">Log In</a>
-                    <div class="relative">
-                        <a href="#" id="registerDropdownButton"
-                            class="text-white bg-[#9c6cb7] px-4 py-[10.5px] rounded-md ">Register</a>
-                        <div id="registerDropdownMenu"
-                            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
-                            <a href="{{ route('register.student') }}"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                Student
-                            </a>
-                            <a href="{{ route('register.mentor') }}"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                Mentor
-                            </a>
-                            <a href="{{ route('register.team_leader') }}"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                Team Leader
-                            </a>
+                    <!-- Guest Links - Hide on login page -->
+                    @if (!Request::is('login'))
+                        <div class="flex justify-center items-center">
+                            <a href="{{ route('login') }}"
+                                class="text-white bg-[#7D3C98] px-4 py-2 rounded-md mr-2">Log In</a>
+                            <div class="relative">
+                                <a href="#" id="registerDropdownButton"
+                                    class="text-white bg-[#7D3C98] px-4 py-[10.5px] rounded-md ">Register</a>
+                                <div id="registerDropdownMenu"
+                                    class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
+                                    <a href="{{ route('register.student') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Student
+                                    </a>
+                                    <a href="{{ route('register.mentor') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Mentor
+                                    </a>
+                                    <a href="{{ route('register.team_leader') }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Team Leader
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div></div>
+                    @endif
                 @endif
             </div>
         </header>
@@ -162,7 +165,7 @@
         </main>
 
         <!-- Footer -->
-        <footer class="bg-[#9c6cb7] text-center text-white p-4">
+        <footer class="bg-[#7D3C98] text-center text-white p-4">
             <p>&copy; 2025 Designed by ICT Students. All rights reserved.</p>
         </footer>
     </div>
