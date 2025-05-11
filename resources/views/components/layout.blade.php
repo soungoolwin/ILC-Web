@@ -130,7 +130,7 @@
                     </form>
                 @else
                     <!-- Guest Links - Hide on login page -->
-                    @if (!Request::is('login'))
+                    @if (!Request::is('login') && !Request::is('register/student') && !Request::is('register/mentor') && !Request::is('register/team-leader'))
                         <div class="flex justify-center items-center">
                             <a href="{{ route('login') }}"
                                 class="text-white bg-[#7D3C98] px-4 py-2 rounded-md mr-2">Log In</a>
