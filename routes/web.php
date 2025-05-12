@@ -50,6 +50,8 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     Route::get("/mentor/profile", [MentorController::class, 'show'])->name('mentor.profile');
     Route::put('/mentor/profile', [MentorController::class, 'update'])->name('mentor.update');
 
+    Route::post('/mentor/image/upload', [MentorController::class, 'uploadImage'])->name('mentor.image.upload');
+
     //Timetable Routes
     Route::get('/mentor/timetables/reserve', [TimetableController::class, 'create'])->name('mentor.timetables.create');
     Route::post('/mentor/timetables/reserve', [TimetableController::class, 'store'])->name('mentor.timetables.store');
@@ -74,6 +76,8 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
 
     Route::get("/student/profile", [StudentController::class, 'show'])->name('student.profile');
     Route::put('/student/profile', [StudentController::class, 'update'])->name('student.update');
+
+    Route::get('/student/mentors/{id}', [MentorController::class, 'studentShow'])->name('student.mentors.show');
 
     Route::get('/student/appointments/create', [AppointmentController::class, 'create'])->name('student.appointments.create');
     Route::post('/student/appointments/store', [AppointmentController::class, 'store'])->name('student.appointments.store');
@@ -129,7 +133,6 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     Route::get('/team-leader/students/{id}', [StudentController::class, 'teamLeaderShow'])->name('team_leader.students.show');
     Route::get('/team-leader/mentors/{id}', [MentorController::class, 'teamLeaderShow'])->name('team_leader.mentors.show');
 });
-
 
 //Logout
 

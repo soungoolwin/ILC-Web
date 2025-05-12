@@ -68,6 +68,7 @@
                         <th class="border border-gray-300 px-4 py-2">Time Slot</th>
                         <th class="border border-gray-300 px-4 py-2">Table Number</th>
                         <th class="border border-gray-300 px-4 py-2">Reserved?</th>
+                        <th class="border border-gray-300 px-4 py-2">Mentor</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,6 +81,11 @@
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['table_number'] }}
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['is_reserved'] }}
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">
+                                <a href="{{ route('student.mentors.show', ['id' => $timetable['mentor_id']]) }}" class="text-blue-500 hover:underline">
+                                    {{ $timetable['mentor'] }}
+                                </a>
                             </td>
                         </tr>
                     @endforeach

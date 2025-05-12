@@ -8,6 +8,33 @@
             </button>
         </div>
 
+        <!-- Mentor Image Section -->
+        <div class="mt-6">
+            <h3 class="text-lg font-medium text-gray-800">Profile Picture</h3>
+            <div class="flex items-center space-x-4 mt-4">
+                @if (optional($mentor)->mentor_image)
+                    <img src="{{ asset('mentor_image/' . $mentor->mentor_image) }}" alt="Mentor Image"
+                        class="w-24 h-24 rounded-full object-cover">
+                @else
+                    <p class="text-gray-500">No image available</p>
+                @endif
+
+                <!-- Image Upload Form -->
+                <form method="POST" action="{{ route('mentor.image.upload') }}" enctype="multipart/form-data" class="flex items-center space-x-2">
+                    @csrf
+                    <input type="file" name="mentor_image" accept="image/*"
+                        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-gray-300 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100">
+                    <button type="submit"
+                        class="bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-800">
+                        Upload
+                    </button>
+                </form>
+            </div>
+            @error('mentor_image')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
         <!-- Display Validation Errors -->
         @if ($errors->any())
             <div class="bg-red-100 text-red-800 p-4 rounded-md mt-4">

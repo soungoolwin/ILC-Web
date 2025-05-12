@@ -6,6 +6,7 @@ use App\Models\Mentor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class MentorController extends Controller
 {
@@ -65,6 +66,39 @@ class MentorController extends Controller
         return redirect()->route('mentor.profile')->with('success', 'Profile updated successfully.');
     }
 
+    public function uploadImage(Request $request)
+    {
+        $user = Auth::user();
+        $mentor = $user->mentors()->first();
+
+        if (!$mentor) {
+            return redirect()->back()->withErrors(['error' => 'Mentor record not found.']);
+        }
+
+        // Validate the uploaded file
+        $request->validate([
+            'mentor_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Delete the old image if it exists
+        if ($mentor->mentor_image) {
+            Storage::delete('mentor_image/' . $mentor->mentor_image);
+        }
+
+        // Generate the new image name using the mentor's nickname
+        $nickname = $user->nickname ?? 'mentor'; // Fallback to 'mentor' if nickname is null
+        $imageName = $nickname . '.jpg';
+
+        // Move the uploaded file to the public/mentor_image directory
+        $request->mentor_image->move(public_path('mentor_image'), $imageName);
+
+        // Update the mentor record with the new image name
+        $mentor->mentor_image = $imageName;
+        $mentor->save();
+
+        return redirect()->back()->with('success', 'Profile picture updated successfully.');
+    }
+
     public function adminShow($id)
     {
         $mentor = Mentor::with('user')->findOrFail($id); // Fetch mentor with user info
@@ -75,5 +109,11 @@ class MentorController extends Controller
     {
         $mentor = Mentor::with('user')->findOrFail($id);
         return view('team_leader.mentor-profile', compact('mentor'));
+    }
+
+    public function studentShow($id)
+    {
+        $mentor = Mentor::with('user')->findOrFail($id); // Fetch mentor with user info
+        return view('student.mentor-profile', compact('mentor'));
     }
 }

@@ -108,6 +108,8 @@ class AppointmentController extends Controller
                     'time_slot' => $timetable->time_slot,
                     'table_number' => $timetable->table_number,
                     'is_reserved' => $timetable->reserved ? 'Reserved' : 'Available',
+                    'mentor' => $timetable->mentor->user->name ?? 'N/A',
+                    'mentor_id' => $timetable->mentor->id ?? null,
                 ];
             });
 
