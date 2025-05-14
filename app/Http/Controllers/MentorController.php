@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class MentorController extends Controller
 {
@@ -15,9 +16,9 @@ class MentorController extends Controller
         $user = Auth::user();
         $mentor = $user->mentors()->first();
 
-
         return view('mentor.profile', compact('user', 'mentor'));
     }
+
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -25,16 +26,11 @@ class MentorController extends Controller
 
         // Validate the request
         $request->validate([
-            // Fields from the `users` table
             'name' => 'required|string|max:255',
             'nickname' => 'nullable|string|max:255',
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:20',
-
-            // Fields from the `mentors` table
             'mentor_id' => 'required|string|unique:mentors,mentor_id,' . $mentor->id,
-
-            // Password fields
             'current_password' => 'nullable|string|min:8',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
@@ -115,5 +111,61 @@ class MentorController extends Controller
     {
         $mentor = Mentor::with('user')->findOrFail($id); // Fetch mentor with user info
         return view('student.mentor-profile', compact('mentor'));
+    }
+
+    /**
+     * Show the next semester confirmation page.
+     */
+    public function nextSemester()
+    {
+        $user = Auth::user();
+        $mentor = $user->mentors()->first();
+
+        if (!$mentor) {
+            return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
+        }
+
+        return view('mentor.nextsem', compact('mentor'));
+    }
+
+    /**
+     * Handle mentor confirmation for the next semester.
+     */
+    public function confirmNextSemester(Request $request)
+    {
+        $user = Auth::user();
+        $mentor = $user->mentors()->first();
+
+        if (!$mentor) {
+            return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
+        }
+
+        // Check the user's response
+        if ($request->input('confirm') === 'yes') {
+            // Increment mentor_sem, set status to active, and redirect to dashboard
+            $mentor->increment('mentor_sem');
+            $mentor->update([
+                'status' => 'active',
+                'last_checked_at' => Carbon::now(),
+            ]);
+
+            return redirect()->route('mentor.dashboard')->with('success', 'You have confirmed to be a mentor for the next semester.');
+        } else {
+            // Set status to paused and redirect to the paused page
+            $mentor->update([
+                'status' => 'paused',
+                'last_checked_at' => Carbon::now(),
+            ]);
+
+            return redirect()->route('mentor.pause');
+        }
+    }
+
+    /**
+     * Show the paused page.
+     */
+    public function pause()
+    {
+        return view('mentor.pause');
     }
 }

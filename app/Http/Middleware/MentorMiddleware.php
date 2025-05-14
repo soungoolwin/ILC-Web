@@ -19,10 +19,27 @@ class MentorMiddleware
         if (Auth::check()) {
             $user = Auth::user();
 
+            // Ensure the user is a mentor
             if ($user->role !== 'mentor') {
                 return redirect('/' . $user->role . '/dashboard');
             }
+
+            // Check mentor-specific status
+            $mentor = $user->mentors()->first();
+
+            if ($mentor) {
+                // Redirect paused mentors to the pause page
+                if ($mentor->status === 'paused') {
+                    return redirect()->route('mentor.pause');
+                }
+
+                // Redirect suspended mentors to the suspended page
+                if ($mentor->status === 'suspended') {
+                    return redirect()->route('mentor.suspended');
+                }
+            }
         }
+
         return $next($request);
     }
 }

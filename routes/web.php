@@ -37,6 +37,9 @@ Route::middleware(RedirectIfAuthenticated::class)->group(function () {
 
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
+
+    //Route for mentor checker
+    Route::post('/login/confirm-next-semester', [LoginController::class, 'confirmNextSemester']);
 });
 
 
@@ -63,6 +66,9 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
 
     Route::get('/mentor/timetables/students', [TimetableController::class, 'searchStudents'])->name('mentor.timetables.students');
 
+    // Mentor suspend and pause routes
+    Route::get('/mentor/pause', [MentorController::class, 'pause'])->name('mentor.pause');
+    Route::get('/mentor/suspended', [MentorController::class, 'suspended'])->name('mentor.suspended');
     // Route for mentors viewing student profile
     Route::get('/mentor/students/{id}', [StudentController::class, 'mentorShow'])->name('mentor.students.show');
 });
