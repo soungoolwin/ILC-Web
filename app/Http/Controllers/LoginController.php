@@ -23,6 +23,11 @@ class LoginController extends Controller
             'password' => 'required|min:8',
         ]);
 
+        if (session('redirected')) {
+            return abort(500, 'Redirect loop detected');
+        }
+        session(['redirected' => true]);
+
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
@@ -53,6 +58,10 @@ class LoginController extends Controller
         if (!$mentor) {
             return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
         }
+        
+        if ($mentor->status === 'paused') {
+            return redirect()->route('mentor.pause');
+        }
 
         // Get the current date
         $currentDate = Carbon::now();
@@ -74,20 +83,22 @@ class LoginController extends Controller
         $lastSemesterEndDate = $currentDate->greaterThan($semesterEndDates[1]) ? $semesterEndDates[1] : $semesterEndDates[0];
 
         // Check if the mentor has already been checked after the last semester end date
-        if (!$mentor->last_checked_at || $mentor->last_checked_at->lessThanOrEqualTo($lastSemesterEndDate)) {
-            // Redirect to the appropriate page based on mentor_sem
-            if ($mentor->mentor_sem >= 2) {
-                $mentor->update(['status' => 'suspended']);
-                return view('mentor.suspended');
-            } elseif ($mentor->mentor_sem < 2) {
-                return view('mentor.nextsem', compact('mentor'));
+        if ($mentor->last_checked_at) {
+            $lastCheckedAt = Carbon::parse($mentor->last_checked_at);
+
+            if ($lastCheckedAt->lessThanOrEqualTo($lastSemesterEndDate)) {
+                if ($mentor->mentor_sem > 2) {
+                    $mentor->update(['status' => 'suspended']);
+                    return redirect()->route('mentor.suspended');
+                } elseif ($mentor->mentor_sem <=  2 && $mentor->status !== 'suspended') {
+                    return redirect()->route('mentor.nextsem', compact('mentor'));
+                }
             }
         }
 
         // Default redirect for mentors
         return redirect()->route('mentor.dashboard');
     }
-
     public function logout(Request $request)
     {
         Auth::logout();

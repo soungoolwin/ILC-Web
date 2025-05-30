@@ -114,21 +114,6 @@ class MentorController extends Controller
     }
 
     /**
-     * Show the next semester confirmation page.
-     */
-    public function nextSemester()
-    {
-        $user = Auth::user();
-        $mentor = $user->mentors()->first();
-
-        if (!$mentor) {
-            return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
-        }
-
-        return view('mentor.nextsem', compact('mentor'));
-    }
-
-    /**
      * Handle mentor confirmation for the next semester.
      */
     public function confirmNextSemester(Request $request)
@@ -157,16 +142,18 @@ class MentorController extends Controller
                 'last_checked_at' => Carbon::now(),
             ]);
 
-            return redirect()->route('mentor.pause');
+            return $this->pause();
         }
     }
-    
-
-    /**
-     * Show the paused page.
-     */
     public function pause()
     {
-        return view('mentor.pause');
+        $user = Auth::user();
+        $mentor = $user->mentors()->first();
+
+        if (!$mentor) {
+            return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
+        }
+
+        return view('mentor.pause', compact('mentor'));
     }
 }

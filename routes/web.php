@@ -65,6 +65,7 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     Route::get('/mentor/timetables/students', [TimetableController::class, 'searchStudents'])->name('mentor.timetables.students');
 
 
+    Route::get('/mentor/nextsem/{mentor}', [MentorController::class, 'nextSemester'])->name('mentor.nextsem');
     //Route for mentor checker
     Route::post('/mentor/confirm-next-semester', [MentorController::class, 'confirmNextSemester'])->name('mentor.confirmNextSemester');
     // Mentor suspend and pause routes

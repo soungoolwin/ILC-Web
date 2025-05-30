@@ -27,19 +27,7 @@ class MentorMiddleware
             // Check mentor-specific status
             $mentor = $user->mentors()->first();
 
-            if ($mentor) {
-                // Redirect paused mentors to the pause page
-                if ($mentor->status === 'paused') {
-                    return redirect()->route('mentor.pause');
-                }
-
-                // Redirect suspended mentors to the suspended page
-                if ($mentor->status === 'suspended') {
-                    return redirect()->route('mentor.suspended');
-                }
-            }
         }
-
         return $next($request);
     }
 }
