@@ -72,13 +72,13 @@
             <div class="flex items-center justify-between">
                 <!-- Reserve Button -->
                 <button type="submit"
-                    class="bg-[#8E5C65] text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition">
+                    class="bg-[#7D3C98] text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition">
                     Reserve Timetable
                 </button>
 
                 <!-- Check Availability Button -->
                 <a href="{{ route('timetables.availability') }}"
-                    class="bg-[#8E5C65] text-white font-bold py-3 px-4 rounded-lg shadow-lg transition">
+                    class="bg-[#7D3C98] text-white font-bold py-3 px-4 rounded-lg shadow-lg transition">
                     Check Availability
                 </a>
             </div>
