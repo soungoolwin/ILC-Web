@@ -4,7 +4,7 @@
             <!-- Header -->
             <div class="bg-white px-6 py-4 border-b border-gray-100">
                 <div class="flex items-center justify-between">
-                    <h1 class="text-xl font-semibold text-gray-900">Team Leader Profile</h1>
+                    <h1 class="text-xl font-semibold text-gray-900">Your Profile</h1>
                     <button id="edit-toggle-btn" class="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors">
                         <span id="edit-btn-text">Edit</span>
                     </button>
@@ -32,8 +32,6 @@
             <div class="px-6 py-6">
                 <!-- Profile Picture Section -->
                 <div class="mb-8">
-                    <h3 class="text-lg font-medium text-gray-800 mb-4">Profile Picture</h3>
-                    
                     <!-- View Mode Profile Picture -->
                     <div id="view-profile-picture" class="flex justify-center mb-4">
                         <div class="relative">
@@ -104,16 +102,40 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-500 mb-1">Team Name</label>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Team Leader ID</label>
                             <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
-                                <span class="text-gray-900">{{ $teamLeader->team_name ?? 'Team Alpha' }}</span>
+                                <span class="text-gray-900">{{ $teamLeader->team_leader_id ?? 'TL001' }}</span>
+                            </div>
+                        </div>
+                        <!-- Faculty Display in View Mode -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Faculty</label>
+                            <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                                <span class="text-gray-900">{{ $user->faculty ?? 'Not specified' }}</span>
                             </div>
                         </div>
 
+                        <!-- Languages Display in View Mode -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-500 mb-1">Team Description</label>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Languages</label>
                             <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
-                                <span class="text-gray-900">{{ $teamLeader->team_description ?? 'N/A' }}</span>
+                                @if(!empty($user->language) && !empty($user->level))
+                                    @php
+                                        $languages = explode(',', $user->language);
+                                        $levels = explode(',', $user->level);
+                                    @endphp
+                                    @foreach($languages as $index => $language)
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-gray-900">{{ $language }}</span>
+                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                                                {{ isset($levels[$index]) ? $levels[$index] : '' }}
+                                            </span>
+                                        </div>
+                                        @if(!$loop->last)<hr class="my-1">@endif
+                                    @endforeach
+                                @else
+                                    <span class="text-gray-500 italic">No languages specified</span>
+                                @endif
                             </div>
                         </div>
 
@@ -125,9 +147,16 @@
                         </div>
 
                         <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Line ID</label>
+                            <div class="bg-blue-50 rounded-lg px-4 py-3 border-2 border-blue-200">
+                                <span class="text-gray-900">{{ $user->line_id ?? 'leader123' }}</span>
+                            </div>
+                        </div>
+
+                        <div>
                             <label class="block text-sm font-medium text-gray-500 mb-1">Phone Number</label>
                             <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
-                                <span class="text-gray-900">{{ $user->phone_number ?? '0631111111' }}</span>
+                                <span class="text-gray-900">{{ $user->phone_number ?? '0632222222' }}</span>
                             </div>
                         </div>
                     </div>
@@ -137,6 +166,9 @@
                 <form id="edit-mode" method="POST" action="{{ route('team_leader.update') }}" enctype="multipart/form-data" class="hidden space-y-4">
                     @csrf
                     @method('PUT')
+
+                    <!-- Hidden input for profile picture -->
+                    <input type="file" name="profile_picture" id="profile-picture-form-input" class="hidden">
 
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-500 mb-1">Name</label>
@@ -159,20 +191,47 @@
                     </div>
 
                     <div>
-                        <label for="team_name" class="block text-sm font-medium text-gray-500 mb-1">Team Name</label>
-                        <input type="text" name="team_name" id="team_name"
-                               value="{{ old('team_name', $teamLeader->team_name ?? 'Team Alpha') }}"
+                        <label for="team_leader_id" class="block text-sm font-medium text-gray-500 mb-1">Team Leader ID</label>
+                        <input type="text" name="team_leader_id" id="team_leader_id"
+                               value="{{ old('team_leader_id', $teamLeader->team_leader_id ?? 'TL001') }}"
                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
-                        @error('team_name')
+                        @error('team_leader_id')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <!-- Faculty Field in Edit Mode -->
+                    <div>
+                        <label for="faculty" class="block text-sm font-medium text-gray-500 mb-1">Faculty</label>
+                        <input type="text" name="faculty" id="faculty"
+                               value="{{ old('faculty', $student->faculty ?? '') }}"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        @error('faculty')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
+                    <!-- Language Field in Edit Mode -->
                     <div>
-                        <label for="team_description" class="block text-sm font-medium text-gray-500 mb-1">Team Description</label>
-                        <textarea name="team_description" id="team_description"
-                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">{{ old('team_description', $teamLeader->team_description ?? 'N/A') }}</textarea>
-                        @error('team_description')
+                        <label for="language" class="block text-sm font-medium text-gray-500 mb-1">Languages (comma-separated)</label>
+                        <input type="text" name="language" id="language"
+                               value="{{ old('language', $student->language ?? '') }}"
+                               placeholder="English,Burmese"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <p class="text-xs text-gray-500 mt-1">Example: English,Burmese</p>
+                        @error('language')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Level Field in Edit Mode -->
+                    <div>
+                        <label for="level" class="block text-sm font-medium text-gray-500 mb-1">Proficiency Levels (comma-separated)</label>
+                        <input type="text" name="level" id="level"
+                               value="{{ old('level', $student->level ?? '') }}"
+                               placeholder="B2,Native"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <p class="text-xs text-gray-500 mt-1">Example: B2,Native (match the order of your languages)</p>
+                        @error('level')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
@@ -188,19 +247,63 @@
                     </div>
 
                     <div>
+                        <label for="line_id" class="block text-sm font-medium text-gray-500 mb-1">Line ID</label>
+                        <input type="text" name="line_id" id="line_id"
+                               value="{{ old('line_id', $user->line_id ?? 'leader123') }}"
+                               class="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-blue-50">
+                        @error('line_id')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
                         <label for="phone_number" class="block text-sm font-medium text-gray-500 mb-1">Phone Number</label>
                         <input type="text" name="phone_number" id="phone_number"
-                               value="{{ old('phone_number', $user->phone_number ?? '0631111111') }}"
+                               value="{{ old('phone_number', $user->phone_number ?? '0632222222') }}"
                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                         @error('phone_number')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
+                    <!-- Password Update Section -->
+                    <div class="border-t border-gray-200 pt-6 mt-8">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Update Password</h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label for="current_password" class="block text-sm font-medium text-gray-500 mb-1">Current Password</label>
+                                <input type="password" name="current_password" id="current_password"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                @error('current_password')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-500 mb-1">New Password</label>
+                                <input type="password" name="password" id="password"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                @error('password')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="password_confirmation" class="block text-sm font-medium text-gray-500 mb-1">Confirm New Password</label>
+                                <input type="password" name="password_confirmation" id="password_confirmation"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                @error('password_confirmation')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Save Button -->
                     <div class="pt-6">
                         <button type="submit"
-                                class="w-full bg-gray-400 hover:bg-gray-500 text-white font-medium py-3 px-4 rounded-lg transition-colors focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                class="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg transition-colors focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
                             Save Changes
                         </button>
                     </div>
@@ -219,6 +322,7 @@
             const editProfilePicture = document.getElementById('edit-profile-picture');
             const profilePictureContainer = document.getElementById('profile-picture-container');
             const profilePictureInput = document.getElementById('profile-picture-input');
+            const profilePictureFormInput = document.getElementById('profile-picture-form-input');
             const profileImage = document.getElementById('profile-image');
             const cameraIcon = document.getElementById('camera-icon');
 
@@ -252,11 +356,16 @@
                 });
             }
 
-            // Handle file selection for preview
+            // Handle file selection for preview and form input
             if (profilePictureInput) {
                 profilePictureInput.addEventListener('change', function(e) {
                     const file = e.target.files[0];
                     if (file) {
+                        // Update the form input
+                        const dt = new DataTransfer();
+                        dt.items.add(file);
+                        profilePictureFormInput.files = dt.files;
+
                         // Preview the image
                         const reader = new FileReader();
                         reader.onload = function(e) {

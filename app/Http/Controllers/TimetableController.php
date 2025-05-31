@@ -49,7 +49,7 @@ class TimetableController extends Controller
             foreach ($timeSlots as $timeSlot) {
                 $timetables[] = [
                     'mentor_id' => $mentor->id,
-                    'mentor_name' => $mentor->user->name,
+
                     'day' => $request->day,
                     'time_slot' => $timeSlot,
                     'table_number' => $request->table_number,

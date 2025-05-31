@@ -33,6 +33,37 @@
                                 <span class="text-gray-900">{{ $student->student_id ?? '65000000' }}</span>
                             </div>
                         </div>
+                        <!-- Faculty Display in View Mode -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Faculty</label>
+                            <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                                <span class="text-gray-900">{{ $student->user->faculty ?? 'Not specified' }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Languages Display in View Mode -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Languages</label>
+                            <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                                @if(!empty($student->user->language) && !empty($student->user->level))
+                                    @php
+                                        $languages = explode(',', $student->user->language);
+                                        $levels = explode(',', $student->user->level);
+                                    @endphp
+                                    @foreach($languages as $index => $language)
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-gray-900">{{ $language }}</span>
+                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                                                {{ isset($levels[$index]) ? $levels[$index] : '' }}
+                                            </span>
+                                        </div>
+                                        @if(!$loop->last)<hr class="my-1">@endif
+                                    @endforeach
+                                @else
+                                    <span class="text-gray-500 italic">No languages specified</span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-500 mb-1">Email Address</label>

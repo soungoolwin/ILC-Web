@@ -22,12 +22,18 @@ class TeamLeaderController extends Controller
 
         // Create team leader profile if it doesn't exist
         if (!$teamLeader) {
-            $teamLeader = TeamLeader::create([
-                'user_id' => $user->id,
-                'team_name' => null,
-                'team_description' => null,
-                'teamleader_image' => null,
-            ]);
+            // Only try to set columns that exist in the database
+            try {
+                $teamLeader = TeamLeader::create([
+                    'user_id' => $user->id,
+                    'teamleader_image' => null,
+                ]);
+            } catch (\Exception $e) {
+                // If columns don't exist, create with minimal data
+                $teamLeader = TeamLeader::create([
+                    'user_id' => $user->id,
+                ]);
+            }
         }
 
         return view('team_leader.profile', compact('user', 'teamLeader'));
@@ -50,7 +56,11 @@ class TeamLeaderController extends Controller
             'name' => 'required|string|max:255',
             'nickname' => 'nullable|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:20',
+            'faculty' => 'nullable|string|max:255',
+            'language' => 'nullable|string|max:255',
+            'level' => 'nullable|string|max:255',
             'team_name' => 'nullable|string|max:255',
             'team_description' => 'nullable|string|max:1000',
             'current_password' => 'nullable|string|min:8',
@@ -62,14 +72,22 @@ class TeamLeaderController extends Controller
             'name' => $request->name,
             'nickname' => $request->nickname,
             'email' => $request->email,
+            'line_id' => $request->line_id,
             'phone_number' => $request->phone_number,
+            'faculty' => $request->faculty,
+            'language' => $request->language,
+            'level' => $request->level,
         ]);
 
-        // Update the `team_leaders` table
-        $teamLeader->update([
-            'team_name' => $request->team_name,
-            'team_description' => $request->team_description,
-        ]);
+        // Update the `team_leaders` table - only if columns exist
+        try {
+            $teamLeader->update([
+                'team_name' => $request->team_name,
+                'team_description' => $request->team_description,
+            ]);
+        } catch (\Exception $e) {
+            // Skip team leader specific updates if columns don't exist
+        }
 
         // Update password if provided and valid
         if ($request->filled('current_password')) {
@@ -108,12 +126,16 @@ class TeamLeaderController extends Controller
             File::makeDirectory($uploadPath, 0755, true);
         }
 
-        // Delete the old image if it exists
-        if ($teamLeader->teamleader_image) {
-            $oldImagePath = public_path('teamleader_image/' . $teamLeader->teamleader_image);
-            if (File::exists($oldImagePath)) {
-                File::delete($oldImagePath);
+        // Delete the old image if it exists - only if column exists
+        try {
+            if ($teamLeader->teamleader_image) {
+                $oldImagePath = public_path('teamleader_image/' . $teamLeader->teamleader_image);
+                if (File::exists($oldImagePath)) {
+                    File::delete($oldImagePath);
+                }
             }
+        } catch (\Exception $e) {
+            // Skip if column doesn't exist
         }
 
         // Generate the new image name using the team leader's nickname
@@ -124,10 +146,14 @@ class TeamLeaderController extends Controller
         // Move the uploaded file to the public/teamleader_image directory
         $request->teamleader_image->move($uploadPath, $imageName);
 
-        // Update the team leader record with the new image name
-        $teamLeader->update([
-            'teamleader_image' => $imageName
-        ]);
+        // Update the team leader record with the new image name - only if column exists
+        try {
+            $teamLeader->update([
+                'teamleader_image' => $imageName
+            ]);
+        } catch (\Exception $e) {
+            // Skip if column doesn't exist
+        }
 
         return redirect()->back()->with('success', 'Profile picture updated successfully.');
     }

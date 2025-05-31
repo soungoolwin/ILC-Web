@@ -99,7 +99,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($mentorTimetables as $timetable)
+                            @foreach ($timetables as $timetable)
                                 <tr>
                                     <td class="border border-gray-300 px-4 py-2 text-center">
                                         {{ $timetable->time_slot }}

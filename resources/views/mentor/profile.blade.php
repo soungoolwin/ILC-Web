@@ -33,7 +33,7 @@
                 <!-- Profile Picture Section -->
                 <div class="mb-8">
                     <h3 class="text-lg font-medium text-gray-800 mb-4">Profile Picture</h3>
-                    
+
                     <!-- View Mode Profile Picture -->
                     <div id="view-profile-picture" class="flex justify-center mb-4">
                         <div class="relative">
@@ -107,6 +107,37 @@
                                 <span class="text-gray-900">{{ $mentor->mentor_id ?? 'M001' }}</span>
                             </div>
                         </div>
+                        <!-- Faculty Display in View Mode -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Faculty</label>
+                            <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                                <span class="text-gray-900">{{ $user->faculty ?? 'Not specified' }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Languages Display in View Mode -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Languages</label>
+                            <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                                @if(!empty($user->language) && !empty($user->level))
+                                    @php
+                                        $languages = explode(',', $user->language);
+                                        $levels = explode(',', $user->level);
+                                    @endphp
+                                    @foreach($languages as $index => $language)
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-gray-900">{{ $language }}</span>
+                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                                                {{ isset($levels[$index]) ? $levels[$index] : '' }}
+                                            </span>
+                                        </div>
+                                        @if(!$loop->last)<hr class="my-1">@endif
+                                    @endforeach
+                                @else
+                                    <span class="text-gray-500 italic">No languages specified</span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-500 mb-1">Email Address</label>
@@ -162,6 +193,42 @@
                                value="{{ old('mentor_id', $mentor->mentor_id ?? 'M001') }}"
                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                         @error('mentor_id')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <!-- Faculty Field in Edit Mode -->
+                    <div>
+                        <label for="faculty" class="block text-sm font-medium text-gray-500 mb-1">Faculty</label>
+                        <input type="text" name="faculty" id="faculty"
+                               value="{{ old('faculty', $student->faculty ?? '') }}"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        @error('faculty')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Language Field in Edit Mode -->
+                    <div>
+                        <label for="language" class="block text-sm font-medium text-gray-500 mb-1">Languages (comma-separated)</label>
+                        <input type="text" name="language" id="language"
+                               value="{{ old('language', $student->language ?? '') }}"
+                               placeholder="English,Burmese"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <p class="text-xs text-gray-500 mt-1">Example: English,Burmese</p>
+                        @error('language')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Level Field in Edit Mode -->
+                    <div>
+                        <label for="level" class="block text-sm font-medium text-gray-500 mb-1">Proficiency Levels (comma-separated)</label>
+                        <input type="text" name="level" id="level"
+                               value="{{ old('level', $student->level ?? '') }}"
+                               placeholder="B2,Native"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <p class="text-xs text-gray-500 mt-1">Example: B2,Native (match the order of your languages)</p>
+                        @error('level')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
