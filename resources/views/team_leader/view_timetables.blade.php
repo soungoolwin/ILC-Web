@@ -78,57 +78,78 @@
         @if ($timetables->isNotEmpty())
             @foreach ($timetables as $mentorName => $mentorTimetables)
                 @php
-                    // Get Mentor ID from the first timetable entry
-                    $mentorId = optional($mentorTimetables->first()->mentor)->id;
+                    // Get Mentor ID from the first timetable entry - with safety check
+                    $firstTimetable = $mentorTimetables->first();
+                    $mentorId = $firstTimetable && $firstTimetable->mentor ? $firstTimetable->mentor->id : null;
                 @endphp
 
                 <div class="mb-8">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                        <a href="{{ route('team_leader.mentors.show', $mentorId) }}"
-                            class="text-blue-600 hover:underline">
-                            {{ $mentorName }}
-                        </a>
+                        @if($mentorId)
+                            <a href="{{ route('team_leader.mentors.show', $mentorId) }}"
+                                class="text-blue-600 hover:underline">
+                                {{ $mentorName ?? 'Unknown Mentor' }}
+                            </a>
+                        @else
+                            {{ $mentorName ?? 'Unknown Mentor' }}
+                        @endif
                     </h3>
 
                     <table class="table-auto w-full border-collapse border border-gray-300">
                         <thead>
                             <tr>
+                                <th class="border border-gray-300 px-4 py-2">Week</th>
+                                <th class="border border-gray-300 px-4 py-2">Day</th>
                                 <th class="border border-gray-300 px-4 py-2">Time Slot</th>
                                 <th class="border border-gray-300 px-4 py-2">Table Number</th>
                                 <th class="border border-gray-300 px-4 py-2">Students</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($timetables as $timetable)
-                                <tr>
-                                    <td class="border border-gray-300 px-4 py-2 text-center">
-                                        {{ $timetable->time_slot }}
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-2 text-center">
-                                        {{ $timetable->table_number }}
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-2">
-                                        <ul class="text-center">
-                                            @forelse ($timetable->appointments as $appointment)
-                                                <li>
-                                                    <a href="{{ route('team_leader.students.show', $appointment->student->id) }}"
-                                                        class="text-blue-600 hover:underline">
-                                                        {{ $appointment->student->user->name ?? 'N/A' }}
-                                                    </a>
-                                                </li>
-                                            @empty
-                                                <li>No students registered</li>
-                                            @endforelse
-                                        </ul>
-                                    </td>
-                                </tr>
+                            @foreach ($mentorTimetables as $timetable)
+                                @if($timetable && is_object($timetable))
+                                    <tr>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                            {{ $timetable->week_number ?? 'N/A' }}
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                            {{ $timetable->day ?? 'N/A' }}
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                            {{ $timetable->time_slot ?? 'N/A' }}
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                            {{ $timetable->table_number ?? 'N/A' }}
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-2">
+                                            <ul class="text-center">
+                                                @if($timetable->appointments && $timetable->appointments->isNotEmpty())
+                                                    @foreach ($timetable->appointments as $appointment)
+                                                        @if($appointment->student && $appointment->student->user)
+                                                            <li>
+                                                                <a href="{{ route('team_leader.students.show', $appointment->student->id) }}"
+                                                                    class="text-blue-600 hover:underline">
+                                                                    {{ $appointment->student->user->name }}
+                                                                </a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    <li>No students registered</li>
+                                                @endif
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             @endforeach
-        @elseif ($request->all())
+        @elseif (request()->hasAny(['week_number', 'day', 'time_slot', 'table_number']))
             <p class="text-center text-gray-600">No timetables found matching your search criteria.</p>
+        @else
+            <p class="text-center text-gray-600">Please use the search form above to find timetables.</p>
         @endif
     </div>
 </x-layout>
