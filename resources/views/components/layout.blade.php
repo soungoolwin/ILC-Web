@@ -46,25 +46,27 @@
                             <a href="{{ route('mentor.profile') }}"
                                 class="text-white bg-[#8b6e73] px-2 py-1 rounded-md shadow-md">Profile</a>
 
-                            <!-- Timetables Dropdown -->
-                            <div class="relative">
-                                <button id="dropdownButton"
-                                    class="text-white focus:outline-none bg-[#8b6e73] px-2 py-1 rounded-md shadow-md">Timetables</button>
-                                <div id="dropdownMenu" class="absolute mt-2 w-48 bg-white rounded-md shadow-lg hidden">
-                                    <a href="{{ route('mentor.timetables.create') }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        Create Timetable
-                                    </a>
-                                    <a href="{{ route('mentor.timetables.edit') }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        Edit Timetable
-                                    </a>
-                                    <a href="{{ route('mentor.timetables.students') }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        See Your Students
-                                    </a>
+                            @if (Auth::user()->role === 'mentor' && Auth::user()->mentors()->first()->status == 'active')
+                                <!-- Timetables Dropdown -->
+                                <div class="relative">
+                                    <button id="dropdownButton"
+                                        class="text-white focus:outline-none bg-[#8b6e73] px-2 py-1 rounded-md shadow-md">Timetables</button>
+                                    <div id="dropdownMenu" class="absolute mt-2 w-48 bg-white rounded-md shadow-lg hidden">
+                                        <a href="{{ route('mentor.timetables.create') }}"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            Create Timetable
+                                        </a>
+                                        <a href="{{ route('mentor.timetables.edit') }}"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            Edit Timetable
+                                        </a>
+                                        <a href="{{ route('mentor.timetables.students') }}"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            See Your Students
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         @elseif (Auth::user()->role === 'team_leader')
                             <a href="{{ route('team_leader.dashboard') }}"
                                 class="text-white bg-[#8b6e73] px-2 py-1 rounded-md shadow-md">Dashboard</a>

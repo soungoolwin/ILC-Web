@@ -95,6 +95,12 @@ class MentorController extends Controller
         return redirect()->back()->with('success', 'Profile picture updated successfully.');
     }
 
+    public function status_check($user)
+    {
+        $mentor = Auth::$user()->mentors()->first();
+        return $mentor->status;
+    }
+
     public function adminShow($id)
     {
         $mentor = Mentor::with('user')->findOrFail($id); // Fetch mentor with user info
