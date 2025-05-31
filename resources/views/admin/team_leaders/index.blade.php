@@ -13,7 +13,7 @@
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                 </div>
                 <div>
-                    <button type="submit" class="bg-[#8b6e73] text-white px-4 py-2 rounded-lg  transition">
+                    <button type="submit" class="bg-[#7D3C98] text-white px-4 py-2 rounded-lg  transition">
                         Search
                     </button>
                 </div>

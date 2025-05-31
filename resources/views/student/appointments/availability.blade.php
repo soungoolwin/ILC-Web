@@ -52,7 +52,7 @@
 
             <!-- Search Button -->
             <div>
-                <button type="submit" class="w-full bg-[#8E5C65] text-white font-bold py-2 px-4 rounded-lg transition">
+                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
                     Search
                 </button>
             </div>
@@ -68,6 +68,7 @@
                         <th class="border border-gray-300 px-4 py-2">Time Slot</th>
                         <th class="border border-gray-300 px-4 py-2">Table Number</th>
                         <th class="border border-gray-300 px-4 py-2">Reserved?</th>
+                        <th class="border border-gray-300 px-4 py-2">Mentor</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,6 +81,11 @@
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['table_number'] }}
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['is_reserved'] }}
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">
+                                <a href="{{ route('student.mentors.show', ['id' => $timetable['mentor_id']]) }}" class="text-blue-500 hover:underline">
+                                    {{ $timetable['mentor'] }}
+                                </a>
                             </td>
                         </tr>
                     @endforeach

@@ -1,54 +1,116 @@
 <x-layout>
-    <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Student Profile</h2>
-
-        <!-- Display Validation Errors -->
-        @if ($errors->any())
-            <div class="bg-red-100 text-red-800 p-4 rounded-md mb-6">
-                <ul class="list-disc pl-5 space-y-1">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <div class="space-y-4">
-            <!-- Student Info -->
-            <div>
-                <label class="text-sm font-medium text-gray-500">Student ID:</label>
-                <p class="text-lg font-semibold text-gray-800">{{ $student->student_id }}</p>
+    <div class="min-h-screen bg-gray-50 py-4 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md mx-auto bg-white shadow-lg rounded-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-white px-6 py-4 border-b border-gray-100">
+                <div class="flex items-center justify-center">
+                    <h1 class="text-xl font-semibold text-gray-900">Student Profile</h1>
+                </div>
             </div>
 
-            <div>
-                <label class="text-sm font-medium text-gray-500">Name:</label>
-                <p class="text-lg font-semibold text-gray-800">{{ $student->user->name }}</p>
+            <!-- Error Messages -->
+            @if ($errors->any())
+                <div class="bg-red-50 border-l-4 border-red-400 p-4 mx-6 mt-4 rounded">
+                    <div class="text-red-700 text-sm">
+                        @foreach ($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+            <!-- Profile Content -->
+            <div class="px-6 py-6">
+                <!-- Profile Information -->
+                <div class="space-y-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Student ID</label>
+                            <div class="bg-green-50 rounded-lg px-4 py-3 border-2 border-green-200">
+                                <span class="text-gray-900">{{ $student->student_id ?? '65000000' }}</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Name</label>
+                            <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                                <span class="text-gray-900">{{ $student->user->name ?? 'Student Name' }}</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Nickname</label>
+                            <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                                <span class="text-gray-900">{{ $student->user->nickname ?? 'Student' }}</span>
+                            </div>
+                        </div>
+                        <!-- Faculty Display in View Mode -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Faculty</label>
+                            <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                                <span class="text-gray-900">{{ $student->user->faculty ?? 'Not specified' }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Languages Display in View Mode -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Languages</label>
+                            <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                                @if(!empty($student->user->language) && !empty($student->user->level))
+                                    @php
+                                        $languages = explode(',', $student->user->language);
+                                        $levels = explode(',', $student->user->level);
+                                    @endphp
+                                    @foreach($languages as $index => $language)
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-gray-900">{{ $language }}</span>
+                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                                                {{ isset($levels[$index]) ? $levels[$index] : '' }}
+                                            </span>
+                                        </div>
+                                        @if(!$loop->last)<hr class="my-1">@endif
+                                    @endforeach
+                                @else
+                                    <span class="text-gray-500 italic">No languages specified</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{-- Commented out fields as in original --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Email Address</label>
+                            <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                                <span class="text-gray-900">{{ $student->user->email ?? 'student@su.ac.th' }}</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Line ID</label>
+                            <div class="bg-blue-50 rounded-lg px-4 py-3 border-2 border-blue-200">
+                                <span class="text-gray-900">{{ $student->user->line_id ?? 'N/A' }}</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Phone Number</label>
+                            <div class="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                                <span class="text-gray-900">{{ $student->user->phone_number ?? 'N/A' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back Link -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <a href="{{ route('mentor.timetables.students') }}"
+                       class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Back to Timetables
+                    </a>
+                </div>
             </div>
-
-            <div>
-                <label class="text-sm font-medium text-gray-500">Nickname:</label>
-                <p class="text-lg font-semibold text-gray-800">{{ $student->user->nickname }}</p>
-            </div>
-
-            {{-- <div>
-                <label class="text-sm font-medium text-gray-500">Email:</label>
-                <p class="text-lg font-semibold text-gray-800">{{ $student->user->email }}</p>
-            </div>
-
-            <div>
-                <label class="text-sm font-medium text-gray-500">Line ID:</label>
-                <p class="text-lg font-semibold text-gray-800">{{ $student->user->line_id ?? 'N/A' }}</p>
-            </div>
-
-            <div>
-                <label class="text-sm font-medium text-gray-500">Phone Number:</label>
-                <p class="text-lg font-semibold text-gray-800">{{ $student->user->phone_number ?? 'N/A' }}</p>
-            </div> --}}
-        </div>
-
-        <div class="mt-6">
-            <a href="{{ route('mentor.timetables.students') }}" class="text-blue-600 hover:underline">Back to
-                Timetables</a>
         </div>
     </div>
 </x-layout>

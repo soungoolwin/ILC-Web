@@ -49,6 +49,7 @@ class TimetableController extends Controller
             foreach ($timeSlots as $timeSlot) {
                 $timetables[] = [
                     'mentor_id' => $mentor->id,
+
                     'day' => $request->day,
                     'time_slot' => $timeSlot,
                     'table_number' => $request->table_number,
@@ -181,13 +182,13 @@ class TimetableController extends Controller
         ];
         $tables = range(1, 25);
 
-        // Fetch reserved timetables
-        $reservedTimetables = Timetable::select('day', 'time_slot', 'table_number')
+        // Fetch reserved timetables with mentor_id
+        $reservedTimetables = Timetable::select('day', 'time_slot', 'table_number', 'mentor_id')
             ->distinct()
             ->get()
             ->toArray();
 
-        // Create a list of all timetables with their reserved status
+        // Create a list of all timetables with their reserved status and mentor_id
         $availableTimetables = [];
         foreach ($days as $day) {
             foreach ($timeSlots as $timeSlot) {
@@ -196,18 +197,18 @@ class TimetableController extends Controller
                     [$firstSlot, $secondSlot] = $this->splitTimeSlot($timeSlot);
 
                     // Check if either 30-minute slot is reserved
-                    $isReserved = collect($reservedTimetables)->contains(function ($timetable) use ($day, $firstSlot, $secondSlot, $table) {
+                    $reservedTimetable = collect($reservedTimetables)->firstWhere(function ($timetable) use ($day, $firstSlot, $secondSlot, $table) {
                         return $timetable['day'] === $day &&
                             $timetable['table_number'] === $table &&
                             ($timetable['time_slot'] === $firstSlot || $timetable['time_slot'] === $secondSlot);
                     });
 
-                    // Add timetable with reserved status
+                    // Add timetable with reserved status and mentor_id
                     $availableTimetables[] = [
                         'day' => $day,
                         'time_slot' => $timeSlot,
                         'table_number' => $table,
-                        'is_reserved' => $isReserved ? 'Reserved' : 'Available',
+                        'is_reserved' => $reservedTimetable ? 'Reserved' : 'Available',
                     ];
                 }
             }

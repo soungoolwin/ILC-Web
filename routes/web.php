@@ -37,6 +37,7 @@ Route::middleware(RedirectIfAuthenticated::class)->group(function () {
 
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
+
 });
 
 
@@ -50,6 +51,8 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     Route::get("/mentor/profile", [MentorController::class, 'show'])->name('mentor.profile');
     Route::put('/mentor/profile', [MentorController::class, 'update'])->name('mentor.update');
 
+    Route::post('/mentor/image/upload', [MentorController::class, 'uploadImage'])->name('mentor.image.upload');
+
     //Timetable Routes
     Route::get('/mentor/timetables/reserve', [TimetableController::class, 'create'])->name('mentor.timetables.create');
     Route::post('/mentor/timetables/reserve', [TimetableController::class, 'store'])->name('mentor.timetables.store');
@@ -61,6 +64,13 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
 
     Route::get('/mentor/timetables/students', [TimetableController::class, 'searchStudents'])->name('mentor.timetables.students');
 
+
+    Route::get('/mentor/nextsem/{mentor}', [MentorController::class, 'nextSemester'])->name('mentor.nextsem');
+    //Route for mentor checker
+    Route::post('/mentor/confirm-next-semester', [MentorController::class, 'confirmNextSemester'])->name('mentor.confirmNextSemester');
+    // Mentor suspend and pause routes
+    Route::get('/mentor/pause', [MentorController::class, 'pause'])->name('mentor.pause');
+    Route::get('/mentor/suspended', [MentorController::class, 'suspended'])->name('mentor.suspended');
     // Route for mentors viewing student profile
     Route::get('/mentor/students/{id}', [StudentController::class, 'mentorShow'])->name('mentor.students.show');
 });
@@ -74,6 +84,8 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
 
     Route::get("/student/profile", [StudentController::class, 'show'])->name('student.profile');
     Route::put('/student/profile', [StudentController::class, 'update'])->name('student.update');
+
+    Route::get('/student/mentors/{id}', [MentorController::class, 'studentShow'])->name('student.mentors.show');
 
     Route::get('/student/appointments/create', [AppointmentController::class, 'create'])->name('student.appointments.create');
     Route::post('/student/appointments/store', [AppointmentController::class, 'store'])->name('student.appointments.store');
@@ -125,11 +137,12 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     Route::get('/team-leader/timetable/availability', [TeamLeaderTimetableController::class, 'checkAvailability'])
         ->name('team_leader.timetable.availability');
 
+    Route::post('/team-leader/image/upload', [TeamLeaderController::class, 'uploadImage'])->name('team_leader.image.upload');
+
     // Team Leader Viewing Student and Mentor Profiles
     Route::get('/team-leader/students/{id}', [StudentController::class, 'teamLeaderShow'])->name('team_leader.students.show');
     Route::get('/team-leader/mentors/{id}', [MentorController::class, 'teamLeaderShow'])->name('team_leader.mentors.show');
 });
-
 
 //Logout
 

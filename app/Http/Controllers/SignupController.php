@@ -42,6 +42,9 @@ class SignupController extends Controller
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'student_id' => 'required|string|unique:students,student_id',
+            'faculty' => 'required|string|max:255',
+            'language' => 'required|string|max:255',
+            'level' => 'required|string|max:255',
         ]);
 
         $user = User::create([
@@ -52,6 +55,9 @@ class SignupController extends Controller
             'role' => 'student',
             'line_id' => $data['line_id'],
             'phone_number' => $data['phone_number'],
+            'faculty' => $data['faculty'],
+            'language' => $data['language'],
+            'level' => $data['level'],
         ]);
 
         Student::create([
@@ -75,6 +81,9 @@ class SignupController extends Controller
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'mentor_id' => 'required|string|unique:mentors,mentor_id',
+            'faculty' => 'required|string|max:255',
+            'language' => 'required|string|max:255',
+            'level' => 'required|string|max:255',
         ]);
 
         $user = User::create([
@@ -85,6 +94,9 @@ class SignupController extends Controller
             'role' => 'mentor',
             'line_id' => $data['line_id'],
             'phone_number' => $data['phone_number'],
+            'faculty' => $data['faculty'],
+            'language' => $data['language'],
+            'level' => $data['level'],
         ]);
 
         Mentor::create([
@@ -144,6 +156,9 @@ class SignupController extends Controller
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'team_leader_id' => 'required|string|unique:team_leaders,team_leader_id',
+            'faculty' => 'required|string|max:255',
+            'language' => 'required|string|max:255',
+            'level' => 'required|string|max:255',
         ]);
 
         $user = User::create([
@@ -154,6 +169,9 @@ class SignupController extends Controller
             'role' => 'team_leader',
             'line_id' => $data['line_id'],
             'phone_number' => $data['phone_number'],
+            'faculty' => $data['faculty'],
+            'language' => $data['language'],
+            'level' => $data['level'],
         ]);
 
         TeamLeader::create([

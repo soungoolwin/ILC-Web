@@ -68,7 +68,7 @@
 
             <!-- Search Button -->
             <div>
-                <button type="submit" class="w-full bg-[#8E5C65] text-white font-bold py-2 px-4 rounded-lg transition">
+                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
                     Search
                 </button>
             </div>
@@ -99,7 +99,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($mentorTimetables as $timetable)
+                            @foreach ($timetables as $timetable)
                                 <tr>
                                     <td class="border border-gray-300 px-4 py-2 text-center">
                                         {{ $timetable->time_slot }}
