@@ -67,7 +67,7 @@ class LoginController extends Controller
         $currentDate = Carbon::now();
 
         // Only trigger the checker after July 31st, 2025
-        $checkerStartDate = Carbon::create(2024, 8, 1);
+        $checkerStartDate = Carbon::create(2025, 8, 1);
         if ($currentDate->lessThan($checkerStartDate)) {
             // Redirect to the mentor dashboard if before the checker start date
             return redirect()->route('mentor.dashboard');
