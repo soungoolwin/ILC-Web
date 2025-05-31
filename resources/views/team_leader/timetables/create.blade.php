@@ -53,7 +53,7 @@
             <!-- Submit Button -->
             <div>
                 <button type="submit"
-                    class="w-full bg-[#8E5C65] text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transition">
+                    class="w-full bg-[#7D3C98] text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transition">
                     Reserve Timetable
                 </button>
             </div>

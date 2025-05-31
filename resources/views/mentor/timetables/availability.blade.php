@@ -44,7 +44,7 @@
 
             <!-- Search Button -->
             <div>
-                <button type="submit" class="w-full bg-[#8E5C65] text-white font-bold py-2 px-4 rounded-lg transition">
+                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
                     Search
                 </button>
             </div>

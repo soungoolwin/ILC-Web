@@ -96,7 +96,7 @@
                 <!-- Submit Button -->
                 <div class="mt-6">
                     <button id="signupBtn" type="submit"
-                        class="w-full bg-gradient-to-r text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl bg-[#8E5C65] transition">
+                        class="w-full bg-gradient-to-r text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl bg-[#7D3C98] transition">
                         Create Account
                     </button>
                 </div>
