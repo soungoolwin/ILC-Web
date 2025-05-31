@@ -71,6 +71,7 @@
                                 </a>
                             </div>
                         </div>
+                    @endif
                     @elseif (Auth::user()->role === 'team_leader')
                         <a href="{{ route('team_leader.dashboard') }}"
                             class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
