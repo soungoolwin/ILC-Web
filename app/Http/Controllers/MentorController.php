@@ -82,7 +82,7 @@ class MentorController extends Controller
         }
 
         // Generate the new image name using the mentor's nickname
-        $nickname = $user->nickname ?? 'mentor'; // Fallback to 'mentor' if nickname is null
+        $nickname = $user->id ?? 'mentor'; // Fallback to 'mentor' if nickname is null
         $imageName = $nickname . '.jpg';
 
         // Move the uploaded file to the public/mentor_image directory

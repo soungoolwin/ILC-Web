@@ -74,28 +74,5 @@
                 <label class="text-sm font-medium text-gray-500">Account Created:</label>
                 <p class="text-lg font-semibold text-gray-800">{{ $teamLeader->user->created_at->format('M d, Y') }}</p>
             </div>
-
-            <!-- Last Updated -->
-            <div>
-                <label class="text-sm font-medium text-gray-500">Profile Last Updated:</label>
-                <p class="text-lg font-semibold text-gray-800">{{ $teamLeader->updated_at->format('M d, Y H:i') }}</p>
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="mt-8 flex space-x-4">
-            <a href="{{ route('admin.team_leaders.index') }}" 
-               class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">
-                Back to Team Leaders List
-            </a>
-            
-            <!-- Optional: Add edit functionality for admins -->
-            {{-- 
-            <a href="{{ route('admin.team_leaders.edit', $teamLeader->id) }}" 
-               class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">
-                Edit Team Leader
-            </a>
-            --}}
-        </div>
     </div>
 </x-layout>

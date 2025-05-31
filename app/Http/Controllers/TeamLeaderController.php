@@ -117,7 +117,7 @@ class TeamLeaderController extends Controller
         }
 
         // Generate the new image name using the team leader's nickname
-        $nickname = $user->nickname ?? 'teamleader'; // Fallback to 'teamleader' if nickname is null
+        $nickname = $user->id ?? 'teamleader'; // Fallback to 'teamleader' if nickname is null
         $extension = $request->teamleader_image->getClientOriginalExtension();
         $imageName = $nickname . '_' . time() . '.' . $extension;
 
@@ -132,7 +132,6 @@ class TeamLeaderController extends Controller
         return redirect()->back()->with('success', 'Profile picture updated successfully.');
     }
 
-    // ...existing code for viewTimetables method...
     public function viewTimetables(Request $request)
     {
         // Initialize timetables as empty
