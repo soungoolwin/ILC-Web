@@ -151,6 +151,7 @@ class MentorController extends Controller
             return $this->pause();
         }
     }
+
     public function pause()
     {
         $user = Auth::user();
@@ -161,5 +162,11 @@ class MentorController extends Controller
         }
 
         return view('mentor.pause', compact('mentor'));
+    }
+
+    public function nextSemester(Mentor $mentor)
+    {
+        // Add your logic for handling the next semester
+        return view('mentor.nextsem', compact('mentor'));
     }
 }
