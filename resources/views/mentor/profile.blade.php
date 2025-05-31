@@ -1,4 +1,5 @@
 <x-layout>
+
     <div class="min-h-screen bg-gray-50 py-4 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md mx-auto bg-white shadow-lg rounded-2xl overflow-hidden">
             <!-- Header -->
@@ -9,6 +10,7 @@
                         <span id="edit-btn-text">Edit</span>
                     </button>
                 </div>
+
             </div>
 
             <!-- Flash Messages -->

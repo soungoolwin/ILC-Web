@@ -9,6 +9,9 @@ class Mentor extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $casts = [
+        'last_checked_at' => 'datetime',
+    ];
 
     public function user()
     {
