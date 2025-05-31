@@ -137,6 +137,8 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     Route::get('/team-leader/timetable/availability', [TeamLeaderTimetableController::class, 'checkAvailability'])
         ->name('team_leader.timetable.availability');
 
+    Route::post('/team-leader/image/upload', [TeamLeaderController::class, 'uploadImage'])->name('team_leader.image.upload');
+
     // Team Leader Viewing Student and Mentor Profiles
     Route::get('/team-leader/students/{id}', [StudentController::class, 'teamLeaderShow'])->name('team_leader.students.show');
     Route::get('/team-leader/mentors/{id}', [MentorController::class, 'teamLeaderShow'])->name('team_leader.mentors.show');

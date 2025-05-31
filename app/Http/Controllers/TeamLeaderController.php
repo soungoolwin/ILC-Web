@@ -3,38 +3,56 @@
 namespace App\Http\Controllers;
 
 use App\Models\TeamLeader;
+use App\Models\User;
 use App\Models\Timetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 
 class TeamLeaderController extends Controller
 {
+    /**
+     * Show the team leader profile page.
+     */
     public function show()
     {
         $user = Auth::user();
         $teamLeader = $user->teamLeaders()->first();
 
+        // Create team leader profile if it doesn't exist
+        if (!$teamLeader) {
+            $teamLeader = TeamLeader::create([
+                'user_id' => $user->id,
+                'team_name' => null,
+                'team_description' => null,
+                'teamleader_image' => null,
+            ]);
+        }
+
         return view('team_leader.profile', compact('user', 'teamLeader'));
     }
 
+    /**
+     * Update team leader profile information.
+     */
     public function update(Request $request)
     {
         $user = Auth::user();
         $teamLeader = $user->teamLeaders()->first();
 
+        if (!$teamLeader) {
+            return redirect()->back()->withErrors(['error' => 'Team leader profile not found.']);
+        }
+
         // Validate the request
         $request->validate([
-            // Fields from the `users` table
             'name' => 'required|string|max:255',
             'nickname' => 'nullable|string|max:255',
-            'line_id' => 'nullable|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'phone_number' => 'nullable|string|max:20',
-
-            // Fields from the `team_leaders` table
-            'team_leader_id' => 'required|string|unique:team_leaders,team_leader_id,' . $teamLeader->id,
-
-            // Password fields
+            'team_name' => 'nullable|string|max:255',
+            'team_description' => 'nullable|string|max:1000',
             'current_password' => 'nullable|string|min:8',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
@@ -43,13 +61,14 @@ class TeamLeaderController extends Controller
         $user->update([
             'name' => $request->name,
             'nickname' => $request->nickname,
-            'line_id' => $request->line_id,
+            'email' => $request->email,
             'phone_number' => $request->phone_number,
         ]);
 
         // Update the `team_leaders` table
         $teamLeader->update([
-            'team_leader_id' => $request->team_leader_id,
+            'team_name' => $request->team_name,
+            'team_description' => $request->team_description,
         ]);
 
         // Update password if provided and valid
@@ -65,9 +84,57 @@ class TeamLeaderController extends Controller
 
         return redirect()->route('team_leader.profile')->with('success', 'Profile updated successfully.');
     }
+
+    /**
+     * Handle team leader image upload.
+     */
+    public function uploadImage(Request $request)
+    {
+        $user = Auth::user();
+        $teamLeader = $user->teamLeaders()->first();
+
+        if (!$teamLeader) {
+            return redirect()->back()->withErrors(['error' => 'Team leader record not found.']);
+        }
+
+        // Validate the uploaded file
+        $request->validate([
+            'teamleader_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Create directory if it doesn't exist
+        $uploadPath = public_path('teamleader_image');
+        if (!File::exists($uploadPath)) {
+            File::makeDirectory($uploadPath, 0755, true);
+        }
+
+        // Delete the old image if it exists
+        if ($teamLeader->teamleader_image) {
+            $oldImagePath = public_path('teamleader_image/' . $teamLeader->teamleader_image);
+            if (File::exists($oldImagePath)) {
+                File::delete($oldImagePath);
+            }
+        }
+
+        // Generate the new image name using the team leader's nickname
+        $nickname = $user->nickname ?? 'teamleader'; // Fallback to 'teamleader' if nickname is null
+        $extension = $request->teamleader_image->getClientOriginalExtension();
+        $imageName = $nickname . '_' . time() . '.' . $extension;
+
+        // Move the uploaded file to the public/teamleader_image directory
+        $request->teamleader_image->move($uploadPath, $imageName);
+
+        // Update the team leader record with the new image name
+        $teamLeader->update([
+            'teamleader_image' => $imageName
+        ]);
+
+        return redirect()->back()->with('success', 'Profile picture updated successfully.');
+    }
+
+    // ...existing code for viewTimetables method...
     public function viewTimetables(Request $request)
     {
-
         // Initialize timetables as empty
         $timetables = collect();
 
@@ -86,17 +153,18 @@ class TeamLeaderController extends Controller
                 ->when($request->filled('table_number'), function ($query) use ($request) {
                     $query->where('table_number', $request->table_number);
                 })
-                ->get()
-                ->groupBy('mentor.user.name');
+                ->get();
         }
 
-        return view('team_leader.view_timetables', compact('timetables', 'request'));
+        return view('team_leader.view_timetables', compact('timetables'));
     }
 
+    /**
+     * Show team leader profile for admins.
+     */
     public function adminShow($id)
     {
         $teamLeader = TeamLeader::with('user')->findOrFail($id);
-
         return view('admin.team-leader-profile', compact('teamLeader'));
     }
 }

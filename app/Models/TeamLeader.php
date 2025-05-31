@@ -9,7 +9,17 @@ class TeamLeader extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id',
+        'team_leader_id',
+        'team_name',
+        'team_description',
+        'teamleader_image',
+    ];
+
+    /**
+     * Get the user that owns the team leader profile.
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
