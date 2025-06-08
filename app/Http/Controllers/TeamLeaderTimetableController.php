@@ -41,11 +41,11 @@ class TeamLeaderTimetableController extends Controller
 
         // Enforce slot limits
         $slotLimits = [
-            '09:00-11:00' => 5,
-            '11:00-13:00' => 7,
-            '13:00-15:00' => 7,
-            '15:00-17:00' => 7,
-            '17:00-20:00' => 5,
+            '09:00-11:00' => 3,
+            '11:00-13:00' => 3,
+            '13:00-15:00' => 3,
+            '15:00-17:00' => 3,
+            '17:00-20:00' => 3,
         ];
 
         if ($count >= $slotLimits[$request->time_slot]) {
@@ -84,11 +84,11 @@ class TeamLeaderTimetableController extends Controller
 
             // Define the slot limits
             $slotLimits = [
-                '09:00-11:00' => 5,
-                '11:00-13:00' => 7,
-                '13:00-15:00' => 7,
-                '15:00-17:00' => 7,
-                '17:00-20:00' => 5,
+                '09:00-11:00' => 3,
+                '11:00-13:00' => 3,
+                '13:00-15:00' => 3,
+                '15:00-17:00' => 3,
+                '17:00-20:00' => 3,
             ];
 
             $availability = [
