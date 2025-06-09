@@ -63,42 +63,51 @@ class LoginController extends Controller
             return redirect()->route('mentor.pause');
         }
 
-        // Get the current date
         $currentDate = Carbon::now();
-
-        // Only trigger the checker after July 31st, 2025
         $checkerStartDate = Carbon::create(2024, 8, 1);
+        
         if ($currentDate->lessThan($checkerStartDate)) {
-            // Redirect to the mentor dashboard if before the checker start date
             return redirect()->route('mentor.dashboard');
         }
 
-        // Semester end dates
-        $semesterEndDates = [
-            Carbon::create($currentDate->year, 12, 31),
-            Carbon::create($currentDate->year, 7, 31),
-        ];
+        // Determine current semester
+        $currentYear = 2024;
+        $currentSemester = $currentDate->month <= 7 ? 1 : 2;
+        
+        // Create a semester identifier (e.g., "2024-1" or "2024-2")
+        $currentSemesterKey = $currentYear . '-' . $currentSemester;
+        
+        // Check if mentor has been checked for this semester
+        $lastCheckedSemester = $mentor->last_checked_semester ?? '';
+        
+        // Determine if we need to check
+        $needsCheck = false;
+        $semesterEndDate = $currentSemester == 1 
+            ? Carbon::create($currentYear, 7, 31) 
+            : Carbon::create($currentYear, 12, 31);
+        
+        // If we're past the semester end date and haven't checked for this semester
+        if ($currentDate->greaterThan($semesterEndDate) && $lastCheckedSemester !== $currentSemesterKey) {
+            $needsCheck = true;
+        }
 
-        // Determine the last semester end date
-        $lastSemesterEndDate = $currentDate->greaterThan($semesterEndDates[1]) ? $semesterEndDates[1] : $semesterEndDates[0];
-
-        // Check if the mentor has already been checked after the last semester end date
-        if ($mentor->last_checked_at) {
-            $lastCheckedAt = Carbon::parse($mentor->last_checked_at);
-
-            if ($lastCheckedAt->lessThanOrEqualTo($lastSemesterEndDate)) {
-                if ($mentor->mentor_sem > 2) {
-                    $mentor->update(['status' => 'suspended']);
-                    return redirect()->route('mentor.suspended');
-                } elseif ($mentor->mentor_sem <=  2 && $mentor->status !== 'suspended') {
-                    return redirect()->route('mentor.nextsem', compact('mentor'));
-                }
+        if ($needsCheck) {
+            if ($mentor->mentor_sem > 2) {
+                $mentor->update([
+                    'status' => 'suspended',
+                    'last_checked_at' => now(),
+                    'last_checked_semester' => $currentSemesterKey
+                ]);
+                return redirect()->route('mentor.suspended');
+            } elseif ($mentor->mentor_sem <= 2 && $mentor->status !== 'suspended') {
+                // Update will happen in the nextsem route after they complete the check
+                return redirect()->route('mentor.nextsem', compact('mentor'));
             }
         }
 
-        // Default redirect for mentors
         return redirect()->route('mentor.dashboard');
     }
+
     public function logout(Request $request)
     {
         Auth::logout();

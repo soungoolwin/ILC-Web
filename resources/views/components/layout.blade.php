@@ -50,8 +50,7 @@
                             class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
                         <a href="{{ route('mentor.profile') }}"
                             class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Profile</a>
-                @if (Auth::user()->role === 'mentor' && Auth::user()->mentors()->first()->status == 'active')
-
+                        @if (Auth::user()->role === 'mentor' && Auth::user()->mentors()->first()->status == 'active')
                         <!-- Timetables Dropdown -->
                         <div class="relative mr-2">
                             <button id="dropdownButton"
