@@ -43,7 +43,7 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Time Slot</option>
-                    @foreach (range(9, 19) as $hour)
+                    @foreach (range(9, 17) as $hour)
                         @php
                             $start_time = sprintf('%02d:00', $hour);
                             $end_time = sprintf('%02d:00', $hour + 1);
@@ -62,7 +62,7 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Table</option>
-                    @foreach (range(1, 6) as $table)
+                    @foreach (range(1, 4) as $table)
                         <option value="{{ $table }}">Table {{ $table }}</option>
                     @endforeach
                 </select>
