@@ -44,8 +44,9 @@ class TimetableController extends Controller
         $timeSlots = $this->splitTimeSlot($request->time_slot);
 
         // Insert 32 rows (2 slots per week for 16 weeks)
+        /* !Change Week Range in Here! */
         $timetables = [];
-        foreach (range(1, 16) as $week_number) {
+        foreach (range(2, 6) as $week_number) {
             foreach ($timeSlots as $timeSlot) {
                 $timetables[] = [
                     'mentor_id' => $mentor->id,
