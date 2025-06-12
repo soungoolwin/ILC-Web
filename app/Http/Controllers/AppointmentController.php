@@ -128,9 +128,9 @@ class AppointmentController extends Controller
         })
         ->first();
 
-        if ($existingSameDayAppointment) {
-            return back()->withErrors(['error' => 'You already have an appointment on this day.']);
-        }        
+        if ($existingSameDayAppointment && $existingSameDayAppointment->id !== $appointment->id) {
+            return back()->withErrors(['error' => 'You already have an appointment on this day. Edit your existing appointment instead.']);
+        }         
 
         // Save the old timetable BEFORE changing it
         $oldTimetable = $appointment->timetable;
