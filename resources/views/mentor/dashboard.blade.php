@@ -22,7 +22,7 @@
         <iframe class="w-1/2 m-auto aspect-video"  src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         <div class=" w-4/5 m-auto p-2 mb-4 text-[12px] mt-5">
             <div id="accordion-collapse-timetable" data-accordion="collapse" class="w-4/5 flex m-auto flex-row gap-1">
-                {{-- First Item --}}
+                <!-- {{-- First Item --}}
                 <div class="w-full">
                     <h2 id="accordion-collapse-heading-1">
                         <button type="button"
@@ -183,7 +183,7 @@
             </div>
 
 
-          </div>
+          </div> -->
         {{-- Accordion----------- --}}
         <div id="accordion-collapse" data-accordion="collapse" class="w-4/5 mx-auto mb-6">
             {{-- Sixth Item --}}

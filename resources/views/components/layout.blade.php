@@ -26,6 +26,13 @@
             <div class="flex justify-end px-4 py-2 border-t border-gray-200">
                 @if (Auth::check())
                     @if (Auth::user()->role === 'student')
+                    @php
+                        $appointment = null;
+                        $student = Auth::user()->students()->first();
+                        if ($student) {
+                            $appointment = \App\Models\Appointment::where('student_id', $student->id)->latest()->first();
+                        }
+                    @endphp
                         <a href="{{ route('student.dashboard') }}"
                             class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
                         <a href="{{ route('student.profile') }}"
@@ -35,14 +42,25 @@
                             <button id="dropdownButton"
                                 class="text-white bg-[#7D3C98] px-3 py-2 rounded-md focus:outline-none">Appointments</button>
                             <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
+                                <a href="{{ route('student.appointments.availability') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Search Available Appointments
+                                </a>
                                 <a href="{{ route('student.appointments.create') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     Create Appointments
                                 </a>
-                                <a href="{{ route('mentor.timetables.edit') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Edit Appointments
-                                </a>
+                                @if (isset($appointment))
+                                    <a href="{{ route('student.appointments.edit', $appointment->id) }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Edit Appointment
+                                    </a>
+                                @else
+                                    <span class="block px-4 py-2 text-sm text-gray-400 cursor-not-allowed">
+                                        No appointment found to edit
+                                    </span>
+                                @endif
+                                
                             </div>
                         </div>
                     @elseif (Auth::user()->role === 'mentor')
@@ -85,11 +103,11 @@
                             <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
                                 <a href="{{ route('team_leader.view_timetables') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Mentor-Students Timetable
+                                    Check Mentor-Student Timetables
                                 </a>
                                 <a href="{{ route('team_leader.timetable.create') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    TeamLeader Timetable
+                                    Reserve TeamLeader Timetable
                                 </a>
                                 <a href="{{ route('team_leader.timetable.availability') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">

@@ -3,23 +3,36 @@
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Check Appointment Availability</h2>
 
         <!-- Search Form -->
-        <form method="GET" action="{{ route('appointments.availability') }}" class="space-y-4 mb-6">
+        <form method="GET" action="{{ route('student.appointments.availability') }}" class="space-y-4 mb-6">
             <div class="flex items-center space-x-4">
                 <!-- Week Number -->
                 <div>
-                    <label for="week_number" class="block text-sm font-semibold text-gray-600">Week Number</label>
-                    <input type="number" name="week_number" id="week_number" value="{{ request('week_number') }}"
-                        placeholder="e.g., 1"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                </div>
+                <label for="week_number" class="block text-sm font-semibold text-gray-600 mb-1">Week Number</label>
+                <select name="week_number" id="week_number"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                    <option value="">All Weeks</option>
+                    @foreach (range(2, 6) as $week)
+                        <option value="{{ $week }}" {{ (int) request('week_number') === $week ? 'selected' : ''}}>
+                            {{ $week }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
 
                 <!-- Table Number -->
                 <div>
-                    <label for="table_number" class="block text-sm font-semibold text-gray-600">Table Number</label>
-                    <input type="number" name="table_number" id="table_number" value="{{ request('table_number') }}"
-                        placeholder="e.g., 5"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                </div>
+    <label for="table_number" class="block text-sm font-semibold text-gray-600 mb-1">Table Number</label>
+    <select name="table_number" id="table_number"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+        <option value="">All Tables</option>
+        @foreach (range(1, 4) as $table)
+            <option value="{{ $table }}" {{ (int) request('table_number') === $table ? 'selected' : '' }}>
+                {{ $table }}
+            </option>
+        @endforeach
+    </select>
+</div>
 
                 <!-- Time Slot -->
                 <div>
@@ -27,7 +40,7 @@
                     <select name="time_slot" id="time_slot"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Time Slots</option>
-                        @foreach (['09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00', '12:00-12:30', '12:30-13:00', '13:00-13:30', '13:30-14:00'] as $slot)
+                        @foreach (['09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00', '12:00-12:30', '12:30-13:00', '13:00-13:30', '13:30-14:00', '14:00-14:30', '14:30-15:00', '15:00-15:30', '15:30-16:00', '16:00-16:30', '16:30-17:00'] as $slot)
                             <option value="{{ $slot }}" {{ request('time_slot') === $slot ? 'selected' : '' }}>
                                 {{ $slot }}
                             </option>
@@ -67,7 +80,7 @@
                         <th class="border border-gray-300 px-4 py-2">Day</th>
                         <th class="border border-gray-300 px-4 py-2">Time Slot</th>
                         <th class="border border-gray-300 px-4 py-2">Table Number</th>
-                        <th class="border border-gray-300 px-4 py-2">Reserved?</th>
+                        <th class="border border-gray-300 px-4 py-2">Status</th>
                         <th class="border border-gray-300 px-4 py-2">Mentor</th>
                     </tr>
                 </thead>

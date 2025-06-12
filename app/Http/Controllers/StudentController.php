@@ -6,6 +6,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Appointment;
 
 class StudentController extends Controller
 {
@@ -85,5 +86,24 @@ class StudentController extends Controller
 
         // Return view with student data
         return view('mentor.student-profile', compact('student'));
+    }
+
+    // Dashboard to show appointment details
+    
+    public function dashboard()
+    {
+        $student = Auth::user()->students()->first();
+
+        $appointments = collect(); // make sure it's always defined
+
+        if ($student) {
+            $appointments = Appointment::with('timetable')
+                ->where('student_id', $student->id)
+                ->orderByDesc('created_at')
+                ->take(5)
+                ->get();
+        }
+
+        return view('student.dashboard', compact('appointments'));
     }
 }

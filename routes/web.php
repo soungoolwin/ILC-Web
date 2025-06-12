@@ -36,7 +36,8 @@ Route::middleware(RedirectIfAuthenticated::class)->group(function () {
     Route::post('/register/team-leader', [SignupController::class, 'registerTeamLeader']);
 
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [LoginController::class, 'login']);
+    Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1');
+
 
 });
 
@@ -78,9 +79,7 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
 
 //Student Routes
 Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
-    Route::get('/student/dashboard', function () {
-        return view('student.dashboard');
-    })->name('student.dashboard');
+    Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
 
     Route::get("/student/profile", [StudentController::class, 'show'])->name('student.profile');
     Route::put('/student/profile', [StudentController::class, 'update'])->name('student.update');
@@ -89,7 +88,10 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
 
     Route::get('/student/appointments/create', [AppointmentController::class, 'create'])->name('student.appointments.create');
     Route::post('/student/appointments/store', [AppointmentController::class, 'store'])->name('student.appointments.store');
-    Route::get('/appointments/availability', [AppointmentController::class, 'checkAvailability'])->name('appointments.availability');
+    Route::get('/student/appointments/{appointment}/edit', [AppointmentController::class, 'edit'])->name('student.appointments.edit');
+    Route::put('/student/appointments/{appointment}', [AppointmentController::class, 'update'])->name('student.appointments.update');
+
+    Route::get('/student/appointments/availability', [AppointmentController::class, 'checkAvailability'])->name('student.appointments.availability');
 });
 
 

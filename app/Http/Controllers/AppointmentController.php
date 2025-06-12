@@ -33,6 +33,18 @@ class AppointmentController extends Controller
             'table_number' => 'required|integer|min:1|max:25',
         ]);
 
+        $existingSameDayAppointment = Appointment::where('student_id', $student->id)
+        ->whereHas('timetable', function ($query) use ($request) {
+            $query->where('week_number', $request->week_number)
+                  ->where('day', $request->day);
+        })
+        ->first();
+
+        if ($existingSameDayAppointment) {
+            return back()->withErrors(['error' => 'You already have an appointment on this day.']);
+        }
+
+
         // Find the timetable record
         $timetable = Timetable::where('week_number', $request->week_number)
             ->where('day', $request->day)
@@ -54,6 +66,7 @@ class AppointmentController extends Controller
         }
 
         // Check if the timetable is already fully booked (5 students)
+        /* ! Change the student limit per mentor here ! */
         $appointmentCount = Appointment::where('timetable_id', $timetable->id)->count();
 
         if ($appointmentCount >= 5) {
@@ -67,6 +80,7 @@ class AppointmentController extends Controller
         ]);
 
         // Recheck if the timetable has reached 5 appointments after inserting
+        /* ! Change the student limit per mentor here ! */
         $updatedAppointmentCount = Appointment::where('timetable_id', $timetable->id)->count();
 
         if ($updatedAppointmentCount >= 5) {
@@ -75,6 +89,102 @@ class AppointmentController extends Controller
 
         return redirect()->route('student.dashboard')->with('success', 'Appointment created successfully.');
     }
+
+    
+    public function edit($id)
+    {
+        $appointment = Appointment::with('timetable')->findOrFail($id);
+
+        $student = Auth::user()->students()->first();
+
+        if (!$student || $student->id !== $appointment->student_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('student.appointments.edit', compact('appointment'));
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $appointment = Appointment::with('timetable')->findOrFail($id);
+        $student = Auth::user()->students()->first();
+
+        if (!$student || $student->id !== $appointment->student_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $request->validate([
+            'week_number' => 'required|integer|min:1|max:16',
+            'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
+            'time_slot' => 'required|string|regex:/^\d{2}:\d{2}-\d{2}:\d{2}$/',
+            'table_number' => 'required|integer|min:1|max:25',
+        ]);
+
+        $existingSameDayAppointment = Appointment::where('student_id', $student->id)
+        ->whereHas('timetable', function ($query) use ($request) {
+            $query->where('week_number', $request->week_number)
+                  ->where('day', $request->day);
+        })
+        ->first();
+
+        if ($existingSameDayAppointment) {
+            return back()->withErrors(['error' => 'You already have an appointment on this day.']);
+        }        
+
+        // Save the old timetable BEFORE changing it
+        $oldTimetable = $appointment->timetable;
+
+        // Look for the new timetable
+        $timetable = Timetable::where('week_number', $request->week_number)
+            ->where('day', $request->day)
+            ->where('time_slot', $request->time_slot)
+            ->where('table_number', $request->table_number)
+            ->first();
+
+        if (!$timetable) {
+            return back()->withErrors(['error' => 'The selected timetable does not exist.']);
+        }
+
+        // Check for duplicate booking (excluding current appointment)
+        $duplicate = Appointment::where('timetable_id', $timetable->id)
+            ->where('student_id', $student->id)
+            ->where('id', '!=', $appointment->id)
+            ->first();
+
+        if ($duplicate) {
+            return back()->withErrors(['error' => 'You have already booked this time slot.']);
+        }
+
+        // Check if the new slot is already full (5 limit)
+        $count = Appointment::where('timetable_id', $timetable->id)
+            ->where('id', '!=', $appointment->id)
+            ->count();
+
+        if ($count >= 5) {
+            return back()->withErrors(['error' => 'This time slot is already fully booked.']);
+        }
+
+        // Update appointment
+        $appointment->timetable_id = $timetable->id;
+        $appointment->save();
+
+        // Clean up old timetable if it exists
+        if ($oldTimetable && $oldTimetable->id !== $timetable->id) {
+            $oldCount = Appointment::where('timetable_id', $oldTimetable->id)->count();
+            if ($oldCount < 5) {
+                $oldTimetable->update(['reserved' => false]);
+            }
+        }
+
+        // Reserve new if it's now full
+        if ($count + 1 >= 5) {
+            $timetable->update(['reserved' => true]);
+        }
+
+        return redirect()->route('student.dashboard')->with('success', 'Appointment updated successfully.');
+    }
+
 
     public function checkAvailability(Request $request)
     {

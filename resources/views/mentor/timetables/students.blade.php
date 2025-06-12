@@ -5,13 +5,13 @@
         <!-- Search Form -->
         <form method="GET" action="{{ route('mentor.timetables.students') }}" class="space-y-4 mb-6">
             <div class="grid grid-cols-2 gap-4">
-                <!-- Week Number -->
+                <!-- Week Number ---- I changed the week numbers from  -->
                 <div>
                     <label for="week_number" class="block text-sm font-semibold text-gray-600">Week Number</label>
                     <select name="week_number" id="week_number"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">Select Week</option>
-                        @foreach (range(1, 16) as $week)
+                        @foreach (range(2, 6) as $week)
                             <option value="{{ $week }}" {{ $request->week_number == $week ? 'selected' : '' }}>
                                 Week {{ $week }}
                             </option>
@@ -53,7 +53,7 @@
                     <select name="table_number" id="table_number"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">Select Table</option>
-                        @foreach (range(1, 25) as $table)
+                        @foreach (range(1, 4) as $table)
                             <option value="{{ $table }}"
                                 {{ $request->table_number == $table ? 'selected' : '' }}>
                                 Table {{ $table }}
@@ -96,4 +96,31 @@
             <p class="text-center text-gray-600">No students registered for the specified timetable.</p>
         @endif
     </div>
+
+    <script>
+    const tableSelect = document.getElementById('table_number');
+    const timeSelect = document.getElementById('time_slot');
+
+    timeSelect.addEventListener('change', function () {
+        const selectedTime = this.value;
+        let tableCount = 4;
+
+        // Show only 2 tables for 09:00-10:00 and 10:00-11:00
+        if (selectedTime === '09:00-09:30' || selectedTime === '09:30-10:00' || selectedTime === '10:00-10:30' || selectedTime === '10:30-11:00') {
+            tableCount = 2;
+        }
+
+        // Clear current options
+        tableSelect.innerHTML = '<option value="">Select a Table</option>';
+
+        // Add new options
+        for (let i = 1; i <= tableCount; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = 'Table ' + i;
+            tableSelect.appendChild(option);
+        }
+    });
+</script>
+
 </x-layout>

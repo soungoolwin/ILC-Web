@@ -30,7 +30,7 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Week</option>
-                    @foreach (range(4, 13) as $week)
+                    @foreach (range(2, 6) as $week)
                         <option value="{{ $week }}">{{ $week }}</option>
                     @endforeach
                 </select>
@@ -56,7 +56,7 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Time Slot</option>
-                    @foreach (['09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00', '12:00-12:30', '12:30-13:00', '13:00-13:30', '13:30-14:00', '14:00-14:30', '14:30-15:00', '15:00-15:30', '15:30-16:00', '16:00-16:30', '16:30-17:00', '17:00-17:30', '17:30-18:00', '18:00-18:30', '18:30-19:00', '19:00-19:30', '19:30-20:00'] as $slot)
+                    @foreach (['09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00', '12:00-12:30', '12:30-13:00', '13:00-13:30', '13:30-14:00', '14:00-14:30', '14:30-15:00', '15:00-15:30', '15:30-16:00', '16:00-16:30', '16:30-17:00'] as $slot) <!-- 9-5 only for summer you can change the time slots here - Dennis -->
                         <option value="{{ $slot }}">{{ $slot }}</option>
                     @endforeach
                 </select>
@@ -69,7 +69,7 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Table</option>
-                    @foreach (range(1, 20) as $table)
+                    @foreach (range(1, 4) as $table)
                         <option value="{{ $table }}">Table {{ $table }}</option>
                     @endforeach
                 </select>
@@ -85,7 +85,7 @@
                 </button>
 
                 <!-- Check Availability Button -->
-                <a href="{{ route('appointments.availability') }}"
+                <a href="{{ route('student.appointments.availability') }}"
                     class="bg-[#7D3C98] text-white font-bold py-3 px-4 rounded-lg shadow-lg transition">
                     Check Availability
                 </a>
@@ -93,3 +93,30 @@
         </form>
     </div>
 </x-layout>
+
+<!-- JavaScript to dynamically change table options based on time slot selection -->
+<script>
+    const tableSelect = document.getElementById('table_number');
+    const timeSelect = document.getElementById('time_slot');
+
+    timeSelect.addEventListener('change', function () {
+        const selectedTime = this.value;
+        let tableCount = 4;
+
+        // Show only 2 tables for 09:00-09:30, 9:30-10:00, 10:00-10:30, and 10:30-11:00
+        if (selectedTime === '09:00-09:30' || selectedTime === '09:30-10:00' || selectedTime === '10:00-10:30' || selectedTime === '10:30-11:00') {
+            tableCount = 2;
+        }
+
+        // Clear current options
+        tableSelect.innerHTML = '<option value="">Select a Table</option>';
+
+        // Add new options
+        for (let i = 1; i <= tableCount; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = 'Table ' + i;
+            tableSelect.appendChild(option);
+        }
+    });
+</script>

@@ -10,7 +10,7 @@ class TeamLeaderTimetableController extends Controller
 {
     public function create()
     {
-        $timeSlots = ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00', '17:00-20:00'];
+        $timeSlots = ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00']; // add '17:00-20:00' on main semesters
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
         return view('team_leader.timetables.create', compact('timeSlots', 'days'));
     }
@@ -29,7 +29,7 @@ class TeamLeaderTimetableController extends Controller
         // Validate the request
         $request->validate([
             'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
-            'time_slot' => 'required|in:09:00-11:00,11:00-13:00,13:00-15:00,15:00-17:00,17:00-20:00',
+            'time_slot' => 'required|in:09:00-11:00,11:00-13:00,13:00-15:00,15:00-17:00', //add ,17:00-20:00 on main semesters
         ]);
 
 
@@ -43,9 +43,9 @@ class TeamLeaderTimetableController extends Controller
         $slotLimits = [
             '09:00-11:00' => 3,
             '11:00-13:00' => 3,
-            '13:00-15:00' => 3,
-            '15:00-17:00' => 3,
-            '17:00-20:00' => 3,
+            '13:00-15:00' => 4,
+            '15:00-17:00' => 4,
+            //'17:00-20:00' => 3, add this on main semesters
         ];
 
         if ($count >= $slotLimits[$request->time_slot]) {
@@ -66,7 +66,7 @@ class TeamLeaderTimetableController extends Controller
 
     public function checkAvailability(Request $request)
     {
-        $timeSlots = ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00', '17:00-20:00'];
+        $timeSlots = ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00']; // add '17:00-20:00' on main semesters
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
         // Initialize the results
@@ -86,9 +86,9 @@ class TeamLeaderTimetableController extends Controller
             $slotLimits = [
                 '09:00-11:00' => 3,
                 '11:00-13:00' => 3,
-                '13:00-15:00' => 3,
-                '15:00-17:00' => 3,
-                '17:00-20:00' => 3,
+                '13:00-15:00' => 4,
+                '15:00-17:00' => 4,
+                //'17:00-20:00' => 3, add this on main semesters
             ];
 
             $availability = [

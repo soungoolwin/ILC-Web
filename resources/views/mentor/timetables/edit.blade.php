@@ -37,13 +37,13 @@
                 </select>
             </div>
 
-            <!-- Time Slot -->
+            <!-- Time Slot --- fix the time slot changes here -->
             {{-- <div>
                 <label for="time_slot" class="block text-sm font-semibold text-gray-600 mb-1">Time Slot</label>
 
                 <select name="time_slot" id="time_slot"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                    @foreach (['09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00', '18:00-19:00', '19:00-20:00'] as $slot)
+                    @foreach (['09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00'] as $slot)
                         <option value="{{ $slot }}" {{ $timetable->time_slot === $slot ? 'selected' : '' }}>
                             {{ $slot }}
                         </option>
@@ -54,7 +54,7 @@
                 <label for="time_slot" class="block text-sm font-semibold text-gray-600 mb-1">Time Slot</label>
                 <select name="time_slot" id="time_slot"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                    @foreach (['09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00', '18:00-19:00', '19:00-20:00'] as $slot)
+                    @foreach (['09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00'] as $slot)
                         <option value="{{ $slot }}" @if (strpos($timetable->time_slot, explode('-', $slot)[0]) === 0) selected @endif>
                             {{ $slot }}
                         </option>
@@ -67,7 +67,7 @@
                 <label for="table_number" class="block text-sm font-semibold text-gray-600 mb-1">Table Number</label>
                 <select name="table_number" id="table_number"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                    @for ($i = 1; $i <= 6; $i++)
+                    @for ($i = 1; $i <= 4; $i++)
                         <option value="{{ $i }}" {{ $timetable->table_number == $i ? 'selected' : '' }}>
                             Table {{ $i }}
                         </option>
@@ -84,3 +84,30 @@
         </form>
     </div>
 </x-layout>
+
+<!-- JavaScript to dynamically change table options based on time slot selection -->
+<script>
+    const tableSelect = document.getElementById('table_number');
+    const timeSelect = document.getElementById('time_slot');
+
+    timeSelect.addEventListener('change', function () {
+        const selectedTime = this.value;
+        let tableCount = 4;
+
+        // Show only 2 tables for 09:00-10:00 and 10:00-11:00
+        if (selectedTime === '09:00-10:00' || selectedTime === '10:00-11:00') {
+            tableCount = 2;
+        }
+
+        // Clear current options
+        tableSelect.innerHTML = '<option value="">Select a Table</option>';
+
+        // Add new options
+        for (let i = 1; i <= tableCount; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = 'Table ' + i;
+            tableSelect.appendChild(option);
+        }
+    });
+</script>
