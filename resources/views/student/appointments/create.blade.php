@@ -56,7 +56,7 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Time Slot</option>
-                    @foreach (['09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00', '12:00-12:30', '12:30-13:00', '13:00-13:30', '13:30-14:00', '14:00-14:30', '14:30-15:00', '15:00-15:30', '15:30-16:00', '16:00-16:30', '16:30-17:00', '17:00-17:30', '17:30-18:00', '18:00-18:30', '18:30-19:00', '19:00-19:30', '19:30-20:00'] as $slot)
+                    @foreach (['09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00', '12:00-12:30', '12:30-13:00', '13:00-13:30', '13:30-14:00', '14:00-14:30', '14:30-15:00', '15:00-15:30', '15:30-16:00', '16:00-16:30', '16:30-17:00'] as $slot) <!-- 9-5 only for summer you can change the time slots here - Dennis -->
                         <option value="{{ $slot }}">{{ $slot }}</option>
                     @endforeach
                 </select>
@@ -85,7 +85,7 @@
                 </button>
 
                 <!-- Check Availability Button -->
-                <a href="{{ route('appointments.availability') }}"
+                <a href="{{ route('student.appointments.availability') }}"
                     class="bg-[#7D3C98] text-white font-bold py-3 px-4 rounded-lg shadow-lg transition">
                     Check Availability
                 </a>

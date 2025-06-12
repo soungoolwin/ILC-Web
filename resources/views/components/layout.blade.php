@@ -42,6 +42,10 @@
                             <button id="dropdownButton"
                                 class="text-white bg-[#7D3C98] px-3 py-2 rounded-md focus:outline-none">Appointments</button>
                             <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
+                                <a href="{{ route('student.appointments.availability') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Search Available Appointments
+                                </a>
                                 <a href="{{ route('student.appointments.create') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     Create Appointments
@@ -56,6 +60,7 @@
                                         No appointment found to edit
                                     </span>
                                 @endif
+                                
                             </div>
                         </div>
                     @elseif (Auth::user()->role === 'mentor')

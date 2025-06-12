@@ -3,7 +3,7 @@
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Check Appointment Availability</h2>
 
         <!-- Search Form -->
-        <form method="GET" action="{{ route('appointments.availability') }}" class="space-y-4 mb-6">
+        <form method="GET" action="{{ route('student.appointments.availability') }}" class="space-y-4 mb-6">
             <div class="flex items-center space-x-4">
                 <!-- Week Number -->
                 <div>

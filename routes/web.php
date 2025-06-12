@@ -91,7 +91,7 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
     Route::get('/student/appointments/{appointment}/edit', [AppointmentController::class, 'edit'])->name('student.appointments.edit');
     Route::put('/student/appointments/{appointment}', [AppointmentController::class, 'update'])->name('student.appointments.update');
 
-    Route::get('/appointments/availability', [AppointmentController::class, 'checkAvailability'])->name('appointments.availability');
+    Route::get('/student/appointments/availability', [AppointmentController::class, 'checkAvailability'])->name('student.appointments.availability');
 });
 
 
