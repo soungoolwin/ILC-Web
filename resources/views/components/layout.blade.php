@@ -103,11 +103,11 @@
                             <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
                                 <a href="{{ route('team_leader.view_timetables') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Mentor-Students Timetable
+                                    Check Mentor-Student Timetables
                                 </a>
                                 <a href="{{ route('team_leader.timetable.create') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    TeamLeader Timetable
+                                    Reserve TeamLeader Timetable
                                 </a>
                                 <a href="{{ route('team_leader.timetable.availability') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">

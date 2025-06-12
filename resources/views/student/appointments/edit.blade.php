@@ -55,7 +55,7 @@
                     @foreach ([
                         '09:00-09:30','09:30-10:00','10:00-10:30','10:30-11:00','11:00-11:30','11:30-12:00',
                         '12:00-12:30','12:30-13:00','13:00-13:30','13:30-14:00','14:00-14:30','14:30-15:00',
-                        '15:00-15:30','15:30-16:00','16:00-16:30','16:30-17:00' <!-- Change available time slots here -->
+                        '15:00-15:30','15:30-16:00','16:00-16:30','16:30-17:00'
                     ] as $slotTime)
                         <option value="{{ $slotTime }}" {{ $slot->time_slot == $slotTime ? 'selected' : '' }}>
                             {{ $slotTime }}
@@ -78,8 +78,8 @@
 
             <!-- Buttons -->
             <div class="flex justify-between">
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
-                <a href="{{ route('appointments.availability') }}" class="bg-gray-500 text-white px-4 py-2 rounded">
+                <button type="submit" class="bg-[#7D3C98] text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition">Update</button>
+                <a href="{{ route('student.appointments.availability') }}" class="bg-[#7D3C98] text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition">
                     Check Availability
                 </a>
             </div>

@@ -1,6 +1,6 @@
 <x-layout>
     <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Reserve Team Leader Timetable</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Team Leader Timetable Reservation</h2>
 
         <!-- Validation Errors -->
         @if ($errors->any())

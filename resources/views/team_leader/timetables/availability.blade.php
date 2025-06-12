@@ -25,7 +25,7 @@
                     <select name="time_slot" id="time_slot"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">Select a Time Slot</option>
-                        @foreach (['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00', '17:00-20:00'] as $slot)
+                        @foreach (['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00',] as $slot) <!-- // add  '17:00-20:00' on main semesters -->
                             <option value="{{ $slot }}" {{ request('time_slot') === $slot ? 'selected' : '' }}>
                                 {{ $slot }}
                             </option>
