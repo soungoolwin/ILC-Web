@@ -96,4 +96,31 @@
             <p class="text-center text-gray-600">No students registered for the specified timetable.</p>
         @endif
     </div>
+
+    <script>
+    const tableSelect = document.getElementById('table_number');
+    const timeSelect = document.getElementById('time_slot');
+
+    timeSelect.addEventListener('change', function () {
+        const selectedTime = this.value;
+        let tableCount = 4;
+
+        // Show only 2 tables for 09:00-10:00 and 10:00-11:00
+        if (selectedTime === '09:00-09:30' || selectedTime === '09:30-10:00' || selectedTime === '10:00-10:30' || selectedTime === '10:30-11:00') {
+            tableCount = 2;
+        }
+
+        // Clear current options
+        tableSelect.innerHTML = '<option value="">Select a Table</option>';
+
+        // Add new options
+        for (let i = 1; i <= tableCount; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = 'Table ' + i;
+            tableSelect.appendChild(option);
+        }
+    });
+</script>
+
 </x-layout>
