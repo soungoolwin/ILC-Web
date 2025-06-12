@@ -33,6 +33,18 @@ class AppointmentController extends Controller
             'table_number' => 'required|integer|min:1|max:25',
         ]);
 
+        $existingSameDayAppointment = Appointment::where('student_id', $student->id)
+        ->whereHas('timetable', function ($query) use ($request) {
+            $query->where('week_number', $request->week_number)
+                  ->where('day', $request->day);
+        })
+        ->first();
+
+        if ($existingSameDayAppointment) {
+            return back()->withErrors(['error' => 'You already have an appointment on this day.']);
+        }
+
+
         // Find the timetable record
         $timetable = Timetable::where('week_number', $request->week_number)
             ->where('day', $request->day)
@@ -108,6 +120,17 @@ class AppointmentController extends Controller
             'time_slot' => 'required|string|regex:/^\d{2}:\d{2}-\d{2}:\d{2}$/',
             'table_number' => 'required|integer|min:1|max:25',
         ]);
+
+        $existingSameDayAppointment = Appointment::where('student_id', $student->id)
+        ->whereHas('timetable', function ($query) use ($request) {
+            $query->where('week_number', $request->week_number)
+                  ->where('day', $request->day);
+        })
+        ->first();
+
+        if ($existingSameDayAppointment) {
+            return back()->withErrors(['error' => 'You already have an appointment on this day.']);
+        }        
 
         // Save the old timetable BEFORE changing it
         $oldTimetable = $appointment->timetable;
