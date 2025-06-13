@@ -66,30 +66,25 @@ class TeamLeaderTimetableController extends Controller
 
     public function checkAvailability(Request $request)
     {
-        $timeSlots = ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00']; // add '17:00-20:00' on main semesters
+        $timeSlots = ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00'];
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
-        // Initialize the results
-        $availability = [];
+        $slotLimits = [
+            '09:00-11:00' => 3,
+            '11:00-13:00' => 3,
+            '13:00-15:00' => 4,
+            '15:00-17:00' => 4,
+        ];
 
-        // Filter criteria
+        // Filtered Search Result
+        $availability = null;
         $day = $request->input('day');
         $time_slot = $request->input('time_slot');
 
-        if ($day && $time_slot) {
-            // Get the count of reservations for the selected time slot and day
+        if ($day && $time_slot && isset($slotLimits[$time_slot])) {
             $reservedCount = TeamLeaderTimetable::where('day', $day)
                 ->where('time_slot', $time_slot)
                 ->count();
-
-            // Define the slot limits
-            $slotLimits = [
-                '09:00-11:00' => 3,
-                '11:00-13:00' => 3,
-                '13:00-15:00' => 4,
-                '15:00-17:00' => 4,
-                //'17:00-20:00' => 3, add this on main semesters
-            ];
 
             $availability = [
                 'day' => $day,
@@ -100,6 +95,33 @@ class TeamLeaderTimetableController extends Controller
             ];
         }
 
-        return view('team_leader.timetables.availability', compact('timeSlots', 'days', 'availability', 'request'));
+        // All grouped data: [day][time_slot]
+        $allTimetables = [];
+        foreach ($days as $d) {
+            foreach ($timeSlots as $slot) {
+                $reserved = TeamLeaderTimetable::where('day', $d)
+                    ->where('time_slot', $slot)
+                    ->count();
+
+                $limit = $slotLimits[$slot] ?? 0;
+                $available = max(0, $limit - $reserved);
+
+                $allTimetables[$d][$slot] = [
+                    'reserved' => $reserved,
+                    'available' => $available,
+                    'limit' => $limit,
+                ];
+            }
+        }
+
+        return view('team_leader.timetables.availability', compact(
+            'timeSlots',
+            'days',
+            'slotLimits',
+            'availability',
+            'allTimetables',
+            'request'
+        ));
     }
+
 }
