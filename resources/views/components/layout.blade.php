@@ -159,10 +159,10 @@
                                     class="text-white bg-[#7D3C98] px-4 py-[10.5px] rounded-md ">Register</a>
                                 <div id="registerDropdownMenu"
                                     class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
-                                    <a href="{{ route('register.student') }}"
+                                    <!-- <a href="{{ route('register.student') }}"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Student
-                                    </a>
+                                    </a> --> <!-- dennis disbled this -->
                                     <a href="{{ route('register.mentor') }}"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Mentor

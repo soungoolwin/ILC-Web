@@ -70,5 +70,36 @@
         @elseif ($request->has('day') || $request->has('time_slot'))
             <p class="text-center text-gray-600">No results found for your search criteria.</p>
         @endif
+        
+                <!-- 📋 All Timetables by Day -->
+    @if (!empty($allTimetables))
+        <div class="mt-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">All Timetables (Grouped by Day)</h2>
+
+            @foreach ($allTimetables as $day => $slots)
+                <h3 class="text-xl font-semibold text-purple-700 mt-6">{{ $day }}</h3>
+                <table class="w-full table-auto border-collapse border border-gray-300 mb-6">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="border px-4 py-2">Time Slot</th>
+                            <th class="border px-4 py-2">Reserved</th>
+                            <th class="border px-4 py-2">Available</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($slots as $timeSlot => $data)
+                            <tr>
+                                <td class="border px-4 py-2 text-center">{{ $timeSlot }}</td>
+                                <td class="border px-4 py-2 text-center">{{ $data['reserved'] }}</td>
+                                <td class="border px-4 py-2 text-center">{{ $data['available'] }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endforeach
+        </div>
+    @endif
+
+        
     </div>
 </x-layout>
