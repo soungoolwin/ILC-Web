@@ -61,10 +61,10 @@
                         <!-- Dropdown menu -->
                         <div id="signupDropdown"
                             class="absolute z-10 mt-2 hidden w-44 origin-top-right bottom-7 rounded-md bg-white shadow-lg -right-10">
-                            <!-- <a href="/register/student"
+                            <a href="/register/student"
                                 class="block px-4 py-2 text-sm text-purple-500 hover:text-purple-700 hover:bg-gray-50">
                                 Student
-                            </a> --> <!-- dennis disbled this -->
+                            </a>
                             <a href="/register/mentor"
                                 class="block px-4 py-2 text-sm text-purple-500 hover:text-purple-700 hover:bg-gray-50">
                                 Mentor
