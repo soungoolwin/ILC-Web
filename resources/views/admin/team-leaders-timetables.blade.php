@@ -2,8 +2,8 @@
     <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Team Leaders Timetable</h2>
 
-        <!-- Search Form -->
-        <form method="GET" action="{{ route('admin.team_leaders_timetable') }}" class="space-y-4 mb-6">
+        <!-- Search Form -->      <form method="GET" action="{{ route('admin.team_leaders_timetable')}}" class="space-y-4 mb-6">
+  
             <div class="flex items-center space-x-4">
                 <!-- Day -->
                 <div>
@@ -51,6 +51,7 @@
                         <th class="border border-gray-300 px-4 py-2">Time Slot</th>
                         <th class="border border-gray-300 px-4 py-2">Team Leader Name</th>
                         <th class="border border-gray-300 px-4 py-2">Team Leader Nickname</th>
+                        <th class="border border-gray-300 px-4 py-2">Student ID</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,6 +67,9 @@
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
                                 {{ $timetable->teamLeader->user->nickname ?? 'N/A' }}
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">
+                                {{ $timetable->teamLeader->team_leader_id ?? 'N/A' }}
                             </td>
                         </tr>
                     @endforeach
