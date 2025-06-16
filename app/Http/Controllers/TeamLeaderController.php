@@ -39,6 +39,13 @@ class TeamLeaderController extends Controller
         return view('team_leader.profile', compact('user', 'teamLeader'));
     }
 
+    //team leader links
+
+    public function links()
+{
+    return view('team_leader.links');
+}
+
     /**
      * Update team leader profile information.
      */

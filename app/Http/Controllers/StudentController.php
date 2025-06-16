@@ -19,6 +19,13 @@ class StudentController extends Controller
         return view('student.profile', compact('user', 'student'));
     }
 
+        //student links
+
+    public function links()
+{
+    return view('student.links');
+}
+
     public function update(Request $request)
     {
         $user = Auth::user();

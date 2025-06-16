@@ -19,6 +19,11 @@ class MentorController extends Controller
         return view('mentor.profile', compact('user', 'mentor'));
     }
 
+        public function links()
+{
+    return view('mentor.links');
+}
+
     public function update(Request $request)
     {
         $user = Auth::user();

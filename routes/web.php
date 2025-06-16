@@ -49,6 +49,10 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
         return view('mentor.dashboard');
     })->name('mentor.dashboard');
 
+    // Team Leader Consent Links
+    Route::get('/mentor/links', [MentorController::class, 'links'])->name('mentor.links');
+
+
     Route::get("/mentor/profile", [MentorController::class, 'show'])->name('mentor.profile');
     Route::put('/mentor/profile', [MentorController::class, 'update'])->name('mentor.update');
 
@@ -80,6 +84,9 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
 //Student Routes
 Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+
+    // Team Leader Consent Links
+    Route::get('/student/links', [StudentController::class, 'links'])->name('student.links');
 
     Route::get("/student/profile", [StudentController::class, 'show'])->name('student.profile');
     Route::put('/student/profile', [StudentController::class, 'update'])->name('student.update');
@@ -125,6 +132,9 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     Route::get('/team-leader/dashboard', function () {
         return view('team_leader.dashboard');
     })->name('team_leader.dashboard');
+
+    // Team Leader Consent Links
+    Route::get('/team_leader/links', [TeamLeaderController::class, 'links'])->name('team_leader.links');
 
     Route::get('/team-leader/view-timetables', [TeamLeaderController::class, 'viewTimetables'])->name('team_leader.view_timetables');
 
