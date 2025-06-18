@@ -134,7 +134,7 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     })->name('team_leader.dashboard');
 
     // Team Leader Consent Links
-    Route::get('/team_leader/links', [TeamLeaderController::class, 'links'])->name('team_leader.links');
+    Route::get('/team-leader/links', [TeamLeaderController::class, 'links'])->name('team_leader.links');
 
     Route::get('/team-leader/view-timetables', [TeamLeaderController::class, 'viewTimetables'])->name('team_leader.view_timetables');
 
