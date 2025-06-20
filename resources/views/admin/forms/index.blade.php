@@ -1,6 +1,6 @@
 <x-layout>
     <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Forms Management</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Form Management</h2>
 
         <!-- Filter Form -->
         <form method="GET" action="{{ route('admin.forms.index') }}" class="flex space-x-4 mb-6">
@@ -29,13 +29,13 @@
             </div>
 
             <div class="flex items-end">
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Filter</button>
+                <button type="submit" class="bg-[#7D3C98] text-white px-4 py-2 rounded-lg">Filter</button>
             </div>
         </form>
 
         <!-- Create New Form Button -->
         <a href="{{ route('admin.forms.create') }}"
-            class="bg-green-600 text-white px-4 py-2 rounded-lg inline-block mb-4">
+            class="bg-[#008000] text-white px-4 py-2 rounded-lg inline-block mb-4">
             Create New Form
         </a>
 
@@ -45,15 +45,15 @@
         @endphp
 
         @forelse ($grouped as $role => $group)
-            <h3 class="text-xl font-semibold text-purple-700 mt-6 mb-2">
-                {{ ucfirst(str_replace('_', ' ', $role)) }}
-            </h3>
-
-            <table class="w-full table-auto border border-gray-300 mb-4">
+        <div class=" w-full mb-8 rouneded-lg shadow-md bg-white p-4">
+            <table class=" w-full table-auto border-gray-300 mb-4">
+                <caption class="text-10 font-semibold text-[#7D3C98] mb-4">
+                    Created Forms for {{ ucfirst(str_replace('_', ' ', $role)) }}s
+                </caption>
                 <thead>
-                    <tr class="bg-gray-100">
+                    <tr class="bg-[#7D3C98] text-white">
                         <th class="border px-4 py-2">Name</th>
-                        <th class="border px-4 py-2">Description (URL)</th>
+                        <th class="border w-1/2 px-4 py-2">Description (URL)</th>
                         <th class="border px-4 py-2">Form Type</th>
                         <th class="border px-4 py-2">Status</th>
                         <th class="border px-4 py-2">Actions</th>
@@ -63,13 +63,13 @@
                     @foreach ($group as $form)
                         <tr>
                             <td class="border px-4 py-2">{{ $form->form_name }}</td>
-                            <td class="border px-4 py-2">{{ $form->form_description }}</td>
+                            <td class="border w-1/2 px-4 py-2 break-all">{{ $form->form_description }}</td>
                             <td class="border px-4 py-2">{{ ucfirst($form->form_type) }}</td>
                             <td class="border px-4 py-2">
                                 {{ $form->is_active ? 'Active' : 'Inactive' }}
                             </td>
                             <td class="border px-4 py-2 space-x-2">
-                                <a href="{{ route('admin.forms.edit', $form->id) }}" class="text-yellow-600 hover:underline">Edit</a>
+                                <a href="{{ route('admin.forms.edit', $form->id) }}" class="text-blue-600 hover:underline">Edit</a>
                                 <form action="{{ route('admin.forms.destroy', $form->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
@@ -83,6 +83,7 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
         @empty
             <p class="text-gray-600">No forms found.</p>
         @endforelse

@@ -16,7 +16,7 @@
 
                 <!-- Form Description -->
                 <div>
-                    <label for="form_description" class="block text-sm font-semibold text-gray-600">Form Description (URL)</label>
+                    <label for="form_description" class="block text-sm font-semibold text-gray-600">Insert Form (URL)</label>
                     <textarea name="form_description" id="form_description"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                         required>{{ old('form_description') }}</textarea>
@@ -27,7 +27,7 @@
                     <label for="form_type" class="block text-sm font-semibold text-gray-600">Form Type</label>
                     <select name="form_type" id="form_type"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400">
-                        <option value="">Select Type</option>
+                        <option value="">Select Form Type</option>
                         @foreach (['pretest', 'posttest', 'questionnaire', 'consent'] as $type)
                             <option value="{{ $type }}" {{ old('form_type') === $type ? 'selected' : '' }}>
                                 {{ ucfirst($type) }}
@@ -41,7 +41,7 @@
                     <label for="for_role" class="block text-sm font-semibold text-gray-600">Target Role</label>
                     <select name="for_role" id="for_role"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400">
-                        <option value="">Select Role</option>
+                        <option value="" required>Select target role</option>
                         @foreach (['student', 'mentor', 'team_leader'] as $role)
                             <option value="{{ $role }}" {{ old('for_role') === $role ? 'selected' : '' }}>
                                 {{ ucfirst(str_replace('_', ' ', $role)) }}
@@ -51,16 +51,16 @@
                 </div>
 
                 <!-- Status Flags -->
-                <div class="flex items-center space-x-6 mt-4">
+                <div class="flex justify-center space-x-8 mt-4">
                     <div>
-                        <label for="is_active" class="block text-sm font-semibold text-gray-600">Is Active</label>
-                        <input type="checkbox" name="is_active" id="is_active"
+                        <label for="is_active" class="text-sm font-semibold text-gray-600">Is Active</label>
+                        <input type="checkbox" name="is_active" id="is_active" class="rounded-lg"
                             {{ old('is_active') ? 'checked' : '' }}>
                     </div>
 
                     <div>
-                        <label for="is_mandatory" class="block text-sm font-semibold text-gray-600">Is Mandatory</label>
-                        <input type="checkbox" name="is_mandatory" id="is_mandatory"
+                        <label for="is_mandatory" class="text-sm font-semibold text-gray-600">Is Mandatory</label>
+                        <input type="checkbox" name="is_mandatory" id="is_mandatory" class="rounded-lg"
                             {{ old('is_mandatory') ? 'checked' : '' }}>
                     </div>
                 </div>

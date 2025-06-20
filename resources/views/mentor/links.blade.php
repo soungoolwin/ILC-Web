@@ -20,15 +20,16 @@
         Please ensure that you have completed all forms before week 6.
     </div>
 
-    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6 space-y-6">
+    <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6 space-y-6">
         {{-- Pre-test --}}
         @if(isset($forms['pretest']))
         <div class="flex space-x-3 items-center justify-center">
             <a href="{{ $forms['pretest']->form_description }}" target="_blank"
-                class="block bg-[#7D3C98] w-1/2 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
+                class="flex-auto bg-[#7D3C98] w-1/2 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
                 Pre-test
             </a>
             @if(!empty($completion['pretest']))
+                <span class="text-green-600 font-bold">✔ Completed</span>
                 <form action="{{ route('mentor.forms.undo', $forms['pretest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
@@ -37,13 +38,13 @@
                         Undo
                     </button>
                 </form>
-                <span class="text-green-600 font-bold">✔ Completed</span>
+                
             @else
                 <form action="{{ route('mentor.forms.complete', $forms['pretest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     <button type="submit"
-                        class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
-                        Mark Completed
+                        class="w-full bg-[#158a00] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#0f6100] transition">
+                        Completed
                     </button>
                 </form>
             @endif
@@ -54,10 +55,11 @@
         @if(isset($forms['questionnaire']))
         <div class="flex space-x-3 items-center justify-center">
             <a href="{{ $forms['questionnaire']->form_description }}" target="_blank"
-                class="block bg-[#7D3C98] w-1/2 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
+                class="flex-auto bg-[#7D3C98] w-1/4 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
                 Questionnaire
             </a>
             @if(!empty($completion['questionnaire']))
+                <span class="text-green-600 font-bold">✔ Completed</span>
                 <form action="{{ route('mentor.forms.undo', $forms['questionnaire']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
@@ -66,13 +68,13 @@
                         Undo
                     </button>
                 </form>
-                <span class="text-green-600 font-bold">✔ Completed</span>
+                
             @else
                 <form action="{{ route('mentor.forms.complete', $forms['questionnaire']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     <button type="submit"
-                        class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
-                        Mark Completed
+                        class="w-full bg-[#158a00] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#0f6100] transition">
+                        Completed
                     </button>
                 </form>
             @endif
@@ -83,10 +85,11 @@
         @if(isset($forms['consent']))
         <div class="flex space-x-3 items-center justify-center">
             <a href="{{ $forms['consent']->form_description }}" target="_blank"
-                class="block bg-[#7D3C98] w-1/2 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
+                class="flex-auto bg-[#7D3C98] w-1/2 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
                 Download Consent Form
             </a>
             @if(!empty($completion['consent']))
+                <span class="text-green-600 font-bold">✔ Completed</span>
                 <form action="{{ route('mentor.forms.undo', $forms['consent']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
@@ -95,16 +98,32 @@
                         Undo
                     </button>
                 </form>
-                <span class="text-green-600 font-bold">✔ Completed</span>
+                
             @else
                 <form action="{{ route('mentor.forms.complete', $forms['consent']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     <button type="submit"
-                        class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
-                        Mark Completed
+                        class="w-full bg-[#158a00] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#0f6100] transition">
+                        Completed
                     </button>
                 </form>
             @endif
+        </div>
+        {{-- File Upload --}}
+        <div class="flex mt-4">
+            <div class="flex items-center justify-center w-full">
+                <label for="dropzone-file" class="flex flex-col items-center justify-center w-3/4 h-64 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg class="w-8 h-8 mb-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 4v16h16V4H4zm4 8h8m-4-4v8"></path>
+                        </svg>
+                        <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload your signed docx</span> or drag and drop</p>
+                        <p class="text-xs text-gray-500">docx only</p>
+                    </div>
+                    <input id="dropzone-file" type="file" class="hidden" />
+                </label>
+            </div> 
         </div>
         @endif
 
@@ -112,10 +131,11 @@
         @if(isset($forms['posttest']))
         <div class="flex space-x-3 items-center justify-center">
             <a href="{{ $forms['posttest']->form_description }}" target="_blank"
-                class="block bg-[#7D3C98] w-1/2 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
+                class="flex-auto bg-[#7D3C98] w-1/2 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
                 Post-test
             </a>
             @if(!empty($completion['posttest']))
+            <span class="text-green-600 font-bold">✔ Completed</span>
                 <form action="{{ route('mentor.forms.undo', $forms['posttest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
@@ -124,13 +144,13 @@
                         Undo
                     </button>
                 </form>
-                <span class="text-green-600 font-bold">✔ Completed</span>
+                
             @else
                 <form action="{{ route('mentor.forms.complete', $forms['posttest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     <button type="submit"
-                        class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
-                        Mark Completed
+                        class="w-full bg-[#158a00] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#0f6100] transition">
+                        Completed
                     </button>
                 </form>
             @endif

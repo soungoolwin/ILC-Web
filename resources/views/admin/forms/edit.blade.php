@@ -50,15 +50,15 @@
                 </div>
 
                 <!-- Status Checkboxes -->
-                <div class="flex items-center space-x-6 mt-4">
+                <div class="flex justify-center space-x-8 mt-4">
                     <div>
-                        <label for="is_active" class="block text-sm font-semibold text-gray-600">Is Active</label>
+                        <label for="is_active" class="text-sm font-semibold text-gray-600">Is Active</label>
                         <input type="checkbox" name="is_active" id="is_active"
                             class="rounded-lg" {{ $form->is_active ? 'checked' : '' }}>
                     </div>
 
                     <div>
-                        <label for="is_mandatory" class="block text-sm font-semibold text-gray-600">Is Mandatory</label>
+                        <label for="is_mandatory" class="text-sm font-semibold text-gray-600">Is Mandatory</label>
                         <input type="checkbox" name="is_mandatory" id="is_mandatory"
                             class="rounded-lg" {{ $form->is_mandatory ? 'checked' : '' }}>
                     </div>
