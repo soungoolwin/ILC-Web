@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mentor;
+use App\Models\Form;
+use App\Models\MentorForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,10 +21,35 @@ class MentorController extends Controller
         return view('mentor.profile', compact('user', 'mentor'));
     }
 
-        public function links()
-{
-    return view('mentor.links');
-}
+    public function links()
+    {
+        $user = Auth::user();
+        $role = $user->role; // 'student', 'mentor', or 'team_leader'
+
+        // Fetch forms available for this role
+        $forms = Form::where('for_role', $role)
+            ->where('is_active', true)
+            ->get()
+            ->keyBy('form_type');
+
+        $completion = [];
+
+        if ($role === 'mentor') {
+            $mentor = $user->mentors()->first(); // Get the mentor's associated record
+
+            foreach ($forms as $type => $form) {
+                $completed = MentorForm::where('mentor_id', $mentor->id)
+                    ->where('form_id', $form->id)
+                    ->exists(); // Check if the form is completed by the mentor
+
+                $completion[$type] = $completed;
+            }
+        }
+
+        return view('mentor.links', compact('forms', 'completion'));
+    }
+
+
 
     public function update(Request $request)
     {
