@@ -156,6 +156,10 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 
     // Display the details of a specific form
     Route::get('admin/forms/{form}', [AdminFormController::class, 'show'])->name('admin.forms.show');
+
+    //Admin Form Tracking
+    Route::get('/admin/form-tracking', [AdminFormController::class, 'tracking'])->name('admin.forms.tracking');
+
 });
 
 //Team Leader Routes

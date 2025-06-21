@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Form;
 use Illuminate\Http\Request;
+use App\Models\Student;
+use App\Models\Mentor;
+use App\Models\TeamLeader;
 
 class AdminFormController extends Controller
 {
@@ -93,4 +96,103 @@ class AdminFormController extends Controller
     {
         return view('admin.forms.show', compact('form'));
     }
+
+    public function tracking()
+    {
+        $forms = Form::where('is_active', true)->get()->groupBy('for_role');
+
+        $students = Student::with(['user', 'studentForms'])->get();
+        $mentors = Mentor::with(['user', 'mentorForms'])->get();
+        $teamleaders = TeamLeader::with(['user', 'teamLeaderForms'])->get();
+
+        // Define expected form types to ensure full columns even if not created
+        $defaultFormTypes = ['pretest', 'posttest', 'questionnaire', 'consent'];
+
+        // Normalize form list with all possible types
+        foreach (['student', 'mentor', 'team_leader'] as $role) {
+            foreach ($defaultFormTypes as $type) {
+                if (!($forms[$role] ?? collect())->firstWhere('form_type', $type)) {
+                    $forms[$role][] = (object)[
+                        'form_type' => $type,
+                        'id' => null,
+                        'form_name' => ucfirst($type) . ' (Not Created)',
+                    ];
+                }
+            }
+        }
+
+        // Completion status tables
+        $studentStatuses = [];
+        foreach ($students as $student) {
+            foreach ($forms['student'] as $form) {
+                $record = $form->id
+                    ? $student->studentForms->firstWhere('form_id', $form->id)
+                    : null;
+                if ($form->id) {
+                    if ($record) {
+                        $studentStatuses[$student->id][$form->form_type] = $record->completion_status ? 'completed' : 'not_completed';
+                    } else {
+                        $studentStatuses[$student->id][$form->form_type] = 'not_completed';
+                    }
+                } else {
+                    $studentStatuses[$student->id][$form->form_type] = 'not_assigned';
+                }
+
+            }
+        }
+
+        $mentorStatuses = [];
+        foreach ($mentors as $mentor) {
+            foreach ($forms['mentor'] as $form) {
+                $record = $form->id
+                    ? $mentor->mentorForms->firstWhere('form_id', $form->id)
+                    : null;
+                    if ($form->id) {
+                        if ($record) {
+                            $mentorStatuses[$mentor->id][$form->form_type] = $record->completion_status ? 'completed' : 'not_completed';
+                        } else {
+                            $mentorStatuses[$mentor->id][$form->form_type] = 'not_completed';
+                        }
+                    } else {
+                        $mentorStatuses[$mentor->id][$form->form_type] = 'not_assigned';
+                    }
+
+            }
+        }
+
+        $teamLeaderStatuses = [];
+        foreach ($teamleaders as $leader) {
+            foreach ($forms['team_leader'] as $form) {
+                $record = $form->id
+                    ? $leader->teamLeaderForms->firstWhere('form_id', $form->id)
+                    : null;
+                    if ($form->id) {
+                        if ($record) {
+                            $teamLeaderStatuses[$leader->id][$form->form_type] = $record->completion_status ? 'completed' : 'not_completed';
+                        } else {
+                            $teamLeaderStatuses[$leader->id][$form->form_type] = 'not_completed';
+                        }
+                    } else {
+                        $teamLeaderStatuses[$leader->id][$form->form_type] = 'not_assigned';
+                    }
+
+            }
+        }
+
+
+        $formTypes = $defaultFormTypes;
+
+        return view('admin.forms.tracking', compact(
+            'forms',
+            'formTypes',
+            'students',
+            'mentors',
+            'teamleaders',
+            'studentStatuses',
+            'mentorStatuses',
+            'teamLeaderStatuses'
+        ));
+    }
+
+
 }
