@@ -20,8 +20,27 @@
         <h2 class="text-center mb-4 text-[28px] underline">RIC PAL Center</h2>
         {{-- Youtube Video --}}
         <iframe class="w-1/2 m-auto aspect-video"  src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+        <div class="w-full space-evenly flex justify-center items-center mt-4">
+            <a href="{{ route('admin.mentor_students_timetable') }}"class="block bg-[#7D3C98] px-4 py-3 text-sm text-white hover:bg-[#683280] mr-4 rounded-md transition-colors">
+                Mentor-Students Timetables
+            </a>
+            <a href="{{ route('admin.team_leaders_timetable') }}"class="block bg-[#7D3C98] px-4 py-3 text-sm text-white hover:bg-[#683280] mr-4 rounded-md transition-colors">
+                TeamLeader Timetables
+            </a>
+            <a href="{{ route('admin.forms.index') }}"class="block bg-[#7D3C98] px-4 py-3 text-sm text-white hover:bg-[#683280] mr-4 rounded-md transition-colors">
+                Manage Forms
+            </a>
+            <a href="{{ route('admin.forms.tracking') }}"class="block bg-[#7D3C98] px-4 py-3 text-sm text-white hover:bg-[#683280] mr-4 rounded-md transition-colors">
+                Track Form Completion
+            </a>
+
+        </div>
+
+
         <div class=" w-4/5 m-auto p-2 mb-4 text-[12px] mt-5">
             <div id="accordion-collapse-timetable" data-accordion="collapse" class="w-4/5 flex m-auto flex-row gap-1">
+                <!--
                 {{-- First Item --}}
                 <div class="w-full">
                     <h2 id="accordion-collapse-heading-1">
@@ -241,6 +260,8 @@
 
 
             </div>
+
+        -->
 
 
           </div>

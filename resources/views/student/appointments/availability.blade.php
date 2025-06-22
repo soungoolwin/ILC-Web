@@ -61,21 +61,22 @@
                         @endforeach
                     </select>
                 </div>
-            </div>
-
-            <!-- Search Button -->
+                <!-- Search Button -->
             <div>
-                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
+                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 mt-5 rounded-lg transition">
                     Search
                 </button>
             </div>
+            </div>
+
+            
         </form>
 
         <!-- Display Available Timetables -->
         @if (count($availableTimetables) > 0)
             <table class="table-auto w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr>
+                <thead class="bg-[#7D3C98] text-white rounded-xl shadow-md">
+                    <tr class="text-md">
                         <th class="border border-gray-300 px-4 py-2">Week Number</th>
                         <th class="border border-gray-300 px-4 py-2">Day</th>
                         <th class="border border-gray-300 px-4 py-2">Time Slot</th>
@@ -86,7 +87,7 @@
                 </thead>
                 <tbody>
                     @foreach ($availableTimetables as $timetable)
-                        <tr>
+                        <tr class="text-md hover:bg-gray-100 transition-colors duration-200">
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['week_number'] }}
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['day'] }}</td>

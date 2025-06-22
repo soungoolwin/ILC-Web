@@ -97,7 +97,7 @@ class AdminFormController extends Controller
         return view('admin.forms.show', compact('form'));
     }
 
-    public function tracking()
+    public function tracking(Request $request)
     {
         $forms = Form::where('is_active', true)->get()->groupBy('for_role');
 
@@ -120,6 +120,23 @@ class AdminFormController extends Controller
                 }
             }
         }
+
+        // Apply filters
+    $studentId = $request->query('student_id');
+    $mentorId = $request->query('mentor_id');
+    $teamLeaderId = $request->query('team_leader_id');
+
+    $students = Student::with(['user', 'studentForms'])
+        ->when($studentId, fn($q) => $q->where('student_id', 'like', "%$studentId%"))
+        ->get();
+
+    $mentors = Mentor::with(['user', 'mentorForms'])
+        ->when($mentorId, fn($q) => $q->where('mentor_id', 'like', "%$mentorId%"))
+        ->get();
+
+    $teamleaders = TeamLeader::with(['user', 'teamLeaderForms'])
+        ->when($teamLeaderId, fn($q) => $q->where('team_leader_id', 'like', "%$teamLeaderId%"))
+        ->get();
 
         // Completion status tables
         $studentStatuses = [];

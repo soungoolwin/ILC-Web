@@ -47,11 +47,11 @@
         @forelse ($grouped as $role => $group)
         <div class=" w-full mb-8 rouneded-lg shadow-md bg-white p-4">
             <table class=" w-full table-auto border-gray-300 mb-4">
-                <caption class="text-10 font-semibold text-[#7D3C98] mb-4">
+                <caption class="text-lg font-semibold text-[#7D3C98] mb-4">
                     Created Forms for {{ ucfirst(str_replace('_', ' ', $role)) }}s
                 </caption>
-                <thead>
-                    <tr class="bg-[#7D3C98] text-white">
+                <thead class="bg-[#7D3C98] text-whiterounded-xl shadow-md">
+                    <tr class="bg-[#7D3C98] text-sm text-white">
                         <th class="border px-4 py-2">Name</th>
                         <th class="border w-1/2 px-4 py-2">Description (URL)</th>
                         <th class="border px-4 py-2">Form Type</th>
@@ -61,14 +61,14 @@
                 </thead>
                 <tbody>
                     @foreach ($group as $form)
-                        <tr>
+                        <tr class="text-sm text-gray-700">
                             <td class="border px-4 py-2">{{ $form->form_name }}</td>
                             <td class="border w-1/2 px-4 py-2 break-all">{{ $form->form_description }}</td>
                             <td class="border px-4 py-2">{{ ucfirst($form->form_type) }}</td>
                             <td class="border px-4 py-2">
                                 {{ $form->is_active ? 'Active' : 'Inactive' }}
                             </td>
-                            <td class="border px-4 py-2 space-x-2">
+                            <td class="border px-4 py-2 space-x-2 font-semibold">
                                 <a href="{{ route('admin.forms.edit', $form->id) }}" class="text-blue-600 hover:underline">Edit</a>
                                 <form action="{{ route('admin.forms.destroy', $form->id) }}" method="POST" style="display:inline;">
                                     @csrf

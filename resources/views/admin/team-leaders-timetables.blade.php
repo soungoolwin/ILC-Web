@@ -32,21 +32,22 @@
                         @endforeach
                     </select>
                 </div>
-            </div>
-
-            <!-- Search Button -->
+                <!-- Search Button -->
             <div>
-                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
+                <button type="submit" class="w-full block mt-5 bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
                     Search
                 </button>
             </div>
+            </div>
+
+            
         </form>
 
         <!-- Display Team Leaders Timetables -->
         @if ($teamLeaderTimetables->count() > 0)
             <table class="table-auto w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr>
+                <thead class="bg-[#7D3C98] text-white rounded-xl shadow-md">
+                    <tr class= "text-sm">
                         <th class="border border-gray-300 px-4 py-2">Day</th>
                         <th class="border border-gray-300 px-4 py-2">Time Slot</th>
                         <th class="border border-gray-300 px-4 py-2">Team Leader Name</th>
@@ -56,7 +57,7 @@
                 </thead>
                 <tbody>
                     @foreach ($teamLeaderTimetables as $timetable)
-                        <tr>
+                        <tr class="text-sm hover:bg-gray-100 transition-colors duration-200">
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->day }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->time_slot }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">

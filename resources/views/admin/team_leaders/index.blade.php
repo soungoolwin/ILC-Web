@@ -4,27 +4,24 @@
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('dashboard.team_leaders') }}" class="mb-6">
-            <div class="flex items-center space-x-4">
+            <div class="flex-column items-center space-x-4">
                 <div>
-                    <label for="team_leader_id" class="block text-sm font-semibold text-gray-600">Search by Team Leader
-                        ID</label>
+                    <label for="team_leader_id" class="flex text-xs ml-6 mb-2 font-semibold text-gray-600">Search by Team Leader ID</label>
+                </div>
                     <input type="text" name="team_leader_id" id="team_leader_id" value="{{ $request->team_leader_id }}"
                         placeholder="Enter Team Leader ID"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                </div>
-                <div>
+                        class="w-1/4 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                     <button type="submit" class="bg-[#7D3C98] text-white px-4 py-2 rounded-lg  transition">
                         Search
                     </button>
-                </div>
             </div>
         </form>
 
         <!-- Display Team Leaders -->
         @if ($teamLeaders->count() > 0)
             <table class="table-auto w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr>
+                <thead class="bg-[#7D3C98] text-white rounded-xl shadow-md">
+                    <tr class="text-sm">
                         <th class="border border-gray-300 px-4 py-2">Team Leader ID</th>
                         <th class="border border-gray-300 px-4 py-2">Name</th>
                         <th class="border border-gray-300 px-4 py-2">Nickname</th>
@@ -35,7 +32,7 @@
                 </thead>
                 <tbody>
                     @foreach ($teamLeaders as $teamLeader)
-                        <tr>
+                        <tr class="text-sm hover:bg-gray-100 transition-colors duration-200">
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $teamLeader->team_leader_id }}
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $teamLeader->user->name }}</td>

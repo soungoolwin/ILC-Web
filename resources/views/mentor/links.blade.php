@@ -16,9 +16,15 @@
     <div class="flex justify-center text-2xl font-bold text-gray-800 mt-10 mb-6">
         Mentor Links
     </div>
-    <div class="flex justify-center text-l text-red-600 mb-4">
+    <p class="flex justify-center text-xl font-semibold italic text-red-600 mb-4">
         Please ensure that you have completed all forms before week 6.
-    </div>
+    </p>
+    <p class="flex justify-center text-center text-sm text-gray-600 mb-4">
+        Make sure that you clicked "Completed" after you finish each form.
+        <br>
+         If you need to redo a form, click "Undo".
+    </p>
+    
 
     <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6 space-y-6">
         {{-- Pre-test --}}
@@ -83,7 +89,7 @@
 
         {{-- Consent Form --}}
         @if(isset($forms['consent']))
-        <div class="flex space-x-3 items-center justify-center">
+        <div id="mentorConsent" class="flex space-x-3 items-center justify-center">
             <a href="{{ $forms['consent']->form_description }}" target="_blank"
                 class="flex-auto bg-[#7D3C98] w-1/2 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
                 Download Consent Form
@@ -109,8 +115,13 @@
                 </form>
             @endif
         </div>
+
+        <label for="mentorConsent" class="text-sm text-gray-600 mt-6">
+            Please upload the signed consent form <span> <a href= "" class="text-blue-500 hover:underline" target="blank">here</a></span>
+        </label>
+
         {{-- File Upload --}}
-        <div class="flex mt-4">
+        <div class="flex mt-4 hidden">
             <div class="flex items-center justify-center w-full">
                 <label for="dropzone-file" class="flex flex-col items-center justify-center w-3/4 h-64 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50">
                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
