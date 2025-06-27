@@ -133,25 +133,27 @@
                             <button id="dropdownButton"
                                 class="text-white bg-[#7D3C98] px-3 py-2 rounded-md">Manage</button>
                             <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
+                                <p class="px-4 py-2 text-sm text-white font-semibold bg-blue-500">Users & Timetables</p>
                                 <a href="{{ route('admin.mentor_students_timetable') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-4 py-2 text-xs text-blue-500 hover:bg-gray-100">
                                     Mentor-Students Timetable
                                 </a>
                                 <a href="{{ route('admin.team_leaders_timetable') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-4 py-2 text-xs text-blue-500 hover:bg-gray-100">
                                     TeamLeader Timetable
                                 </a>
 
                                 <a href="{{ route('dashboard.team_leaders') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-4 py-2 text-xs text-blue-500 hover:bg-gray-100">
                                      Delete Teamleaders
                                 </a>
+                                <p class="px-4 py-2 text-sm text-white font-semibold bg-yellow-400 ">Forms</p>
                                 <a href="{{ route('admin.forms.index') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-4 py-2 text-xs text-yellow-500 hover:bg-gray-100">
                                     Manage Forms
                                 </a>
                                 <a href="{{ route('admin.forms.tracking') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-4 py-2 text-xs text-yellow-500 hover:bg-gray-100">
                                     Track Form Completion
                                 </a>
                             </div>
