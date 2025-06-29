@@ -64,7 +64,7 @@
                             </div>
                         </div>
                         <a href="{{ route('student.links') }}"
-                            class="hidden text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Links</a>
+                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Links</a>
                     
                     @elseif (Auth::user()->role === 'mentor')
                         <a href="{{ route('mentor.dashboard') }}"
@@ -93,7 +93,7 @@
                             </div>
                         </div>
                         <a href="{{ route('mentor.links') }}"
-                            class="hidden text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Links</a> 
+                            class=" text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Links</a> 
 
                     @endif
                     @elseif (Auth::user()->role === 'team_leader')
@@ -122,7 +122,7 @@
                             </div>
                         </div>
                         <a href="{{ route('team_leader.links') }}"
-                            class="hidden text-white block-start bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Links</a>
+                            class="text-white block-start bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Links</a>
 
 
                     @elseif (Auth::user()->role === 'admin')
