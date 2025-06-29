@@ -18,6 +18,10 @@ class Mentor extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function mentorForms() {
+        return $this->hasMany(\App\Models\MentorForm::class);
+    }
+
     public function timetables()
     {
         return $this->hasMany(Timetable::class);

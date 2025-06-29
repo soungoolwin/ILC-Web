@@ -24,4 +24,9 @@ class TeamLeader extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+
+    public function teamLeaderForms() {
+        return $this->hasMany(\App\Models\TeamLeaderForm::class);
+    }
 }

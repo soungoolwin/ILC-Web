@@ -16,6 +16,10 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function studentForms() {
+        return $this->hasMany(\App\Models\StudentForm::class);
+    }
+
     public function appointments()
     {
         return $this->hasMany(Appointment::class);

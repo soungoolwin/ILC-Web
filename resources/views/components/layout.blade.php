@@ -23,7 +23,7 @@
             </div>
 
             <!-- Navigation Bar with Login/Register -->
-            <div class="flex justify-end px-4 py-2 border-t border-gray-200">
+            <div class="flex bg-gray-100 justify-end px-4 py-2 border-t border-gray-200">
                 @if (Auth::check())
                     @if (Auth::user()->role === 'student')
                     @php
@@ -63,6 +63,9 @@
                                 
                             </div>
                         </div>
+                        <a href="{{ route('student.links') }}"
+                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Links</a>
+                    
                     @elseif (Auth::user()->role === 'mentor')
                         <a href="{{ route('mentor.dashboard') }}"
                             class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
@@ -89,6 +92,9 @@
                                 </a>
                             </div>
                         </div>
+                        <a href="{{ route('mentor.links') }}"
+                            class=" text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Links</a> 
+
                     @endif
                     @elseif (Auth::user()->role === 'team_leader')
                         <a href="{{ route('team_leader.dashboard') }}"
@@ -115,38 +121,54 @@
                                 </a>
                             </div>
                         </div>
+                        <a href="{{ route('team_leader.links') }}"
+                            class="text-white block-start bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Links</a>
+
+
                     @elseif (Auth::user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}"
                             class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
                         <!-- Timetables Dropdown -->
                         <div class="relative mr-2">
                             <button id="dropdownButton"
-                                class="text-white bg-[#7D3C98] px-3 py-2 rounded-md focus:outline-none">Timetables</button>
+                                class="text-white bg-[#7D3C98] px-3 py-2 rounded-md">Manage</button>
                             <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
+                                <p class="px-4 py-2 text-sm text-white font-semibold bg-blue-500">Users & Timetables</p>
                                 <a href="{{ route('admin.mentor_students_timetable') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-4 py-2 text-xs text-blue-500 hover:bg-gray-100">
                                     Mentor-Students Timetable
                                 </a>
                                 <a href="{{ route('admin.team_leaders_timetable') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-4 py-2 text-xs text-blue-500 hover:bg-gray-100">
                                     TeamLeader Timetable
                                 </a>
 
                                 <a href="{{ route('dashboard.team_leaders') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Delete Teamleaders
+                                    class="block px-4 py-2 text-xs text-blue-500 hover:bg-gray-100">
+                                     Delete Teamleaders
+                                </a>
+                                <p class="px-4 py-2 text-sm text-white font-semibold bg-yellow-400 ">Forms</p>
+                                <a href="{{ route('admin.forms.index') }}"
+                                    class="block px-4 py-2 text-xs text-yellow-500 hover:bg-gray-100">
+                                    Manage Forms
+                                </a>
+                                <a href="{{ route('admin.forms.tracking') }}"
+                                    class="block px-4 py-2 text-xs text-yellow-500 hover:bg-gray-100">
+                                    Track Form Completion
                                 </a>
                             </div>
                         </div>
                         <a href="{{ route('admin.profile') }}"
-                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Profile</a>
+                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">
+                            {{ Auth::user()->name }}
+                        </a>
                     @endif
 
                     <!-- Logout Button -->
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                    <form method="POST" action="{{ route('logout') }}" class="inline" onsubmit="return confirmLogout()">
                         @csrf
                         <button type="submit"
-                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md">Logout</button>
+                            class="text-white bg-red-500 px-3 py-2 rounded-[25%]"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"/></svg></button>
                     </form>
                 @else
                     <!-- Guest Links - Hide on login page -->
@@ -228,6 +250,10 @@
                 });
             }
         });
+
+        function confirmLogout() {
+        return confirm('Are you sure you want to log out?');
+    }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 </body>

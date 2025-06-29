@@ -7,8 +7,12 @@ use App\Http\Controllers\MentorController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeamLeaderController;
+use App\Http\Controllers\TeamLeaderFormController;
 use App\Http\Controllers\TeamLeaderTimetableController;
 use App\Http\Controllers\TimetableController;
+use App\Http\Controllers\AdminFormController;
+use App\Http\Controllers\StudentFormController;
+use App\Http\Controllers\MentorFormController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -49,6 +53,12 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
         return view('mentor.dashboard');
     })->name('mentor.dashboard');
 
+    // Mentor Links
+    Route::get('/mentor/links', [MentorController::class, 'links'])->name('mentor.links');
+    Route::post('/mentor/links/{form}/complete', [MentorFormController::class, 'complete'])->name('mentor.forms.complete');
+    Route::delete('/mentor/links/{form}/undo', [MentorFormController::class, 'undo'])->name('mentor.forms.undo');
+
+    // Mentor Profile Management
     Route::get("/mentor/profile", [MentorController::class, 'show'])->name('mentor.profile');
     Route::put('/mentor/profile', [MentorController::class, 'update'])->name('mentor.update');
 
@@ -81,6 +91,12 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
 Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
 
+    // Team Leader Consent Links
+    Route::get('/student/links', [StudentController::class, 'links'])->name('student.links');
+    Route::post('/student/links/{form}/complete', [StudentFormController::class, 'complete'])->name('student.forms.complete');
+    Route::delete('/student/links/{form}/undo', [StudentFormController::class, 'undo'])->name('student.forms.undo');
+
+    // Student Profile Management
     Route::get("/student/profile", [StudentController::class, 'show'])->name('student.profile');
     Route::put('/student/profile', [StudentController::class, 'update'])->name('student.update');
 
@@ -118,6 +134,32 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::get('/admin/mentors/{id}', [MentorController::class, 'adminShow'])->name('admin.mentors.show');
     Route::get('/admin/students/{id}', [StudentController::class, 'adminShow'])->name('admin.students.show');
     Route::get('/admin/team-leaders/{id}', [TeamLeaderController::class, 'adminShow'])->name('admin.team_leaders.show');
+
+    // Admin Forms
+    // Display a list of forms
+    Route::get('admin/forms', [AdminFormController::class, 'index'])->name('admin.forms.index');
+
+    // Show the form for creating a new form
+    Route::get('admin/forms/create', [AdminFormController::class, 'create'])->name('admin.forms.create');
+
+    // Store a newly created form
+    Route::post('admin/forms', [AdminFormController::class, 'store'])->name('admin.forms.store');
+
+    // Show the form for editing the specified form
+    Route::get('admin/forms/{form}/edit', [AdminFormController::class, 'edit'])->name('admin.forms.edit');
+
+    // Update the specified form in the database
+    Route::put('admin/forms/{form}', [AdminFormController::class, 'update'])->name('admin.forms.update');
+
+    // Delete the specified form
+    Route::delete('admin/forms/{form}', [AdminFormController::class, 'destroy'])->name('admin.forms.destroy');
+
+    // Display the details of a specific form
+    Route::get('admin/forms/{form}', [AdminFormController::class, 'show'])->name('admin.forms.show');
+
+    //Admin Form Tracking
+    Route::get('/admin/form-tracking', [AdminFormController::class, 'tracking'])->name('admin.forms.tracking');
+
 });
 
 //Team Leader Routes
@@ -126,6 +168,12 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
         return view('team_leader.dashboard');
     })->name('team_leader.dashboard');
 
+    // Team Leader Consent Links
+    Route::get('/team-leader/links', [TeamLeaderController::class, 'links'])->name('team_leader.links');
+    Route::post('/team-leader/links/{form}', [TeamLeaderFormController::class, 'markCompleted'])->name('team_leader.forms.complete');
+    Route::delete('/team-leader/links/{form}/undo', [TeamLeaderFormController::class, 'undo'])->name('team_leader.forms.undo');
+
+    // Team Leader Timetable Management
     Route::get('/team-leader/view-timetables', [TeamLeaderController::class, 'viewTimetables'])->name('team_leader.view_timetables');
 
     Route::get('/team-leader/profile', [TeamLeaderController::class, 'show'])->name('team_leader.profile');

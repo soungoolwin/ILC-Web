@@ -62,7 +62,7 @@
                                         </svg>
                                     @endif
                                 </div>
-                                <input type="file" id="profile-picture-input" accept="image/*" class="hidden">
+                                <!-- <input type="file" id="profile-picture-input" accept="image/*" class="hidden"> -->
                             </div>
                         </div>
 
@@ -70,7 +70,7 @@
                         <form method="POST" action="{{ route('team_leader.image.upload') }}" enctype="multipart/form-data" class="flex flex-col items-center space-y-3">
                             @csrf
                             <div class="flex items-center space-x-2 w-full max-w-sm">
-                                <input type="file" name="teamleader_image" accept="image/*"
+                                <input type="file" id="profile-picture-input" name="teamleader_image" accept="image/*"
                                     class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-gray-300 file:text-sm file:font-medium file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100 transition-colors">
                                 <button type="submit"
                                     class="bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 whitespace-nowrap">

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Appointment;
+use App\Models\Form;
+use App\Models\StudentForm;
 
 class StudentController extends Controller
 {
@@ -18,6 +20,38 @@ class StudentController extends Controller
 
         return view('student.profile', compact('user', 'student'));
     }
+
+        //student links
+
+    public function links()
+    {
+        $user = Auth::user();
+        $role = $user->role; // 'student', 'mentor', or 'team_leader'
+
+        // Fetch forms available for this role
+        $forms = Form::where('for_role', $role)
+            ->where('is_active', true)
+            ->get()
+            ->keyBy('form_type');
+
+        $completion = [];
+
+        if ($role === 'student') {
+            $student = $user->students()->first(); // Get the student's associated record
+
+            foreach ($forms as $type => $form) {
+                $completed = StudentForm::where('student_id', $student->id)
+                    ->where('form_id', $form->id)
+                    ->exists(); // Check if the form is completed by the student
+
+                $completion[$type] = $completed;
+            }
+        }
+
+        return view('student.links', compact('forms', 'completion'));
+    }
+
+
 
     public function update(Request $request)
     {

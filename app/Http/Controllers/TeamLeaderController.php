@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\TeamLeader;
 use App\Models\User;
 use App\Models\Timetable;
+use App\Models\Form;
+use App\Models\TeamLeaderForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -38,6 +40,37 @@ class TeamLeaderController extends Controller
 
         return view('team_leader.profile', compact('user', 'teamLeader'));
     }
+
+    //team leader links
+
+    public function links()
+    {
+        $user = Auth::user();
+        $role = $user->role;
+
+        // Fetch forms available for this role
+        $forms = Form::where('for_role', $role)
+            ->where('is_active', true)
+            ->get()
+            ->keyBy('form_type');
+
+        $completion = [];
+
+        if ($role === 'team_leader') {
+            $teamLeader = $user->teamLeaders()->first(); 
+
+            foreach ($forms as $type => $form) {
+                $completed = TeamLeaderForm::where('team_leader_id', $teamLeader->id)
+                    ->where('form_id', $form->id)
+                    ->exists();
+
+                $completion[$type] = $completed;
+            }
+        }
+
+        return view('team_leader.links', compact('forms', 'completion'));
+    }
+
 
     /**
      * Update team leader profile information.
@@ -159,27 +192,27 @@ class TeamLeaderController extends Controller
     }
 
     public function viewTimetables(Request $request)
-{
-    $timetables = Timetable::with(['mentor.user', 'appointments.student.user'])
-        ->when($request->filled('week_number'), function ($query) use ($request) {
-            $query->where('week_number', $request->week_number);
-        })
-        ->when($request->filled('day'), function ($query) use ($request) {
-            $query->where('day', $request->day);
-        })
-        ->when($request->filled('time_slot'), function ($query) use ($request) {
-            $query->where('time_slot', $request->time_slot);
-        })
-        ->when($request->filled('table_number'), function ($query) use ($request) {
-            $query->where('table_number', $request->table_number);
-        })
-        ->get()
-        ->groupBy(function ($timetable) {
-            return $timetable->mentor->user->name ?? 'Unknown Mentor';
-        });
+    {
+        $timetables = Timetable::with(['mentor.user', 'appointments.student.user'])
+            ->when($request->filled('week_number'), function ($query) use ($request) {
+                $query->where('week_number', $request->week_number);
+            })
+            ->when($request->filled('day'), function ($query) use ($request) {
+                $query->where('day', $request->day);
+            })
+            ->when($request->filled('time_slot'), function ($query) use ($request) {
+                $query->where('time_slot', $request->time_slot);
+            })
+            ->when($request->filled('table_number'), function ($query) use ($request) {
+                $query->where('table_number', $request->table_number);
+            })
+            ->get()
+            ->groupBy(function ($timetable) {
+                return $timetable->mentor->user->name ?? 'Unknown Mentor';
+            });
 
-    return view('team_leader.view_timetables', compact('timetables', 'request'));
-}
+        return view('team_leader.view_timetables', compact('timetables', 'request'));
+    }
 
 
 
@@ -220,4 +253,6 @@ class TeamLeaderController extends Controller
         $teamLeader = TeamLeader::with('user')->findOrFail($id);
         return view('admin.team-leader-profile', compact('teamLeader'));
     }
+
+    
 }

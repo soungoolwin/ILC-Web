@@ -25,7 +25,7 @@
                     <select name="time_slot" id="time_slot"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Time Slots</option>
-                        @foreach (['09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00', '12:00-12:30', '12:30-13:00', '13:00-13:30', '13:30-14:00', '14:00-14:30', '14:30-15:00'] as $slot)
+                        @foreach (['09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00', '12:00-12:30', '12:30-13:00', '13:00-13:30', '13:30-14:00', '14:00-14:30', '14:30-15:00', '15:00-15:30', '15:30-16:00', '16:00-16:30', '16:30-17:00'] as $slot)
                             <option value="{{ $slot }}" {{ request('time_slot') === $slot ? 'selected' : '' }}>
                                 {{ $slot }}
                             </option>
@@ -39,28 +39,29 @@
                     <select name="week_number" id="week_number"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Weeks</option>
-                        @foreach (range(4, 13) as $week)
+                        @foreach (range(2, 6) as $week)
                             <option value="{{ $week }}" {{ request('week_number') == $week ? 'selected' : '' }}>
                                 Week {{ $week }}
                             </option>
                         @endforeach
                     </select>
                 </div>
-            </div>
-
-            <!-- Search Button -->
+                <!-- Search Button -->
             <div>
-                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
+                <button type="submit" class=" block mt-5 w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
                     Search
                 </button>
             </div>
+            </div>
+
+            
         </form>
 
         <!-- Display Mentor-Student Timetables -->
         @if ($timetables->count() > 0)
             <table class="table-auto w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr>
+                <thead class="bg-[#7D3C98] text-white rounded-xl shadow-md">
+                    <tr class="text-sm">
                         <th class="border border-gray-300 px-4 py-2">Week</th>
                         <th class="border border-gray-300 px-4 py-2">Day</th>
                         <th class="border border-gray-300 px-4 py-2">Time Slot</th>
@@ -70,7 +71,7 @@
                 </thead>
                 <tbody>
                     @foreach ($timetables as $timetable)
-                        <tr>
+                        <tr class="text-sm hover:bg-gray-100 transition-colors duration-200">
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->week_number }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->day }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->time_slot }}</td>
