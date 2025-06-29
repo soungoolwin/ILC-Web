@@ -3,7 +3,7 @@
         <!-- Main Content Container - Centered with max width -->
         <div class="w-full max-w-md">
             <!-- Title -->
-            <h1 class="text-2xl font-bold text-center text-gray-900 mb-12">Login to your account</h1>
+            <h1 class="text-xl lg:text-2xl font-bold text-center text-[#7D3C98] mb-6">Login to your account</h1>
 
             <form method="POST" action="{{ route('login') }}" class="space-y-6">
                 @csrf
@@ -21,10 +21,10 @@
 
                 <!-- Email -->
                 <div class="space-y-2">
-                    <label for="email" class="block text-base font-normal text-gray-800">Email address</label>
+                    <label for="email" class="block text-sm lg:text-base font-normal text-gray-800">Email address</label>
                     <input type="email" name="email" value="{{ old('email') }}"
-                        class="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-[#b085c2] focus:outline-none"
-                        placeholder="xyz@rsu.ac.th" required>
+                        class="w-full border border-gray-400 rounded-md px-4 py-2 focus:ring-2 focus:ring-[#b085c2] focus:outline-none placeholder-gray-300"
+                        placeholder="yourname@rsu.ac.th" required>
                     @error('email')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -32,9 +32,9 @@
 
                 <!-- Password -->
                 <div class="space-y-2">
-                    <label for="password" class="block text-base font-normal text-gray-800">Password</label>
+                    <label for="password" class="block text-sm lg:text-base font-normal text-gray-800">Password</label>
                     <input type="password" name="password"
-                        class="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-[#b085c2] focus:outline-none"
+                        class="w-full border border-gray-400 rounded-md px-4 py-2 focus:ring-2 focus:ring-[#b085c2] focus:outline-none"
                         required>
                     @error('password')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

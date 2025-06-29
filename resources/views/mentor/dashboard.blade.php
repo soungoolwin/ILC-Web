@@ -17,11 +17,11 @@
         </div>
     @endif
     <div>
-        <h2 class="text-center mb-4 text-[28px] underline">RIC PAL Center</h2>
+        <h2 class="text-center mb-4 mt-2 text-[28px] underline">RIC PAL Center</h2>
         {{-- Youtube Video --}}
         <iframe class="w-1/2 m-auto aspect-video"  src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <div class=" w-4/5 m-auto p-2 mb-4 text-[12px] mt-5">
-            <div id="accordion-collapse-timetable" data-accordion="collapse" class="w-4/5 flex m-auto flex-row gap-1">
+        <div class=" w-full m-auto p-2 mb-4 text-[12px] mt-5">
+            <div id="accordion-collapse-timetable" data-accordion="collapse" class="w-full flex m-auto flex-row gap-1">
                 <!-- {{-- First Item --}}
                 <div class="w-full">
                     <h2 id="accordion-collapse-heading-1">

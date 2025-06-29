@@ -7,9 +7,9 @@
             <div class="flex items-center space-x-4">
                 <!-- Day -->
                 <div>
-                    <label for="day" class="block text-sm font-semibold text-gray-600">Day</label>
+                    <label for="day" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1 ml-4">Day</label>
                     <select name="day" id="day"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                        class="w-full border border-gray-300 text-xs lg:text-sm rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Days</option>
                         @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as $dayOption)
                             <option value="{{ $dayOption }}" {{ request('day') === $dayOption ? 'selected' : '' }}>
@@ -21,9 +21,9 @@
 
                 <!-- Time Slot -->
                 <div>
-                    <label for="time_slot" class="block text-sm font-semibold text-gray-600">Time Slot</label>
+                    <label for="time_slot" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1 ml-4">Time Slot</label>
                     <select name="time_slot" id="time_slot"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                        class="w-full border border-gray-300 text-xs lg:text-sm rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Time Slots</option>
                         @foreach (['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00', '17:00-20:00'] as $slot)
                             <option value="{{ $slot }}" {{ request('time_slot') === $slot ? 'selected' : '' }}>
@@ -34,7 +34,7 @@
                 </div>
                 <!-- Search Button -->
             <div>
-                <button type="submit" class="w-full block mt-5 bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
+                <button type="submit" class="w-full block mt-6 bg-[#7D3C98] text-white text-xs lg:text-sm font-bold py-2 px-4 rounded-lg transition">
                     Search
                 </button>
             </div>
@@ -45,19 +45,20 @@
 
         <!-- Display Team Leaders Timetables -->
         @if ($teamLeaderTimetables->count() > 0)
-            <table class="table-auto w-full border-collapse border border-gray-300">
+        <div class="w-full flex justify-center items-center mx-auto">
+            <table class="table-auto text-[10px] lg:text-base w-full border-collapse border border-gray-300">
                 <thead class="bg-[#7D3C98] text-white rounded-xl shadow-md">
-                    <tr class= "text-sm">
-                        <th class="border border-gray-300 px-4 py-2">Day</th>
-                        <th class="border border-gray-300 px-4 py-2">Time Slot</th>
-                        <th class="border border-gray-300 px-4 py-2">Team Leader Name</th>
-                        <th class="border border-gray-300 px-4 py-2">Team Leader Nickname</th>
-                        <th class="border border-gray-300 px-4 py-2">Student ID</th>
+                    <tr class="text-[10px] lg:text-base">
+                        <th class="border border-gray-300 px-2 py-2">Day</th>
+                        <th class="border border-gray-300 px-2 py-2">Time Slot</th>
+                        <th class="border border-gray-300 px-4 py-2">TL Name</th>
+                        <th class="border border-gray-300 px-4 py-2">Nickname</th>
+                        <th class="border border-gray-300 px-2 py-2">Student ID</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($teamLeaderTimetables as $timetable)
-                        <tr class="text-sm hover:bg-gray-100 transition-colors duration-200">
+                        <tr class="text-[10px] lg:text-base hover:bg-gray-100 transition-colors duration-200">
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->day }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->time_slot }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
@@ -76,6 +77,7 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
         @else
             <p class="text-center text-gray-600">No records found for the selected criteria.</p>
         @endif

@@ -4,12 +4,12 @@
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('student.appointments.availability') }}" class="space-y-4 mb-6">
-            <div class="flex items-center space-x-4">
+            <div class="flex items-left space-x-4">
                 <!-- Week Number -->
                 <div>
-                <label for="week_number" class="block text-sm font-semibold text-gray-600 mb-1">Week Number</label>
+                <label for="week_number" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1">Week</label>
                 <select name="week_number" id="week_number"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                    class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                     <option value="">All Weeks</option>
                     @foreach (range(2, 6) as $week)
                         <option value="{{ $week }}" {{ (int) request('week_number') === $week ? 'selected' : ''}}>
@@ -22,9 +22,9 @@
 
                 <!-- Table Number -->
                 <div>
-    <label for="table_number" class="block text-sm font-semibold text-gray-600 mb-1">Table Number</label>
+    <label for="table_number" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1">Table No.</label>
     <select name="table_number" id="table_number"
-        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+        class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
         <option value="">All Tables</option>
         @foreach (range(1, 4) as $table)
             <option value="{{ $table }}" {{ (int) request('table_number') === $table ? 'selected' : '' }}>
@@ -36,9 +36,9 @@
 
                 <!-- Time Slot -->
                 <div>
-                    <label for="time_slot" class="block text-sm font-semibold text-gray-600">Time Slot</label>
+                    <label for="time_slot" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1 ">Time Slot</label>
                     <select name="time_slot" id="time_slot"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                        class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Time Slots</option>
                         @foreach (['09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00', '12:00-12:30', '12:30-13:00', '13:00-13:30', '13:30-14:00', '14:00-14:30', '14:30-15:00', '15:00-15:30', '15:30-16:00', '16:00-16:30', '16:30-17:00'] as $slot)
                             <option value="{{ $slot }}" {{ request('time_slot') === $slot ? 'selected' : '' }}>
@@ -50,9 +50,9 @@
 
                 <!-- Day -->
                 <div>
-                    <label for="day" class="block text-sm font-semibold text-gray-600">Day</label>
+                    <label for="day" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1">Day</label>
                     <select name="day" id="day"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                        class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Days</option>
                         @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as $day)
                             <option value="{{ $day }}" {{ request('day') === $day ? 'selected' : '' }}>
@@ -62,11 +62,12 @@
                     </select>
                 </div>
                 <!-- Search Button -->
+            
+            </div>
             <div>
-                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 mt-5 rounded-lg transition">
+                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 mt-2 rounded-lg transition">
                     Search
                 </button>
-            </div>
             </div>
 
             
@@ -74,13 +75,14 @@
 
         <!-- Display Available Timetables -->
         @if (count($availableTimetables) > 0)
-            <table class="table-auto w-full border-collapse border border-gray-300">
+        <div class="w-full flex justify-center items-center mx-auto">
+            <table class="table-auto text-xs lg:text-sm w-full border-collapse border border-gray-300">
                 <thead class="bg-[#7D3C98] text-white rounded-xl shadow-md">
                     <tr class="text-md">
-                        <th class="border border-gray-300 px-4 py-2">Week Number</th>
-                        <th class="border border-gray-300 px-4 py-2">Day</th>
+                        <th class="border border-gray-300 px-2 py-2">Week</th>
+                        <th class="border border-gray-300 px-2 py-2">Day</th>
                         <th class="border border-gray-300 px-4 py-2">Time Slot</th>
-                        <th class="border border-gray-300 px-4 py-2">Table Number</th>
+                        <th class="border border-gray-300 px-2 py-2">Table No.</th>
                         <th class="border border-gray-300 px-4 py-2">Status</th>
                         <th class="border border-gray-300 px-4 py-2">Mentor</th>
                     </tr>
@@ -88,16 +90,16 @@
                 <tbody>
                     @foreach ($availableTimetables as $timetable)
                         <tr class="text-md hover:bg-gray-100 transition-colors duration-200">
-                            <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['week_number'] }}
+                            <td class="border border-gray-300 px-2 py-2 text-center">{{ $timetable['week_number'] }}
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['day'] }}</td>
+                            <td class="border border-gray-300 px-2 py-2 text-center">{{ $timetable['day'] }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['time_slot'] }}</td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['table_number'] }}
+                            <td class="border border-gray-300 px-2 py-2 text-center">{{ $timetable['table_number'] }}
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['is_reserved'] }}
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
-                                <a href="{{ route('student.mentors.show', ['id' => $timetable['mentor_id']]) }}" class="text-blue-500 hover:underline">
+                                <a href="{{ route('student.mentors.show', ['id' => $timetable['mentor_id']]) }}" class="text-[8px] lg:text-sm text-blue-500 hover:underline">
                                     {{ $timetable['mentor'] }}
                                 </a>
                             </td>

@@ -4,14 +4,14 @@
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('team_leader.view_timetables') }}" class="space-y-4 mb-6">
-            <div class="grid grid-cols-4 gap-4">
+            <div class="flex items-left space-x-4">
                 <!-- Week Number -->
                 <div>
-                    <label for="week_number" class="block text-sm font-semibold text-gray-600">Week Number</label>
+                    <label for="week_number" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1">Week No.</label>
                     <select name="week_number" id="week_number"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                        class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Weeks</option>
-                        @for ($i = 1; $i <= 16; $i++)
+                        @for ($i = 2; $i <= 6; $i++)
                             <option value="{{ $i }}" {{ request('week_number') == $i ? 'selected' : '' }}>
                                 Week {{ $i }}
                             </option>
@@ -21,9 +21,9 @@
 
                 <!-- Day -->
                 <div>
-                    <label for="day" class="block text-sm font-semibold text-gray-600">Day</label>
+                    <label for="day" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1">Day</label>
                     <select name="day" id="day"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                        class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Days</option>
                         @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as $day)
                             <option value="{{ $day }}" {{ request('day') == $day ? 'selected' : '' }}>
@@ -35,9 +35,9 @@
 
                 <!-- Time Slot -->
                 <div>
-                    <label for="time_slot" class="block text-sm font-semibold text-gray-600">Time Slot</label>
+                    <label for="time_slot" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1">Time Slot</label>
                     <select name="time_slot" id="time_slot"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                        class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Time Slots</option>
                         @foreach (range(9, 19) as $hour)
                             @php
@@ -59,16 +59,16 @@
 
                 <!-- Table Number -->
                 <div>
-                    <label for="table_number" class="block text-sm font-semibold text-gray-600">Table Number</label>
+                    <label for="table_number" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1">Table Number</label>
                     <input type="number" name="table_number" id="table_number" value="{{ request('table_number') }}"
                         placeholder="e.g., 5"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                        class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                 </div>
             </div>
 
             <!-- Search Button -->
             <div>
-                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
+                <button type="submit" class="w-full bg-[#7D3C98] text-white text-xs lg:text-sm font-bold py-2 px-4 rounded-lg transition">
                     Search
                 </button>
             </div>
@@ -95,40 +95,40 @@
                         @endif
                     </h3>
 
-                    <table class="table-auto w-full border-collapse border border-gray-300">
+                    <table class="table-auto text-xs lg:text-sm w-full border-collapse border border-gray-300">
                         <thead>
                             <tr>
-                                <th class="border border-gray-300 px-4 py-2">Week</th>
-                                <th class="border border-gray-300 px-4 py-2">Day</th>
-                                <th class="border border-gray-300 px-4 py-2">Time Slot</th>
-                                <th class="border border-gray-300 px-4 py-2">Table Number</th>
-                                <th class="border border-gray-300 px-4 py-2">Students</th>
+                                <th class="border border-gray-300 px-2 py-2">Week</th>
+                                <th class="border border-gray-300 px-2 py-2">Day</th>
+                                <th class="border border-gray-300 px-2 py-2">Time Slot</th>
+                                <th class="border border-gray-300 px-2 py-2">Table No.</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left ">Students</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($mentorTimetables as $timetable)
                                 @if($timetable && is_object($timetable))
                                     <tr>
-                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                        <td class="border border-gray-300 px-2 py-2 text-center">
                                             {{ $timetable->week_number ?? 'N/A' }}
                                         </td>
-                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                        <td class="border border-gray-300 px-2 py-2 text-center">
                                             {{ $timetable->day ?? 'N/A' }}
                                         </td>
-                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                        <td class="border border-gray-300 px-2 py-2 text-center">
                                             {{ $timetable->time_slot ?? 'N/A' }}
                                         </td>
-                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                        <td class="border border-gray-300 px-2 py-2 text-center">
                                             {{ $timetable->table_number ?? 'N/A' }}
                                         </td>
                                         <td class="border border-gray-300 px-4 py-2">
-                                            <ul class="text-center">
+                                            <ul class="text-left text-[8px] lg:text-sm">
                                                 @if($timetable->appointments && $timetable->appointments->isNotEmpty())
                                                     @foreach ($timetable->appointments as $appointment)
                                                         @if($appointment->student && $appointment->student->user)
                                                             <li>
                                                                 <a href="{{ route('team_leader.students.show', $appointment->student->id) }}"
-                                                                    class="text-blue-600 hover:underline">
+                                                                    class="text-blue-600 mb-1 hover:underline">
                                                                     {{ $appointment->student->user->name }}
                                                                 </a>
                                                             </li>

@@ -15,16 +15,17 @@
     <div class="flex justify-center text-2xl font-bold text-gray-800 mt-10 mb-6">
         Team Leader Links
     </div>
-    <p class="flex justify-center text-xl font-semibold italic text-red-600 mb-4">
+   <p class="flex justify-center text-center text-lg lg:text-xl font-semibold italic text-red-600 mb-4 mx-1">
         Please ensure that you have completed all forms before week 6.
     </p>
-    <p class="flex justify-center text-center text-sm text-gray-600 mb-4">
+    <p class="flex justify-center text-center text-xs lg:text-sm text-gray-600 mb-4">
+        You can access the forms by clicking respective buttons below.
         Make sure that you clicked "Completed" after you finish each form.
         <br>
          If you need to redo a form, click "Undo".
     </p>
 
-    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
+    <div class="text-xs lg:text-sm max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6 space-y-6">
 
         {{-- Pre-test --}}
         @if(isset($forms['pretest']))
@@ -35,7 +36,7 @@
             </a>
 
             @if(!empty($completion['pretest']))
-            <span class="text-green-600 font-bold">✔ Completed</span>
+            <span class="text-green-600 text-[10px] font-bold py-2 px-2 bg-green-100 rounded-lg">Completed</span>
                 <form action="{{ route('team_leader.forms.undo', $forms['pretest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
@@ -46,6 +47,7 @@
                 </form>
                 
             @else
+            <span class="text-red-600 text-[10px] font-bold py-2 px-2 bg-red-100 rounded-lg">Incomplete</span>
                 <form action="{{ route('team_leader.forms.complete', $forms['pretest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     <button type="submit"
@@ -66,7 +68,7 @@
             </a>
 
             @if(!empty($completion['questionnaire']))
-             <span class="text-green-600 font-bold">✔ Completed</span>
+             <span class="text-green-600 text-[10px] font-bold py-2 px-2 bg-green-100 rounded-lg">Completed</span>
                 <form action="{{ route('team_leader.forms.undo', $forms['questionnaire']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
@@ -77,6 +79,7 @@
                 </form>
                
             @else
+            <span class="text-red-600 text-[10px] font-bold py-2 px-2 bg-red-100 rounded-lg">Incomplete</span>
                 <form action="{{ route('team_leader.forms.complete', $forms['questionnaire']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     <button type="submit"
@@ -97,7 +100,7 @@
             </a>
 
             @if(!empty($completion['consent']))
-            <span class="text-green-600 font-bold">✔ Completed</span>
+            <span class="text-green-600 text-[10px] font-bold py-2 px-2 bg-green-100 rounded-lg">Completed</span>
                 <form action="{{ route('team_leader.forms.undo', $forms['consent']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
@@ -108,6 +111,7 @@
                 </form>
                 
             @else
+            <span class="text-red-600 text-[10px] font-bold py-2 px-2 bg-red-100 rounded-lg">Incomplete</span>
                 <form action="{{ route('team_leader.forms.complete', $forms['consent']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     <button type="submit"
@@ -117,8 +121,8 @@
                 </form>
             @endif
         </div>
-        <label for="leaderConsent" class="text-sm text-gray-600 mt-6">
-            Please upload the signed consent form <span> <a href= "" class="text-blue-500 hover:underline" target="blank">here</a></span>
+        <label for="studentConsent" class="text-sm text-gray-600 label-bottom mt-4">
+            Upload signed consent form <span> <a href= "" class="text-blue-500 hover:underline" target="blank">here</a></span>
         </label>
 
         {{-- File Upload Field --}}
@@ -149,7 +153,7 @@
             </a>
 
             @if(!empty($completion['posttest']))
-            <span class="text-green-600 font-bold">✔ Completed</span>
+            <span class="text-green-600 text-[10px] font-bold py-2 px-2 bg-green-100 rounded-lg">Completed</span>
                 <form action="{{ route('team_leader.forms.undo', $forms['posttest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
@@ -160,6 +164,7 @@
                 </form>
                 
             @else
+            <span class="text-red-600 text-[10px] font-bold py-2 px-2 bg-red-100 rounded-lg">Incomplete</span>
                 <form action="{{ route('team_leader.forms.complete', $forms['posttest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     <button type="submit"

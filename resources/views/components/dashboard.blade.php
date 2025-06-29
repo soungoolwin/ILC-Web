@@ -21,20 +21,19 @@
         {{-- Youtube Video --}}
         <iframe class="w-1/2 m-auto aspect-video"  src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-        <div class="w-full space-evenly flex justify-center items-center mt-4">
-            <a href="{{ route('admin.mentor_students_timetable') }}"class="block bg-[#7D3C98] px-4 py-3 text-sm text-white hover:bg-[#683280] mr-4 rounded-md transition-colors">
-                Mentor-Students Timetables
+        <div class="w-full flex flex-nowrap items-center justify-center gap-2 mt-4">
+            <a href="{{ route('admin.mentor_students_timetable') }}"class="text-center ml-2 block bg-[#7D3C98] px-3 py-1 lg:px-4 lg:py-2 text-xs lg:text-lg text-white hover:bg-[#683280] rounded-md transition-colors break-words">
+                Mentor-Student Timetables
             </a>
-            <a href="{{ route('admin.team_leaders_timetable') }}"class="block bg-[#7D3C98] px-4 py-3 text-sm text-white hover:bg-[#683280] mr-4 rounded-md transition-colors">
+            <a href="{{ route('admin.team_leaders_timetable') }}"class="text-center block bg-[#7D3C98] px-3 py-1 lg:px-4 lg:py-2 text-xs lg:text-lg text-white hover:bg-[#683280] rounded-md transition-colors">
                 TeamLeader Timetables
             </a>
-            <a href="{{ route('admin.forms.index') }}"class="block bg-[#7D3C98] px-4 py-3 text-sm text-white hover:bg-[#683280] mr-4 rounded-md transition-colors">
+            <a href="{{ route('admin.forms.index') }}"class="text-center block bg-[#7D3C98] px-3 py-1 lg:px-4 lg:py-2 text-xs lg:text-lg text-white hover:bg-[#683280]  rounded-md transition-colors">
                 Manage Forms
             </a>
-            <a href="{{ route('admin.forms.tracking') }}"class="block bg-[#7D3C98] px-4 py-3 text-sm text-white hover:bg-[#683280] mr-4 rounded-md transition-colors">
+            <a href="{{ route('admin.forms.tracking') }}"class="text-center block bg-[#7D3C98] px-3 py-1 lg:px-4 lg:py-2 text-xs lg:text-lg text-white hover:bg-[#683280]  rounded-md transition-colors mr-2">
                 Track Form Completion
             </a>
-
         </div>
 
 
