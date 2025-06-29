@@ -4,9 +4,10 @@
 
         <!-- Filter Form -->
         <form method="GET" action="{{ route('admin.forms.index') }}" class="flex space-x-4 mb-6">
-            <div>
-                <label class="block text-sm font-semibold text-gray-600">Form Type</label>
-                <select name="form_type" class="border border-gray-300 rounded-lg px-4 py-2">
+            <div class="flex items-left space-x-3">
+                <div>
+                <label class="block text-xs lg:text-sm font-semibold text-gray-600">Form Type</label>
+                <select name="form_type" class="w-full text-xs lg:text-sm border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                     <option value="">All Types</option>
                     @foreach(['pretest', 'posttest', 'questionnaire', 'consent'] as $type)
                         <option value="{{ $type }}" {{ request('form_type') === $type ? 'selected' : '' }}>
@@ -14,11 +15,12 @@
                         </option>
                     @endforeach
                 </select>
-            </div>
+                </div>
+            
 
             <div>
-                <label class="block text-sm font-semibold text-gray-600">For Role</label>
-                <select name="for_role" class="border border-gray-300 rounded-lg px-4 py-2">
+                <label class="block text-xs lg:text-sm font-semibold text-gray-600">For Role</label>
+                <select name="for_role" class="w-full text-xs lg:text-sm border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                     <option value="">All Roles</option>
                     @foreach(['student', 'mentor', 'team_leader'] as $role)
                         <option value="{{ $role }}" {{ request('for_role') === $role ? 'selected' : '' }}>
@@ -29,13 +31,14 @@
             </div>
 
             <div class="flex items-end">
-                <button type="submit" class="bg-[#7D3C98] text-white px-4 py-2 rounded-lg">Filter</button>
+                <button type="submit" class="block mt-4 w-full bg-[#7D3C98] text-white font-bold text-xs lg:text-sm py-2 px-4 rounded-lg transition">Filter</button>
             </div>
+        </div>
         </form>
 
         <!-- Create New Form Button -->
         <a href="{{ route('admin.forms.create') }}"
-            class="bg-[#008000] text-white px-4 py-2 rounded-lg inline-block mb-4">
+            class="bg-[#008000] text-xs lg:text-base text-white px-4 py-2 rounded-lg inline-block mb-4">
             Create New Form
         </a>
 
@@ -45,35 +48,35 @@
         @endphp
 
         @forelse ($grouped as $role => $group)
-        <div class=" w-full mb-8 rouneded-lg shadow-md bg-white p-4">
-            <table class=" w-full table-auto border-gray-300 mb-4">
+        <div class=" w-full flex justify-center items-center mx-auto">
+            <table class=" table-auto text-[10px] lg:text-base w-full border-collapse border border-gray-300">
                 <caption class="text-lg font-semibold text-[#7D3C98] mb-4">
                     Created Forms for {{ ucfirst(str_replace('_', ' ', $role)) }}s
                 </caption>
-                <thead class="bg-[#7D3C98] text-whiterounded-xl shadow-md">
-                    <tr class="bg-[#7D3C98] text-sm text-white">
-                        <th class="border px-4 py-2">Name</th>
+                <thead class="bg-[#7D3C98] text-white rounded-xl shadow-md">
+                    <tr class="text-[10px] lg:text-base text-white">
+                        <th class="border px-2 py-2">Name</th>
                         <th class="border w-1/2 px-4 py-2">Description (URL)</th>
-                        <th class="border px-4 py-2">Form Type</th>
-                        <th class="border px-4 py-2">Status</th>
-                        <th class="border px-4 py-2">Actions</th>
+                        <th class="border px-2 py-2">Form Type</th>
+                        <th class="border px-2 py-2">Status</th>
+                        <th class="border px-2 py-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($group as $form)
-                        <tr class="text-sm text-gray-700">
+                        <tr class="text-[10px] lg:text-base hover:bg-gray-100 transition-colors duration-200">
                             <td class="border px-4 py-2">{{ $form->form_name }}</td>
                             <td class="border w-1/2 px-4 py-2 break-all">{{ $form->form_description }}</td>
                             <td class="border px-4 py-2">{{ ucfirst($form->form_type) }}</td>
                             <td class="border px-4 py-2">
                                 {{ $form->is_active ? 'Active' : 'Inactive' }}
                             </td>
-                            <td class="border px-4 py-2 space-x-2 font-semibold">
-                                <a href="{{ route('admin.forms.edit', $form->id) }}" class="text-blue-600 hover:underline">Edit</a>
-                                <form action="{{ route('admin.forms.destroy', $form->id) }}" method="POST" style="display:inline;">
+                            <td class="flex-column border px-4 py-2 font-semibold items-left">
+                                <a href="{{ route('admin.forms.edit', $form->id) }}" class="block text-blue-600 hover:underline">Edit</a>
+                                <form action="{{ route('admin.forms.destroy', $form->id) }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:underline"
+                                    <button type="submit" class="block text-red-600 hover:underline"
                                         onclick="return confirm('Are you sure you want to delete this form?')">
                                         Delete
                                     </button>

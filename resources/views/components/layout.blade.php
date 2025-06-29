@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 final-scale=1.0 user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Rangsit University PAL Center</title>
     @vite('resources/css/app.css')
@@ -23,7 +23,7 @@
             </div>
 
             <!-- Navigation Bar with Login/Register -->
-            <div class="flex bg-gray-100 justify-end px-4 py-2 border-t border-gray-200">
+            <div class="flex text-xs bg-purple-100 justify-end px-1 py-1 lg:px-4 lg:py-2 border-t border-purple-200 shadow-sm md:text-sm lg:text-base">
                 @if (Auth::check())
                     @if (Auth::user()->role === 'student')
                     @php
@@ -34,132 +34,132 @@
                         }
                     @endphp
                         <a href="{{ route('student.dashboard') }}"
-                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
+                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Dashboard</a>
                         <a href="{{ route('student.profile') }}"
-                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Profile</a>
+                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Profile</a>
                         <!-- Appointments Dropdown -->
-                        <div class="relative mr-2">
                             <button id="dropdownButton"
-                                class="text-white bg-[#7D3C98] px-3 py-2 rounded-md focus:outline-none">Appointments</button>
-                            <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
+                                class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md focus:outline-none mr-2 ">Appointments</button>
+                            <div id="dropdownMenu" class="text-xs lg:text-sm w-fit absolute top-[120px] right-[120px] lg:top-[140px] mt-2 lg:mt-3 w-48 bg-white rounded-md shadow-lg hidden z-10">
                                 <a href="{{ route('student.appointments.availability') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-2 py-2 lg:px-4 lg:py-2 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200">
                                     Search Available Appointments
                                 </a>
                                 <a href="{{ route('student.appointments.create') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-2 py-2 lg:px-4 lg:py-2 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200">
                                     Create Appointments
                                 </a>
                                 @if (isset($appointment))
                                     <a href="{{ route('student.appointments.edit', $appointment->id) }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        class="block px-2 py-2 lg:px-4 lg:py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Edit Appointment
                                     </a>
                                 @else
-                                    <span class="block px-4 py-2 text-sm text-gray-400 cursor-not-allowed">
+                                    <span class="block px-2 py-1 lg:px-4 lg:py-2 text-sm text-gray-400 cursor-not-allowed">
                                         No appointment found to edit
                                     </span>
                                 @endif
                                 
                             </div>
-                        </div>
+
                         <a href="{{ route('student.links') }}"
-                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Links</a>
+                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Links</a>
                     
                     @elseif (Auth::user()->role === 'mentor')
                         <a href="{{ route('mentor.dashboard') }}"
-                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
+                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Dashboard</a>
                         <a href="{{ route('mentor.profile') }}"
-                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Profile</a>
+                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Profile</a>
                 @if (Auth::user()->role === 'mentor' && Auth::user()->mentors()->first()->status == 'active')
 
                         <!-- Timetables Dropdown -->
-                        <div class="relative mr-2">
                             <button id="dropdownButton"
-                                class="text-white bg-[#7D3C98] px-3 py-2 rounded-md focus:outline-none">Timetables</button>
-                            <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
+                                class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md focus:outline-none mr-2 ">Timetables</button>
+                            <div id="dropdownMenu" class="text-xs lg:text-sm w-fit absolute top-[120px] right-[120px] mt-2 lg:mt-3 w-48 bg-white rounded-md shadow-lg hidden z-10">
                                 <a href="{{ route('mentor.timetables.create') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-2 py-2 lg:px-4 lg:py-2 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200">
                                     Create Timetable
                                 </a>
                                 <a href="{{ route('mentor.timetables.edit') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-2 py-2 lg:px-4 lg:py-2 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200">
                                     Edit Timetable
                                 </a>
                                 <a href="{{ route('mentor.timetables.students') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-2 py-2 lg:px-4 lg:py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     See Your Students
                                 </a>
                             </div>
-                        </div>
                         <a href="{{ route('mentor.links') }}"
-                            class=" text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Links</a> 
+                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Links</a> 
 
                     @endif
                     @elseif (Auth::user()->role === 'team_leader')
                         <a href="{{ route('team_leader.dashboard') }}"
-                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
+                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Dashboard</a>
                         <a href="{{ route('team_leader.profile') }}"
-                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Profile</a>
+                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Profile</a>
 
                         <!-- Timetables Dropdown -->
-                        <div class="relative mr-2">
                             <button id="dropdownButton"
-                                class="text-white bg-[#7D3C98] px-3 py-2 rounded-md focus:outline-none">Timetables</button>
-                            <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
+                                class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md focus:outline-none mr-2">Timetables</button>
+                            <div id="dropdownMenu" class="text-xs lg:text-sm w-fit absolute top-[130px] right-20 lg:right-40 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
                                 <a href="{{ route('team_leader.view_timetables') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-2 py-2 lg:px-4 lg:py-2 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200">
                                     Check Mentor-Student Timetables
                                 </a>
                                 <a href="{{ route('team_leader.timetable.create') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-2 py-2 lg:px-4 lg:py-2 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200">
                                     Reserve TeamLeader Timetable
                                 </a>
                                 <a href="{{ route('team_leader.timetable.availability') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    class="block px-2 py-2 lg:px-4 lg:py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     TeamLeader Timetable Availability
                                 </a>
                             </div>
-                        </div>
                         <a href="{{ route('team_leader.links') }}"
-                            class="text-white block-start bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Links</a>
+                            class="inline-flex items-center text-white block-start bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Links</a>
 
 
                     @elseif (Auth::user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}"
-                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">Dashboard</a>
-                        <!-- Timetables Dropdown -->
-                        <div class="relative mr-2">
+                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Dashboard</a>
+                        
+                        <!-- Management Dropdown -->
+                        
                             <button id="dropdownButton"
-                                class="text-white bg-[#7D3C98] px-3 py-2 rounded-md">Manage</button>
-                            <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
-                                <p class="px-4 py-2 text-sm text-white font-semibold bg-blue-500">Users & Timetables</p>
-                                <a href="{{ route('admin.mentor_students_timetable') }}"
-                                    class="block px-4 py-2 text-xs text-blue-500 hover:bg-gray-100">
-                                    Mentor-Students Timetable
-                                </a>
-                                <a href="{{ route('admin.team_leaders_timetable') }}"
-                                    class="block px-4 py-2 text-xs text-blue-500 hover:bg-gray-100">
-                                    TeamLeader Timetable
-                                </a>
+                                class="text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 ">Manage</button>
+                            <div id="dropdownMenu" class="flex text-xs lg:text-sm w-fit absolute top-[120px] right-[80px] mt-2 lg:mt-5 w-48 bg-white rounded-md shadow-md hidden z-10 border border-gray-200">
+                                <div class="flex flex-col w-fit border-r border-gray-200">
+                                        <p class="px-2 py-2 lg:px-4 lg:py-2 text-sm text-white font-semibold bg-blue-500">Users & Timetables</p>
+                                        <a href="{{ route('admin.mentor_students_timetable') }}"
+                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-blue-500 hover:bg-gray-100">
+                                            Mentor-Students Timetable
+                                        </a>
+                                        <a href="{{ route('admin.team_leaders_timetable') }}"
+                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-blue-500 hover:bg-gray-100">
+                                            TeamLeader Timetable
+                                        </a>
 
-                                <a href="{{ route('dashboard.team_leaders') }}"
-                                    class="block px-4 py-2 text-xs text-blue-500 hover:bg-gray-100">
-                                     Delete Teamleaders
-                                </a>
-                                <p class="px-4 py-2 text-sm text-white font-semibold bg-yellow-400 ">Forms</p>
-                                <a href="{{ route('admin.forms.index') }}"
-                                    class="block px-4 py-2 text-xs text-yellow-500 hover:bg-gray-100">
-                                    Manage Forms
-                                </a>
-                                <a href="{{ route('admin.forms.tracking') }}"
-                                    class="block px-4 py-2 text-xs text-yellow-500 hover:bg-gray-100">
-                                    Track Form Completion
-                                </a>
+                                        <a href="{{ route('dashboard.team_leaders') }}"
+                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-blue-500 hover:bg-gray-100">
+                                            Delete Teamleaders
+                                        </a>
+                                </div>
+                                <div class="flex flex-col w-fit">
+                                        <p class="px-2 py-2 lg:px-4 lg:py-2 text-sm text-white font-semibold bg-yellow-400 ">Forms</p>
+                                        <a href="{{ route('admin.forms.index') }}"
+                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-yellow-500 hover:bg-gray-100">
+                                            Manage Forms
+                                        </a>
+                                        <a href="{{ route('admin.forms.tracking') }}"
+                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-yellow-500 hover:bg-gray-100">
+                                            Track Form Completion
+                                        </a>
+                                </div>
                             </div>
-                        </div>
+                        
                         <a href="{{ route('admin.profile') }}"
-                            class="text-white bg-[#7D3C98] px-3 py-2 rounded-md mr-2">
+                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">
                             {{ Auth::user()->name }}
                         </a>
                     @endif
@@ -168,7 +168,7 @@
                     <form method="POST" action="{{ route('logout') }}" class="inline" onsubmit="return confirmLogout()">
                         @csrf
                         <button type="submit"
-                            class="text-white bg-red-500 px-3 py-2 rounded-[25%]"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"/></svg></button>
+                            class="text-white mr-1 bg-red-500 px-1 py-1 lg:px-4 lg:py-2 rounded-[25%]"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"/></svg></button>
                     </form>
                 @else
                     <!-- Guest Links - Hide on login page -->
@@ -207,7 +207,7 @@
         </main>
 
         <!-- Footer -->
-        <footer class="bg-[#7D3C98] text-center text-white p-4">
+        <footer class="bg-[#7D3C98] text-xs lg:text-base text-center text-white p-4">
             <p>&copy; 2025 Designed by ICT Students. All rights reserved.</p>
         </footer>
     </div>

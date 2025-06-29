@@ -20,29 +20,29 @@
         <h2 class="text-center mb-4 text-[28px] underline">RIC PAL Center</h2>
         {{-- Youtube Video --}}
         <iframe class="w-1/2 m-auto aspect-video"  src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <div class="w-full m-auto mt-6 ">
-        <div class="mx-auto w-1/2 bg-white shadow-md rounded-md p-6">
+            <div class="w-full mx-auto mt-6 ">
+        <div class="mx-auto w-full p-6 justify-center items-center">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">My Appointments</h2>
 
                 @if ($appointments && $appointments->isNotEmpty())
-                    <table class="w-full table-auto border-collapse text-sm">
+                    <table class="w-full table-auto border-collapse text-xs lg:text-sm mx-auto text-center">
                         <thead>
                             <tr class="bg-[#7D3C98] text-white text-left font-bold">
-                                <th class="border px-4 py-2">Week</th>
-                                <th class="border px-4 py-2">Day</th>
-                                <th class="border px-4 py-2">Time</th>
-                                <th class="border px-4 py-2">Table</th>
+                                <th class="border px-4 py-2 text-center">Week</th>
+                                <th class="border px-4 py-2 text-center">Day</th>
+                                <th class="border px-4 py-2 text-center">Time</th>
+                                <th class="border px-2 py-2 text-center">Table</th>
                                 <th class="border px-4 py-2 text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($appointments as $appt)
-                                <tr class="hover:bg-gray-50 text-left">
+                                <tr class="hover:bg-gray-50 text-center">
                                     <td class="border px-4 py-2">{{ $appt->timetable->week_number }}</td>
                                     <td class="border px-4 py-2">{{ $appt->timetable->day }}</td>
                                     <td class="border px-4 py-2">{{ $appt->timetable->time_slot }}</td>
-                                    <td class="border px-4 py-2">{{ $appt->timetable->table_number }}</td>
-                                    <td class="border px-4 py-2 text-center">
+                                    <td class="border px-2 py-2">{{ $appt->timetable->table_number }}</td>
+                                    <td class="border px-4 py-2">
                                         <a href="{{ route('student.appointments.edit', $appt->id) }}"
                                         class="text-blue-600 hover:underline">Edit</a>
                                     </td>
@@ -56,8 +56,8 @@
             </div>
         </div>
     </div>
-        <div class=" w-4/5 m-auto p-2 mb-4 text-[12px] mt-5">
-            <div id="accordion-collapse-timetable" data-accordion="collapse" class="w-4/5 flex m-auto flex-row gap-1">
+        <div class=" w-full m-auto p-2 mb-4 text-[12px] mt-5">
+            <div id="accordion-collapse-timetable" data-accordion="collapse" class="w-full flex m-auto flex-row gap-1">
 <!--
                 {{-- First Item --}}
                 <div class="w-full">
