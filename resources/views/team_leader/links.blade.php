@@ -121,17 +121,12 @@
                 </form>
             @endif
         </div>
-<<<<<<< HEAD
 
         <label for="leaderConsent" class="text-sm text-gray-600 mt-6">
             Please upload the signed consent form 
             <span>
                 <a href="{{ $fileUploadLink->url }}" target="_blank" class="text-blue-500 hover:underline">here</a>
             </span>
-=======
-        <label for="studentConsent" class="text-sm text-gray-600 label-bottom mt-4">
-            Upload signed consent form <span> <a href= "" class="text-blue-500 hover:underline" target="blank">here</a></span>
->>>>>>> ad05732f50fa9b6647f88f861bbdfab9f2ed8bd4
         </label>
 
 
