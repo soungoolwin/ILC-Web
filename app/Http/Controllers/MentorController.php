@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mentor;
 use App\Models\Form;
 use App\Models\MentorForm;
+use App\Models\FileUploadLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -46,7 +47,10 @@ class MentorController extends Controller
             }
         }
 
-        return view('mentor.links', compact('forms', 'completion'));
+        $fileUploadLink = FileUploadLink::where('for_role', 'mentor')
+            ->first();
+
+        return view('mentor.links', compact('forms', 'fileUploadLink', 'completion'));
     }
 
 
