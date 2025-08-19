@@ -20,6 +20,8 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\StudentMiddleware;
 use App\Http\Middleware\TeamLeaderMiddleware;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Models\RegistrationQueue;
 
 Route::get('/', function () {
     return view('test');
@@ -211,3 +213,12 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
 //Logout
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/check-queue-status', function () {
+    $nextInQueue = cache()->get('next_in_queue', 1);
+    $myPosition = session('queue_position');
+
+    return response()->json([
+        'status' => $nextInQueue == $myPosition ? 'active' : 'waiting'
+    ]);
+})->name('queue.status');

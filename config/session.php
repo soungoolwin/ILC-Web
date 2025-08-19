@@ -3,7 +3,6 @@
 use Illuminate\Support\Str;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Session Driver
@@ -18,7 +17,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'database'),
+    'driver' => env('SESSION_DRIVER', 'file'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,9 +31,9 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 120),
+    'lifetime' => env('SESSION_LIFETIME', 120), // 2 hours for regular login sessions
 
-    'expire_on_close' => env('SESSION_EXPIRE_ON_CLOSE', false),
+    'expire_on_close' => false, // Keep login sessions even when browser closes
 
     /*
     |--------------------------------------------------------------------------
@@ -214,4 +213,16 @@ return [
 
     'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Session Configurations
+    |--------------------------------------------------------------------------
+    |
+    | Here you may define any custom session configurations that your application
+    | requires. These configurations will be merged with the default session
+    | configurations defined above.
+    |
+    */
+
+    'registration_lifetime' => env('REGISTRATION_SESSION_LIFETIME', 15), // 15 minutes
 ];
