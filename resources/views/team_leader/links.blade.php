@@ -125,7 +125,9 @@
         <label for="leaderConsent" class="text-sm text-gray-600 mt-6">
             Please upload the signed consent form 
             <span>
+                @if(!empty($fileUploadLink->url))
                 <a href="{{ $fileUploadLink->url }}" target="_blank" class="text-blue-500 hover:underline">here</a>
+                @endif
             </span>
         </label>
 

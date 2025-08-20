@@ -122,7 +122,9 @@
             <label for="studentConsent" class="text-sm text-gray-600 mt-6">
                 Please upload the signed consent form 
                 <span>
+                    @if(!empty($fileUploadLink->url))
                     <a href="{{ $fileUploadLink->url }}" class="text-blue-500 hover:underline" target="_blank">here</a>
+                    @endif
                 </span>
             </label>
 
