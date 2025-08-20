@@ -13,6 +13,7 @@ use App\Http\Controllers\TimetableController;
 use App\Http\Controllers\AdminFormController;
 use App\Http\Controllers\StudentFormController;
 use App\Http\Controllers\MentorFormController;
+use App\Http\Controllers\AdminFileUploadLinkController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -159,6 +160,19 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 
     //Admin Form Tracking
     Route::get('/admin/form-tracking', [AdminFormController::class, 'tracking'])->name('admin.forms.tracking');
+
+    Route::get('/admin/file_upload_links/create', [AdminFileUploadLinkController::class, 'create'])->name('admin.file_upload_links.create');
+
+    // Admin File Upload Links
+    Route::post('/admin/file_upload_links', [AdminFileUploadLinkController::class, 'store'])->name('admin.file_upload_links.store');
+
+    Route::get('/admin/file_upload_links/{file_upload_link}', [AdminFileUploadLinkController::class, 'show'])->name('admin.file_upload_links.show');
+
+    Route::get('/admin/file_upload_links/{file_upload_link}/edit', [AdminFileUploadLinkController::class, 'edit'])->name('admin.file_upload_links.edit');
+
+    Route::put('/admin/file_upload_links/{file_upload_link}', [AdminFileUploadLinkController::class, 'update'])->name('admin.file_upload_links.update');
+
+    Route::delete('/admin/file_upload_links/{file_upload_link}', [AdminFileUploadLinkController::class, 'destroy'])->name('admin.file_upload_links.destroy');
 
 });
 

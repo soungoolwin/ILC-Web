@@ -2,6 +2,8 @@
     <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Form Management</h2>
 
+        <p>Debug: {{ $uploadLink->id ?? 'No model found' }}</p>
+
         <!-- Filter Form -->
         <form method="GET" action="{{ route('admin.forms.index') }}" class="flex space-x-4 mb-6">
             <div class="flex items-left space-x-3">
@@ -40,6 +42,11 @@
         <a href="{{ route('admin.forms.create') }}"
             class="bg-[#008000] text-xs lg:text-base text-white px-4 py-2 rounded-lg inline-block mb-4">
             Create New Form
+        </a>
+
+        <!-- Create New Upload Link Button -->
+        <a href="{{ route('admin.file_upload_links.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Create New File Upload Link
         </a>
 
         <!-- Grouped Forms Table -->
@@ -90,5 +97,40 @@
         @empty
             <p class="text-gray-600">No forms found.</p>
         @endforelse
+
+        <!-- Upload Links Table -->
+        <table class="w-full mt-6 table-auto border-collapse">
+            <thead>
+                <tr class="bg-gray-100 text-left">
+                    <th class="p-2 border">Name</th>
+                    <th class="p-2 border">URL</th>
+                    <th class="p-2 border">For Role</th>
+                    <th class="p-2 border">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($uploadLinks as $fileUploadLink)
+                    <tr class="border-t text-sm text-gray-800">
+                        <td class="p-2">{{ $fileUploadLink->name }}</td>
+                        <td class="p-2 break-all text-blue-600">
+                            <a href="{{ $fileUploadLink->url }}" target="_blank">{{ $fileUploadLink->url }}</a>
+                        </td>
+                        <td class="p-2 capitalize">{{ str_replace('_', ' ', $fileUploadLink->for_role) }}</td>
+                        <td class="p-2 space-x-2">
+                            <a href="{{ route('admin.file_upload_links.edit', $fileUploadLink) }}" class="text-yellow-600 hover:underline">Edit</a>
+                            <form action="{{ route('admin.file_upload_links.destroy', $fileUploadLink) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:underline"
+                                    onclick="return confirm('Are you sure you want to delete this upload link?')">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
     </div>
 </x-layout>

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Timetable;
 use App\Models\Form;
 use App\Models\TeamLeaderForm;
+use App\Models\FileUploadLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -68,7 +69,10 @@ class TeamLeaderController extends Controller
             }
         }
 
-        return view('team_leader.links', compact('forms', 'completion'));
+        $fileUploadLink = FileUploadLink::where('for_role', 'team_leader')
+            ->first();
+
+        return view('team_leader.links', compact('forms', 'fileUploadLink', 'completion'));
     }
 
 
