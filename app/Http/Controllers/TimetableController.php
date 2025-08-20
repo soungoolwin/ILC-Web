@@ -46,7 +46,7 @@ class TimetableController extends Controller
         // Insert 32 rows (2 slots per week for 16 weeks)
         /* !Change Week Range in Here! */
         $timetables = [];
-        foreach (range(2, 6) as $week_number) {
+        foreach (range(4, 13) as $week_number) {
             foreach ($timeSlots as $timeSlot) {
                 $timetables[] = [
                     'mentor_id' => $mentor->id,
@@ -176,12 +176,10 @@ class TimetableController extends Controller
             '13:00-14:00',
             '14:00-15:00',
             '15:00-16:00',
-            '16:00-17:00',
-            '17:00-18:00',
-            '18:00-19:00',
-            '19:00-20:00'
+            '16:00-17:00'
+            //,'17:00-18:00','18:00-19:00','19:00-20:00'
         ];
-        $tables = range(1, 25);
+        $tables = range(1, 16);
 
         // Fetch reserved timetables with mentor_id
         $reservedTimetables = Timetable::select('day', 'time_slot', 'table_number', 'mentor_id')

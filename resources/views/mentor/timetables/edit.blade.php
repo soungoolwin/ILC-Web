@@ -67,7 +67,7 @@
                 <label for="table_number" class="block text-sm font-semibold text-gray-600 mb-1">Table Number</label>
                 <select name="table_number" id="table_number"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                    @for ($i = 1; $i <= 4; $i++)
+                    @for ($i = 1; $i <= 16; $i++)
                         <option value="{{ $i }}" {{ $timetable->table_number == $i ? 'selected' : '' }}>
                             Table {{ $i }}
                         </option>
@@ -92,11 +92,11 @@
 
     timeSelect.addEventListener('change', function () {
         const selectedTime = this.value;
-        let tableCount = 4;
+        let tableCount = 16;
 
-        // Show only 2 tables for 09:00-10:00 and 10:00-11:00
+        // Show only 4 tables for 09:00-10:00 and 10:00-11:00
         if (selectedTime === '09:00-10:00' || selectedTime === '10:00-11:00') {
-            tableCount = 2;
+            tableCount = 4;
         }
 
         // Clear current options

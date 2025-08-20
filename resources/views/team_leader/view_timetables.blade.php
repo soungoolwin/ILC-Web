@@ -11,7 +11,7 @@
                     <select name="week_number" id="week_number"
                         class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Weeks</option>
-                        @for ($i = 2; $i <= 6; $i++)
+                        @for ($i = 4; $i <= 13; $i++)
                             <option value="{{ $i }}" {{ request('week_number') == $i ? 'selected' : '' }}>
                                 Week {{ $i }}
                             </option>
@@ -39,7 +39,7 @@
                     <select name="time_slot" id="time_slot"
                         class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Time Slots</option>
-                        @foreach (range(9, 19) as $hour)
+                        @foreach (range(9, 17) as $hour)
                             @php
                                 $startTime = sprintf('%02d:00', $hour);
                                 $midTime = sprintf('%02d:30', $hour);
