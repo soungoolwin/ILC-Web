@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Mentor;
 use App\Models\TeamLeader;
+use App\Models\FileUploadLink;
 
 class AdminFormController extends Controller
 {
@@ -24,8 +25,15 @@ class AdminFormController extends Controller
         }
 
         $forms = $query->orderBy('for_role')->get();
+        
+        $uploadLinks = FileUploadLink::query()
+            ->when($request->filled('for_role'), function ($q) use ($request) {
+                $q->where('for_role', $request->for_role);
+            })
+            ->orderBy('for_role')
+            ->get();
 
-        return view('admin.forms.index', compact('forms'));
+        return view('admin.forms.index', compact('forms', 'uploadLinks'));
     }
 
     // Show the form for creating a new form

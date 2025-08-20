@@ -30,7 +30,7 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Week</option>
-                    @foreach (range(2, 6) as $week)
+                    @foreach (range(4, 13) as $week)
                         <option value="{{ $week }}">{{ $week }}</option>
                     @endforeach
                 </select>
@@ -69,7 +69,7 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Table</option>
-                    @foreach (range(1, 4) as $table)
+                    @foreach (range(1, 13) as $table)
                         <option value="{{ $table }}">Table {{ $table }}</option>
                     @endforeach
                 </select>
@@ -101,11 +101,11 @@
 
     timeSelect.addEventListener('change', function () {
         const selectedTime = this.value;
-        let tableCount = 4;
+        let tableCount = 16;
 
         // Show only 2 tables for 09:00-09:30, 9:30-10:00, 10:00-10:30, and 10:30-11:00
         if (selectedTime === '09:00-09:30' || selectedTime === '09:30-10:00' || selectedTime === '10:00-10:30' || selectedTime === '10:30-11:00') {
-            tableCount = 2;
+            tableCount = 4;
         }
 
         // Clear current options

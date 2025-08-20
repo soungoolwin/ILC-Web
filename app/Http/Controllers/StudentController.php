@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Appointment;
 use App\Models\Form;
 use App\Models\StudentForm;
+use App\Models\FileUploadLink;
 
 class StudentController extends Controller
 {
@@ -48,7 +49,10 @@ class StudentController extends Controller
             }
         }
 
-        return view('student.links', compact('forms', 'completion'));
+        $fileUploadLink = FileUploadLink::where('for_role', 'student')
+            ->first();
+
+        return view('student.links', compact('forms', 'fileUploadLink', 'completion'));
     }
 
 

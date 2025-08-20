@@ -11,7 +11,7 @@
                 <select name="week_number" id="week_number"
                     class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                     <option value="">All Weeks</option>
-                    @foreach (range(2, 6) as $week)
+                    @foreach (range(4, 13) as $week)
                         <option value="{{ $week }}" {{ (int) request('week_number') === $week ? 'selected' : ''}}>
                             {{ $week }}
                         </option>
@@ -26,7 +26,7 @@
     <select name="table_number" id="table_number"
         class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
         <option value="">All Tables</option>
-        @foreach (range(1, 4) as $table)
+        @foreach (range(1, 16) as $table)
             <option value="{{ $table }}" {{ (int) request('table_number') === $table ? 'selected' : '' }}>
                 {{ $table }}
             </option>
@@ -112,3 +112,28 @@
         @endif
     </div>
 </x-layout>
+<script>
+    const tableSelect = document.getElementById('table_number');
+    const timeSelect = document.getElementById('time_slot');
+
+    timeSelect.addEventListener('change', function () {
+        const selectedTime = this.value;
+        let tableCount = 16;
+
+        // Show only 2 tables for 09:00-09:30, 9:30-10:00, 10:00-10:30, and 10:30-11:00
+        if (selectedTime === '09:00-09:30' || selectedTime === '09:30-10:00' || selectedTime === '10:00-10:30' || selectedTime === '10:30-11:00') {
+            tableCount = 4;
+        }
+
+        // Clear current options
+        tableSelect.innerHTML = '<option value="">Select a Table</option>';
+
+        // Add new options
+        for (let i = 1; i <= tableCount; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = 'Table ' + i;
+            tableSelect.appendChild(option);
+        }
+    });
+</script>

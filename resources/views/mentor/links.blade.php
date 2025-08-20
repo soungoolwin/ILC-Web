@@ -120,9 +120,14 @@
             @endif
         </div>
 
-        <label for="studentConsent" class="text-sm text-gray-600 label-bottom mt-4">
-            Upload signed consent form <span> <a href= "" class="text-blue-500 hover:underline" target="blank">here</a></span>
-        </label>
+            <label for="mentorConsent" class="text-sm text-gray-600 mt-6">
+                Please upload the signed consent form 
+                <span>
+                    @if(!empty($fileUploadLink->url))
+                    <a href="{{ $fileUploadLink->url }}" class="text-blue-500 hover:underline" target="_blank">here</a>
+                    @endif
+                </span>
+            </label>
 
         {{-- File Upload --}}
         <div class="flex mt-4 hidden">

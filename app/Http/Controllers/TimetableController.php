@@ -30,52 +30,70 @@ class TimetableController extends Controller
      * Store the new timetable reservation.
      */
     public function store(Request $request)
-    {
-        $mentor = Auth::user()->mentors()->first();
+{
+    $mentor = Auth::user()->mentors()->first();
 
-        // Validate input
-        $request->validate([
-            'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
-            'time_slot' => 'required|string|regex:/^\d{2}:\d{2}-\d{2}:\d{2}$/', // Format: HH:MM-HH:MM
-            'table_number' => 'required|integer|min:1|max:25',
-        ]);
+    // Validate input
+    $request->validate([
+        'day'          => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
+        'time_slot'    => 'required|string|regex:/^\d{2}:\d{2}-\d{2}:\d{2}$/', // Format: HH:MM-HH:MM
+        'table_number' => 'required|integer|min:1|max:25',
+    ]);
 
-        // Split the one-hour time slot into two 30-minute slots
-        $timeSlots = $this->splitTimeSlot($request->time_slot);
+    // Split the one-hour time slot into two 30-minute slots
+    $timeSlots = $this->splitTimeSlot($request->time_slot);
 
-        // Insert 32 rows (2 slots per week for 16 weeks)
-        /* !Change Week Range in Here! */
-        $timetables = [];
-        foreach (range(2, 6) as $week_number) {
-            foreach ($timeSlots as $timeSlot) {
+    // Insert 32 rows (2 slots per week for 16 weeks)
+    /* !Change Week Range in Here! */
+    $timetables = [];
+    foreach (range(4, 13) as $week_number) {
+        foreach ($timeSlots as $timeSlot) {
+            if ($timeSlot !== '9:00-10:00' && $timeSlot !== '10:00-11:00') {
+                // Create a new timetable entry for each mentor
                 $timetables[] = [
-                    'mentor_id' => $mentor->id,
-
-                    'day' => $request->day,
-                    'time_slot' => $timeSlot,
+                    'mentor_id'    => $mentor->id,
+                    'day'          => $request->day,
+                    'time_slot'    => $timeSlot,
                     'table_number' => $request->table_number,
-                    'week_number' => (string)$week_number,
-                    'reserved' => false,
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'week_number'  => (string) $week_number,
+                    'reserved'     => false,
+                    'created_at'   => now(),
+                    'updated_at'   => now(),
                 ];
+            } else {
+                if ($request->table_number <= 4) {   // ✅ fixed here
+                    $timetables[] = [
+                        'mentor_id'    => $mentor->id,
+                        'day'          => $request->day,
+                        'time_slot'    => $timeSlot,
+                        'table_number' => $request->table_number,
+                        'week_number'  => (string) $week_number,
+                        'reserved'     => false,
+                        'created_at'   => now(),
+                        'updated_at'   => now(),
+                    ];
+                }
             }
         }
-
-        // Check for unique constraint violations
-        $conflicts = Timetable::where('day', $request->day)
-            ->whereIn('time_slot', $timeSlots)
-            ->where('table_number', $request->table_number)
-            ->exists();
-
-        if ($conflicts) {
-            return back()->withErrors(['conflict' => 'The selected time slot and table number is already reserved.']);
-        }
-
-        Timetable::insert($timetables);
-
-        return redirect()->route('mentor.dashboard')->with('success', 'Timetable reserved successfully.');
     }
+
+    // Check for unique constraint violations
+    $conflicts = Timetable::where('day', $request->day)
+        ->whereIn('time_slot', $timeSlots)
+        ->where('table_number', $request->table_number)
+        ->exists();
+
+    if ($conflicts) {
+        return back()->withErrors([
+            'conflict' => 'The selected time slot and table number is already reserved.',
+        ]);
+    }
+
+    Timetable::insert($timetables);
+
+    return redirect()->route('mentor.dashboard')
+        ->with('success', 'Timetable reserved successfully.');
+}
     public function edit(Request $request)
     {
 
@@ -176,12 +194,10 @@ class TimetableController extends Controller
             '13:00-14:00',
             '14:00-15:00',
             '15:00-16:00',
-            '16:00-17:00',
-            '17:00-18:00',
-            '18:00-19:00',
-            '19:00-20:00'
+            '16:00-17:00'
+            //,'17:00-18:00','18:00-19:00','19:00-20:00'
         ];
-        $tables = range(1, 25);
+        $tables = range(1, 16);
 
         // Fetch reserved timetables with mentor_id
         $reservedTimetables = Timetable::select('day', 'time_slot', 'table_number', 'mentor_id')
