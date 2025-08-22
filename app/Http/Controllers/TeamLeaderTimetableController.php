@@ -39,9 +39,9 @@ class TeamLeaderTimetableController extends Controller
             ->where('day', $request->day)
             ->count();
 
-        // Enforce slot limits
+        // Enforce slot limits with special rule for Tuesday 09:00-11:00
         $slotLimits = [
-            '09:00-11:00' => 2,
+            '09:00-11:00' => 3,
             '11:00-13:00' => 6,
             '13:00-15:00' => 6,
             '15:00-17:00' => 6,
@@ -70,7 +70,7 @@ class TeamLeaderTimetableController extends Controller
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
         $slotLimits = [
-            '09:00-11:00' => 2,
+            '09:00-11:00' => 3,
             '11:00-13:00' => 6,
             '13:00-15:00' => 6,
             '15:00-17:00' => 6,
