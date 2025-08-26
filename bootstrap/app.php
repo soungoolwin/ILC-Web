@@ -4,6 +4,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\StudentMiddleware;
+use App\Http\Middleware\LecturerMiddleware;
 use Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -20,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(MentorMiddleware::class);
         $middleware->append(StudentMiddleware::class);
         $middleware->append(AdminMiddleware::class);
+        $middleware->append(LecturerMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

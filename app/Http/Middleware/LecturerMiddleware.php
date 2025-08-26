@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class RedirectIfAuthenticated
+class LecturerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -19,15 +19,8 @@ class RedirectIfAuthenticated
         if (Auth::check()) {
             $user = Auth::user();
 
-            // Redirect based on the user's role
-            if ($user->role === 'student') {
-                return redirect('/student/dashboard');
-            } elseif ($user->role === 'mentor') {
-                return redirect('/mentor/dashboard');
-            } elseif ($user->role === 'admin') {
-                return redirect('/admin/dashboard');
-            } elseif ($user->role === 'lecturer') {
-                return redirect('/lecturer/dashboard');
+            if ($user->role !== 'lecturer') {
+                return redirect('/' . $user->role . '/dashboard');
             }
         }
 
