@@ -7,6 +7,7 @@ use App\Http\Controllers\MentorController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeamLeaderController;
+use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\TeamLeaderFormController;
 use App\Http\Controllers\TeamLeaderTimetableController;
 use App\Http\Controllers\TimetableController;
@@ -19,6 +20,7 @@ use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\StudentMiddleware;
 use App\Http\Middleware\TeamLeaderMiddleware;
+use App\Http\Middleware\LecturerMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -111,6 +113,10 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
     Route::get('/student/appointments/availability', [AppointmentController::class, 'checkAvailability'])->name('student.appointments.availability');
 });
 
+//Lecturer Routes
+Route::middleware([LecturerMiddleware::class, 'auth'])->group(function () {
+
+});
 
 //Admin Routes
 Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
