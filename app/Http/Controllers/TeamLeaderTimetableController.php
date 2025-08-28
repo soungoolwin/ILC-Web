@@ -41,9 +41,9 @@ class TeamLeaderTimetableController extends Controller
 
         // Enforce slot limits with special rule for Tuesday 09:00-11:00
         $slotLimits = [
-            '09:00-11:00' => 3,
+            '09:00-11:00' => 4,
             '11:00-13:00' => 6,
-            '13:00-15:00' => 6,
+            '13:00-15:00' => 7,
             '15:00-17:00' => 6,
             //'17:00-20:00' => 3, add this on main semesters
         ];
@@ -70,9 +70,9 @@ class TeamLeaderTimetableController extends Controller
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
         $slotLimits = [
-            '09:00-11:00' => 3,
+            '09:00-11:00' => 4,
             '11:00-13:00' => 6,
-            '13:00-15:00' => 6,
+            '13:00-15:00' => 7,
             '15:00-17:00' => 6,
         ];
 
