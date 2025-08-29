@@ -39,6 +39,9 @@ Route::middleware(RedirectIfAuthenticated::class)->group(function () {
     Route::get('/register/admin', [SignupController::class, 'showAdminRegistrationForm'])->name('register.admin');
     Route::post('/register/admin', [SignupController::class, 'registerAdmin']);
 
+    Route::get('/register/lecturer', [SignupController::class, 'showLecturerRegistrationForm'])->name('register.lecturer');
+    Route::post('/register/lecturer', [SignupController::class, 'registerLecturer']);
+
     Route::get('/register/team-leader', [SignupController::class, 'showTeamLeaderRegistrationForm'])->name('register.team_leader');
     Route::post('/register/team-leader', [SignupController::class, 'registerTeamLeader']);
 
@@ -115,7 +118,25 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
 
 //Lecturer Routes
 Route::middleware([LecturerMiddleware::class, 'auth'])->group(function () {
+        // profile
+        Route::get('/profile', [LecturerController::class, 'show'])->name('profile');
+        Route::post('/profile', [LecturerController::class, 'update'])->name('profile.update');
 
+        // dashboard
+        Route::get('/dashboard', [LecturerController::class, 'dashboard'])->name('dashboard');
+
+        // read-only lists
+        Route::get('/students', [LecturerController::class, 'viewStudents'])->name('students');
+        Route::get('/mentors', [LecturerController::class, 'viewMentors'])->name('mentors');
+        Route::get('/teamleaders', [LecturerController::class, 'viewTeamLeaders'])->name('teamleaders');
+
+        // timetables (read-only)
+        Route::get('/team-leaders-timetables', [LecturerController::class, 'viewTeamLeadersTimetable'])->name('teamleaders.timetable');
+        Route::get('/mentor-students-timetable', [LecturerController::class, 'viewMentorStudentsTimetable'])->name('mentor_students.timetable');
+
+        // attendance -- placeholders for future implementation --
+        Route::get('/attendance', [LecturerController::class, 'attendanceIndex'])->name('attendance.index');
+        Route::get('/attendance/{user}', [LecturerController::class, 'attendanceShow'])->name('attendance.show');
 });
 
 //Admin Routes

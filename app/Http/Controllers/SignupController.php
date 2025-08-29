@@ -7,6 +7,7 @@ use App\Models\Mentor;
 use App\Models\Student;
 use App\Models\TeamLeader;
 use App\Models\User;
+use App\Models\Lecturer;
 use Illuminate\Http\Request;
 
 class SignupController extends Controller
@@ -180,5 +181,43 @@ class SignupController extends Controller
         ]);
 
         return redirect()->route('login')->with('success', 'Team Leader account created successfully!');
+    }
+
+    public function showLecturerRegistrationForm()
+    {
+        return view('auth.register-lecturer');
+    }
+
+    public function registerLecturer(Request $request)
+    {
+        $data = $request->validate([
+            // users table
+            'name'         => 'required|string|max:255',
+            'nickname'     => 'required|string|max:255',
+            'email'        => 'required|string|email|max:255|unique:users',
+            'password'     => 'required|string|min:8|confirmed',
+            'line_id'      => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:255',
+
+            // lecturers table
+            'lecturer_id'    => 'required|string|unique:lecturers,lecturer_id',
+        ]);
+
+        $user = User::create([
+            'name'         => $data['name'],
+            'nickname'     => $data['nickname'],
+            'email'        => $data['email'],
+            'password'     => bcrypt($data['password']),
+            'role'         => 'lecturer', // 👈 role
+            'line_id'      => $data['line_id'] ?? null,
+            'phone_number' => $data['phone_number'] ?? null,
+        ]);
+
+        Lecturer::create([
+            'user_id'       => $user->id,
+            'lecturer_id'   => $data['lecturer_id'],
+        ]);
+
+        return redirect()->route('login')->with('success', 'Lecturer account created successfully!');
     }
 }

@@ -46,8 +46,13 @@ class LoginController extends Controller
                 return redirect()->route('student.dashboard');
             } elseif ($user->role === 'team_leader') {
                 return redirect()->route('team_leader.dashboard');
-            } else {
+            } elseif ($user->role === 'lecturer')    {
+                return redirect()->route('lecturer.dashboard');
+            } elseif ($user->role === 'admin') {
                 return redirect()->route('admin.dashboard');
+            } else {
+                Auth::logout();
+                return back()->withErrors(['email' => 'Unauthorized role.'])->withInput($request->except('password'));
             }
         }
 
