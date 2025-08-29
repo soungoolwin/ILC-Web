@@ -17,7 +17,7 @@
                 <!-- Title and Logos -->
                 <div class="flex items-center justify-center w-full">
                     <img src="/images/logo_new.png" alt="RSU Logo" class=" w-14 h-14 md:w-16 md:h-16">
-                    <h1 class=" font-bold text-black mx-auto text-xl md:text-2xl">RSU PAL Center</h1>
+                    <h1 class=" font-normal text-[#7D3C98] mx-auto text-xl lg:text-3xl md:text-2xl">RSU GLOBAL!</h1>
                     <img src="/images/logo_new.png" alt="RSU Logo" class=" w-14 h-14 md:w-16 md:h-16">
                 </div>
             </div>
@@ -144,6 +144,10 @@
                                             class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-blue-500 hover:bg-gray-100">
                                             Delete Teamleaders
                                         </a>
+                                        <a href="{{ route('dashboard.users') }}"
+                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-blue-500 hover:bg-gray-100">
+                                            Delete Users
+                                        </a>
                                 </div>
                                 <div class="flex flex-col w-fit">
                                         <p class="px-2 py-2 lg:px-4 lg:py-2 text-sm text-white font-semibold bg-yellow-400 ">Forms</p>
@@ -167,8 +171,12 @@
                     <!-- Logout Button -->
                     <form method="POST" action="{{ route('logout') }}" class="inline" onsubmit="return confirmLogout()">
                         @csrf
-                        <button type="submit"
-                            class="text-white mr-1 bg-red-500 px-1 py-1 lg:px-2 lg:py-2 rounded-[25%]"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"/></svg></button>
+                        <button type="submit" data-tooltip-target="tooltip-bottom" data-tooltip-placement="bottom" 
+                            class="text-white mr-1 bg-red-600 px-1 py-1 lg:px-2 lg:py-2 rounded-3xl hover:shadow-lg"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"/></svg></button>
+                            <div id="tooltip-bottom" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-red-600 bg-gray-100 rounded-lg shadow-xs opacity-0 transition-opacity duration-400 tooltip">
+                            Log Out
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+</div>
                     </form>
                 @else
                     <!-- Guest Links - Hide on login page -->

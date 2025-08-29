@@ -131,6 +131,10 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::get('/admin/dashboard/team-leaders', [AdminController::class, 'viewTeamLeaders'])->name('dashboard.team_leaders'); // View all team leaders
     Route::delete('/admin/dashboard/team-leaders/{id}', [AdminController::class, 'deleteTeamLeader'])->name('dashboard.team_leaders.delete'); // Delete a team leader
 
+    // Admin see all users and delete
+    Route::get('/admin/dashboard/users', [AdminController::class, 'viewUsers'])->name('dashboard.users'); // View all users
+    Route::delete('/admin/dashboard/users/{id}', [AdminController::class, 'deleteUser'])->name('dashboard.users.delete'); // Delete a user
+
     //See Profiles
     Route::get('/admin/mentors/{id}', [MentorController::class, 'adminShow'])->name('admin.mentors.show');
     Route::get('/admin/students/{id}', [StudentController::class, 'adminShow'])->name('admin.students.show');
@@ -173,6 +177,7 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::put('/admin/file_upload_links/{file_upload_link}', [AdminFileUploadLinkController::class, 'update'])->name('admin.file_upload_links.update');
 
     Route::delete('/admin/file_upload_links/{file_upload_link}', [AdminFileUploadLinkController::class, 'destroy'])->name('admin.file_upload_links.destroy');
+
 
 });
 

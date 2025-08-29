@@ -146,4 +146,41 @@ class AdminController extends Controller
 
         return redirect()->route('dashboard.team_leaders')->with('success', 'Team Leader deleted successfully!');
     }
+
+    // View all users
+    public function viewUsers(Request $request)
+    {
+        $query = \App\Models\User::query();
+
+        // Search by email if provided
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->email . '%');
+        }
+
+        // Exclude admins (also handles null role safely)
+    $query->where(function ($qq) {
+        $qq->whereNull('role')->orWhere('role', '!=', 'admin');
+    });
+
+    // OPTIONAL: only verified if requested (?only_verified=1)
+    if ($request->boolean('only_verified')) {
+        $query->whereNotNull('email_verified_at');
+    }
+
+        // Paginate results
+        $users = $query->paginate(50);
+
+        return view('admin.team_leaders.users', compact('users', 'request'));
+    }
+
+    // Delete a user
+    public function deleteUser($id)
+    {
+        $user = \App\Models\User::findOrFail($id);
+
+        // Delete the user
+        $user->delete();
+
+        return redirect()->route('dashboard.users')->with('success', 'User deleted successfully!');
+    }
 }
