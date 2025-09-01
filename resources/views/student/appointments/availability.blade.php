@@ -75,8 +75,8 @@
 
         <!-- Display Available Timetables -->
         @if (count($availableTimetables) > 0)
-        <div class="w-full flex justify-center items-center mx-auto">
-            <table class="table-auto text-xs lg:text-sm w-full border-collapse border border-gray-300">
+        <div class="w-full flex justify-center items-center mx-auto p-2">
+            <table class="table-auto text-[10px] lg:text-sm w-full border-collapse border border-gray-300">
                 <thead class="bg-[#7D3C98] text-white rounded-xl shadow-md">
                     <tr class="text-md">
                         <th class="border border-gray-300 px-2 py-2">Week</th>
@@ -89,7 +89,7 @@
                 </thead>
                 <tbody>
                     @foreach ($availableTimetables as $timetable)
-                        <tr class="text-md hover:bg-gray-100 transition-colors duration-200">
+                        <tr class="text-[10px] lg:text-xs hover:bg-gray-100 transition-colors duration-200">
                             <td class="border border-gray-300 px-2 py-2 text-center">{{ $timetable['week_number'] }}
                             </td>
                             <td class="border border-gray-300 px-2 py-2 text-center">{{ $timetable['day'] }}</td>

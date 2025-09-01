@@ -33,16 +33,18 @@ class AppointmentController extends Controller
             'table_number' => 'required|integer|min:1|max:25',
         ]);
 
-        $existingSameDayAppointment = Appointment::where('student_id', $student->id)
-        ->whereHas('timetable', function ($query) use ($request) {
-            $query->where('week_number', $request->week_number)
-                  ->where('day', $request->day);
-        })
-        ->first();
+        //only 4 appointments per week
+            $weeklyCount = Appointment::where('student_id', $student->id)
+                ->whereHas('timetable', function ($query) use ($request) {
+                    $query->where('week_number', $request->week_number);
+                })
+                ->count();
 
-        if ($existingSameDayAppointment) {
-            return back()->withErrors(['error' => 'You already have an appointment on this day.']);
-        }
+            if ($weeklyCount >= 4) {
+                return back()->withErrors([
+                    'error' => "You already have 4 appointments in week {$request->week_number}."
+                ]);
+            }
 
 
         // Find the timetable record
@@ -121,16 +123,17 @@ class AppointmentController extends Controller
             'table_number' => 'required|integer|min:1|max:25',
         ]);
 
-        $existingSameDayAppointment = Appointment::where('student_id', $student->id)
-        ->whereHas('timetable', function ($query) use ($request) {
-            $query->where('week_number', $request->week_number)
-                  ->where('day', $request->day);
-        })
-        ->first();
+            $weeklyCount = Appointment::where('student_id', $student->id)
+                ->whereHas('timetable', function ($query) use ($request) {
+                    $query->where('week_number', $request->week_number);
+                })
+                ->count();
 
-        if ($existingSameDayAppointment && $existingSameDayAppointment->id !== $appointment->id) {
-            return back()->withErrors(['error' => 'You already have an appointment on this day. Edit your existing appointment instead.']);
-        }         
+            if ($weeklyCount >= 4) {
+                return back()->withErrors([
+                    'error' => "You already have 4 appointments in week {$request->week_number}."
+                ]);
+            }
 
         // Save the old timetable BEFORE changing it
         $oldTimetable = $appointment->timetable;

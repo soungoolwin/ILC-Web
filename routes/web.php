@@ -115,7 +115,7 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
 //Admin Routes
 Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::get('/admin/dashboard', action: function () {
-        return view('components.dashboard');
+        return view('admin.dashboard');
     })->name('admin.dashboard');
 
     Route::get("/admin/profile", [AdminController::class, 'show'])->name('admin.profile');
@@ -130,6 +130,10 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     // Admin see all teamleaders and delete
     Route::get('/admin/dashboard/team-leaders', [AdminController::class, 'viewTeamLeaders'])->name('dashboard.team_leaders'); // View all team leaders
     Route::delete('/admin/dashboard/team-leaders/{id}', [AdminController::class, 'deleteTeamLeader'])->name('dashboard.team_leaders.delete'); // Delete a team leader
+
+    // Admin see all users and delete
+    Route::get('/admin/dashboard/users', [AdminController::class, 'viewUsers'])->name('dashboard.users'); // View all users
+    Route::delete('/admin/dashboard/users/{id}', [AdminController::class, 'deleteUser'])->name('dashboard.users.delete'); // Delete a user
 
     //See Profiles
     Route::get('/admin/mentors/{id}', [MentorController::class, 'adminShow'])->name('admin.mentors.show');
@@ -174,6 +178,7 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 
     Route::delete('/admin/file_upload_links/{file_upload_link}', [AdminFileUploadLinkController::class, 'destroy'])->name('admin.file_upload_links.destroy');
 
+
 });
 
 //Team Leader Routes
@@ -207,6 +212,10 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     Route::get('/team-leader/students/{id}', [StudentController::class, 'teamLeaderShow'])->name('team_leader.students.show');
     Route::get('/team-leader/mentors/{id}', [MentorController::class, 'teamLeaderShow'])->name('team_leader.mentors.show');
 });
+
+Route::get('/components/newsletter', function () {
+    return view('components.newsletter');
+})->name('newsletter');
 
 //Logout
 

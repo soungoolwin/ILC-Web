@@ -16,7 +16,13 @@
             {{ session('success') }}
         </div>
     @endif
-    <div>
+    <div class="flex flex-col items-center justify-center sm:w-full lg:w-1/2 mx-auto bg-purple-100 p-4 shadow-md mt-2 mb-3  rounded-lg">
+        <div class="flex justify-center bg-white hover:shadow-lg hover:scale-105 rounded-md">
+            <a href="https://tinyurl.com/WebsiteTeamSurvey"><img src="/images/webTeamSurvey.png" alt="web team survey" class="w-32 h-auto p-2" ></a>
+        </div>
+        <a href="https://tinyurl.com/WebsiteTeamSurvey" class="text-center text-blue-600 text-lg mb-2 mt-2 text-[28px] hover:underline hover:scale-105">Web Team Survey</a>
+        <p class="text-[12px] text-gray-600 text-center text-[12px]">Please fill out this survey to help us improve the RSU PAL Centre website and services. When answering the questions, please provide as much detail as possible instead of yes and no only. We appreciate your feedback!</p>
+    </div>
         <h2 class="text-center mb-4 mt-2 text-[28px] underline">RIC PAL Center</h2>
         {{-- Youtube Video --}}
         <iframe class="w-1/2 m-auto aspect-video"  src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
