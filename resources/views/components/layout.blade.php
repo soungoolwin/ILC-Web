@@ -152,10 +152,6 @@
                                             class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-blue-500 hover:bg-gray-100">
                                             Delete Teamleaders
                                         </a>
-                                        <a href="{{ route('dashboard.users') }}"
-                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-blue-500 hover:bg-gray-100">
-                                            Delete Users
-                                        </a>
                                 </div>
                                 <div class="flex flex-col w-fit">
                                         <p class="px-2 py-2 lg:px-4 lg:py-2 text-sm text-white font-semibold bg-yellow-400 ">Forms</p>
