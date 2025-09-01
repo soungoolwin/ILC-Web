@@ -23,7 +23,7 @@
             </div>
 
             <!-- Navigation Bar with Login/Register -->
-            <div class="flex text-xs bg-purple-100 justify-end px-1 py-1 lg:px-4 lg:py-2 border-t border-purple-200 shadow-sm md:text-sm lg:text-base">
+            <div class="flex text-xs justify-end px-1 py-1 lg:px-4 lg:py-2 border-t border-purple-200 shadow-sm md:text-sm lg:text-base">
                 @if (Auth::check())
                     @if (Auth::user()->role === 'student')
                     @php
@@ -33,6 +33,8 @@
                             $appointment = \App\Models\Appointment::where('student_id', $student->id)->latest()->first();
                         }
                     @endphp
+                        <a href="{{ route('newsletter') }}"
+                            class="text-white bg-[#7D3C98] px-4 py-2 rounded-md mr-2">Newsletter</a>
                         <a href="{{ route('student.dashboard') }}"
                             class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Dashboard</a>
                         <a href="{{ route('student.profile') }}"
@@ -66,6 +68,8 @@
                             class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Links</a>
                     
                     @elseif (Auth::user()->role === 'mentor')
+                        <a href="{{ route('newsletter') }}"
+                            class="text-white bg-[#7D3C98] px-4 py-2 rounded-md mr-2">Newsletter</a>
                         <a href="{{ route('mentor.dashboard') }}"
                             class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Dashboard</a>
                         <a href="{{ route('mentor.profile') }}"
@@ -94,6 +98,8 @@
 
                     @endif
                     @elseif (Auth::user()->role === 'team_leader')
+                        <a href="{{ route('newsletter') }}"
+                            class="text-white bg-[#7D3C98] px-4 py-2 rounded-md mr-2">Newsletter</a>
                         <a href="{{ route('team_leader.dashboard') }}"
                             class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Dashboard</a>
                         <a href="{{ route('team_leader.profile') }}"
@@ -121,6 +127,8 @@
 
 
                     @elseif (Auth::user()->role === 'admin')
+                        <a href="{{ route('newsletter') }}"
+                            class="text-white bg-[#7D3C98] px-4 py-2 rounded-md mr-2">Newsletter</a>
                         <a href="{{ route('admin.dashboard') }}"
                             class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Dashboard</a>
                         
@@ -167,6 +175,8 @@
                             {{ Auth::user()->name }}
                         </a>
                     @endif
+
+                    
 
                     <!-- Logout Button -->
                     <form method="POST" action="{{ route('logout') }}" class="inline" onsubmit="return confirmLogout()">

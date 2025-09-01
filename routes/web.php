@@ -115,7 +115,7 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
 //Admin Routes
 Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::get('/admin/dashboard', action: function () {
-        return view('components.dashboard');
+        return view('admin.dashboard');
     })->name('admin.dashboard');
 
     Route::get("/admin/profile", [AdminController::class, 'show'])->name('admin.profile');
@@ -212,6 +212,10 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     Route::get('/team-leader/students/{id}', [StudentController::class, 'teamLeaderShow'])->name('team_leader.students.show');
     Route::get('/team-leader/mentors/{id}', [MentorController::class, 'teamLeaderShow'])->name('team_leader.mentors.show');
 });
+
+Route::get('/components/newsletter', function () {
+    return view('components.newsletter');
+})->name('newsletter');
 
 //Logout
 

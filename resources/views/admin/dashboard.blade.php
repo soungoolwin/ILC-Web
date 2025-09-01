@@ -23,12 +23,31 @@
         <a href="https://tinyurl.com/WebsiteTeamSurvey" class="text-center text-blue-600 text-lg mb-2 mt-2 text-[28px] hover:underline hover:scale-105">Web Team Survey</a>
         <p class="text-[12px] text-gray-600 text-center text-[12px]">Please fill out this survey to help us improve the RSU PAL Centre website and services. When answering the questions, please provide as much detail as possible instead of yes and no only. We appreciate your feedback!</p>
     </div>
-        <h2 class="text-center mb-4 mt-2 text-[28px] underline">RIC PAL Center</h2>
+    <div>
+        <h2 class="text-center mb-4 text-[28px] underline">RIC PAL Center</h2>
         {{-- Youtube Video --}}
         <iframe class="w-1/2 m-auto aspect-video"  src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <div class=" w-full m-auto p-2 mb-4 text-[12px] mt-5">
-            <div id="accordion-collapse-timetable" data-accordion="collapse" class="w-full flex m-auto flex-row gap-1">
-                <!-- {{-- First Item --}}
+
+        <div class="w-full flex flex-wrap items-center justify-center gap-2 mt-2 ml-2 mr-2">
+            <a href="{{ route('admin.mentor_students_timetable') }}"class=" text-center block bg-[#7D3C98] px-3 py-3 lg:px-4 lg:py-2 text-xs lg:text-lg text-white hover:bg-[#683280] rounded-md transition-colors break-words">
+                Mentor-Student Timetables
+            </a>
+            <a href="{{ route('admin.team_leaders_timetable') }}"class=" text-center block bg-[#7D3C98] px-3 py-3 lg:px-4 lg:py-2 text-xs lg:text-lg text-white hover:bg-[#683280] rounded-md transition-colors">
+                TeamLeader Timetables
+            </a>
+            <a href="{{ route('admin.forms.index') }}"class=" text-center block bg-[#7D3C98] px-3 py-3 lg:px-4 lg:py-2 text-xs lg:text-lg text-white hover:bg-[#683280]  rounded-md transition-colors">
+                Manage Forms
+            </a>
+            <a href="{{ route('admin.forms.tracking') }}"class=" text-center block bg-[#7D3C98] px-3 py-3 lg:px-4 lg:py-2 text-xs lg:text-lg text-white hover:bg-[#683280]  rounded-md transition-colors">
+                Track Form Completion
+            </a>
+        </div>
+
+
+        <div class=" w-4/5 m-auto p-2 mb-4 text-[12px] mt-5">
+            <div id="accordion-collapse-timetable" data-accordion="collapse" class="w-4/5 flex m-auto flex-row gap-1">
+                <!--
+                {{-- First Item --}}
                 <div class="w-full">
                     <h2 id="accordion-collapse-heading-1">
                         <button type="button"
@@ -46,16 +65,28 @@
                     <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1 ">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                <p>09:00 - 11:00 (5 Mentors)</p>
-          <p>11:00 - 12:00 (20 Mentors)</p>
-          <p>12:00 - 13:00 (20 Mentors)</p>
-          <p>13:00 - 14:00 (20 Mentors)</p>
-          <p>14:00 - 15:00 (20 Mentors)</p>
-          <p>15:00 - 16:00 (20 Mentors)</p>
-          <p>16:00 - 17:00 (20 Mentors)</p>
-          <p>17:00 - 18:00 (-)</p>
-          <p>18:00 - 19:00 (-)</p>
-          <p>19:00 - 20:00 (-)</p>
+                                <p>09:00 - 09:30 (20 Students)</p>
+                                <p>09:30 - 10:00 (20 Students)</p>
+                                <p>10:00 - 10:30 (25 Students)</p>
+                                <p>10:30 - 11:00 (25 Students)</p>
+                                <p>11:00 - 11:30 (75 Students)</p>
+                                <p>11:30 - 12:00 (75 Students)</p>
+                                <p>12:00 - 12:30 (75 Students)</p>
+                                <p>12:30 - 13:00 (75 Students)</p>
+                                <p>13:00 - 13:30 (75 Students)</p>
+                                <p>13:30 - 14:00 (75 Students)</p>
+                                <p>14:00 - 14:30 (75 Students)</p>
+                                <p>14:30 - 15:00 (75 Students)</p>
+                                <p>15:00 - 15:30 (75 Students)</p>
+                                <p>15:30 - 16:00 (75 Students)</p>
+                                <p>16:00 - 16:30 (75 Students)</p>
+                                <p>16:30 - 17:00 (75 Students)</p>
+                                <p>17:00 - 17:30 (20 Students)</p>
+                                <p>17:30 - 18:00 (20 Students)</p>
+                                <p>18:00 - 18:30 (20 Students)</p>
+                                <p>18:30 - 19:00 (20 Students)</p>
+                                <p>19:00 - 19:30 (20 Students)</p>
+                                <p>19:30 - 20:00 (20 Students)</p>
                             </p>
                         </div>
                     </div>
@@ -77,16 +108,28 @@
                     <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                <p>09:00 - 11:00 (5 Mentors)</p>
-          <p>11:00 - 12:00 (20 Mentors)</p>
-          <p>12:00 - 13:00 (20 Mentors)</p>
-          <p>13:00 - 14:00 (20 Mentors)</p>
-          <p>14:00 - 15:00 (20 Mentors)</p>
-          <p>15:00 - 16:00 (20 Mentors)</p>
-          <p>16:00 - 17:00 (20 Mentors)</p>
-          <p>17:00 - 18:00 (-)</p>
-          <p>18:00 - 19:00 (-)</p>
-          <p>19:00 - 20:00 (-)</p>
+                                <p>09:00 - 09:30 (20 Students)</p>
+                                <p>09:30 - 10:00 (20 Students)</p>
+                                <p>10:00 - 10:30 (25 Students)</p>
+                                <p>10:30 - 11:00 (25 Students)</p>
+                                <p>11:00 - 11:30 (75 Students)</p>
+                                <p>11:30 - 12:00 (75 Students)</p>
+                                <p>12:00 - 12:30 (75 Students)</p>
+                                <p>12:30 - 13:00 (75 Students)</p>
+                                <p>13:00 - 13:30 (75 Students)</p>
+                                <p>13:30 - 14:00 (75 Students)</p>
+                                <p>14:00 - 14:30 (75 Students)</p>
+                                <p>14:30 - 15:00 (75 Students)</p>
+                                <p>15:00 - 15:30 (75 Students)</p>
+                                <p>15:30 - 16:00 (75 Students)</p>
+                                <p>16:00 - 16:30 (75 Students)</p>
+                                <p>16:30 - 17:00 (75 Students)</p>
+                                <p>17:00 - 17:30 (20 Students)</p>
+                                <p>17:30 - 18:00 (20 Students)</p>
+                                <p>18:00 - 18:30 (20 Students)</p>
+                                <p>18:30 - 19:00 (20 Students)</p>
+                                <p>19:00 - 19:30 (20 Students)</p>
+                                <p>19:30 - 20:00 (20 Students)</p>
                             </p>
                         </div>
                     </div>
@@ -108,16 +151,28 @@
                     <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                <p>09:00 - 11:00 (5 Mentors)</p>
-          <p>11:00 - 12:00 (20 Mentors)</p>
-          <p>12:00 - 13:00 (20 Mentors)</p>
-          <p>13:00 - 14:00 (20 Mentors)</p>
-          <p>14:00 - 15:00 (20 Mentors)</p>
-          <p>15:00 - 16:00 (20 Mentors)</p>
-          <p>16:00 - 17:00 (20 Mentors)</p>
-          <p>17:00 - 18:00 (-)</p>
-          <p>18:00 - 19:00 (-)</p>
-          <p>19:00 - 20:00 (-)</p>
+                                <p>09:00 - 09:30 (20 Students)</p>
+                                <p>09:30 - 10:00 (20 Students)</p>
+                                <p>10:00 - 10:30 (25 Students)</p>
+                                <p>10:30 - 11:00 (25 Students)</p>
+                                <p>11:00 - 11:30 (75 Students)</p>
+                                <p>11:30 - 12:00 (75 Students)</p>
+                                <p>12:00 - 12:30 (75 Students)</p>
+                                <p>12:30 - 13:00 (75 Students)</p>
+                                <p>13:00 - 13:30 (75 Students)</p>
+                                <p>13:30 - 14:00 (75 Students)</p>
+                                <p>14:00 - 14:30 (75 Students)</p>
+                                <p>14:30 - 15:00 (75 Students)</p>
+                                <p>15:00 - 15:30 (75 Students)</p>
+                                <p>15:30 - 16:00 (75 Students)</p>
+                                <p>16:00 - 16:30 (75 Students)</p>
+                                <p>16:30 - 17:00 (75 Students)</p>
+                                <p>17:00 - 17:30 (20 Students)</p>
+                                <p>17:30 - 18:00 (20 Students)</p>
+                                <p>18:00 - 18:30 (20 Students)</p>
+                                <p>18:30 - 19:00 (20 Students)</p>
+                                <p>19:00 - 19:30 (20 Students)</p>
+                                <p>19:30 - 20:00 (20 Students)</p>
                             </p>
                         </div>
                     </div>
@@ -139,16 +194,28 @@
                     <div id="accordion-collapse-body-4" class="hidden" aria-labelledby="accordion-collapse-heading-4">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                <p>09:00 - 11:00 (5 Mentors)</p>
-          <p>11:00 - 12:00 (20 Mentors)</p>
-          <p>12:00 - 13:00 (20 Mentors)</p>
-          <p>13:00 - 14:00 (20 Mentors)</p>
-          <p>14:00 - 15:00 (20 Mentors)</p>
-          <p>15:00 - 16:00 (20 Mentors)</p>
-          <p>16:00 - 17:00 (20 Mentors)</p>
-          <p>17:00 - 18:00 (-)</p>
-          <p>18:00 - 19:00 (-)</p>
-          <p>19:00 - 20:00 (-)</p>
+                                <p>09:00 - 09:30 (20 Students)</p>
+                                <p>09:30 - 10:00 (20 Students)</p>
+                                <p>10:00 - 10:30 (25 Students)</p>
+                                <p>10:30 - 11:00 (25 Students)</p>
+                                <p>11:00 - 11:30 (75 Students)</p>
+                                <p>11:30 - 12:00 (75 Students)</p>
+                                <p>12:00 - 12:30 (75 Students)</p>
+                                <p>12:30 - 13:00 (75 Students)</p>
+                                <p>13:00 - 13:30 (75 Students)</p>
+                                <p>13:30 - 14:00 (75 Students)</p>
+                                <p>14:00 - 14:30 (75 Students)</p>
+                                <p>14:30 - 15:00 (75 Students)</p>
+                                <p>15:00 - 15:30 (75 Students)</p>
+                                <p>15:30 - 16:00 (75 Students)</p>
+                                <p>16:00 - 16:30 (75 Students)</p>
+                                <p>16:30 - 17:00 (75 Students)</p>
+                                <p>17:00 - 17:30 (20 Students)</p>
+                                <p>17:30 - 18:00 (20 Students)</p>
+                                <p>18:00 - 18:30 (20 Students)</p>
+                                <p>18:30 - 19:00 (20 Students)</p>
+                                <p>19:00 - 19:30 (20 Students)</p>
+                                <p>19:30 - 20:00 (20 Students)</p>
                             </p>
                         </div>
                     </div>
@@ -170,16 +237,28 @@
                     <div id="accordion-collapse-body-5" class="hidden" aria-labelledby="accordion-collapse-heading-5">
                         <div class="p-5 border border-b-0 border-gray-200">
                             <p class="mb-2 text-gray-500">
-                                <p>09:00 - 11:00 (5 Mentors)</p>
-          <p>11:00 - 12:00 (20 Mentors)</p>
-          <p>12:00 - 13:00 (20 Mentors)</p>
-          <p>13:00 - 14:00 (20 Mentors)</p>
-          <p>14:00 - 15:00 (20 Mentors)</p>
-          <p>15:00 - 16:00 (20 Mentors)</p>
-          <p>16:00 - 17:00 (20 Mentors)</p>
-          <p>17:00 - 18:00 (-)</p>
-          <p>18:00 - 19:00 (-)</p>
-          <p>19:00 - 20:00 (-)</p>
+                                <p>09:00 - 09:30 (20 Students)</p>
+                                <p>09:30 - 10:00 (20 Students)</p>
+                                <p>10:00 - 10:30 (25 Students)</p>
+                                <p>10:30 - 11:00 (25 Students)</p>
+                                <p>11:00 - 11:30 (75 Students)</p>
+                                <p>11:30 - 12:00 (75 Students)</p>
+                                <p>12:00 - 12:30 (75 Students)</p>
+                                <p>12:30 - 13:00 (75 Students)</p>
+                                <p>13:00 - 13:30 (75 Students)</p>
+                                <p>13:30 - 14:00 (75 Students)</p>
+                                <p>14:00 - 14:30 (75 Students)</p>
+                                <p>14:30 - 15:00 (75 Students)</p>
+                                <p>15:00 - 15:30 (75 Students)</p>
+                                <p>15:30 - 16:00 (75 Students)</p>
+                                <p>16:00 - 16:30 (75 Students)</p>
+                                <p>16:30 - 17:00 (75 Students)</p>
+                                <p>17:00 - 17:30 (20 Students)</p>
+                                <p>17:30 - 18:00 (20 Students)</p>
+                                <p>18:00 - 18:30 (20 Students)</p>
+                                <p>18:30 - 19:00 (20 Students)</p>
+                                <p>19:00 - 19:30 (20 Students)</p>
+                                <p>19:30 - 20:00 (20 Students)</p>
                             </p>
                         </div>
                     </div>
@@ -188,8 +267,10 @@
 
             </div>
 
+        -->
 
-          </div> -->
+
+          </div>
         {{-- Accordion----------- --}}
         <div id="accordion-collapse" data-accordion="collapse" class="w-4/5 mx-auto mb-6">
             {{-- Sixth Item --}}
