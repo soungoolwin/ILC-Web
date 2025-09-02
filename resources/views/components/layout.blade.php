@@ -12,18 +12,18 @@
 <body class="bg-white">
     <div class="flex flex-col min-h-screen">
         <!-- Header with Logo and Title -->
-        <header class="border-b border-gray-200">
-            <div class="flex items-center justify-between px-4 py-3">
+        <header class="">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 ">
                 <!-- Title and Logos -->
                 <div class="flex items-center justify-center w-full">
-                    <img src="/images/logo_new.png" alt="RSU Logo" class=" w-14 h-14 md:w-16 md:h-16">
+                    <img src="/images/logo_new.png" alt="RSU Logo" class=" w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14">
                     <h1 class=" font-normal text-[#7D3C98] mx-auto text-xl lg:text-3xl md:text-2xl">RSU GLOBAL!</h1>
-                    <img src="/images/logo_new.png" alt="RSU Logo" class=" w-14 h-14 md:w-16 md:h-16">
+                    <img src="/images/logo_new.png" alt="RSU Logo" class=" w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14">
                 </div>
             </div>
 
             <!-- Navigation Bar with Login/Register -->
-            <div class="flex text-xs justify-end px-1 py-1 lg:px-4 lg:py-2 border-t border-purple-200 shadow-sm md:text-sm lg:text-base">
+            <div class="flex text-[10px] justify-evenly lg:justify-end w-full px-1 py-1 mt-2 lg:px-4 lg:py-2 md:text-sm lg:text-base sm:gap-xs">
                 @if (Auth::check())
                     @if (Auth::user()->role === 'student')
                     @php
@@ -33,16 +33,15 @@
                             $appointment = \App\Models\Appointment::where('student_id', $student->id)->latest()->first();
                         }
                     @endphp
-                        <a href="{{ route('newsletter') }}"
-                            class="text-white bg-[#7D3C98] px-4 py-2 rounded-md mr-2">Newsletter</a>
+                        
                         <a href="{{ route('student.dashboard') }}"
-                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Dashboard</a>
-                        <a href="{{ route('student.profile') }}"
-                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Profile</a>
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-1 border-[1.5px] border-[#7D3C98]">Home</a>
+                        <a href="{{ route('newsletter') }}"
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-1 border-[1.5px] border-[#7D3C98]">Newsletter</a>
                         <!-- Appointments Dropdown -->
                             <button id="dropdownButton"
-                                class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md focus:outline-none mr-2 ">Appointments</button>
-                            <div id="dropdownMenu" class="text-xs lg:text-sm w-fit absolute top-[120px] right-[120px] lg:top-[140px] mt-2 lg:mt-3 w-48 bg-white rounded-md shadow-lg hidden z-10">
+                                class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md focus:outline-none mr-1 border-[1.5px] border-[#7D3C98]">Appointments</button>
+                            <div id="dropdownMenu" class="text-xs lg:text-sm w-fit absolute top-[120px] right-[120px] lg:top-[130px] lg:right-[180px] mt-2 lg:mt-3 w-48 bg-white rounded-md shadow-xl hidden z-10 border border-gray-300">
                                 <a href="{{ route('student.appointments.availability') }}"
                                     class="block px-2 py-2 lg:px-4 lg:py-2 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200">
                                     Search Available Appointments
@@ -65,21 +64,22 @@
                             </div>
 
                         <a href="{{ route('student.links') }}"
-                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Links</a>
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-1 border-[1.5px] border-[#7D3C98]">Links</a>
+                        <a href="{{ route('student.profile') }}"
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-1 border-[1.5px] border-[#7D3C98]">Profile</a>
                     
                     @elseif (Auth::user()->role === 'mentor')
-                        <a href="{{ route('newsletter') }}"
-                            class="text-white bg-[#7D3C98] px-4 py-2 rounded-md mr-2">Newsletter</a>
+                        
                         <a href="{{ route('mentor.dashboard') }}"
-                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Dashboard</a>
-                        <a href="{{ route('mentor.profile') }}"
-                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Profile</a>
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Home</a>
+                        <a href="{{ route('newsletter') }}"
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Newsletter</a>
                 @if (Auth::user()->role === 'mentor' && Auth::user()->mentors()->first()->status == 'active')
 
                         <!-- Timetables Dropdown -->
                             <button id="dropdownButton"
-                                class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md focus:outline-none mr-2 ">Timetables</button>
-                            <div id="dropdownMenu" class="text-xs lg:text-sm w-fit absolute top-[120px] right-[120px] mt-2 lg:mt-3 w-48 bg-white rounded-md shadow-lg hidden z-10">
+                                class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md focus:outline-none mr-2 border-[1.5px] border-[#7D3C98]">Timetables</button>
+                            <div id="dropdownMenu" class="text-xs lg:text-sm w-fit absolute top-[110px] right-[110px] lg:top-[130px] lg:right-[200px] mt-2 lg:mt-3 w-48 bg-white rounded-md shadow-xl hidden z-10 border border-gray-300">
                                 <a href="{{ route('mentor.timetables.create') }}"
                                     class="block px-2 py-2 lg:px-4 lg:py-2 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200">
                                     Create Timetable
@@ -94,21 +94,22 @@
                                 </a>
                             </div>
                         <a href="{{ route('mentor.links') }}"
-                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Links</a> 
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Links</a>
+                        <a href="{{ route('mentor.profile') }}"
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Profile</a>
 
                     @endif
                     @elseif (Auth::user()->role === 'team_leader')
-                        <a href="{{ route('newsletter') }}"
-                            class="text-white bg-[#7D3C98] px-4 py-2 rounded-md mr-2">Newsletter</a>
+                        
                         <a href="{{ route('team_leader.dashboard') }}"
-                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Dashboard</a>
-                        <a href="{{ route('team_leader.profile') }}"
-                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Profile</a>
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Home</a>
+                        <a href="{{ route('newsletter') }}"
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Newsletter</a>
 
                         <!-- Timetables Dropdown -->
                             <button id="dropdownButton"
-                                class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md focus:outline-none mr-2">Timetables</button>
-                            <div id="dropdownMenu" class="text-xs lg:text-sm w-fit absolute top-[130px] right-20 lg:right-40 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
+                                class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md focus:outline-none mr-2 border-[1.5px] border-[#7D3C98]">Timetables</button>
+                            <div id="dropdownMenu" class="text-xs lg:text-sm w-fit absolute top-[110px] right-20 lg:top-[130px] lg:right-40 mt-2 w-48 bg-white rounded-md shadow-xl hidden z-10 border border-gray-300">
                                 <a href="{{ route('team_leader.view_timetables') }}"
                                     class="block px-2 py-2 lg:px-4 lg:py-2 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200">
                                     Check Mentor-Student Timetables
@@ -123,19 +124,21 @@
                                 </a>
                             </div>
                         <a href="{{ route('team_leader.links') }}"
-                            class="inline-flex items-center text-white block-start bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Links</a>
+                            class="nav-link inline-flex items-center text-white block-start bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Links</a>
+                        <a href="{{ route('team_leader.profile') }}"
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Profile</a>
 
 
                     @elseif (Auth::user()->role === 'admin')
-                        <a href="{{ route('newsletter') }}"
-                            class="text-white bg-[#7D3C98] px-4 py-2 rounded-md mr-2">Newsletter</a>
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">Dashboard</a>
                         
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Home</a>
+                        <a href="{{ route('newsletter') }}"
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Newsletter</a>
                         <!-- Management Dropdown -->
                         
                             <button id="dropdownButton"
-                                class="text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 ">Manage</button>
+                                class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Manage</button>
                             <div id="dropdownMenu" class="flex text-xs lg:text-sm w-fit absolute top-[120px] right-[80px] mt-2 lg:mt-5 w-48 bg-white rounded-md shadow-md hidden z-10 border border-gray-200">
                                 <div class="flex flex-col w-fit border-r border-gray-200">
                                         <p class="px-2 py-2 lg:px-4 lg:py-2 text-sm text-white font-semibold bg-blue-500">Users & Timetables</p>
@@ -167,7 +170,7 @@
                             </div>
                         
                         <a href="{{ route('admin.profile') }}"
-                            class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2">
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">
                             {{ Auth::user()->name }}
                         </a>
                     @endif
@@ -175,11 +178,11 @@
                     
 
                     <!-- Logout Button -->
-                    <form method="POST" action="{{ route('logout') }}" class="inline" onsubmit="return confirmLogout()">
+                    <form method="POST" action="{{ route('logout') }}" class="inline-flex" onsubmit="return confirmLogout()">
                         @csrf
                         <button type="submit" data-tooltip-target="tooltip-bottom" data-tooltip-placement="bottom" 
-                            class="text-white mr-1 bg-red-600 px-1 py-1 lg:px-2 lg:py-2 rounded-3xl hover:shadow-lg"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"/></svg></button>
-                            <div id="tooltip-bottom" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-red-600 bg-gray-100 rounded-lg shadow-xs opacity-0 transition-opacity duration-400 tooltip">
+                            class="text-white mr-0 bg-red-600 px-1 py-1 lg:px-2 lg:py-2 rounded-[25%] hover:shadow-lg border-1.5px border-[#7D3C98]"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"/></svg></button>
+                            <div id="tooltip-bottom" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-red-600 bg-gray-100 rounded-lg shadow-md opacity-0 transition-opacity duration-400 tooltip z-12">
                             Log Out
                             <div class="tooltip-arrow" data-popper-arrow></div>
 </div>
@@ -187,12 +190,12 @@
                 @else
                     <!-- Guest Links - Hide on login page -->
                     @if (!Request::is('login') && !Request::is('register/student') && !Request::is('register/mentor') && !Request::is('register/team-leader'))
-                        <div class="flex justify-center items-center">
+                        <div class="flex justify-end items-center">
                             <a href="{{ route('login') }}"
-                                class="text-white bg-[#7D3C98] px-4 py-2 rounded-md mr-2">Log In</a>
+                                class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Log In</a>
                             <div class="relative">
                                 <a href="#" id="registerDropdownButton"
-                                    class="text-white bg-[#7D3C98] px-4 py-[10.5px] rounded-md ">Register</a>
+                                    class="inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Register</a>
                                 <div id="registerDropdownMenu"
                                     class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
                                     <a href="{{ route('register.student') }}"
@@ -246,6 +249,47 @@
                     }
                 });
             }
+
+            // Handle color changes for .nav-link based on current path
+            const currentPath = window.location.pathname;
+            const links = document.querySelectorAll(".nav-link");
+
+            links.forEach(link => {
+                if (link.hasAttribute("href")) {
+                    let linkPath;
+                    try {
+                        linkPath = new URL(link.getAttribute("href"), window.location.origin).pathname;
+                    } catch (e) {
+                        linkPath = link.getAttribute("href");
+                    }
+                    if (linkPath === currentPath) {
+                        link.classList.remove("bg-[#7D3C98]", "text-white");
+                        link.classList.add("bg-white", "text-[#7D3C98]");
+                    }
+                }
+            });
+
+            // Highlight dropdown buttons if any of their dropdown links match current path
+            const dropdownButtons = document.querySelectorAll("#dropdownButton");
+            dropdownButtons.forEach(button => {
+                // Find the next sibling dropdownMenu
+                let dropdownMenu = button.nextElementSibling;
+                if (dropdownMenu && dropdownMenu.id === "dropdownMenu") {
+                    const dropdownLinks = dropdownMenu.querySelectorAll("a[href]");
+                    dropdownLinks.forEach(link => {
+                        let linkPath;
+                        try {
+                            linkPath = new URL(link.getAttribute("href"), window.location.origin).pathname;
+                        } catch (e) {
+                            linkPath = link.getAttribute("href");
+                        }
+                        if (linkPath === currentPath) {
+                            button.classList.remove("bg-[#7D3C98]", "text-white","border-white");
+                            button.classList.add("bg-white", "text-[#7D3C98]", "border-[#7D3C98]");
+                        }
+                    });
+                }
+            });
 
             const dropdownButton = document.getElementById('dropdownButton');
             const dropdownMenu = document.getElementById('dropdownMenu');
