@@ -1,7 +1,7 @@
 <x-layout>
     @auth
-        <header>
-            <h1 class="text-center text-4xl font-thin text-gray-600 m-6"> Peer Mentor Portal</h2>
+        <header class="flex w-full bg-[#7D3C98] text-center justify-center">
+            <h1 class="text-center text-4xl font-thin text-white m-6"> Peer Mentor Portal</h2>
 </header>
 <body class="flex justify-evenly">
         <div class="flex flex-col items-center justify-center sm:w-full lg:w-3/4 mx-auto bg-purple-100 p-4 shadow-md mt-2 mb-3 rounded-lg">

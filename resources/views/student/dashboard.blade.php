@@ -16,19 +16,23 @@
             {{ session('success') }}
         </div>
     @endif
-    <div class="flex flex-col items-center justify-center sm:w-full lg:w-1/2 mx-auto bg-purple-100 p-4 shadow-md mt-2 mb-3 rounded-lg">
-        <div class="flex justify-center bg-white hover:shadow-lg hover:scale-105 rounded-md">
-            <a href="https://tinyurl.com/WebsiteTeamSurvey"><img src="/images/webTeamSurvey.png" alt="web team survey" class="w-32 h-auto p-2" ></a>
-        </div>
-        <a href="https://tinyurl.com/WebsiteTeamSurvey" class="text-center text-blue-600 text-lg mb-2 mt-2 text-[28px] hover:underline hover:scale-105">Web Team Survey</a>
-        <p class="text-[12px] text-gray-600 text-center text-[12px]">Please fill out this survey to help us improve the RSU PAL Centre website and services. When answering the questions, please provide as much detail as possible instead of yes and no only. We appreciate your feedback!</p>
-    </div>
-    <div>
-        <h2 class="text-center mb-4 text-[28px] underline">RIC PAL Center</h2>
+    <div class="flex flex-col items-center justify-center w-full lg:w-full mx-auto bg-[#7D3C98] p-4 shadow-md mt-2 mb-3">
+        <div class="flex flex-col justify-center items-center bg-[#7D3C98] w-full lg:w-1/2 ">
+            <div class=" flex max-w-xs justify-center bg-white hover:shadow-lg hover:scale-105 rounded-md">
+                <a href="https://tinyurl.com/WebsiteTeamSurvey"><img src="/images/webTeamSurvey.png" alt="web team survey" class="w-32 h-auto p-2" ></a>
+            </div>
+        <a href="https://tinyurl.com/WebsiteTeamSurvey" class="text-center text-white text-lg mb-2 mt-2 text-[28px] hover:underline hover:scale-105">Web Team Survey</a>
+        <p class="text-[12px] text-white text-center text-[12px]">Please fill out this survey to help us improve the RSU PAL Centre website and services. When answering the questions, please provide as much detail as possible instead of yes and no only. We appreciate your feedback!</p>
+</div>
+</div>
+        <h2 class="text-center mb-2 mt-2 text-[28px] italic">RSUGlobal! PAL Center</h2>
         {{-- Youtube Video --}}
-        <iframe class="w-1/2 m-auto aspect-video"  src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <div class="w-full mx-auto mt-6 ">
-        <div class="mx-auto w-full p-6 justify-center items-center">
+        <div class="flex flex-col w-full lg:w-1/2 px-2 justify-center items-center mx-auto">
+            <iframe class="aspect-video" src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+        </div>
+    <div class="w-full justify-center items-center ">
+        <div class="w-full p-6 justify-center items-center">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">My Appointments</h2>
 
                 @if ($appointments && $appointments->isNotEmpty())
@@ -61,234 +65,10 @@
                     <p class="text-gray-600">You have no appointments yet.</p>
                 @endif
             </div>
-        </div>
-    </div>
-        <div class=" w-full m-auto p-2 mb-4 text-[12px] mt-5">
-            <div id="accordion-collapse-timetable" data-accordion="collapse" class="w-full flex m-auto flex-row gap-1">
-<!--
-                {{-- First Item --}}
-                <div class="w-full">
-                    <h2 id="accordion-collapse-heading-1">
-                        <button type="button"
-                                class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 hover:bg-gray-100"
-                                data-accordion-target="#accordion-collapse-body-1"
-                                aria-expanded="false"
-                                aria-controls="accordion-collapse-body-1">
-                            <span>Monday</span>
-                            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-                            </svg>
-                        </button>
-                    </h2>
-
-                    <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1 ">
-                        <div class="p-5 border border-b-0 border-gray-200">
-                            <p class="mb-2 text-gray-500">
-                                <p>09:00 - 09:30 (20 Students)</p>
-                                <p>09:30 - 10:00 (20 Students)</p>
-                                <p>10:00 - 10:30 (25 Students)</p>
-                                <p>10:30 - 11:00 (25 Students)</p>
-                                <p>11:00 - 11:30 (75 Students)</p>
-                                <p>11:30 - 12:00 (75 Students)</p>
-                                <p>12:00 - 12:30 (75 Students)</p>
-                                <p>12:30 - 13:00 (75 Students)</p>
-                                <p>13:00 - 13:30 (75 Students)</p>
-                                <p>13:30 - 14:00 (75 Students)</p>
-                                <p>14:00 - 14:30 (75 Students)</p>
-                                <p>14:30 - 15:00 (75 Students)</p>
-                                <p>15:00 - 15:30 (75 Students)</p>
-                                <p>15:30 - 16:00 (75 Students)</p>
-                                <p>16:00 - 16:30 (75 Students)</p>
-                                <p>16:30 - 17:00 (75 Students)</p>
-                                <p>17:00 - 17:30 (20 Students)</p>
-                                <p>17:30 - 18:00 (20 Students)</p>
-                                <p>18:00 - 18:30 (20 Students)</p>
-                                <p>18:30 - 19:00 (20 Students)</p>
-                                <p>19:00 - 19:30 (20 Students)</p>
-                                <p>19:30 - 20:00 (20 Students)</p>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                {{-- Second Item --}}
-                <div class="w-full">
-                    <h2 id="accordion-collapse-heading-2">
-                        <button type="button"
-                                class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 hover:bg-gray-100"
-                                data-accordion-target="#accordion-collapse-body-2"
-                                aria-expanded="false"
-                                aria-controls="accordion-collapse-body-2">
-                            <span>Tuesday</span>
-                            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-                            </svg>
-                        </button>
-                    </h2>
-                    <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
-                        <div class="p-5 border border-b-0 border-gray-200">
-                            <p class="mb-2 text-gray-500">
-                                <p>09:00 - 09:30 (20 Students)</p>
-                                <p>09:30 - 10:00 (20 Students)</p>
-                                <p>10:00 - 10:30 (25 Students)</p>
-                                <p>10:30 - 11:00 (25 Students)</p>
-                                <p>11:00 - 11:30 (75 Students)</p>
-                                <p>11:30 - 12:00 (75 Students)</p>
-                                <p>12:00 - 12:30 (75 Students)</p>
-                                <p>12:30 - 13:00 (75 Students)</p>
-                                <p>13:00 - 13:30 (75 Students)</p>
-                                <p>13:30 - 14:00 (75 Students)</p>
-                                <p>14:00 - 14:30 (75 Students)</p>
-                                <p>14:30 - 15:00 (75 Students)</p>
-                                <p>15:00 - 15:30 (75 Students)</p>
-                                <p>15:30 - 16:00 (75 Students)</p>
-                                <p>16:00 - 16:30 (75 Students)</p>
-                                <p>16:30 - 17:00 (75 Students)</p>
-                                <p>17:00 - 17:30 (20 Students)</p>
-                                <p>17:30 - 18:00 (20 Students)</p>
-                                <p>18:00 - 18:30 (20 Students)</p>
-                                <p>18:30 - 19:00 (20 Students)</p>
-                                <p>19:00 - 19:30 (20 Students)</p>
-                                <p>19:30 - 20:00 (20 Students)</p>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                {{-- Third Item --}}
-                <div class="w-full">
-                    <h2 id="accordion-collapse-heading-3">
-                        <button type="button"
-                                class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 hover:bg-gray-100"
-                                data-accordion-target="#accordion-collapse-body-3"
-                                aria-expanded="false"
-                                aria-controls="accordion-collapse-body-3">
-                            <span>Wednesday</span>
-                            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-                            </svg>
-                        </button>
-                    </h2>
-                    <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
-                        <div class="p-5 border border-b-0 border-gray-200">
-                            <p class="mb-2 text-gray-500">
-                                <p>09:00 - 09:30 (20 Students)</p>
-                                <p>09:30 - 10:00 (20 Students)</p>
-                                <p>10:00 - 10:30 (25 Students)</p>
-                                <p>10:30 - 11:00 (25 Students)</p>
-                                <p>11:00 - 11:30 (75 Students)</p>
-                                <p>11:30 - 12:00 (75 Students)</p>
-                                <p>12:00 - 12:30 (75 Students)</p>
-                                <p>12:30 - 13:00 (75 Students)</p>
-                                <p>13:00 - 13:30 (75 Students)</p>
-                                <p>13:30 - 14:00 (75 Students)</p>
-                                <p>14:00 - 14:30 (75 Students)</p>
-                                <p>14:30 - 15:00 (75 Students)</p>
-                                <p>15:00 - 15:30 (75 Students)</p>
-                                <p>15:30 - 16:00 (75 Students)</p>
-                                <p>16:00 - 16:30 (75 Students)</p>
-                                <p>16:30 - 17:00 (75 Students)</p>
-                                <p>17:00 - 17:30 (20 Students)</p>
-                                <p>17:30 - 18:00 (20 Students)</p>
-                                <p>18:00 - 18:30 (20 Students)</p>
-                                <p>18:30 - 19:00 (20 Students)</p>
-                                <p>19:00 - 19:30 (20 Students)</p>
-                                <p>19:30 - 20:00 (20 Students)</p>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                {{-- Fourth Item --}}
-                <div class="w-full">
-                    <h2 id="accordion-collapse-heading-4">
-                        <button type="button"
-                                class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 hover:bg-gray-100"
-                                data-accordion-target="#accordion-collapse-body-4"
-                                aria-expanded="false"
-                                aria-controls="accordion-collapse-body-4">
-                            <span>Thursday</span>
-                            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-                            </svg>
-                        </button>
-                    </h2>
-                    <div id="accordion-collapse-body-4" class="hidden" aria-labelledby="accordion-collapse-heading-4">
-                        <div class="p-5 border border-b-0 border-gray-200">
-                            <p class="mb-2 text-gray-500">
-                                <p>09:00 - 09:30 (20 Students)</p>
-                                <p>09:30 - 10:00 (20 Students)</p>
-                                <p>10:00 - 10:30 (25 Students)</p>
-                                <p>10:30 - 11:00 (25 Students)</p>
-                                <p>11:00 - 11:30 (75 Students)</p>
-                                <p>11:30 - 12:00 (75 Students)</p>
-                                <p>12:00 - 12:30 (75 Students)</p>
-                                <p>12:30 - 13:00 (75 Students)</p>
-                                <p>13:00 - 13:30 (75 Students)</p>
-                                <p>13:30 - 14:00 (75 Students)</p>
-                                <p>14:00 - 14:30 (75 Students)</p>
-                                <p>14:30 - 15:00 (75 Students)</p>
-                                <p>15:00 - 15:30 (75 Students)</p>
-                                <p>15:30 - 16:00 (75 Students)</p>
-                                <p>16:00 - 16:30 (75 Students)</p>
-                                <p>16:30 - 17:00 (75 Students)</p>
-                                <p>17:00 - 17:30 (20 Students)</p>
-                                <p>17:30 - 18:00 (20 Students)</p>
-                                <p>18:00 - 18:30 (20 Students)</p>
-                                <p>18:30 - 19:00 (20 Students)</p>
-                                <p>19:00 - 19:30 (20 Students)</p>
-                                <p>19:30 - 20:00 (20 Students)</p>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                {{-- Fifth Item --}}
-                <div class="w-full">
-                    <h2 id="accordion-collapse-heading-5">
-                        <button type="button"
-                                class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 hover:bg-gray-100"
-                                data-accordion-target="#accordion-collapse-body-5"
-                                aria-expanded="false"
-                                aria-controls="accordion-collapse-body-5">
-                            <span>Friday</span>
-                            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-                            </svg>
-                        </button>
-                    </h2>
-                    <div id="accordion-collapse-body-5" class="hidden" aria-labelledby="accordion-collapse-heading-5">
-                        <div class="p-5 border border-b-0 border-gray-200">
-                            <p class="mb-2 text-gray-500">
-                                <p>09:00 - 09:30 (20 Students)</p>
-                                <p>09:30 - 10:00 (20 Students)</p>
-                                <p>10:00 - 10:30 (25 Students)</p>
-                                <p>10:30 - 11:00 (25 Students)</p>
-                                <p>11:00 - 11:30 (75 Students)</p>
-                                <p>11:30 - 12:00 (75 Students)</p>
-                                <p>12:00 - 12:30 (75 Students)</p>
-                                <p>12:30 - 13:00 (75 Students)</p>
-                                <p>13:00 - 13:30 (75 Students)</p>
-                                <p>13:30 - 14:00 (75 Students)</p>
-                                <p>14:00 - 14:30 (75 Students)</p>
-                                <p>14:30 - 15:00 (75 Students)</p>
-                                <p>15:00 - 15:30 (75 Students)</p>
-                                <p>15:30 - 16:00 (75 Students)</p>
-                                <p>16:00 - 16:30 (75 Students)</p>
-                                <p>16:30 - 17:00 (75 Students)</p>
-                                <p>17:00 - 17:30 (20 Students)</p>
-                                <p>17:30 - 18:00 (20 Students)</p>
-                                <p>18:00 - 18:30 (20 Students)</p>
-                                <p>18:30 - 19:00 (20 Students)</p>
-                                <p>19:00 - 19:30 (20 Students)</p>
-                                <p>19:30 - 20:00 (20 Students)</p>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
+        <div class=" w-full m-auto p-2 mb-4 text-[12px] mt-2">
+            <div id="accordion-collapse-timetable" data-accordion="collapse" class="w-full flex m-auto flex-row gap-1">
 
-
-          </div>
-        -->
         {{-- Accordion----------- --}}
         <div id="accordion-collapse" data-accordion="collapse" class="w-4/5 mx-auto mb-6">
             {{-- Sixth Item --}}
@@ -421,7 +201,6 @@
                     <p>There are ambitious plans to have additional academic papers published in other international Scopus-index journals by the end of 2025!</p>
                 </div>
             </div>
-
         </div>
     </div>
 </x-layout>

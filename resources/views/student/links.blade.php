@@ -35,7 +35,7 @@
                 Pre-test
             </a>
             @if(!empty($completion['pretest']))
-                <span class="text-green-600 text-[10px] font-bold py-2 px-2 bg-green-100 rounded-lg">Completed</span>
+                <span class="text-green-600 text-[10px] font-bold py-2 px-2 bg-green-100 rounded-lg justify-center">Completed</span>
                 <form action="{{ route('student.forms.undo', $forms['pretest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
