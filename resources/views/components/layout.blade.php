@@ -10,15 +10,15 @@
 </head>
 
 <body class="bg-white">
-    <div class="flex flex-col min-h-screen">
+    <div class="flex-col min-h-screen">
         <!-- Header with Logo and Title -->
         <header class="">
             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 ">
                 <!-- Title and Logos -->
                 <div class="flex items-center justify-center w-full">
-                    <img src="/images/logo_new.png" alt="RSU Logo" class=" w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14">
+                    <img src="/images/logo_new.png" alt="RSU Logo" class=" w-10 h-10 md:w-12 md:h-12">
                     <h1 class=" font-normal text-[#7D3C98] mx-auto text-xl lg:text-3xl md:text-2xl">RSU GLOBAL!</h1>
-                    <img src="/images/logo_new.png" alt="RSU Logo" class=" w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14">
+                    <img src="/images/logo_new.png" alt="RSU Logo" class=" w-10 h-10 md:w-12 md:h-12">
                 </div>
             </div>
 
@@ -284,8 +284,8 @@
                             linkPath = link.getAttribute("href");
                         }
                         if (linkPath === currentPath) {
-                            button.classList.remove("bg-[#7D3C98]", "text-white","border-white");
-                            button.classList.add("bg-white", "text-[#7D3C98]", "border-[#7D3C98]");
+                            button.classList.remove("bg-[#7D3C98]", "text-white");
+                            button.classList.add("bg-white", "text-[#7D3C98]");
                         }
                     });
                 }
