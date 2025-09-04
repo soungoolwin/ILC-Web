@@ -3,7 +3,7 @@
         <!-- Main Content Container - Centered with max width -->
         <div class="w-full max-w-md">
             <!-- Title -->
-            <h1 class="text-xl lg:text-2xl font-bold text-center text-[#7D3C98] mb-6">Login to your account</h1>
+            <h1 class="text-xl lg:text-2xl font-bold text-center text-[#7D3C98] mb-6">Log in to your account</h1>
 
             <form method="POST" action="{{ route('login') }}" class="space-y-6">
                 @csrf
