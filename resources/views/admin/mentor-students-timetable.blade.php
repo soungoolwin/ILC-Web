@@ -39,7 +39,7 @@
                     <select name="week_number" id="week_number"
                         class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Weeks</option>
-                        @foreach (range(2, 6) as $week)
+                        @foreach (range(4, 13) as $week)
                             <option value="{{ $week }}" {{ request('week_number') == $week ? 'selected' : '' }}>
                                 Week {{ $week }}
                             </option>
@@ -80,6 +80,7 @@
                                 <a href="{{ route('admin.mentors.show', $timetable->mentor->id) }}"
                                     class="text-black hover:underline hover:font-bold">
                                     {{ $timetable->mentor->user->name ?? 'N/A' }}
+                                    ({{ $timetable->mentor->user->line_id ?? 'N/A' }})
                                 </a>
                             </td>
                             <td class="border border-gray-300 px-8py-2 text-center text-[10px] lg:text-base">
@@ -91,6 +92,7 @@
                                             <a href="{{ route('admin.students.show', $appointment->student->id) }}"
                                                 class="text-black hover:font-bold hover:underline">
                                                 {{ $appointment->student->user->name ?? 'N/A' }}
+                                                ({{ $appointment->student->user->line_id ?? 'N/A' }})
                                             </a>
                                         </div>
                                     @endforeach

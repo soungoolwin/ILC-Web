@@ -1,13 +1,13 @@
 <x-layout>
     <div class="max-w-7xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">View Timetables</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">View Your Mentors and Students' Timetables</h2>
 
         <!-- Search Form -->
-        <form method="GET" action="{{ route('team_leader.view_timetables') }}" class="space-y-4 mb-6">
-            <div class="flex items-left space-x-4">
+        <form method="GET" action="{{ route('team_leader.view_timetables') }}" class="flex flex-col mb-6">
+            <div class="flex items-left space-x-4 mb-4">
                 <!-- Week Number -->
                 <div>
-                    <label for="week_number" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1">Week No.</label>
+                    <label for="week_number" class=" block text-[8px] lg:text-sm font-semibold text-gray-600 mb-1">Week No.</label>
                     <select name="week_number" id="week_number"
                         class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Weeks</option>
@@ -21,7 +21,7 @@
 
                 <!-- Day -->
                 <div>
-                    <label for="day" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1">Day</label>
+                    <label for="day" class="block text-[8px] lg:text-sm font-semibold text-gray-600 mb-1">Day</label>
                     <select name="day" id="day"
                         class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Days</option>
@@ -35,7 +35,7 @@
 
                 <!-- Time Slot -->
                 <div>
-                    <label for="time_slot" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1">Time Slot</label>
+                    <label for="time_slot" class="block text-[8px] lg:text-sm font-semibold text-gray-600 mb-1">Time Slot</label>
                     <select name="time_slot" id="time_slot"
                         class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">All Time Slots</option>
@@ -59,18 +59,27 @@
 
                 <!-- Table Number -->
                 <div>
-                    <label for="table_number" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1">Table Number</label>
-                    <input type="number" name="table_number" id="table_number" value="{{ request('table_number') }}"
-                        placeholder="e.g., 5"
+                    <label for="table_number" class="block text-[8px] lg:text-sm font-semibold text-gray-600 mb-1">Table Number</label>
+                    <select name="table_number" id="table_number"
                         class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                        <option value="">All Tables</option>
+                        @foreach (range(1, 16) as $table)
+                            <option value="{{ $table }}" {{ request('table_number') == $table ? 'selected' : '' }}>
+                                Table {{ $table }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
             <!-- Search Button -->
-            <div>
-                <button type="submit" class="w-full bg-[#7D3C98] text-white text-xs lg:text-sm font-bold py-2 px-4 rounded-lg transition">
+            <div class=" flex flex-row gap-4 w-full justify-start">
+                <button type="submit" class="w-2/5 bg-[#7D3C98] text-white text-xs lg:text-sm font-bold py-2 px-4 rounded-lg transition">
                     Search
                 </button>
+                <a href="{{ route('team_leader.view_timetables') }}" class="w-1/5 block text-center bg-red-600 text-white text-xs lg:text-sm font-bold py-2 px-4 rounded-lg transition">
+                    Reset
+                </a>
             </div>
         </form>
 

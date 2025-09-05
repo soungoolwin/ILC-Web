@@ -23,9 +23,59 @@
             </div>
         <a href="https://tinyurl.com/WebsiteTeamSurvey" class="text-center text-white text-lg mb-2 mt-2 text-[28px] hover:underline hover:scale-105">Web Team Survey</a>
         <p class="text-[12px] text-white text-center text-[12px]">Please fill out this survey to help us improve the RSU PAL Centre website and services. When answering the questions, please provide as much detail as possible instead of yes and no only. We appreciate your feedback!</p>
-</div>
+        </div>
     </div>
-        <h2 class="text-center mb-2 mt-2 text-[28px] italic">RSUGlobal! PAL Center</h2>
+
+    <!-- Schedule Section -->
+    <div class="w-full lg:w-1/2 mx-auto mb-8 px-2">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="p-4 bg-[#7D3C98]">
+                <h3 class="text-xl font-semibold text-white">{{$username}}'s TeamLeader Shift</h3>
+            </div>
+            
+            <!-- Schedule Table -->
+            <div class="p-4 justify-center items-center">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class=" border-b border-[#7D3C98]">
+                            <th class="px-6 py-3 bg-purple-50 text-center text-xs font-bold text-[#7D3C98] uppercase tracking-wider">
+                                Day
+                            </th>
+                            <th class="px-6 py-3 bg-purple-50 text-center text-xs font-bold text-[#7D3C98] uppercase tracking-wider">
+                                Time Slot
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @forelse($timetables as $slot)
+                            <tr class="hover:bg-purple-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-center">
+                                    {{ $slot->day }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-center">
+                                    {{ $slot->time_slot }}
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="2" class="px-6 py-4 text-center text-sm text-gray-500 italic">
+                                    No schedules added yet
+                                </td>
+                            </tr>
+            <div class="p-4 bg-gray-50 border-t border-gray-200 flex justify-end">
+                <a href="{{ route('team_leader.timetable.create') }}" 
+                   class="bg-[#7D3C98] text-white px-4 py-2 rounded hover:bg-purple-800 transition-colors text-sm">
+                    Reserve a slot
+                </a>
+            </div>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="text-center mb-2 mt-2 text-[28px] italic">RSUGlobal! PAL Center</h2>
         {{-- Youtube Video --}}
         <div class="flex flex-col w-full lg:w-1/2 px-2 justify-center items-center mx-auto">
             <iframe class="aspect-video" src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>

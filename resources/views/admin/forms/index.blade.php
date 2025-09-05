@@ -2,8 +2,6 @@
     <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Form Management</h2>
 
-        <p>Debug: {{ $uploadLink->id ?? 'No model found' }}</p>
-
         <!-- Filter Form -->
         <form method="GET" action="{{ route('admin.forms.index') }}" class="flex space-x-4 mb-6">
             <div class="flex items-left space-x-3">
@@ -45,8 +43,8 @@
         </a>
 
         <!-- Create New Upload Link Button -->
-        <a href="{{ route('admin.file_upload_links.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            Create New File Upload Link
+        <a href="{{ route('admin.file_upload_links.create') }}" class="bg-[#008000] text-xs lg:text-base text-white px-4 py-2 rounded-lg inline-block mb-4">
+            Consent Upload link
         </a>
 
         <!-- Grouped Forms Table -->
@@ -55,13 +53,13 @@
         @endphp
 
         @forelse ($grouped as $role => $group)
-        <div class=" w-full flex justify-center items-center mx-auto">
+        <div class=" w-full flex justify-center items-center mx-auto mb-8 border-b border-dashed pb-8 border-gray-400">
             <table class=" table-auto text-[10px] lg:text-base w-full border-collapse border border-gray-300">
                 <caption class="text-lg font-semibold text-[#7D3C98] mb-4">
                     Created Forms for {{ ucfirst(str_replace('_', ' ', $role)) }}s
                 </caption>
                 <thead class="bg-[#7D3C98] text-white rounded-xl shadow-md">
-                    <tr class="text-[10px] lg:text-base text-white">
+                    <tr class="text-[8px] lg:text-base text-white">
                         <th class="border px-2 py-2">Name</th>
                         <th class="border w-1/2 px-4 py-2">Description (URL)</th>
                         <th class="border px-2 py-2">Form Type</th>
@@ -71,9 +69,9 @@
                 </thead>
                 <tbody>
                     @foreach ($group as $form)
-                        <tr class="text-[10px] lg:text-base hover:bg-gray-100 transition-colors duration-200">
+                        <tr class="text-[8px] lg:text-base hover:bg-gray-100 transition-colors duration-200">
                             <td class="border px-4 py-2">{{ $form->form_name }}</td>
-                            <td class="border w-1/2 px-4 py-2 break-all">{{ $form->form_description }}</td>
+                            <td class="border w-1/2 px-4 py-2 break-all text-blue-600">{{ $form->form_description }}</td>
                             <td class="border px-4 py-2">{{ ucfirst($form->form_type) }}</td>
                             <td class="border px-4 py-2">
                                 {{ $form->is_active ? 'Active' : 'Inactive' }}
@@ -99,25 +97,27 @@
         @endforelse
 
         <!-- Upload Links Table -->
-        <table class="w-full mt-6 table-auto border-collapse">
+         <div class=" w-full flex flex-col justify-center items-center mx-auto mb-8">
+            <h2 class="text-lg font-semibold text-[#008000] mb-4">Consent form Upload Links</h2>
+        <table class="table-auto text-[8px] lg:text-base w-full border-collapse border border-gray-300">
             <thead>
-                <tr class="bg-gray-100 text-left">
-                    <th class="p-2 border">Name</th>
-                    <th class="p-2 border">URL</th>
-                    <th class="p-2 border">For Role</th>
-                    <th class="p-2 border">Actions</th>
+                <tr class="bg-[#008000] text-left text-white">
+                    <th class="p-3 border">Name</th>
+                    <th class="p-3 border">URL</th>
+                    <th class="px-4 border">Role</th>
+                    <th class="p-3 border">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($uploadLinks as $fileUploadLink)
-                    <tr class="border-t text-sm text-gray-800">
-                        <td class="p-2">{{ $fileUploadLink->name }}</td>
-                        <td class="p-2 break-all text-blue-600">
+                    <tr class="border-t text-[8px] lg:text-base text-gray-800">
+                        <td class="p-2 border">{{ $fileUploadLink->name }}</td>
+                        <td class="p-2 border w-1/2 break-all text-blue-600">
                             <a href="{{ $fileUploadLink->url }}" target="_blank">{{ $fileUploadLink->url }}</a>
                         </td>
-                        <td class="p-2 capitalize">{{ str_replace('_', ' ', $fileUploadLink->for_role) }}</td>
-                        <td class="p-2 space-x-2">
-                            <a href="{{ route('admin.file_upload_links.edit', $fileUploadLink) }}" class="text-yellow-600 hover:underline">Edit</a>
+                        <td class="p-2 border capitalize">{{ str_replace('_', ' ', $fileUploadLink->for_role) }}</td>
+                        <td class="flex-column border px-4 py-2 font-semibold items-left">
+                            <a href="{{ route('admin.file_upload_links.edit', $fileUploadLink) }}" class="text-blue-600 hover:underline">Edit</a>
                             <form action="{{ route('admin.file_upload_links.destroy', $fileUploadLink) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
@@ -131,6 +131,7 @@
                 @endforeach
             </tbody>
         </table>
+</div>
 
     </div>
 </x-layout>

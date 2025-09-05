@@ -17,13 +17,12 @@
                 <!-- Title and Logos -->
                 <div class="flex items-center justify-center w-full">
                     <img src="/images/logo_new.png" alt="RSU Logo" class=" w-10 h-10 md:w-12 md:h-12">
-                    <h1 class=" font-normal text-[#7D3C98] mx-auto text-xl lg:text-3xl md:text-2xl">RSU GLOBAL!</h1>
+                    <h1 class=" font-bold tracking-wider text-[#7D3C98] mx-auto text-xl lg:text-4xl md:text-2xl">RSU GLOBAL!</h1>
                     <img src="/images/logo_new.png" alt="RSU Logo" class=" w-10 h-10 md:w-12 md:h-12">
                 </div>
             </div>
-
             <!-- Navigation Bar with Login/Register -->
-            <div class="flex text-[10px] justify-evenly lg:justify-end w-full px-1 py-1 mt-2 lg:px-4 lg:py-2 md:text-sm lg:text-base sm:gap-xs">
+            <div class="flex text-[10px] justify-end w-full px-1 py-1 mt-2 lg:px-4 lg:py-2 md:text-sm lg:text-base gap-xs lg:gap-2 mr-2">
                 @if (Auth::check())
                     @if (Auth::user()->role === 'student')
                     @php
@@ -37,7 +36,7 @@
                         <a href="{{ route('student.dashboard') }}"
                             class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-1 border-[1.5px] border-[#7D3C98]">Home</a>
                         <a href="{{ route('newsletter') }}"
-                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-1 border-[1.5px] border-[#7D3C98]">Newsletter</a>
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-1 border-[1.5px] border-[#7D3C98]">Portal</a>
                         <!-- Appointments Dropdown -->
                             <button id="dropdownButton"
                                 class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md focus:outline-none mr-1 border-[1.5px] border-[#7D3C98]">Appointments</button>
@@ -73,7 +72,7 @@
                         <a href="{{ route('mentor.dashboard') }}"
                             class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Home</a>
                         <a href="{{ route('newsletter') }}"
-                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Newsletter</a>
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Portal</a>
                 @if (Auth::user()->role === 'mentor' && Auth::user()->mentors()->first()->status == 'active')
 
                         <!-- Timetables Dropdown -->
@@ -104,7 +103,7 @@
                         <a href="{{ route('team_leader.dashboard') }}"
                             class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Home</a>
                         <a href="{{ route('newsletter') }}"
-                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Newsletter</a>
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Portal</a>
 
                         <!-- Timetables Dropdown -->
                             <button id="dropdownButton"
@@ -134,7 +133,7 @@
                         <a href="{{ route('admin.dashboard') }}"
                             class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Home</a>
                         <a href="{{ route('newsletter') }}"
-                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Newsletter</a>
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Portal</a>
                         <!-- Management Dropdown -->
                         
                             <button id="dropdownButton"
@@ -151,9 +150,9 @@
                                             TeamLeader Timetable
                                         </a>
 
-                                        <a href="{{ route('dashboard.team_leaders') }}"
+                                        <a href="{{ route('admin.users.index') }}"
                                             class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-blue-500 hover:bg-gray-100">
-                                            Delete Teamleaders
+                                            Delete Users
                                         </a>
                                 </div>
                                 <div class="flex flex-col w-fit">

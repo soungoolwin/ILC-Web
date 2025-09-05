@@ -123,5 +123,4 @@ class TeamLeaderTimetableController extends Controller
             'request'
         ));
     }
-
 }

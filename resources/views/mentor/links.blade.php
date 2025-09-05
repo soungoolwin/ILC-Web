@@ -32,26 +32,26 @@
         @if(isset($forms['pretest']))
         <div class="flex space-x-3 items-center justify-center">
             <a href="{{ $forms['pretest']->form_description }}" target="_blank"
-                class="flex-auto bg-[#7D3C98] w-1/2 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
+                class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
                 Pre-test
             </a>
             @if(!empty($completion['pretest']))
-                <span class="text-green-600 text-[10px] font-bold py-2 px-2 bg-green-100 rounded-lg">Completed</span>
+                <span class="text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</span>
                 <form action="{{ route('mentor.forms.undo', $forms['pretest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                        class="w-full bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 transition">
+                        class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
                         Undo
                     </button>
                 </form>
                 
             @else
-            <span class="text-red-600 text-[10px] font-bold py-2 px-2 bg-red-100 rounded-lg">Incomplete</span>
+            <span class="text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</span>
                 <form action="{{ route('mentor.forms.complete', $forms['pretest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     <button type="submit"
-                        class="w-full bg-[#158a00] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#0f6100] transition">
+                        class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
                         Completed
                     </button>
                 </form>
@@ -63,26 +63,26 @@
         @if(isset($forms['questionnaire']))
         <div class="flex space-x-3 items-center justify-center">
             <a href="{{ $forms['questionnaire']->form_description }}" target="_blank"
-                class="flex-auto bg-[#7D3C98] w-1/4 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
+                class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
                 Questionnaire
             </a>
             @if(!empty($completion['questionnaire']))
-                <span class="text-green-600 text-[10px] font-bold py-2 px-2 bg-green-100 rounded-lg">Completed</span>
+                <span class="text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</span>
                 <form action="{{ route('mentor.forms.undo', $forms['questionnaire']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                        class="w-full bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 transition">
+                        class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
                         Undo
                     </button>
                 </form>
                 
             @else
-            <span class="text-red-600 text-[10px] font-bold py-2 px-2 bg-red-100 rounded-lg">Incomplete</span>
+            <span class="text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</span>
                 <form action="{{ route('mentor.forms.complete', $forms['questionnaire']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     <button type="submit"
-                        class="w-full bg-[#158a00] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#0f6100] transition">
+                        class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
                         Completed
                     </button>
                 </form>
@@ -94,26 +94,26 @@
         @if(isset($forms['consent']))
         <div id="mentorConsent" class="flex space-x-3 items-center justify-center">
             <a href="{{ $forms['consent']->form_description }}" target="_blank"
-                class="flex-auto bg-[#7D3C98] w-1/2 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
+                class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
                 Download Consent Form
             </a>
             @if(!empty($completion['consent']))
-                <span class="text-green-600 text-[10px] font-bold py-2 px-2 bg-green-100 rounded-lg">Completed</span>
+                <span class="text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</span>
                 <form action="{{ route('mentor.forms.undo', $forms['consent']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                        class="w-full bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 transition">
+                        class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
                         Undo
                     </button>
                 </form>
                 
             @else
-            <span class="text-red-600 text-[10px] font-bold py-2 px-2 bg-red-100 rounded-lg">Incomplete</span>
+            <span class="text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</span>
                 <form action="{{ route('mentor.forms.complete', $forms['consent']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     <button type="submit"
-                        class="w-full bg-[#158a00] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#0f6100] transition">
+                        class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
                         Completed
                     </button>
                 </form>
@@ -151,26 +151,26 @@
         @if(isset($forms['posttest']))
         <div class="flex space-x-3 items-center justify-center">
             <a href="{{ $forms['posttest']->form_description }}" target="_blank"
-                class="flex-auto bg-[#7D3C98] w-1/2 text-white font-bold py-2 px-4 rounded-lg hover:bg-[#701b94] transition">
+                class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
                 Post-test
             </a>
             @if(!empty($completion['posttest']))
-            <span class="text-green-600 text-[10px] font-bold py-2 px-2 bg-green-100 rounded-lg">Completed</span>
+            <span class="text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</span>
                 <form action="{{ route('mentor.forms.undo', $forms['posttest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                        class="w-full bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 transition">
+                        class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
                         Undo
                     </button>
                 </form>
                 
             @else
-            <span class="text-red-600 text-[10px] font-bold py-2 px-2 bg-red-100 rounded-lg">Incomplete</span>
+            <span class="text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</span>
                 <form action="{{ route('mentor.forms.complete', $forms['posttest']->id) }}" method="POST" class="w-1/4">
                     @csrf
                     <button type="submit"
-                        class="w-full bg-[#158a00] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#0f6100] transition">
+                        class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
                         Completed
                     </button>
                 </form>

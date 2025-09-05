@@ -1,10 +1,19 @@
 <x-layout>
+
     <!-- Main content with video -->
     <div class="container mx-auto py-8">
-        <div class="mx-auto w-3/4">
+        <div class="mx-auto w-4/5">
 
             <!-- YouTube Video - Centered and Responsive -->
             <div class="w-full flex justify-center mb-8">
+                <aside class="w-1/2 mr-4">
+                <div class="flex flex-col items-left justify-left w-full bg-purple-100 p-4 shadow-md rounded-lg">
+                    <p> Download RSUGlobal! Newsletter Issue ( 001 ) <a href="{{ asset('images/News_September 2025.pdf') }}" download class="text-blue-600 underline mb-2 mt-2 hover:scale-105">
+                        Here
+                    </a></p>
+                    <embed src="{{ asset('images/News_September 2025.pdf') }}#toolbar=0" type="application/pdf" width="100%" height="500px" class="mt-2 rounded shadow" />
+                </div>
+            </aside>
                 <iframe class="w-full md:w-3/4 lg:w-2/3 aspect-video rounded-lg shadow-lg"
                         src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z"
                         title="YouTube video player"
