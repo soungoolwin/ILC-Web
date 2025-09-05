@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0 final-scale=1.0 user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Rangsit University PAL Center</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>RSU GLOBAL! PAL Center</title>
     @vite('resources/css/app.css')
 </head>
 
