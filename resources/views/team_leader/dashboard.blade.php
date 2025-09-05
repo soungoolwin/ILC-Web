@@ -27,21 +27,21 @@
     </div>
 
     <!-- Schedule Section -->
-    <div class="w-4/5 mx-auto mb-8">
+    <div class="w-full lg:w-1/2 mx-auto mb-8 px-2">
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
             <div class="p-4 bg-[#7D3C98]">
-                <h3 class="text-xl font-semibold text-white">{{$username}}'s Weekly Schedule</h3>
+                <h3 class="text-xl font-semibold text-white">{{$username}}'s TeamLeader Shift</h3>
             </div>
             
             <!-- Schedule Table -->
-            <div class="p-4">
+            <div class="p-4 justify-center items-center">
                 <table class="min-w-full">
                     <thead>
-                        <tr>
-                            <th class="px-6 py-3 bg-purple-50 text-left text-xs font-medium text-[#7D3C98] uppercase tracking-wider">
+                        <tr class=" border-b border-[#7D3C98]">
+                            <th class="px-6 py-3 bg-purple-50 text-center text-xs font-bold text-[#7D3C98] uppercase tracking-wider">
                                 Day
                             </th>
-                            <th class="px-6 py-3 bg-purple-50 text-left text-xs font-medium text-[#7D3C98] uppercase tracking-wider">
+                            <th class="px-6 py-3 bg-purple-50 text-center text-xs font-bold text-[#7D3C98] uppercase tracking-wider">
                                 Time Slot
                             </th>
                         </tr>
@@ -49,10 +49,10 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         @forelse($timetables as $slot)
                             <tr class="hover:bg-purple-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-center">
                                     {{ $slot->day }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-center">
                                     {{ $slot->time_slot }}
                                 </td>
                             </tr>
@@ -62,17 +62,15 @@
                                     No schedules added yet
                                 </td>
                             </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Add Time Slot Button -->
             <div class="p-4 bg-gray-50 border-t border-gray-200 flex justify-end">
                 <a href="{{ route('team_leader.timetable.create') }}" 
                    class="bg-[#7D3C98] text-white px-4 py-2 rounded hover:bg-purple-800 transition-colors text-sm">
-                    Add Time Slot
+                    Reserve a slot
                 </a>
+            </div>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

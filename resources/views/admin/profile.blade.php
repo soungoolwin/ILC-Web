@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6 w-1/2">
+    <div class=" mx-auto bg-white shadow-lg rounded-lg p-6 mt-6 mb-8 w-4/5 lg:w-1/2">
         <div class="flex justify-between items-center">
             <h2 class="text-2xl font-bold text-gray-800">Profile Information</h2>
             <!-- Edit Button -->

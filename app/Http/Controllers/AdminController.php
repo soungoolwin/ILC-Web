@@ -170,6 +170,6 @@ class AdminController extends Controller
         // Delete the user
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('success', "User '{$user->name}' is deleted successfully!, Email - {$user->email}");
+        return redirect()->route('admin.users.index')->with('success', "'{$user->name}' was deleted successfully! Email - {$user->email}");
     }
 }
