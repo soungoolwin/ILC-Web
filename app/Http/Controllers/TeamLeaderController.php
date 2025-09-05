@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Timetable;
 use App\Models\Form;
 use App\Models\TeamLeaderForm;
+use App\Models\TeamLeaderTimetable;
 use App\Models\FileUploadLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +41,28 @@ class TeamLeaderController extends Controller
         }
 
         return view('team_leader.profile', compact('user', 'teamLeader'));
+    }
+
+    public function dashboard()
+    {
+        $user = Auth::user();
+        $teamLeader = $user->teamLeaders()->first();
+
+        // If teamLeader doesn't exist, create it
+        if (!$teamLeader) {
+            $teamLeader = TeamLeader::create([
+                'user_id' => $user->id,
+            ]);
+        }
+
+        $timetables = TeamLeaderTimetable::where('team_leader_id', $teamLeader->id)
+            ->orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
+            ->orderBy('time_slot')
+            ->get();
+
+        $username = $user->name;
+
+        return view('team_leader.dashboard', compact('timetables', 'username'));
     }
 
     //team leader links

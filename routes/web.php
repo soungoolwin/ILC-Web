@@ -179,9 +179,7 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 
 //Team Leader Routes
 Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
-    Route::get('/team-leader/dashboard', function () {
-        return view('team_leader.dashboard');
-    })->name('team_leader.dashboard');
+    Route::get('/team-leader/dashboard', [TeamLeaderController::class, 'dashboard'])->name('team_leader.dashboard');
 
     // Team Leader Consent Links
     Route::get('/team-leader/links', [TeamLeaderController::class, 'links'])->name('team_leader.links');
