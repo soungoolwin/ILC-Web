@@ -16,9 +16,9 @@
             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 ">
                 <!-- Title and Logos -->
                 <div class="flex items-center justify-center w-full">
-                    <img src="/images/logo_new.png" alt="RSU Logo" class=" w-10 h-10 md:w-12 md:h-12">
+                    <img src="/images/rsuGlobal.png" alt="RSU Logo" class=" w-10 h-10 md:w-12 md:h-12">
                     <h1 class=" font-bold tracking-wider text-[#7D3C98] mx-auto text-xl lg:text-4xl md:text-2xl">RSU GLOBAL!</h1>
-                    <img src="/images/logo_new.png" alt="RSU Logo" class=" w-10 h-10 md:w-12 md:h-12">
+                    <img src="/images/rsuGlobal.png" alt="RSU Logo" class=" w-10 h-10 md:w-12 md:h-12">
                 </div>
             </div>
             <!-- Navigation Bar with Login/Register -->

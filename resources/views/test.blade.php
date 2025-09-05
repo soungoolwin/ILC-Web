@@ -5,9 +5,9 @@
         <div class="mx-auto w-4/5">
 
             <!-- YouTube Video - Centered and Responsive -->
-            <div class="w-full flex justify-center mb-8">
-                <aside class="w-1/2 mr-4">
-                <div class="flex flex-col items-left justify-left w-full bg-purple-100 p-4 shadow-md rounded-lg">
+            <div class="w-full flex flex-col lg:flex-row justify-center mb-8">
+                <aside class="w-full lg:w-1/2 mr-4 mb-4">
+                <div class="flex flex-col items-left justify-left w-full bg-purple-100 p-4 shadow-md rounded-lg h-[300px] lg:h-[400px]">
                     <p> Download RSUGlobal! Newsletter Issue ( 001 ) <a href="{{ asset('images/News_September 2025.pdf') }}" download class="text-blue-600 underline mb-2 mt-2 hover:scale-105">
                         Here
                     </a></p>
