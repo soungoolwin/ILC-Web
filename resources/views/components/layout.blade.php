@@ -22,7 +22,7 @@
                 </div>
             </div>
             <!-- Navigation Bar with Login/Register -->
-            <div class="flex text-[10px] justify-evenly lg:justify-end w-full px-1 py-1 mt-2 lg:px-4 lg:py-2 md:text-sm lg:text-base sm:gap-xs">
+            <div class="flex text-[10px] justify-end w-full px-1 py-1 mt-2 lg:px-4 lg:py-2 md:text-sm lg:text-base gap-xs lg:gap-2 mr-2">
                 @if (Auth::check())
                     @if (Auth::user()->role === 'student')
                     @php
@@ -103,7 +103,7 @@
                         <a href="{{ route('team_leader.dashboard') }}"
                             class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Home</a>
                         <a href="{{ route('newsletter') }}"
-                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Newsletter</a>
+                            class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Portal</a>
 
                         <!-- Timetables Dropdown -->
                             <button id="dropdownButton"
@@ -150,9 +150,9 @@
                                             TeamLeader Timetable
                                         </a>
 
-                                        <a href="{{ route('dashboard.team_leaders') }}"
+                                        <a href="{{ route('admin.users.index') }}"
                                             class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-blue-500 hover:bg-gray-100">
-                                            Delete Teamleaders
+                                            Delete Users
                                         </a>
                                 </div>
                                 <div class="flex flex-col w-fit">

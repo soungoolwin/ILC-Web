@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TeamLeader;
 use App\Models\TeamLeaderTimetable;
 use App\Models\Timetable;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -72,6 +73,7 @@ class AdminController extends Controller
         // Fetch the search parameters
         $day = $request->input('day');
         $time_slot = $request->input('time_slot');
+        $team_leader_id = $request->input('team_leader_id');
 
         // Query the team leaders timetable based on search parameters
         $query = TeamLeaderTimetable::query();
@@ -82,6 +84,12 @@ class AdminController extends Controller
 
         if ($time_slot) {
             $query->where('time_slot', $time_slot);
+        }
+
+        if ($team_leader_id) {
+            $query->whereHas('teamLeader', function ($q) use ($team_leader_id) {
+                $q->where('team_leader_id', 'like', '%' . $team_leader_id . '%');
+            });
         }
 
         $teamLeaderTimetables = $query->with('teamLeader.user')->get();
@@ -119,31 +127,49 @@ class AdminController extends Controller
     }
 
 
-    // View all team leaders
-    public function viewTeamLeaders(Request $request)
+    // View all users
+    public function viewUsers(Request $request)
     {
-        $query = TeamLeader::with('user');
+        $query = User::query();
 
         // Check if a search term is provided
-        if ($request->filled('team_leader_id')) {
-            $query->where('team_leader_id', 'like', '%' . $request->team_leader_id . '%');
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->email . '%');
         }
 
-        // Paginate the results
-        $teamLeaders = $query->paginate(10);
 
-        return view('admin.team_leaders.index', compact('teamLeaders', 'request'));
+
+        // Paginate the results
+        $users = $query->paginate(50);
+
+        return view('admin.users.index', compact('users', 'request'));
     }
 
-    // Delete a team leader
-    public function deleteTeamLeader($id)
+    // Delete a user
+    public function deleteUser($id)
     {
-        $teamLeader = TeamLeader::findOrFail($id); // Find team leader by ID
+        $authUser = Auth::user();
 
-        // Delete the associated user and team leader record
-        $teamLeader->user()->delete();
-        $teamLeader->delete();
+        // Ensure the deleter is an admin
+        if (!$authUser || $authUser->role !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
 
-        return redirect()->route('dashboard.team_leaders')->with('success', 'Team Leader deleted successfully!');
+        // Find user by ID
+        $user = User::findOrFail($id);
+
+        // Prevent deleting admin users
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.users.index')->with('error', 'Cannot delete admin users.');
+        }
+
+        if ($user->id === $authUser->id) {
+            return redirect()->route('admin.users.index')->with('error', 'You might just create a timeloop. do not delete your own account.');
+        }
+
+        // Delete the user
+        $user->delete();
+
+        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully!');
     }
 }

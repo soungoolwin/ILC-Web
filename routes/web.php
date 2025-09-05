@@ -127,9 +127,9 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     //to check timetable of mentor-student timetable
     Route::get('/admin/mentor-students-timetable', [AdminController::class, 'viewMentorStudentsTimetable'])->name('admin.mentor_students_timetable');
 
-    // Admin see all teamleaders and delete
-    Route::get('/admin/dashboard/team-leaders', [AdminController::class, 'viewTeamLeaders'])->name('dashboard.team_leaders'); // View all team leaders
-    Route::delete('/admin/dashboard/team-leaders/{id}', [AdminController::class, 'deleteTeamLeader'])->name('dashboard.team_leaders.delete'); // Delete a team leader
+    // Admin see all users and delete
+    Route::get('/admin/users/index', [AdminController::class, 'viewUsers'])->name('admin.users.index'); // View all users
+    Route::delete('/admin/users/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete'); // Delete a user
 
     //See Profiles
     Route::get('/admin/mentors/{id}', [MentorController::class, 'adminShow'])->name('admin.mentors.show');
