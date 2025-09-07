@@ -105,119 +105,118 @@ class AdminFormController extends Controller
         return view('admin.forms.show', compact('form'));
     }
 
-    public function tracking(Request $request)
-    {
-        $forms = Form::where('is_active', true)->get()->groupBy('for_role');
+   public function tracking(Request $request)
+{
+    // Get all active forms and group by role
+    $forms = Form::where('is_active', true)->get()->groupBy('for_role');
 
-        $students = Student::with(['user', 'studentForms'])->get();
-        $mentors = Mentor::with(['user', 'mentorForms'])->get();
-        $teamleaders = TeamLeader::with(['user', 'teamLeaderForms'])->get();
+    // Ensure keys exist to avoid "undefined array key" errors
+    $roles = ['student', 'mentor', 'team_leader'];
+    foreach ($roles as $role) {
+        if (!isset($forms[$role])) {
+            $forms[$role] = collect(); // empty collection
+        }
+    }
 
-        // Define expected form types to ensure full columns even if not created
-        $defaultFormTypes = ['pretest', 'posttest', 'questionnaire', 'consent'];
+    // Default form types
+    $defaultFormTypes = ['pretest', 'posttest', 'questionnaire', 'consent'];
 
-        // Normalize form list with all possible types
-        foreach (['student', 'mentor', 'team_leader'] as $role) {
-            foreach ($defaultFormTypes as $type) {
-                if (!($forms[$role] ?? collect())->firstWhere('form_type', $type)) {
-                    $forms[$role][] = (object)[
-                        'form_type' => $type,
-                        'id' => null,
-                        'form_name' => ucfirst($type) . ' (Not Created)',
-                    ];
-                }
+    // Normalize form list with all possible types (add "Not Created" placeholders)
+    foreach ($roles as $role) {
+        foreach ($defaultFormTypes as $type) {
+            if (!$forms[$role]->firstWhere('form_type', $type)) {
+                $forms[$role][] = (object)[
+                    'form_type' => $type,
+                    'id' => null,
+                    'form_name' => ucfirst($type) . ' (Not Created)',
+                ];
             }
         }
+    }
 
-        // Apply filters
+    // ============= FILTERS =============
     $studentId = $request->query('student_id');
-    $mentorId = $request->query('mentor_id');
-    $teamLeaderId = $request->query('team_leader_id');
+    $studentName = $request->query('student_name');
+    $studentStatus = $request->query('student_status');
 
+    $mentorId = $request->query('mentor_id');
+    $mentorName = $request->query('mentor_name');
+    $mentorStatus = $request->query('mentor_status');
+
+    $teamLeaderId = $request->query('team_leader_id');
+    $teamLeaderName = $request->query('team_leader_name');
+    $teamLeaderStatus = $request->query('team_leader_status');
+
+    // ============= QUERY DATA =============
     $students = Student::with(['user', 'studentForms'])
         ->when($studentId, fn($q) => $q->where('student_id', 'like', "%$studentId%"))
+        ->when($studentName, fn($q) => $q->whereHas('user', fn($u) => $u->where('name', 'like', "%$studentName%")))
         ->get();
 
     $mentors = Mentor::with(['user', 'mentorForms'])
         ->when($mentorId, fn($q) => $q->where('mentor_id', 'like', "%$mentorId%"))
+        ->when($mentorName, fn($q) => $q->whereHas('user', fn($u) => $u->where('name', 'like', "%$mentorName%")))
         ->get();
 
     $teamleaders = TeamLeader::with(['user', 'teamLeaderForms'])
         ->when($teamLeaderId, fn($q) => $q->where('team_leader_id', 'like', "%$teamLeaderId%"))
+        ->when($teamLeaderName, fn($q) => $q->whereHas('user', fn($u) => $u->where('name', 'like', "%$teamLeaderName%")))
         ->get();
 
-        // Completion status tables
-        $studentStatuses = [];
-        foreach ($students as $student) {
-            foreach ($forms['student'] as $form) {
-                $record = $form->id
-                    ? $student->studentForms->firstWhere('form_id', $form->id)
-                    : null;
-                if ($form->id) {
-                    if ($record) {
-                        $studentStatuses[$student->id][$form->form_type] = $record->completion_status ? 'completed' : 'not_completed';
-                    } else {
-                        $studentStatuses[$student->id][$form->form_type] = 'not_completed';
-                    }
-                } else {
-                    $studentStatuses[$student->id][$form->form_type] = 'not_assigned';
-                }
-
-            }
+    // ============= BUILD STATUS ARRAYS =============
+    $studentStatuses = [];
+    foreach ($students as $student) {
+        foreach ($forms['student'] as $form) {
+            $record = $form->id ? $student->studentForms->firstWhere('form_id', $form->id) : null;
+            $studentStatuses[$student->id][$form->form_type] = $form->id
+                ? ($record ? ($record->completion_status ? 'completed' : 'not_completed') : 'not_completed')
+                : 'not_assigned';
         }
-
-        $mentorStatuses = [];
-        foreach ($mentors as $mentor) {
-            foreach ($forms['mentor'] as $form) {
-                $record = $form->id
-                    ? $mentor->mentorForms->firstWhere('form_id', $form->id)
-                    : null;
-                    if ($form->id) {
-                        if ($record) {
-                            $mentorStatuses[$mentor->id][$form->form_type] = $record->completion_status ? 'completed' : 'not_completed';
-                        } else {
-                            $mentorStatuses[$mentor->id][$form->form_type] = 'not_completed';
-                        }
-                    } else {
-                        $mentorStatuses[$mentor->id][$form->form_type] = 'not_assigned';
-                    }
-
-            }
-        }
-
-        $teamLeaderStatuses = [];
-        foreach ($teamleaders as $leader) {
-            foreach ($forms['team_leader'] as $form) {
-                $record = $form->id
-                    ? $leader->teamLeaderForms->firstWhere('form_id', $form->id)
-                    : null;
-                    if ($form->id) {
-                        if ($record) {
-                            $teamLeaderStatuses[$leader->id][$form->form_type] = $record->completion_status ? 'completed' : 'not_completed';
-                        } else {
-                            $teamLeaderStatuses[$leader->id][$form->form_type] = 'not_completed';
-                        }
-                    } else {
-                        $teamLeaderStatuses[$leader->id][$form->form_type] = 'not_assigned';
-                    }
-
-            }
-        }
-
-
-        $formTypes = $defaultFormTypes;
-
-        return view('admin.forms.tracking', compact(
-            'forms',
-            'formTypes',
-            'students',
-            'mentors',
-            'teamleaders',
-            'studentStatuses',
-            'mentorStatuses',
-            'teamLeaderStatuses'
-        ));
     }
 
+    $mentorStatuses = [];
+    foreach ($mentors as $mentor) {
+        foreach ($forms['mentor'] as $form) {
+            $record = $form->id ? $mentor->mentorForms->firstWhere('form_id', $form->id) : null;
+            $mentorStatuses[$mentor->id][$form->form_type] = $form->id
+                ? ($record ? ($record->completion_status ? 'completed' : 'not_completed') : 'not_completed')
+                : 'not_assigned';
+        }
+    }
 
+    $teamLeaderStatuses = [];
+    foreach ($teamleaders as $leader) {
+        foreach ($forms['team_leader'] as $form) {
+            $record = $form->id ? $leader->teamLeaderForms->firstWhere('form_id', $form->id) : null;
+            $teamLeaderStatuses[$leader->id][$form->form_type] = $form->id
+                ? ($record ? ($record->completion_status ? 'completed' : 'not_completed') : 'not_completed')
+                : 'not_assigned';
+        }
+    }
+
+    // ============= FILTER BY STATUS =============
+    if ($studentStatus) {
+        $students = $students->filter(fn($s) => in_array($studentStatus, $studentStatuses[$s->id] ?? []));
+    }
+    if ($mentorStatus) {
+        $mentors = $mentors->filter(fn($m) => in_array($mentorStatus, $mentorStatuses[$m->id] ?? []));
+    }
+    if ($teamLeaderStatus) {
+        $teamleaders = $teamleaders->filter(fn($t) => in_array($teamLeaderStatus, $teamLeaderStatuses[$t->id] ?? []));
+    }
+
+    // ============= RETURN VIEW =============
+    $formTypes = $defaultFormTypes;
+
+    return view('admin.forms.tracking', compact(
+        'forms',
+        'formTypes',
+        'students',
+        'mentors',
+        'teamleaders',
+        'studentStatuses',
+        'mentorStatuses',
+        'teamLeaderStatuses'
+    ));
+}
 }

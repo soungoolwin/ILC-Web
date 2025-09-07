@@ -26,10 +26,18 @@
         <div class="mb-4 print:hidden flex justify-between items-center">
             <!--  Finding Students by ID -->
 
-            <form method="GET" action="{{ route('admin.forms.tracking') }}" class="mb-4">
-                <input type="text" name="student_id" placeholder="Search Student ID" class="input w-2/3 lg:w-[180px] text-xs lg:text-sm border-blue-500 placeholder-gray-400 focus:ring-1 py-2 rounded-l-lg" />
-                <button type="submit" class=" text-xs lg:text-sm bg-blue-500 px-4 py-2 ring-1 ring-blue-500 ring-offset-1 ring-offset-white rounded-r-lg text-white hover:bg-blue-600">Search</button>
+           <form method="GET" action="{{ route('admin.forms.tracking') }}" class="mb-4 flex flex-wrap gap-2">
+               <input type="text" name="student_id" placeholder="Search Student ID" value="{{ request('student_id') }}" ... />
+               <input type="text" name="student_name" placeholder="Search Student Name" value="{{ request('student_name') }}" ... />
+               <select name="student_status" ...>
+                   <option value="">-- Filter by Status --</option>
+                   <option value="completed" {{ request('student_status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                   <option value="not_completed" {{ request('student_status') == 'not_completed' ? 'selected' : '' }}>Incomplete</option>
+                   <option value="not_assigned" {{ request('student_status') == 'not_assigned' ? 'selected' : '' }}>Not Assigned</option>
+                </select>
+                <button type="submit">Search</button>
             </form>
+
 
             @if(request('student_id') && $students->isEmpty())
                 <div class="bg-red-100 border border-red-300 text-red-600 px-4 py-2 rounded mb-4 text-sm">
@@ -57,7 +65,7 @@
                         <tr>
                             <th class="px-1 py-1 text-center">No.</th>
                             <th class="px-2 py-2">Student ID </th>
-                            <th class="px-2 py-2">Name</th>
+                            <th class="px-2 py-2">Name</th> 
                             @foreach($formTypes as $type)
                                 <th class="px-4 py-2">{{ ucfirst($type) }}</th>
                             @endforeach
@@ -107,10 +115,18 @@
             <div class="mb-4 print:hidden flex justify-between items-center">
 
                 <!-- Finding Mentors by ID -->
-                <form method="GET" action="{{ route('admin.forms.tracking') }}" class="mb-4">
-                    <input type="text" name="mentor_id" placeholder="Search Mentor ID" class="input w-2/3 lg:w-[180px] text-xs lg:text-sm print:hidden input border-purple-500 placeholder-gray-400 focus:ring-1 py-2 rounded-l-lg" />
-                    <button type="submit" class="text-xs lg:text-sm print:hidden bg-purple-500 ring-1 ring-purple-500 ring-offset-1 ring-offset-white px-4 py-2 rounded-r-lg text-white hover:bg-purple-600">Search</button>
-                </form>
+               <form method="GET" action="{{ route('admin.forms.tracking') }}" class="mb-4 flex flex-wrap gap-2">
+                    <input type="text" name="mentor_id" placeholder="Mentor ID" value="{{ request('mentor_id') }}" class="w-[150px] ..."/>
+                    <input type="text" name="mentor_name" placeholder="Mentor Name" value="{{ request('mentor_name') }}" class="w-[180px] ..."/>
+                    <select name="mentor_status" class="w-[150px] ...">
+                      <option value="">-- Filter by Status --</option>
+                      <option value="completed" {{ request('mentor_status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                      <option value="not_completed" {{ request('mentor_status') == 'not_completed' ? 'selected' : '' }}>Incomplete</option>
+                      <option value="not_assigned" {{ request('mentor_status') == 'not_assigned' ? 'selected' : '' }}>Not Assigned</option>
+                    </select>
+                    <button type="submit" class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600">Search</button>
+               </form>
+
                 @if(request('mentor_id') && $mentors->isEmpty())
                     <div class="bg-red-100 border border-red-300 text-red-600 px-4 py-2 rounded mb-4 text-sm">
                         No mentors found for ID: <strong>{{ request('mentor_id') }}</strong>
@@ -183,11 +199,18 @@
             <div class="mb-4 print:hidden flex justify-between items-center">
 
                 <!-- Finding Team Leaders by ID -->
-                <form method="GET" action="{{ route('admin.forms.tracking') }}" class="mb-4">
-                    <input type="text" name="team_leader_id" placeholder="Search Team Leader ID" class="w-2/3 lg:w-[180px] text-xs lg:text-sm text-leftprint:hidden input border-yellow-400 placeholder-gray-400  focus:ring-1 py-2 rounded-l-lg" />
-                    <button type="submit" class="text-xs lg:text-sm print:hidden bg-yellow-400 px-4 py-2 ring-1 ring-yellow-400 ring-offset-1 ring-offset-white
-                    rounded-r-lg text-white hover:bg-yellow-500">Search</button>
+                <form method="GET" action="{{ route('admin.forms.tracking') }}" class="mb-4 flex flex-wrap gap-2">
+                    <input type="text" name="team_leader_id" placeholder="Team Leader ID" value="{{ request('team_leader_id') }}" class="w-[150px] ..."/>
+                    <input type="text" name="team_leader_name" placeholder="Team Leader Name" value="{{ request('team_leader_name') }}" class="w-[180px] ..."/>
+                    <select name="team_leader_status" class="w-[150px] ...">
+                          <option value="">-- Filter by Status --</option>
+                          <option value="completed" {{ request('team_leader_status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                          <option value="not_completed" {{ request('team_leader_status') == 'not_completed' ? 'selected' : '' }}>Incomplete</option>
+                          <option value="not_assigned" {{ request('team_leader_status') == 'not_assigned' ? 'selected' : '' }}>Not Assigned</option>
+                    </select>
+                     <button type="submit" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500">Search</button>
                 </form>
+
 
                 @if(request('team_leader_id') && $teamleaders->isEmpty())
                     <div class="bg-red-100 border border-red-300 text-red-600 px-4 py-2 rounded mb-4 text-sm">
