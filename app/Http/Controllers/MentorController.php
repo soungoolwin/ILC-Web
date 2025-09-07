@@ -25,32 +25,35 @@ class MentorController extends Controller
     public function links()
     {
         $user = Auth::user();
-        $role = $user->role; // 'student', 'mentor', or 'team_leader'
 
-        // Fetch forms available for this role
-        $forms = Form::where('for_role', $role)
+        // 1) Forms for mentors, grouped by form_type
+        $forms = Form::where('for_role', 'mentor')
             ->where('is_active', true)
+            ->orderBy('form_type')
+            ->orderBy('created_at')
             ->get()
-            ->keyBy('form_type');
+            ->groupBy('form_type');  // <<< important: collection per type
 
-        $completion = [];
+        // 2) Build completion per form id
+        $completion = []; // [$type][$formId] = bool
 
-        if ($role === 'mentor') {
-            $mentor = $user->mentors()->first(); // Get the mentor's associated record
-
-            foreach ($forms as $type => $form) {
-                $completed = MentorForm::where('mentor_id', $mentor->id)
-                    ->where('form_id', $form->id)
-                    ->exists(); // Check if the form is completed by the mentor
-
-                $completion[$type] = $completed;
+        $mentor = $user->mentors()->first();
+        if ($mentor) {
+            foreach ($forms as $type => $formList) {
+                foreach ($formList as $form) {
+                    $completion[$type][$form->id] = MentorForm::where('mentor_id', $mentor->id)
+                        ->where('form_id', $form->id)
+                        ->exists();
+                }
             }
         }
 
-        $fileUploadLink = FileUploadLink::where('for_role', 'mentor')
-            ->first();
+        // 3) All upload links for mentors (we'll match by name in Blade)
+        $fileUploadLinks = FileUploadLink::where('for_role', 'mentor')
+            ->orderBy('created_at')      // or ->orderBy('name')
+            ->get();
 
-        return view('mentor.links', compact('forms', 'fileUploadLink', 'completion'));
+        return view('mentor.links', compact('forms', 'completion', 'fileUploadLinks'));
     }
 
 

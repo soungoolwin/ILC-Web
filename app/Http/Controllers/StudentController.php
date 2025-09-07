@@ -27,33 +27,36 @@ class StudentController extends Controller
     public function links()
     {
         $user = Auth::user();
-        $role = $user->role; // 'student', 'mentor', or 'team_leader'
+        $role = $user->role; // 'student', 'mentor', 'team_leader'
 
-        // Fetch forms available for this role
+        // 1) Get ALL forms for the role, grouped by form_type
         $forms = Form::where('for_role', $role)
             ->where('is_active', true)
+            ->orderBy('form_type')
+            ->orderBy('created_at')
             ->get()
-            ->keyBy('form_type');
+            ->groupBy('form_type'); 
 
-        $completion = [];
+        $completion = []; // nested: [$type][$formId] = bool
 
         if ($role === 'student') {
-            $student = $user->students()->first(); // Get the student's associated record
+            $student = $user->students()->first();
 
-            foreach ($forms as $type => $form) {
-                $completed = StudentForm::where('student_id', $student->id)
-                    ->where('form_id', $form->id)
-                    ->exists(); // Check if the form is completed by the student
+            foreach ($forms as $type => $formList) {
+                foreach ($formList as $form) {
+                    $completed = StudentForm::where('student_id', $student->id)
+                        ->where('form_id', $form->id)
+                        ->exists();
 
-                $completion[$type] = $completed;
+                    $completion[$type][$form->id] = $completed;
+                }
             }
         }
-
-        $fileUploadLink = FileUploadLink::where('for_role', 'student')
-            ->first();
+        $fileUploadLink = FileUploadLink::where('for_role', $role)->first();
 
         return view('student.links', compact('forms', 'fileUploadLink', 'completion'));
     }
+
 
 
 
