@@ -107,117 +107,138 @@ class AdminFormController extends Controller
 
     public function tracking(Request $request)
     {
-        $forms = Form::where('is_active', true)->get()->groupBy('for_role');
+        // ---- 1) Active forms grouped: [for_role][form_type] => Collection<Form> ----
+        $forms = Form::where('is_active', true)
+            ->orderBy('for_role')
+            ->orderBy('form_type')
+            ->orderBy('created_at')
+            ->get()
+            ->groupBy(['for_role', 'form_type']); // multi-level group
 
-        $students = Student::with(['user', 'studentForms'])->get();
-        $mentors = Mentor::with(['user', 'mentorForms'])->get();
-        $teamleaders = TeamLeader::with(['user', 'teamLeaderForms'])->get();
-
-        // Define expected form types to ensure full columns even if not created
         $defaultFormTypes = ['pretest', 'posttest', 'questionnaire', 'consent'];
+        $roles = ['student', 'mentor', 'team_leader'];
 
-        // Normalize form list with all possible types
-        foreach (['student', 'mentor', 'team_leader'] as $role) {
+        // Ensure all role/type keys exist even if empty
+        foreach ($roles as $role) {
+            if (!isset($forms[$role])) $forms[$role] = collect();
             foreach ($defaultFormTypes as $type) {
-                if (!($forms[$role] ?? collect())->firstWhere('form_type', $type)) {
-                    $forms[$role][] = (object)[
-                        'form_type' => $type,
-                        'id' => null,
-                        'form_name' => ucfirst($type) . ' (Not Created)',
-                    ];
+                if (!isset($forms[$role][$type])) {
+                    $forms[$role][$type] = collect(); // empty = no form created for that type
                 }
             }
         }
 
-        // Apply filters
-    $studentId = $request->query('student_id');
-    $mentorId = $request->query('mentor_id');
-    $teamLeaderId = $request->query('team_leader_id');
+        // ---- 2) Filters ----
+        $studentId = $request->query('student_id');
+        $mentorId = $request->query('mentor_id');
+        $teamLeaderId = $request->query('team_leader_id');
 
-    $students = Student::with(['user', 'studentForms'])
-        ->when($studentId, fn($q) => $q->where('student_id', 'like', "%$studentId%"))
-        ->get();
+        $students = Student::with(['user', 'studentForms'])
+            ->when($studentId, fn($q) => $q->where('student_id', 'like', "%{$studentId}%"))
+            ->get();
 
-    $mentors = Mentor::with(['user', 'mentorForms'])
-        ->when($mentorId, fn($q) => $q->where('mentor_id', 'like', "%$mentorId%"))
-        ->get();
+        $mentors = Mentor::with(['user', 'mentorForms'])
+            ->when($mentorId, fn($q) => $q->where('mentor_id', 'like', "%{$mentorId}%"))
+            ->get();
 
-    $teamleaders = TeamLeader::with(['user', 'teamLeaderForms'])
-        ->when($teamLeaderId, fn($q) => $q->where('team_leader_id', 'like', "%$teamLeaderId%"))
-        ->get();
+        $teamleaders = TeamLeader::with(['user', 'teamLeaderForms'])
+            ->when($teamLeaderId, fn($q) => $q->where('team_leader_id', 'like', "%{$teamLeaderId}%"))
+            ->get();
 
-        // Completion status tables
-        $studentStatuses = [];
+        // ---- 3) Build per-form statuses + per-type summaries ----
+        // Structure:
+        // - $studentStatusesByForm[studentId][type][formId] = 'completed'|'not_completed'
+        // - $studentSummaries[studentId][type] = ['completed' => X, 'total' => T]
+        $studentStatusesByForm = [];
+        $studentSummaries = [];
         foreach ($students as $student) {
-            foreach ($forms['student'] as $form) {
-                $record = $form->id
-                    ? $student->studentForms->firstWhere('form_id', $form->id)
-                    : null;
-                if ($form->id) {
-                    if ($record) {
-                        $studentStatuses[$student->id][$form->form_type] = $record->completion_status ? 'completed' : 'not_completed';
-                    } else {
-                        $studentStatuses[$student->id][$form->form_type] = 'not_completed';
-                    }
-                } else {
-                    $studentStatuses[$student->id][$form->form_type] = 'not_assigned';
+            foreach ($defaultFormTypes as $type) {
+                $formList = $forms['student'][$type]; // Collection<Form>
+                $total = $formList->count();
+                $done = 0;
+
+                foreach ($formList as $form) {
+                    $record = $student->studentForms->firstWhere('form_id', $form->id);
+                    $isCompleted = $record && (bool)($record->completion_status ?? true);
+                    $studentStatusesByForm[$student->id][$type][$form->id] = $isCompleted ? 'completed' : 'not_completed';
+                    if ($isCompleted) $done++;
                 }
 
+                $studentSummaries[$student->id][$type] = ['completed' => $done, 'total' => $total];
             }
         }
 
-        $mentorStatuses = [];
+        $mentorStatusesByForm = [];
+        $mentorSummaries = [];
         foreach ($mentors as $mentor) {
-            foreach ($forms['mentor'] as $form) {
-                $record = $form->id
-                    ? $mentor->mentorForms->firstWhere('form_id', $form->id)
-                    : null;
-                    if ($form->id) {
-                        if ($record) {
-                            $mentorStatuses[$mentor->id][$form->form_type] = $record->completion_status ? 'completed' : 'not_completed';
-                        } else {
-                            $mentorStatuses[$mentor->id][$form->form_type] = 'not_completed';
-                        }
-                    } else {
-                        $mentorStatuses[$mentor->id][$form->form_type] = 'not_assigned';
-                    }
+            foreach ($defaultFormTypes as $type) {
+                $formList = $forms['mentor'][$type];
+                $total = $formList->count();
+                $done = 0;
 
+                foreach ($formList as $form) {
+                    $record = $mentor->mentorForms->firstWhere('form_id', $form->id);
+                    $isCompleted = $record && (bool)($record->completion_status ?? true);
+                    $mentorStatusesByForm[$mentor->id][$type][$form->id] = $isCompleted ? 'completed' : 'not_completed';
+                    if ($isCompleted) $done++;
+                }
+
+                $mentorSummaries[$mentor->id][$type] = ['completed' => $done, 'total' => $total];
             }
         }
 
-        $teamLeaderStatuses = [];
+        $teamLeaderStatusesByForm = [];
+        $teamLeaderSummaries = [];
         foreach ($teamleaders as $leader) {
-            foreach ($forms['team_leader'] as $form) {
-                $record = $form->id
-                    ? $leader->teamLeaderForms->firstWhere('form_id', $form->id)
-                    : null;
-                    if ($form->id) {
-                        if ($record) {
-                            $teamLeaderStatuses[$leader->id][$form->form_type] = $record->completion_status ? 'completed' : 'not_completed';
-                        } else {
-                            $teamLeaderStatuses[$leader->id][$form->form_type] = 'not_completed';
-                        }
-                    } else {
-                        $teamLeaderStatuses[$leader->id][$form->form_type] = 'not_assigned';
-                    }
+            foreach ($defaultFormTypes as $type) {
+                $formList = $forms['team_leader'][$type];
+                $total = $formList->count();
+                $done = 0;
 
+                foreach ($formList as $form) {
+                    $record = $leader->teamLeaderForms->firstWhere('form_id', $form->id);
+                    $isCompleted = $record && (bool)($record->completion_status ?? true);
+                    $teamLeaderStatusesByForm[$leader->id][$type][$form->id] = $isCompleted ? 'completed' : 'not_completed';
+                    if ($isCompleted) $done++;
+                }
+
+                $teamLeaderSummaries[$leader->id][$type] = ['completed' => $done, 'total' => $total];
             }
         }
 
+        // ---- 4) (Optional) columns helper for the view: labels per role/type ----
+        // $formColumns['student']['pretest'] = [ ['id'=>1,'label'=>'Pre A'], ['id'=>7,'label'=>'Pre B'] ]
+        $formColumns = [];
+        foreach ($roles as $role) {
+            foreach ($defaultFormTypes as $type) {
+                $formColumns[$role][$type] = $forms[$role][$type]->map(fn($f) => [
+                    'id' => $f->id,
+                    'label' => $f->form_name ?? ('Form #'.$f->id),
+                ])->values();
+            }
+        }
 
+        // For compatibility with your blade that expects $formTypes
         $formTypes = $defaultFormTypes;
 
         return view('admin.forms.tracking', compact(
-            'forms',
+            'forms',                 // grouped [role][type] => Collection<Form>
             'formTypes',
             'students',
             'mentors',
             'teamleaders',
-            'studentStatuses',
-            'mentorStatuses',
-            'teamLeaderStatuses'
+
+            // NEW: per-form detail + summaries
+            'studentStatusesByForm',
+            'mentorStatusesByForm',
+            'teamLeaderStatusesByForm',
+            'studentSummaries',
+            'mentorSummaries',
+            'teamLeaderSummaries',
+            'formColumns'
         ));
     }
+
 
 
 }

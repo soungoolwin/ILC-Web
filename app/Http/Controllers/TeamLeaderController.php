@@ -70,32 +70,35 @@ class TeamLeaderController extends Controller
     public function links()
     {
         $user = Auth::user();
-        $role = $user->role;
 
-        // Fetch forms available for this role
-        $forms = Form::where('for_role', $role)
+        // 1) Forms for team leaders, grouped by type
+        $forms = Form::where('for_role', 'team_leader')
             ->where('is_active', true)
+            ->orderBy('form_type')
+            ->orderBy('created_at')
             ->get()
-            ->keyBy('form_type');
+            ->groupBy('form_type');
 
-        $completion = [];
+        // 2) Completion per form id
+        $completion = []; // [$type][$formId] = bool
+        $teamLeader = $user->teamLeaders()->first();
 
-        if ($role === 'team_leader') {
-            $teamLeader = $user->teamLeaders()->first(); 
-
-            foreach ($forms as $type => $form) {
-                $completed = TeamLeaderForm::where('team_leader_id', $teamLeader->id)
-                    ->where('form_id', $form->id)
-                    ->exists();
-
-                $completion[$type] = $completed;
+        if ($teamLeader) {
+            foreach ($forms as $type => $formList) {
+                foreach ($formList as $form) {
+                    $completion[$type][$form->id] = TeamLeaderForm::where('team_leader_id', $teamLeader->id)
+                        ->where('form_id', $form->id)
+                        ->exists();
+                }
             }
         }
 
-        $fileUploadLink = FileUploadLink::where('for_role', 'team_leader')
-            ->first();
+        // 3) All upload links for team leaders (we'll match by name in Blade)
+        $fileUploadLinks = FileUploadLink::where('for_role', 'team_leader')
+            ->orderBy('created_at') // or ->orderBy('name')
+            ->get();
 
-        return view('team_leader.links', compact('forms', 'fileUploadLink', 'completion'));
+        return view('team_leader.links', compact('forms', 'completion', 'fileUploadLinks'));
     }
 
 

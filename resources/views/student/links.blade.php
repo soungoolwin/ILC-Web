@@ -27,108 +27,119 @@
     </p>
 
     <div class="text-xs lg:text-sm max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6 space-y-6">
+
         {{-- Pre-test --}}
         @if(isset($forms['pretest']))
-        <div class="flex space-x-3 items-center justify-center">
-            <a href="{{ $forms['pretest']->form_description }}" target="_blank"
+            @foreach($forms['pretest'] as $form)
+            <div class="flex space-x-3 items-center justify-center">
+                <a href="{{ $form->form_description }}" target="_blank"
                 class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
-                Pre-test
-            </a>
-            @if(!empty($completion['pretest']))
-                <span class="text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</span>
-                <form action="{{ route('student.forms.undo', $forms['pretest']->id) }}" method="POST" class="w-1/4">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit"
-                        class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
-                        Undo
-                    </button>
-                </form>
-                
-            @else
-            <span class="text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</span>
-                <form action="{{ route('student.forms.complete', $forms['pretest']->id) }}" method="POST" class="w-1/4">
-                    @csrf
-                    <button type="submit"
-                        class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
-                        Completed
-                    </button>
-                </form>
-            @endif
-        </div>
+                    {{ $form->form_name }}
+                </a>
+
+                @php $isDone = !empty($completion['pretest'][$form->id] ?? false); @endphp
+
+                @if($isDone)
+                    <h3 class="inline-flex text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</h3>
+                    <form action="{{ route('student.forms.undo', $form->id) }}" method="POST" class="w-1/4">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
+                            Undo
+                        </button>
+                    </form>
+                @else
+                    <h3 class="inline-flex text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</h3>
+                    <form action="{{ route('student.forms.complete', $form->id) }}" method="POST" class="w-1/4">
+                        @csrf
+                        <button type="submit"
+                            class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
+                            Completed
+                        </button>
+                    </form>
+                @endif
+            </div>
+            @endforeach
         @endif
+
 
         {{-- Questionnaire --}}
         @if(isset($forms['questionnaire']))
-        <div class="flex space-x-3 items-center justify-center">
-            <a href="{{ $forms['questionnaire']->form_description }}" target="_blank"
+            @foreach($forms['questionnaire'] as $form)
+            <div class="flex space-x-3 items-center justify-center">
+                <a href="{{ $form->form_description }}" target="_blank"
                 class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
-                Questionnaire
-            </a>
-            @if(!empty($completion['questionnaire']))
-            <span class="text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</span>
-                <form action="{{ route('student.forms.undo', $forms['questionnaire']->id) }}" method="POST" class="w-1/4">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit"
-                        class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
-                        Undo
-                    </button>
-                </form>
-                
-            @else
-            <span class="text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</span>
-                <form action="{{ route('student.forms.complete', $forms['questionnaire']->id) }}" method="POST" class="w-1/4">
-                    @csrf
-                    <button type="submit"
-                        class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
-                        Completed
-                    </button>
-                </form>
-            @endif
-        </div>
+                    {{ $form->form_name }}
+                </a>
+
+                @php $isDone = !empty($completion['questionnaire'][$form->id] ?? false); @endphp
+
+                @if($isDone)
+                    <h3 class="inline-flex text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</h3>
+                    <form action="{{ route('student.forms.undo', $form->id) }}" method="POST" class="w-1/4">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">Undo</button>
+                    </form>
+                @else
+                    <h3 class="inline-flex text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</h3>
+                    <form action="{{ route('student.forms.complete', $form->id) }}" method="POST" class="w-1/4">
+                        @csrf
+                        <button type="submit" class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">Completed</button>
+                    </form>
+                @endif
+            </div>
+            @endforeach
         @endif
+
 
         {{-- Consent Form --}}
         @if(isset($forms['consent']))
-        <div id="studentConsent" class="flex space-x-3 items-center justify-center">
-            <a href="{{ $forms['consent']->form_description }}" target="_blank"
-                class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
-                Download Consent Form
-            </a>
-            @if(!empty($completion['consent']))
-            <span class="text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</span>
-                <form action="{{ route('student.forms.undo', $forms['consent']->id) }}" method="POST" class="w-1/4">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit"
-                        class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
-                        Undo
-                    </button>
-                </form>
-                
-            @else
-            <span class="text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</span>
-                <form action="{{ route('student.forms.complete', $forms['consent']->id) }}" method="POST" class="w-1/4">
-                    @csrf
-                   <button type="submit"
-                        class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
-                        Completed
-                    </button>
-                </form>
-            @endif
-        </div>
+            @foreach($forms['consent'] as $form)
+                <div class=" flex space-x-3 items-center justify-center">
+                    <a href="{{ $form->form_description }}" target="_blank"
+                    class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
+                        {{ $form->form_name }}
+                    </a>
 
-            <label for="studentConsent" class="text-sm text-gray-600 mt-6">
-                Please upload the signed consent form 
-                <span>
-                    @if(!empty($fileUploadLink->url))
-                    <a href="{{ $fileUploadLink->url }}" class="text-blue-500 hover:underline" target="_blank">here</a>
+                    @php $isDone = !empty($completion['consent'][$form->id] ?? false); @endphp
+
+                    @if($isDone)
+                        <h3 class="inline-flex text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</h3>
+                        <form action="{{ route('student.forms.undo', $form->id) }}" method="POST" class="w-1/4">
+                            @csrf @method('DELETE')
+                            <button type="submit"
+                                    class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
+                                Undo
+                            </button>
+                        </form>
+                    @else
+                        <h3 class="inline-flex text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</h3>
+                        <form action="{{ route('student.forms.complete', $form->id) }}" method="POST" class="w-1/4">
+                            @csrf
+                            <button type="submit"
+                                    class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
+                                Completed
+                            </button>
+                        </form>
                     @endif
-                </span>
-            </label>
+                </div>
 
-        {{-- File Upload --}}
+
+                {{-- upload link(s) that match this form name --}}
+
+                    <label class="block text-sm text-gray-600 mt-6">
+                        Upload the consent form
+                        <h3 class="block mt-1 space-y-1">
+                                <a href="{{$fileUploadLink->url}}" class="text-blue-500 hover:underline block" target="_blank"> Here
+                                </a>
+                        </h3>
+                    </label>
+
+                @endforeach
+        @endif
+        {{-- File Upload
         <div class="flex mt-4 hidden">
             <div class="flex items-center justify-center w-full">
                 <label for="dropzone-file" class="flex flex-col items-center justify-center w-3/4 h-64 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50">
@@ -137,44 +148,54 @@
                              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M4 4v16h16V4H4zm4 8h8m-4-4v8"></path>
                         </svg>
-                        <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload your signed docx</span> or drag and drop</p>
+                        <p class="mb-2 text-sm text-gray-500"><h3 class="font-semibold">Click to upload your signed docx</h3> or drag and drop</p>
                         <p class="text-xs text-gray-500">docx only</p>
                     </div>
                     <input id="dropzone-file" type="file" class="hidden" />
                 </label>
             </div> 
-        </div>
-        @endif
+        </div> --}}
 
         {{-- Post-test --}}
-        @if(isset($forms['posttest']))
-        <div class="flex space-x-3 items-center justify-center">
-            <a href="{{ $forms['posttest']->form_description }}" target="_blank"
+        @if(isset($forms['posttest']) && count($forms['posttest']) > 0)
+            @foreach($forms['posttest'] as $form)
+            <div class=" flex space-x-3 items-center justify-center">
+                <a href="{{ $form->form_description }}" target="_blank"
                 class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
-                Post-test
-            </a>
-            @if(!empty($completion['posttest']))
-            <span class="text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</span>
-                <form action="{{ route('student.forms.undo', $forms['posttest']->id) }}" method="POST" class="w-1/4">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit"
-                        class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
-                        Undo
-                    </button>
-                </form>
-                
-            @else
-            <span class="text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</span>
-                <form action="{{ route('student.forms.complete', $forms['posttest']->id) }}" method="POST" class="w-1/4">
-                    @csrf
-                    <button type="submit"
-                        class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
+                    {{ $form->form_name }}
+                </a>
+
+                @php
+                    $isDone = !empty($completion['posttest'][$form->id] ?? false);
+                @endphp
+
+                @if($isDone)
+                    <h3 class="inline-flex text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">
                         Completed
-                    </button>
-                </form>
-            @endif
-        </div>
+                    </h3>
+                    <form action="{{ route('student.forms.undo', $form->id) }}" method="POST" class="w-1/4">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
+                            Undo
+                        </button>
+                    </form>
+                @else
+                    <h3 class="inline-flex text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">
+                        Incomplete
+                    </h3>
+                    <form action="{{ route('student.forms.complete', $form->id) }}" method="POST" class="w-1/4">
+                        @csrf
+                        <button type="submit"
+                                class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
+                            Completed
+                        </button>
+                    </form>
+                @endif
+            </div>
+            @endforeach
         @endif
+
     </div>
 </x-layout>
