@@ -14,6 +14,7 @@ use App\Http\Controllers\AdminFormController;
 use App\Http\Controllers\StudentFormController;
 use App\Http\Controllers\MentorFormController;
 use App\Http\Controllers\AdminFileUploadLinkController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -173,6 +174,9 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::put('/admin/file_upload_links/{file_upload_link}', [AdminFileUploadLinkController::class, 'update'])->name('admin.file_upload_links.update');
 
     Route::delete('/admin/file_upload_links/{file_upload_link}', [AdminFileUploadLinkController::class, 'destroy'])->name('admin.file_upload_links.destroy');
+
+    Route::get('/admin/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
+    Route::post('/admin/attendance/preview', [AttendanceController::class, 'preview'])->name('admin.attendance.preview');
 
 
 });
