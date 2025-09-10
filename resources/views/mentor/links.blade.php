@@ -125,7 +125,7 @@
                     @endif
                 </div>
 
-                {{-- Upload link(s) that match this form name 
+                <!-- {{-- Upload link(s) that match this form name --}}
                 @php
                     $matchedLinks = isset($fileUploadLinks) ? $fileUploadLinks->where('name', $form->name) : collect();
                 @endphp
@@ -141,9 +141,8 @@
                         </h3>
                     </label>
                 @endif
-                --}}
             @endforeach
-        @endif
+        @endif -->
 
         {{-- Post-test --}}
         @if(isset($forms['posttest']) && count($forms['posttest']) > 0)
