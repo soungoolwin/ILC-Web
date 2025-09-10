@@ -127,7 +127,8 @@
                 </div>
 
 
-                {{-- upload link(s) that match this form name
+                <!-- upload link part
+                {{-- upload link(s) that match this form name --}}
 
                     <label class="block text-sm text-gray-600 mt-6">
                         Upload the consent form
@@ -136,7 +137,6 @@
                                 </a>
                         </h3>
                     </label>
-                --}}
 
                 @endforeach
         @endif
@@ -155,7 +155,7 @@
                     <input id="dropzone-file" type="file" class="hidden" />
                 </label>
             </div> 
-        </div> --}}
+        </div> -->
 
         {{-- Post-test --}}
         @if(isset($forms['posttest']) && count($forms['posttest']) > 0)
