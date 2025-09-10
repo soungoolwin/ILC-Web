@@ -124,8 +124,10 @@
                         </form>
                     @endif
                 </div>
+            @endforeach
+        @endif
 
-                <!-- {{-- Upload link(s) that match this form name --}}
+        <!-- Upload link(s) that match this form name
                 @php
                     $matchedLinks = isset($fileUploadLinks) ? $fileUploadLinks->where('name', $form->name) : collect();
                 @endphp

@@ -125,37 +125,8 @@
                         </form>
                     @endif
                 </div>
-
-
-                <!-- upload link part
-                {{-- upload link(s) that match this form name --}}
-
-                    <label class="block text-sm text-gray-600 mt-6">
-                        Upload the consent form
-                        <h3 class="block mt-1 space-y-1">
-                                <a href="{{$fileUploadLink->url}}" class="text-blue-500 hover:underline block" target="_blank"> Here
-                                </a>
-                        </h3>
-                    </label>
-
-                @endforeach
+            @endforeach
         @endif
-        {{-- File Upload
-        <div class="flex mt-4 hidden">
-            <div class="flex items-center justify-center w-full">
-                <label for="dropzone-file" class="flex flex-col items-center justify-center w-3/4 h-64 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50">
-                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg class="w-8 h-8 mb-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
-                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 4v16h16V4H4zm4 8h8m-4-4v8"></path>
-                        </svg>
-                        <p class="mb-2 text-sm text-gray-500"><h3 class="font-semibold">Click to upload your signed docx</h3> or drag and drop</p>
-                        <p class="text-xs text-gray-500">docx only</p>
-                    </div>
-                    <input id="dropzone-file" type="file" class="hidden" />
-                </label>
-            </div> 
-        </div> -->
 
         {{-- Post-test --}}
         @if(isset($forms['posttest']) && count($forms['posttest']) > 0)

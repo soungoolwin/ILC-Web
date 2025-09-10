@@ -125,6 +125,8 @@
                         </form>
                     @endif
                 </div>
+            @endforeach
+        @endif
 
                 <!-- Upload link(s) matching this form's NAME 
                 @php
@@ -144,8 +146,7 @@
                 @endif
                 --}}
             @endforeach
-        @endif
--->
+        @endif -->
 
         {{-- Post-test --}}
         @if(isset($forms['posttest']) && count($forms['posttest']) > 0)
