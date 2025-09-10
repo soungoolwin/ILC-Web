@@ -127,7 +127,7 @@
                 </div>
 
 
-                {{-- upload link(s) that match this form name --}}
+                {{-- upload link(s) that match this form name
 
                     <label class="block text-sm text-gray-600 mt-6">
                         Upload the consent form
@@ -136,6 +136,7 @@
                                 </a>
                         </h3>
                     </label>
+                --}}
 
                 @endforeach
         @endif
