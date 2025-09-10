@@ -143,10 +143,7 @@
                             @endforeach
                         </span>
                     </label>
-                @endif
-                --}}
-            @endforeach
-        @endif -->
+                @endif -->
 
         {{-- Post-test --}}
         @if(isset($forms['posttest']) && count($forms['posttest']) > 0)
