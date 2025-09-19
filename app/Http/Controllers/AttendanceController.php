@@ -20,7 +20,7 @@ class AttendanceController extends Controller
     /**
      * Process the uploaded CSV files and display the attendance results.
      */
-    public function preview(Request $request)
+public function preview(Request $request)
     {
         // 1. Validate that both check-in and check-out files are present
         $request->validate([
@@ -45,13 +45,13 @@ class AttendanceController extends Controller
             if (isset($checkOuts[$key])) {
                 $checkOutData = $checkOuts[$key];
                 
-                // Combine data from both records
                 $attendanceData[] = [
                     'student_id'   => $checkInData['student_id'],
                     'name'         => $checkInData['name'],
                     'email'        => $checkInData['email'],
                     'course'       => $checkInData['course'],
                     'section'      => $checkInData['section'],
+                    'ajarn_name'   => $checkInData['ajarn_name'],
                     'date'         => $checkInData['date'],
                     'time'         => $checkInData['time'],
                     'check_in_ts'  => $checkInData['timestamp'],
@@ -60,17 +60,20 @@ class AttendanceController extends Controller
             }
         }
 
-        // 4. Group the matched attendance data by Course -> Section
+        // 4. Group data by Course -> Ajarn Name -> Section
         $grouped = [];
         foreach ($attendanceData as $record) {
             $course    = trim($record['course']);
+            $ajarnName = trim($record['ajarn_name']);
+            if (empty($ajarnName) || $ajarnName === 'N/A') {
+                $ajarnName = 'Unassigned'; // Group students without an Ajarn together
+            }
             $section   = trim($record['section']);
             $studentId = trim($record['student_id']);
             $date      = trim($record['date']);
 
-            // Initialize the student's record if it's the first time
-            if (!isset($grouped[$course][$section][$studentId])) {
-                $grouped[$course][$section][$studentId] = [
+            if (!isset($grouped[$course][$ajarnName][$section][$studentId])) {
+                $grouped[$course][$ajarnName][$section][$studentId] = [
                     'details' => [
                         'name'       => $record['name'],
                         'email'      => $record['email'],
@@ -80,82 +83,91 @@ class AttendanceController extends Controller
                 ];
             }
 
-            // Add the session details, grouped by the specific date
-            $grouped[$course][$section][$studentId]['sessionsByDate'][$date][] = [
+            $grouped[$course][$ajarnName][$section][$studentId]['sessionsByDate'][$date][] = [
                 'time' => $record['time'],
-                // you can also keep timestamps if needed for a tooltip, etc.
-                // 'check_in_ts' => $record['check_in_ts'],
-                // 'check_out_ts' => $record['check_out_ts'],
             ];
         }
 
-        // 5. Sort the complex data structure for organized display
+        // 5. Sort the complex data structure
         ksort($grouped, SORT_NATURAL); // Sort courses
-        foreach ($grouped as &$sections) {
-            ksort($sections, SORT_NATURAL); // Sort sections
-            foreach ($sections as &$students) {
-                ksort($students, SORT_NATURAL); // Sort students by ID
-                foreach ($students as &$studentData) {
-                    ksort($studentData['sessionsByDate'], SORT_NATURAL); // Sort dates for each student
+        foreach ($grouped as &$ajarns) {
+            ksort($ajarns, SORT_NATURAL); // Sort ajarns
+            foreach ($ajarns as &$sections) {
+                ksort($sections, SORT_NATURAL); // Sort sections
+                foreach ($sections as &$students) {
+                    ksort($students, SORT_NATURAL); // Sort students by ID
+                    foreach ($students as &$studentData) {
+                        ksort($studentData['sessionsByDate'], SORT_NATURAL); // Sort dates
+                    }
                 }
             }
         }
-        unset($sections, $students, $studentData); // Unset all references
+        unset($ajarns, $sections, $students, $studentData);
 
-        // 6. Calculate summary counts for students per section and course
+        // 6. Calculate summary counts and get unique sections for filters
         $counts = [];
-        foreach ($grouped as $course => $sections) {
+        $uniqueSections = [];
+        foreach ($grouped as $course => $ajarns) {
             $courseStudentTotal = 0;
-            foreach ($sections as $section => $students) {
-                $counts[$course][$section]['student_count'] = count($students);
-                $courseStudentTotal += count($students);
+            $sectionsForCourse = [];
+            foreach ($ajarns as $ajarn => $sections) {
+                $ajarnStudentTotal = 0;
+                $sectionsForCourse = array_merge($sectionsForCourse, array_keys($sections));
+                foreach ($sections as $section => $students) {
+                    $studentCount = count($students);
+                    $counts[$course][$ajarn][$section]['student_count'] = $studentCount;
+                    $ajarnStudentTotal += $studentCount;
+                }
+                $counts[$course][$ajarn]['__total_students'] = $ajarnStudentTotal;
+                $courseStudentTotal += $ajarnStudentTotal;
             }
             $counts[$course]['__total_students'] = $courseStudentTotal;
+            
+            // Prepare unique sections for the dropdown filter
+            $uniqueSections[$course] = array_unique($sectionsForCourse);
+            sort($uniqueSections[$course], SORT_NATURAL);
         }
 
         // 7. Pass the final data to the results view
         return view('admin.attendance.results', [
-            'grouped' => $grouped,
-            'counts'  => $counts,
+            'grouped'        => $grouped,
+            'counts'         => $counts,
+            'uniqueSections' => $uniqueSections,
         ]);
     }
 
     /**
      * A reusable helper function to parse a CSV file using league/csv.
-     *
-     * @param UploadedFile $file The uploaded CSV file.
-     * @param string $type The type of file ('in' or 'out'), to determine headers.
-     * @param string|null $error A variable passed by reference to hold any error messages.
-     * @return array|null An associative array of parsed data or null on failure.
      */
     private function parseCsvFile(UploadedFile $file, string $type, ?string &$error = null): ?array
     {
         try {
-            // Create a new CSV reader instance
             $csv = Reader::createFromPath($file->getRealPath(), 'r');
-            $csv->setHeaderOffset(0); // Set the first row as the header
+            $csv->setHeaderOffset(0);
 
-            // Define column header labels we expect to find in the CSVs
             $headers = [
                 'timestamp' => 'Timestamp',
                 'sid'       => 'Write your Student ID.',
-                'date'      => 'Choose the session DATE. ',
+                'date'      => 'Choose the session DAY. ',
                 'time'      => 'Choose the session TIME. ',
             ];
 
             if ($type === 'in') {
                 $headers += [
-                    'username'  => 'Email Address',
-                    'name'      => 'Write your full name in English.',
-                    'course'    => 'Choose your course.',
-                    'section'   => 'What is your section / group (908, 948 ?)',
+                    'username' => 'Username',
+                    'name'     => 'Write your full name in English.',
+                    'course'   => 'Choose your course.',
+                    'section'  => 'What is your section / group (908, 948 ?)',
+                    'aj_name'  => 'Ajarn Name', // Added Ajarn Name header
                 ];
             }
             
-            // Verify that all required headers exist in the CSV file
             $csvHeaders = $csv->getHeader();
             foreach ($headers as $key => $label) {
                 if (!in_array($label, $csvHeaders)) {
+                    // Ajarn Name is optional, so we don't throw an error if it's missing
+                    if ($key === 'aj_name') continue; 
+                    
                     $error = "CSV header '{$label}' not found in " . $file->getClientOriginalName();
                     return null;
                 }
@@ -167,7 +179,6 @@ class AttendanceController extends Controller
                 $sessionDate = trim($record[$headers['date']]);
                 $sessionTime = trim($record[$headers['time']]);
 
-                // Create a unique key for matching check-ins and check-outs
                 $key = "{$studentId}-{$sessionDate}-{$sessionTime}";
 
                 $rowData = [
@@ -179,10 +190,12 @@ class AttendanceController extends Controller
 
                 if ($type === 'in') {
                     $rowData += [
-                        'email'    => $record[$headers['username']],
-                        'name'     => $record[$headers['name']],
-                        'course'   => $record[$headers['course']] ?? 'Unknown',
-                        'section'  => $record[$headers['section']] ?? 'Unknown',
+                        'email'      => $record[$headers['username']],
+                        'name'       => $record[$headers['name']],
+                        'course'     => $record[$headers['course']] ?? 'Unknown',
+                        'section'    => $record[$headers['section']] ?? 'Unknown',
+                        // Read Ajarn Name value, provide default if column doesn't exist for a row
+                        'ajarn_name' => isset($headers['aj_name']) ? ($record[$headers['aj_name']] ?? 'N/A') : 'N/A',
                     ];
                 }
 
