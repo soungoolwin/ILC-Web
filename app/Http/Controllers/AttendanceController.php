@@ -145,7 +145,7 @@ class AttendanceController extends Controller
 
             if ($type === 'in') {
                 $headers += [
-                    'username'  => 'Username',
+                    'username'  => 'Email Address',
                     'name'      => 'Write your full name in English.',
                     'course'    => 'Choose your course.',
                     'section'   => 'What is your section / group (908, 948 ?)',
