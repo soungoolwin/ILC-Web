@@ -166,6 +166,10 @@
                                             class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-yellow-500 hover:bg-gray-100">
                                             Track Form Completion
                                         </a>
+                                        <a href="{{ route('admin.attendance.index') }}"
+                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-yellow-500 hover:bg-gray-100">
+                                            Student Attendance Reports
+                                        </a>
                                 </div>
                             </div>
                         

@@ -1,34 +1,5 @@
 {{-- resources/views/admin/attendance/results.blade.php --}}
 <x-layout>
-    {{-- 1. Add Print-Specific Styles --}}
-    <style>
-        @media print {
-            /* Hide everything by default */
-            body * {
-                visibility: hidden;
-            }
-            /* Make only the section to be printed and its children visible */
-            .printable-section, .printable-section * {
-                visibility: visible;
-            }
-            /* Position the printable section at the top of the page */
-            .printable-section {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                margin: 0;
-                padding: 0;
-                border: none;
-                box-shadow: none;
-            }
-            /* Ensure elements that should never be printed are hidden */
-            .no-print {
-                display: none !important;
-            }
-        }
-    </style>
-
     <div class="max-w-7xl mx-auto p-6">
         <h1 class="text-2xl font-bold mb-6 no-print">Attendance Results</h1>
 
@@ -41,7 +12,7 @@
                     <h2 class="font-semibold text-white text-xl">
                         {{ $course }}
                     </h2>
-                    <button onclick="printCourse('course-{{ $loop->index }}')" class="no-print bg-white text-blue-600 px-3 py-1 rounded text-sm font-semibold hover:bg-blue-100 transition">
+                    <button onclick="printDiv('course-{{ $loop->index }}')" class="no-print bg-white text-blue-600 px-3 py-1 rounded text-sm font-semibold hover:bg-blue-100 transition">
                         Print Course
                     </button>
                 </div>
@@ -147,22 +118,48 @@
             });
         }
 
-        // 4. Add the JavaScript function for printing
-        function printCourse(courseId) {
-            const courseToPrint = document.getElementById(courseId);
-            if (courseToPrint) {
-                // Temporarily add a class to the target course for the print styles to work
-                courseToPrint.classList.add('printable-section');
-                
-                // Trigger the browser's print dialog
-                window.print();
-                
-                // Remove the class after the print dialog is closed
-                // Using a small delay ensures the class is removed after the print process starts
-                setTimeout(() => {
-                    courseToPrint.classList.remove('printable-section');
-                }, 500);
-            }
-        }
+  function printDiv(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // Grab inline <style> and linked CSS so Tailwind/table styles come through
+    const styleTags = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'))
+      .map(el => el.outerHTML)
+      .join('\n');
+
+    const printCSS = `
+      <style>
+        @page { margin: 8mm; }
+        .no-print { display: none !important; }
+        table { border-collapse: collapse; width: 100%; font-size: 12px; }
+        th, td { border: 1px solid #000; padding: 4px; vertical-align: top; }
+        thead { background: #f3f4f6; }
+        /* Avoid rows splitting across pages */
+        tr, td, th { page-break-inside: avoid; }
+        /* Make links visible */
+        a[href]:after { content: " (" attr(href) ")"; font-size: 0.9em; }
+      </style>
+    `;
+
+    const html = `
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <title>Print Course</title>
+          ${styleTags}
+          ${printCSS}
+        </head>
+        <body>
+          ${container.outerHTML}
+        </body>
+      </html>
+    `;
+
+    const win = window.open('', '_blank');
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+    win.onload = () => { win.print(); win.close(); };
+  }
     </script>
 </x-layout>
