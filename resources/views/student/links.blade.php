@@ -40,7 +40,7 @@
                 @php $isDone = !empty($completion['pretest'][$form->id] ?? false); @endphp
 
                 @if($isDone)
-                    <h3 class="inline-flex text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</h3>
+                    <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007808ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                     <form action="{{ route('student.forms.undo', $form->id) }}" method="POST" class="w-1/4">
                         @csrf
                         @method('DELETE')
@@ -50,7 +50,7 @@
                         </button>
                     </form>
                 @else
-                    <h3 class="inline-flex text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</h3>
+                    <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c70000ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
                     <form action="{{ route('student.forms.complete', $form->id) }}" method="POST" class="w-1/4">
                         @csrf
                         <button type="submit"
@@ -76,14 +76,14 @@
                 @php $isDone = !empty($completion['questionnaire'][$form->id] ?? false); @endphp
 
                 @if($isDone)
-                    <h3 class="inline-flex text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</h3>
+                    <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007808ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                     <form action="{{ route('student.forms.undo', $form->id) }}" method="POST" class="w-1/4">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">Undo</button>
                     </form>
                 @else
-                    <h3 class="inline-flex text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</h3>
+                    <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c70000ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
                     <form action="{{ route('student.forms.complete', $form->id) }}" method="POST" class="w-1/4">
                         @csrf
                         <button type="submit" class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">Completed</button>
@@ -106,7 +106,7 @@
                     @php $isDone = !empty($completion['consent'][$form->id] ?? false); @endphp
 
                     @if($isDone)
-                        <h3 class="inline-flex text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">Completed</h3>
+                        <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007808ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                         <form action="{{ route('student.forms.undo', $form->id) }}" method="POST" class="w-1/4">
                             @csrf @method('DELETE')
                             <button type="submit"
@@ -115,7 +115,7 @@
                             </button>
                         </form>
                     @else
-                        <h3 class="inline-flex text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">Incomplete</h3>
+                        <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c70000ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
                         <form action="{{ route('student.forms.complete', $form->id) }}" method="POST" class="w-1/4">
                             @csrf
                             <button type="submit"
@@ -142,9 +142,7 @@
                 @endphp
 
                 @if($isDone)
-                    <h3 class="inline-flex text-green-600 text-[10px] font-bold py-1 px-1 bg-green-100 rounded-lg absolute right-1/3 lg:right-[550px]">
-                        Completed
-                    </h3>
+                    <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007808ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                     <form action="{{ route('student.forms.undo', $form->id) }}" method="POST" class="w-1/4">
                         @csrf
                         @method('DELETE')
@@ -154,9 +152,7 @@
                         </button>
                     </form>
                 @else
-                    <h3 class="inline-flex text-red-600 text-[10px] font-bold py-1 px-1 bg-red-100 rounded-lg absolute right-1/3 lg:right-[550px]">
-                        Incomplete
-                    </h3>
+                    <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c70000ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
                     <form action="{{ route('student.forms.complete', $form->id) }}" method="POST" class="w-1/4">
                         @csrf
                         <button type="submit"
