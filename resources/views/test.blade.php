@@ -8,10 +8,10 @@
             <div class="w-full flex flex-col lg:flex-row justify-center mb-8">
                 <aside class="w-full lg:w-1/2 mr-4 mb-4">
                 <div class="flex flex-col items-left justify-left w-full bg-purple-100 p-4 shadow-md rounded-lg h-[300px] lg:h-[400px]">
-                    <p> Download RSUGlobal! Newsletter Issue ( 001 ) <a href="{{ asset('images/News_September 2025.pdf') }}" download class="text-blue-600 underline mb-2 mt-2 hover:scale-105">
+                    <p> Download RSUGlobal! Newsletter Issue ( 002 ) <a href="{{ asset('images/News_September 2025.pdf') }}" download class="text-blue-600 underline mb-2 mt-2 hover:scale-105">
                         Here
                     </a></p>
-                    <embed src="{{ asset('images/News_September 2025.pdf') }}#toolbar=0" type="application/pdf" width="100%" height="500px" class="mt-2 rounded shadow" />
+                    <embed src="{{ asset('images/News_October 2025.pdf') }}#toolbar=0" type="application/pdf" width="100%" height="500px" class="mt-2 rounded shadow" />
                 </div>
             </aside>
                 <iframe class="w-full md:w-3/4 lg:w-2/3 aspect-video rounded-lg shadow-lg"

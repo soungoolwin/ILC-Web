@@ -24,7 +24,7 @@
   </div>
 @endif
     <div class="w-full bg-white shadow-md rounded-lg p-6 mt-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Team Leaders</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Delete Users</h2>
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('admin.users.index') }}" class="space-y-2 mb-6">
@@ -89,7 +89,7 @@
                 {{ $users->links() }}
             </div>
         @else
-            <p class="text-center text-gray-600">No team leaders found matching the search criteria.</p>
+            <p class="text-center text-gray-600">No user found matching the search criteria.</p>
         @endif
     </div>
 </x-layout>
