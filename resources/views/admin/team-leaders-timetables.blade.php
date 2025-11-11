@@ -66,6 +66,7 @@
                         <th class="border border-gray-300 px-4 py-2">Nickname</th>
                         <th class="border border-gray-300 px-4 py-2">Line ID</th>
                         <th class="border border-gray-300 px-2 py-2">Student ID</th>
+                        <th class="border border-gray-300 px-4 py-2">Faculty</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,6 +88,9 @@
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
                                 {{ $timetable->teamLeader->team_leader_id ?? 'N/A' }}
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">
+                                {{ $timetable->teamLeader->user->faculty ?? 'N/A' }}
                             </td>
                         </tr>
                     @endforeach
