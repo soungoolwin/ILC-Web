@@ -1,10 +1,10 @@
 <x-layout>
-    <div class="max-w-7xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
+    <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-6">View Your Mentors and Students' Timetables</h2>
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('team_leader.view_timetables') }}" class="flex flex-col mb-6">
-            <div class="flex items-left space-x-4 mb-4">
+            <div class="flex items-center space-x-4 mb-4">
                 <!-- Week Number -->
                 <div>
                     <label for="week_number" class=" block text-[8px] lg:text-sm font-semibold text-gray-600 mb-1">Week No.</label>
@@ -73,7 +73,7 @@
             </div>
 
             <!-- Search Button -->
-            <div class=" flex flex-row gap-4 w-full justify-start">
+            <div class=" flex gap-4 w-1/2 justify-start">
                 <button type="submit" class="w-2/5 bg-[#7D3C98] text-white text-xs lg:text-sm font-bold py-2 px-4 rounded-lg transition">
                     Search
                 </button>
@@ -104,7 +104,7 @@
                         @endif
                     </h3>
 
-                    <table class="table-auto text-xs lg:text-sm w-full border-collapse border border-gray-300">
+                    <table class="table-auto w-full text-xs lg:text-sm w-full border-collapse border border-gray-300">
                         <thead>
                             <tr>
                                 <th class="border border-gray-300 px-2 py-2">Week</th>

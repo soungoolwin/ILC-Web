@@ -84,7 +84,6 @@
                     </div>
                     -->
                     <!-- Two Column Layout for Phone and LINE ID -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Phone Number 
                         <div>
                             <label for="phone_number" class="block text-gray-800 mb-2">Phone No.</label>

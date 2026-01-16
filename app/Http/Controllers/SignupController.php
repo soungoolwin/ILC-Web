@@ -72,13 +72,14 @@ class SignupController extends Controller
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users|ends_with:@rsu.ac.th',
-            'password' => 'required|string|min:8|confirmed',
+            //'password' => 'required|string|min:8|confirmed',
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'mentor_id' => 'required|string|unique:mentors,mentor_id',
             'faculty' => 'required|string|max:255',
             'language' => 'required|string|max:255',
             'level' => 'required|string|max:255',
+            'men_id_confirmation' => 'required|string|same:mentor_id',
         ],[
             'email.ends_with' => 'The email must be a valid rsu.ac.th address.',
         ]);
@@ -87,7 +88,7 @@ class SignupController extends Controller
             'name' => $data['name'],
             'nickname' => $data['nickname'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']), // Use bcrypt for hashing
+            'password' => bcrypt($data['mentor_id']), // Use bcrypt for hashing
             'role' => 'mentor',
             'line_id' => $data['line_id'],
             'phone_number' => $data['phone_number'],
@@ -110,18 +111,21 @@ class SignupController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'email' => 'required|string|email|max:255|unique:users|ends_with:@rsu.ac.th',
+            //'password' => 'required|string|min:8|confirmed',
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'admin_id' => 'required|string|unique:admins,admin_id',
+            'adm_id_confirmation' => 'required|string|same:admin_id',
+        ],[
+            'email.ends_with' => 'The email must be a valid rsu.ac.th address.',
         ]);
 
         $user = User::create([
             'name' => $data['name'],
             'nickname' => $data['nickname'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']), // Use bcrypt for hashing
+            'password' => bcrypt($data['admin_id']), // Use bcrypt for hashing
             'role' => 'admin',
             'line_id' => $data['line_id'],
             'phone_number' => $data['phone_number'],
@@ -148,21 +152,24 @@ class SignupController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'email' => 'required|string|email|max:255|unique:users|ends_with:@rsu.ac.th',
+            //'password' => 'required|string|min:8|confirmed',
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'team_leader_id' => 'required|string|unique:team_leaders,team_leader_id',
             'faculty' => 'required|string|max:255',
             'language' => 'required|string|max:255',
             'level' => 'required|string|max:255',
+            'tl_id_confirmation' => 'required|string|same:team_leader_id',
+        ],[
+            'email.ends_with' => 'The email must be a valid rsu.ac.th address.',
         ]);
 
         $user = User::create([
             'name' => $data['name'],
             'nickname' => $data['nickname'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']), // Use bcrypt for hashing
+            'password' => bcrypt($data['team_leader_id']), // Use bcrypt for hashing
             'role' => 'team_leader',
             'line_id' => $data['line_id'],
             'phone_number' => $data['phone_number'],

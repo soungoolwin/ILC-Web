@@ -52,7 +52,7 @@
                         <tr>
                             <th class="border border-gray-300 px-4 py-2">Time Slot</th>
                             <th class="border border-gray-300 px-4 py-2">Reserved</th>
-                            <th class="border border-gray-300 px-4 py-2">Available</th>
+                            <th class="border border-gray-300 px-4 py-2">Free Slots</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,8 +61,15 @@
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $availability['reserved'] }}
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">{{ $availability['available'] }}
-                            </td>
+                            @if ($availability['available'] > 0)
+                                    <td class="border px-4 py-2 text-center text-green-600 font-semibold">
+                                        {{ $availability['available'] }}
+                                    </td>
+                                @else
+                                    <td class="border px-4 py-2 text-center text-red-600 font-semibold">
+                                        {{ $availability['available'] }}
+                                    </td>
+                                @endif
                         </tr>
                     </tbody>
                 </table>
@@ -83,7 +90,7 @@
                         <tr>
                             <th class="border px-4 py-2">Time Slot</th>
                             <th class="border px-4 py-2">Reserved</th>
-                            <th class="border px-4 py-2">Available</th>
+                            <th class="border px-4 py-2">Free Slots</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,7 +98,16 @@
                             <tr>
                                 <td class="border px-4 py-2 text-center">{{ $timeSlot }}</td>
                                 <td class="border px-4 py-2 text-center">{{ $data['reserved'] }}</td>
-                                <td class="border px-4 py-2 text-center">{{ $data['available'] }}</td>
+                                @if ($data['available'] > 0)
+                                    <td class="border px-4 py-2 text-center text-green-600 font-semibold">
+                                        {{ $data['available'] }}
+                                    </td>
+                                @else
+                                    <td class="border px-4 py-2 text-center text-red-600 font-semibold">
+                                        {{ $data['available'] }}
+                                    </td>
+                                @endif
+                                
                             </tr>
                         @endforeach
                     </tbody>

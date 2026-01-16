@@ -12,7 +12,7 @@
             {{ session('error') }}
         </div>
     @endif
-
+    
     <div class="flex justify-center text-xl lg:text-2xl font-bold text-gray-800 mt-10 mb-6">
         Student Links
     </div>
@@ -163,6 +163,13 @@
                 @endif
             </div>
             @endforeach
+        @endif
+
+         {{-- No Forms Assigned --}}
+        @if(empty($forms['pretest']) && empty($forms['questionnaire']) && empty($forms['consent']) && empty($forms['posttest']))
+            <p class="text-center text-gray-600 italic">
+                There are currently no forms assigned to you.
+            </p>
         @endif
 
     </div>

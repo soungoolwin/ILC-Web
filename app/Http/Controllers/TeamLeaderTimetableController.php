@@ -70,10 +70,10 @@ class TeamLeaderTimetableController extends Controller
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
         $slotLimits = [
-            '09:00-11:00' => 6,
-            '11:00-13:00' => 6,
-            '13:00-15:00' => 7,
-            '15:00-17:00' => 7,
+            '09:00-11:00' => 2,
+            '11:00-13:00' => 5,
+            '13:00-15:00' => 5,
+            '15:00-17:00' => 5,
         ];
 
         // Filtered Search Result

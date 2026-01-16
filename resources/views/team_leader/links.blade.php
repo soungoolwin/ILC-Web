@@ -13,6 +13,8 @@
         </div>
     @endif
 
+   
+
     <div class="flex justify-center text-xl lg:text-2xl font-bold text-gray-800 mt-10 mb-6">
         Team Leader Links
     </div>
@@ -128,22 +130,7 @@
             @endforeach
         @endif
 
-                <!-- Upload link(s) matching this form's NAME 
-                @php
-                    $matchedLinks = isset($fileUploadLinks) ? $fileUploadLinks->where('name', $form->name) : collect();
-                @endphp
-                @if($matchedLinks->isNotEmpty())
-                    <label class="block text-sm text-gray-600 mt-6">
-                        Upload the consent form
-                        <span class="block mt-1 space-y-1">
-                            @foreach($matchedLinks as $upl)
-                                <a href="{{ $upl->url }}" class="text-blue-500 hover:underline block" target="_blank">
-                                    {{ $upl->name }}
-                                </a>
-                            @endforeach
-                        </span>
-                    </label>
-                @endif -->
+        
 
         {{-- Post-test --}}
         @if(isset($forms['posttest']) && count($forms['posttest']) > 0)
@@ -178,6 +165,13 @@
                 @endif
             </div>
             @endforeach
+        @endif
+
+         {{-- No Forms Assigned --}}
+        @if(empty($forms['pretest']) && empty($forms['questionnaire']) && empty($forms['consent']) && empty($forms['posttest']))
+            <p class="text-center text-gray-600 italic">
+                There are currently no forms assigned to you.
+            </p>
         @endif
 
     </div>
