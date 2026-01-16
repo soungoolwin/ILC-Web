@@ -56,8 +56,8 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-
-                    <!-- Password - Full Width -->
+                    
+                    <!-- Password - Full Width 
                     <div>
                         <label for="password" class="block text-gray-800 mb-2">Password</label>
                         <input type="password" id="password" name="password"
@@ -67,8 +67,9 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                    -->
 
-                    <!-- Confirm Password - Full Width -->
+                    <!-- Confirm Password - Full Width 
                     <div>
                         <label for="password_confirmation" class="block text-gray-800 mb-2">Confirm Password</label>
                         <input type="password" id="password_confirmation" name="password_confirmation"
@@ -78,10 +79,10 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-
+                    -->
                     <!-- Two Column Layout for Phone and LINE ID -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Phone Number -->
+                        <!-- Phone Number 
                         <div>
                             <label for="phone_number" class="block text-gray-800 mb-2">Phone No.</label>
                             <input type="text" id="phone_number" name="phone_number" value="{{ old('phone_number') }}"
@@ -91,8 +92,9 @@
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
+                        -->
 
-                        <!-- Line ID -->
+                        <!-- Line ID 
                         <div>
                             <label for="line_id" class="block text-gray-800 mb-2">LINE ID</label>
                             <input type="text" id="line_id" name="line_id" value="{{ old('line_id') }}"
@@ -103,6 +105,7 @@
                             @enderror
                         </div>
                     </div>
+                    -->
 
                     <!-- Two Column Layout for Student ID and Faculty -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -117,40 +120,21 @@
                             @enderror
                         </div>
 
-                        <!-- Faculty Field (New) -->
+                        <!-- Confirm ID -->
                         <div>
-                            <label for="faculty" class="block text-gray-800 mb-2">Faculty</label>
-                            <input type="text" id="faculty" name="faculty" value="{{ old('faculty') }}"
+                            <label for="id_confirmation" class="block text-gray-800 mb-2">Confirm ID</label>
+                            <input type="text" id="id_confirmation" name="id_confirmation"
                                 class="w-full border border-[#9B59B6] rounded-md px-4 py-2 focus:ring-2 focus:ring-purple-400 focus:outline-none"
-                                placeholder="Enter faculty">
-                            @error('faculty')
+                                placeholder="Re-enter ID" required>
+
+                            @error('id_confirmation')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
+
+                            <p id="confirmation_message" class="text-red-500 text-sm mt-1"></p>
                         </div>
                     </div>
 
-                    <!-- Two Column Layout for Language and Level -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Language Field (New) -->
-                        <div>
-                            <label for="language" class="block text-gray-800 mb-2">Language</label>
-                            <input type="text" id="language" name="language" value="{{ old('language') }}"
-                                class="w-full border border-[#9B59B6] rounded-md px-4 py-2 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-                            @error('language')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Level Field (New) -->
-                        <div>
-                            <label for="level" class="block text-gray-800 mb-2">Level</label>
-                            <input type="text" id="level" name="level" value="{{ old('level') }}"
-                                class="w-full border border-[#9B59B6] rounded-md px-4 py-2 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-                            @error('level')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
 
                     <!-- Terms Checkbox -->
                     <div class="flex items-center mt-6">
@@ -180,6 +164,7 @@
         <!-- Footer -->
 
     </div>
+
 </x-layout>
 
 <!-- Add mobile responsive styles -->
