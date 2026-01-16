@@ -71,7 +71,7 @@ class SignupController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users|ends_with:@rsu.ac.th',
             'password' => 'required|string|min:8|confirmed',
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
@@ -79,6 +79,8 @@ class SignupController extends Controller
             'faculty' => 'required|string|max:255',
             'language' => 'required|string|max:255',
             'level' => 'required|string|max:255',
+        ],[
+            'email.ends_with' => 'The email must be a valid rsu.ac.th address.',
         ]);
 
         $user = User::create([

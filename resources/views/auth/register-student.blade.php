@@ -51,7 +51,10 @@
                         <label for="email" class="block text-gray-800 mb-2">Email Address</label>
                         <input type="email" id="email" name="email" value="{{ old('email') }}"
                             class="w-full border border-[#9B59B6] rounded-md px-4 py-2 focus:ring-2 focus:ring-purple-400 focus:outline-none"
-                            placeholder="Enter university email (xyz@rsu.ac.th)" required>
+                            placeholder="Enter university email (xyz@rsu.ac.th)" 
+                            pattern=".+@rsu\.ac\.th" 
+                            title="Please use your university email ending in @rsu.ac.th"
+                            required>
                         @error('email')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
