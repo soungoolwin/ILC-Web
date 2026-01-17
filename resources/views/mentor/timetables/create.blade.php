@@ -43,7 +43,7 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Time Slot</option>
-                    @foreach (range(9, 17) as $hour)
+                    @foreach (range(9, 16) as $hour)
                         @php
                             $start_time = sprintf('%02d:00', $hour);
                             $end_time = sprintf('%02d:00', $hour + 1);
@@ -62,7 +62,7 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Table</option>
-                    @foreach (range(1, 16) as $table)                    
+                    @foreach (range(1, 5) as $table)                    
                         <option value="{{ $table }}">Table {{ $table }}</option>
                     @endforeach
                 </select>
@@ -94,11 +94,11 @@
 
     timeSelect.addEventListener('change', function () {
         const selectedTime = this.value;
-        let tableCount = 16;
+        let tableCount = 5;
 
         // Show only 2 tables for 09:00-10:00 and 10:00-11:00
         if (selectedTime === '09:00-10:00' || selectedTime === '10:00-11:00') {
-            tableCount = 4;
+            tableCount = 2;
         }
 
         // Clear current options

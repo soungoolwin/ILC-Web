@@ -68,9 +68,9 @@
                         @enderror
                     </div>
 
-                    <!-- Two Column Layout for Password and Confirm Password -->
+                    <!-- Two Column Layout for Password and Confirm Password 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Password -->
+                        <!-- Password 
                         <div>
                             <label for="password" class="block text-gray-800 mb-2">Password</label>
                             <input type="password" id="password" name="password"
@@ -81,7 +81,7 @@
                             @enderror
                         </div>
 
-                        <!-- Confirm Password -->
+                        <!-- Confirm Password 
                         <div>
                             <label for="password_confirmation" class="block text-gray-800 mb-2">Confirm Password</label>
                             <input type="password" id="password_confirmation" name="password_confirmation"
@@ -91,7 +91,7 @@
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- Line ID - Full Width -->
                     <div>
@@ -117,6 +117,23 @@
                             @enderror
                         </div>
 
+                        <div>
+                            <label for="tl_id_confirmation" class="block text-gray-800 mb-2">Confirm ID</label>
+                            <input type="text" id="tl_id_confirmation" name="tl_id_confirmation"
+                                class="w-full border border-[#9B59B6] rounded-md px-4 py-2 focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                                placeholder="Re-enter ID" required>
+
+                            @error('tl_id_confirmation')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+
+                            <p id="confirmation_message" class="text-red-500 text-sm mt-1"></p>
+                        </div>
+                    </div>
+
+                    <!-- Three Column Layout for Language and Level -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
                         <!-- Faculty Field (New) -->
                         <div>
                             <label for="faculty" class="block text-gray-800 mb-2">Faculty</label>
@@ -127,10 +144,7 @@
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                    </div>
 
-                    <!-- Two Column Layout for Language and Level -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Language Field (New) -->
                         <div>
                             <label for="language" class="block text-gray-800 mb-2">Language</label>
@@ -152,6 +166,8 @@
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
+
+                        
                     </div>
 
                     <!-- Terms Checkbox Outside Form Card but inside form -->

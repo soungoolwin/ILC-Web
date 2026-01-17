@@ -57,7 +57,7 @@
                         @enderror
                     </div>
 
-                    <!-- Password - Full Width -->
+                    <!-- Password - Full Width 
                     <div>
                         <label for="password" class="block text-gray-800 mb-2">Password</label>
                         <input type="password" id="password" name="password"
@@ -68,7 +68,7 @@
                         @enderror
                     </div>
 
-                    <!-- Confirm Password - Full Width -->
+                    <!-- Confirm Password - Full Width
                     <div>
                         <label for="password_confirmation" class="block text-gray-800 mb-2">Confirm Password</label>
                         <input type="password" id="password_confirmation" name="password_confirmation"
@@ -77,7 +77,7 @@
                         @error('password_confirmation')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> -->
 
                     <!-- Two Column Layout for Phone and LINE ID -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -117,6 +117,25 @@
                             @enderror
                         </div>
 
+                        <div>
+                            <label for="men_id_confirmation" class="block text-gray-800 mb-2">Confirm ID</label>
+                            <input type="text" id="men_id_confirmation" name="men_id_confirmation"
+                                class="w-full border border-[#9B59B6] rounded-md px-4 py-2 focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                                placeholder="Re-enter ID" required>
+
+                            @error('men_id_confirmation')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+
+                            <p id="confirmation_message" class="text-red-500 text-sm mt-1"></p>
+                        </div>
+
+                        
+                    </div>
+
+                    <!-- THREE Column Layout for Language and Level -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
                         <!-- Faculty Field (New) -->
                         <div>
                             <label for="faculty" class="block text-gray-800 mb-2">Faculty</label>
@@ -127,10 +146,7 @@
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                    </div>
 
-                    <!-- Two Column Layout for Language and Level -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Language Field (New) -->
                         <div>
                             <label for="language" class="block text-gray-800 mb-2">Language</label>

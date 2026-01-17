@@ -32,7 +32,7 @@
 
                 <!-- Password -->
                 <div class="space-y-2">
-                    <label for="password" class="block text-sm lg:text-base font-normal text-gray-800">Password</label>
+                    <label for="password" class="block text-sm lg:text-base font-normal text-gray-800">Student ID</label>
                     <input type="password" name="password"
                         class="w-full border border-gray-400 rounded-md px-4 py-2 focus:ring-2 focus:ring-[#b085c2] focus:outline-none"
                         required>

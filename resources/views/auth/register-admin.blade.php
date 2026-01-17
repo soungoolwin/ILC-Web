@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="flex justify-center items-center min-h-screen">
         <div id="signup_main_Div" class="w-full max-w-lg bg-white shadow-xl rounded-lg p-8">
-            <img id="logo" class="mx-auto w-24 mb-6" src="/images/logo_new.png" alt="Logo">
+            <img id="logo" class="mx-auto w-24 mb-6" src="/images/rsuGlobal.png" alt="Logo">
 
             <form method="POST" action="{{ route('register.admin') }}" class="space-y-4">
                 @csrf
@@ -61,14 +61,35 @@
                 </div>
 
                 <!-- Admin ID -->
-                <div>
-                    <label for="admin_id" class="block text-sm font-semibold text-gray-600 mb-1">Admin ID</label>
-                    <input type="text" id="admin_id" name="admin_id" value="{{ old('admin_id') }}"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
-                        placeholder="Enter your Admin ID" required>
-                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Student ID field renamed to match UI -->
+                        <div>
+                            <label for="admin_id" class="block text-gray-800 mb-2">Admin ID</label>
+                            <input type="text" id="admin_id" name="admin_id" value="{{ old('admin_id') }}"
+                                class="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                                placeholder="Enter admin ID" required>
+                            @error('admin_id')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
 
-                <!-- Password -->
+                        <div>
+                            <label for="adm_id_confirmation" class="block text-gray-800 mb-2">Confirm ID</label>
+                            <input type="text" id="adm_id_confirmation" name="adm_id_confirmation"
+                                class="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                                placeholder="Re-enter ID" required>
+
+                            @error('adm_id_confirmation')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+
+                            <p id="confirmation_message" class="text-red-500 text-sm mt-1"></p>
+                        </div>
+
+                        
+                    </div>
+
+                <!-- Password
                 <div>
                     <label for="password" class="block text-sm font-semibold text-gray-600 mb-1">Password</label>
                     <input type="password" id="password" name="password"
@@ -76,14 +97,14 @@
                         placeholder="Use the one you won't forget" required>
                 </div>
 
-                <!-- Confirm Password -->
+                <!-- Confirm Password
                 <div>
                     <label for="password_confirmation" class="block text-sm font-semibold text-gray-600 mb-1">Confirm
                         Password</label>
                     <input type="password" id="password_confirmation" name="password_confirmation"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                         placeholder="Re-enter your password" required>
-                </div>
+                </div> -->
 
                 <!-- Terms Checkbox -->
                 <div class="flex items-center">

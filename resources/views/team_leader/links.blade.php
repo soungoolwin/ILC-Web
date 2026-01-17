@@ -13,6 +13,8 @@
         </div>
     @endif
 
+   
+
     <div class="flex justify-center text-xl lg:text-2xl font-bold text-gray-800 mt-10 mb-6">
         Team Leader Links
     </div>
@@ -32,29 +34,31 @@
         @if(isset($forms['pretest']))
             @foreach($forms['pretest'] as $form)
             <div class="flex space-x-3 items-center justify-center">
-                <a href="{{ $form->form_description }}" target="_blank"
-                   class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
-                    {{ $form->form_name }}
+                <a href="{{ $form->form_description }}" target="_blank" class="flex items-center justify-between gap-3 flex-auto w-1/2 bg-white border-2 border-[#7D3C98] text-[#7D3C98] font-semibold py-3 px-5 rounded-xl hover:bg-[#7D3C98] hover:text-white transition-all duration-300 ease-in-out group">
+                <span class="underline group">{{ $form->form_name }}</span>
+                @if(!empty($completion['pretest'][$form->id] ?? false))
+                <svg class="w-6 h-6 flex-shrink-0 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                @else
+                <svg class="w-6 h-6 flex-shrink-0 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                @endif
                 </a>
 
                 @php $isDone = !empty($completion['pretest'][$form->id] ?? false); @endphp
 
                 @if($isDone)
-                    <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007808ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <form action="{{ route('team_leader.forms.undo', $form->id) }}" method="POST" class="w-1/4">
+                    <form action="{{ route('team_leader.forms.undo', $form->id) }}" method="POST" class="w-1/5">
                         @csrf
                         @method('DELETE')
                         <button type="submit"
-                                class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
+                                class="w-full bg-red-500 text-white font-bold py-4 px-2 rounded-xl hover:bg-red-600 transition">
                             Undo
                         </button>
                     </form>
                 @else
-                    <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c70000ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
-                    <form action="{{ route('team_leader.forms.complete', $form->id) }}" method="POST" class="w-1/4">
+                    <form action="{{ route('team_leader.forms.complete', $form->id) }}" method="POST" class="w-1/5">
                         @csrf
                         <button type="submit"
-                                class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
+                                class="w-full bg-[#158a00] text-white font-bold py-4 px-2 rounded-xl hover:bg-[#0f6100] transition">
                             Completed
                         </button>
                     </form>
@@ -68,25 +72,27 @@
         @if(isset($forms['questionnaire']))
             @foreach($forms['questionnaire'] as $form)
             <div class="flex space-x-3 items-center justify-center">
-                <a href="{{ $form->form_description }}" target="_blank"
-                   class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
-                    {{ $form->form_name }}
+                <a href="{{ $form->form_description }}" target="_blank" class="flex items-center justify-between gap-3 flex-auto w-1/2 bg-white border-2 border-[#7D3C98] text-[#7D3C98] font-semibold py-3 px-5 rounded-xl hover:bg-[#7D3C98] hover:text-white transition-all duration-300 ease-in-out group">
+                <span class="underline group">{{ $form->form_name }}</span>
+                @if(!empty($completion['questionnaire'][$form->id] ?? false))
+                <svg class="w-6 h-6 flex-shrink-0 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                @else
+                <svg class="w-6 h-6 flex-shrink-0 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                @endif
                 </a>
 
                 @php $isDone = !empty($completion['questionnaire'][$form->id] ?? false); @endphp
 
                 @if($isDone)
-                    <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007808ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <form action="{{ route('team_leader.forms.undo', $form->id) }}" method="POST" class="w-1/4">
+                    <form action="{{ route('team_leader.forms.undo', $form->id) }}" method="POST" class="w-1/5">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">Undo</button>
+                        <button type="submit" class="w-full bg-red-500 text-white font-bold py-4 px-2 rounded-xl hover:bg-red-600 transition">Undo</button>
                     </form>
                 @else
-                    <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c70000ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
-                    <form action="{{ route('team_leader.forms.complete', $form->id) }}" method="POST" class="w-1/4">
+                    <form action="{{ route('team_leader.forms.complete', $form->id) }}" method="POST" class="w-1/5">
                         @csrf
-                        <button type="submit" class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">Completed</button>
+                        <button type="submit" class="w-full bg-[#158a00] text-white font-bold py-4 px-2 rounded-xl hover:bg-[#0f6100] transition">Completed</button>
                     </form>
                 @endif
             </div>
@@ -98,28 +104,30 @@
         @if(isset($forms['consent']))
             @foreach($forms['consent'] as $form)
                 <div class="flex space-x-3 items-center justify-center">
-                    <a href="{{ $form->form_description }}" target="_blank"
-                       class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
-                       {{ $form->form_name }}
-                    </a>
+                    <a href="{{ $form->form_description }}" target="_blank" class="flex items-center justify-between gap-3 flex-auto w-1/2 bg-white border-2 border-[#7D3C98] text-[#7D3C98] font-semibold py-3 px-5 rounded-xl hover:bg-[#7D3C98] hover:text-white transition-all duration-300 ease-in-out group">
+                <span class="underline group">{{ $form->form_name }}</span>
+                @if(!empty($completion['consent'][$form->id] ?? false))
+                <svg class="w-6 h-6 flex-shrink-0 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                @else
+                <svg class="w-6 h-6 flex-shrink-0 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                @endif
+                </a>
 
                     @php $isDone = !empty($completion['consent'][$form->id] ?? false); @endphp
 
                     @if($isDone)
-                        <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007808ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                        <form action="{{ route('team_leader.forms.undo', $form->id) }}" method="POST" class="w-1/4">
+                        <form action="{{ route('team_leader.forms.undo', $form->id) }}" method="POST" class="w-1/5">
                             @csrf @method('DELETE')
                             <button type="submit"
-                                    class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
+                                    class="w-full bg-red-500 text-white font-bold py-4 px-2 rounded-xl hover:bg-red-600 transition">
                                 Undo
                             </button>
                         </form>
                     @else
-                        <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c70000ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
-                        <form action="{{ route('team_leader.forms.complete', $form->id) }}" method="POST" class="w-1/4">
+                        <form action="{{ route('team_leader.forms.complete', $form->id) }}" method="POST" class="w-1/5">
                             @csrf
                             <button type="submit"
-                                    class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
+                                    class="w-full bg-[#158a00] text-white font-bold py-4 px-2 rounded-xl hover:bg-[#0f6100] transition">
                                 Completed
                             </button>
                         </form>
@@ -128,56 +136,50 @@
             @endforeach
         @endif
 
-                <!-- Upload link(s) matching this form's NAME 
-                @php
-                    $matchedLinks = isset($fileUploadLinks) ? $fileUploadLinks->where('name', $form->name) : collect();
-                @endphp
-                @if($matchedLinks->isNotEmpty())
-                    <label class="block text-sm text-gray-600 mt-6">
-                        Upload the consent form
-                        <span class="block mt-1 space-y-1">
-                            @foreach($matchedLinks as $upl)
-                                <a href="{{ $upl->url }}" class="text-blue-500 hover:underline block" target="_blank">
-                                    {{ $upl->name }}
-                                </a>
-                            @endforeach
-                        </span>
-                    </label>
-                @endif -->
+        
 
         {{-- Post-test --}}
         @if(isset($forms['posttest']) && count($forms['posttest']) > 0)
             @foreach($forms['posttest'] as $form)
             <div class=" flex space-x-3 items-center justify-center">
-                <a href="{{ $form->form_description }}" target="_blank"
-                   class="flex-auto bg-white border-2 border-[#7D3C98] w-1/2 text-[#7D3C98] underline hover:bg-[#7D3C98] hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-600 ease-in-out">
-                    {{ $form->form_name }}
+                <a href="{{ $form->form_description }}" target="_blank" class="flex items-center justify-between gap-3 flex-auto w-1/2 bg-white border-2 border-[#7D3C98] text-[#7D3C98] font-semibold py-3 px-5 rounded-xl hover:bg-[#7D3C98] hover:text-white transition-all duration-300 ease-in-out group">
+                <span class="underline group">{{ $form->form_name }}</span>
+                @if(!empty($completion['posttest'][$form->id] ?? false))
+                <svg class="w-6 h-6 flex-shrink-0 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                @else
+                <svg class="w-6 h-6 flex-shrink-0 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                @endif
                 </a>
 
                 @php $isDone = !empty($completion['posttest'][$form->id] ?? false); @endphp
 
                 @if($isDone)
-                    <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007808ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <form action="{{ route('team_leader.forms.undo', $form->id) }}" method="POST" class="w-1/4">
+                    <form action="{{ route('team_leader.forms.undo', $form->id) }}" method="POST" class="w-1/5">
                         @csrf
                         @method('DELETE')
                         <button type="submit"
-                                class="w-full bg-red-500 text-white font-bold py-2 px-2 rounded-lg hover:bg-red-600 transition">
+                                class="w-full bg-red-500 text-white font-bold py-4 px-2 rounded-xl hover:bg-red-600 transition">
                             Undo
                         </button>
                     </form>
                 @else
-                    <svg class="text-green-600 text-[10px] font-bold py-1 px-1 bg-gray-100 rounded-lg absolute right-1/3 lg:right-[550px] xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c70000ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
-                    <form action="{{ route('team_leader.forms.complete', $form->id) }}" method="POST" class="w-1/4">
+                    <form action="{{ route('team_leader.forms.complete', $form->id) }}" method="POST" class="w-1/5">
                         @csrf
                         <button type="submit"
-                                class="w-full bg-[#158a00] text-white font-bold py-2 px-2 rounded-lg hover:bg-[#0f6100] transition">
+                                class="w-full bg-[#158a00] text-white font-bold py-4 px-2 rounded-xl hover:bg-[#0f6100] transition">
                             Completed
                         </button>
                     </form>
                 @endif
             </div>
             @endforeach
+        @endif
+
+         {{-- No Forms Assigned --}}
+        @if(empty($forms['pretest']) && empty($forms['questionnaire']) && empty($forms['consent']) && empty($forms['posttest']))
+            <p class="text-center text-gray-600 italic">
+                There are currently no forms assigned to you.
+            </p>
         @endif
 
     </div>
