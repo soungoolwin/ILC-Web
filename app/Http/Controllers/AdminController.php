@@ -74,6 +74,14 @@ class AdminController extends Controller
         $day = $request->input('day');
         $time_slot = $request->input('time_slot');
         $team_leader_id = $request->input('team_leader_id');
+        $allTeamLeaders = TeamLeader::with('user')->get();
+        $bookedLeaders = [];
+        foreach ($allTeamLeaders as $leader) {
+            $hasReservation = TeamLeaderTimetable::where('team_leader_id', $leader->id)->exists();
+            if ($hasReservation) {
+                $bookedLeaders[] = $leader->id;
+            }
+        }   
 
         // Query the team leaders timetable based on search parameters
         $query = TeamLeaderTimetable::query();
@@ -94,7 +102,7 @@ class AdminController extends Controller
 
         $teamLeaderTimetables = $query->with('teamLeader.user')->get();
 
-        return view('admin.team-leaders-timetables', compact('teamLeaderTimetables', 'request'));
+        return view('admin.team-leaders-timetables', compact('teamLeaderTimetables', 'request','allTeamLeaders','bookedLeaders'));
     }
 
     //for check timetable of mentor-student timetable
@@ -125,7 +133,6 @@ class AdminController extends Controller
 
         return view('admin.mentor-students-timetable', compact('timetables', 'request'));
     }
-
 
     // View all users
     public function viewUsers(Request $request)

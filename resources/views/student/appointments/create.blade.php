@@ -77,16 +77,16 @@
 
             <!-- Submit Button -->
 
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-end">
                 <!-- Reserve Button -->
                 <button type="submit"
-                    class="bg-[#7D3C98] text-white font-bold py-2 px-3 lg:px-4 lg:py-3 rounded-lg shadow-lg hover:shadow-xl transition">
+                    class="bg-white border-2 border-[#7D3C98] text-[#7D3C98] font-bold py-2 px-3 lg:px-4 lg:py-3 rounded-lg shadow-lg hover:shadow-xl transition">
                     Make Appointment
                 </button>
 
                 <!-- Check Availability Button -->
                 <a href="{{ route('student.appointments.availability') }}"
-                    class="bg-[#7D3C98] text-white font-bold py-2 px-3 lg:px-4 lg:py-3 rounded-lg shadow-lg transition">
+                    class="bg-[#7D3C98] border-2 border-[#7D3C98] text-white font-bold py-2 px-3 lg:px-4 lg:py-3 ml-2 rounded-lg shadow-lg transition">
                     Check Availability
                 </a>
             </div>

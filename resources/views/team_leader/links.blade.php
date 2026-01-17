@@ -1,5 +1,6 @@
 <x-layout>
-    
+    <div class="min-h-screen bg-gray-50 py-4 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6">
     {{-- Flash Messages --}}
     @if (session('success'))
         <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4 text-center">
@@ -15,7 +16,7 @@
 
    
 
-    <div class="flex justify-center text-xl lg:text-2xl font-bold text-gray-800 mt-10 mb-6">
+    <div class="flex justify-center text-xl lg:text-2xl font-bold text-gray-800 mb-6">
         Team Leader Links
     </div>
     <p class="flex justify-center text-center text-lg lg:text-xl font-semibold italic text-red-600 mb-4 mx-1">
@@ -28,7 +29,7 @@
         If you need to redo a form, click "Undo".
     </p>
 
-    <div class="text-xs lg:text-sm max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6 space-y-6">
+    <div class="text-xs lg:text-sm max-w-4xl mx-auto mt-6 space-y-6">
 
         {{-- Pre-test --}}
         @if(isset($forms['pretest']))
@@ -182,5 +183,7 @@
             </p>
         @endif
 
+    </div>
+    </div>
     </div>
 </x-layout>

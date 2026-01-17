@@ -1,7 +1,8 @@
 <x-layout>
-    <div class="flex flex-col items-center justify-center min-h-[70vh] bg-white px-4 my-8">
+    <!-- min hight for all screen automatically adjust -->
+    <div class="flex flex-col items-center justify-center min-h-[75vh] bg-white px-4 my-8">
         <!-- Main Content Container - Centered with max width -->
-        <div class="w-full max-w-md">
+        <div class="w-full max-w-md border border-[#7D3C98] rounded-xl p-6 md:p-8 shadow-md">
             <!-- Title -->
             <h1 class="text-xl lg:text-2xl font-bold text-center text-[#7D3C98] mb-6">Log in to your account</h1>
 

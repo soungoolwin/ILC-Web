@@ -62,13 +62,16 @@
                     </select>
                 </div>
                 <!-- Search Button -->
-            
-            </div>
-            <div>
-                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 mt-2 rounded-lg transition">
+
+                <div>
+                <label for="search" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1 invisible">Search</label>
+                <button type="submit" class="block max-w-3xl bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
                     Search
                 </button>
             </div>
+            
+            </div>
+            
 
             
         </form>
