@@ -71,8 +71,8 @@ class TeamLeaderTimetableController extends Controller
 
         $slotLimits = [
             '09:00-11:00' => 2,
-            '11:00-13:00' => 5,
-            '13:00-15:00' => 5,
+            '11:00-13:00' => 7,
+            '13:00-15:00' => 7,
             '15:00-17:00' => 5,
         ];
 

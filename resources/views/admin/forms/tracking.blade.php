@@ -1,5 +1,6 @@
 <x-layout>
-    <div class="max-w-7xl mx-auto px-4 py-6">
+    <div class="min-h-screen bg-gray-100 py-8 px-4 print:bg-white">
+    <div class="max-w-7xl mx-auto px-4 py-6 bg-white shadow-md rounded-lg px-8 py-8 ">
         <h2 class="text-3xl font-bold text-gray-800 mb-6">Form Completion Progress</h2>
 
         <div class="flex justify-center space-x-10 items-center">
@@ -15,14 +16,15 @@
         </div>
         <p class="print:hidden justify-center text-center text-xs lg:text-sm text-gray-500">Expand the sections to view full tables. You can also print the tables by expanding.</p>
 
+
+
         {{-- ===================== STUDENTS ===================== --}}
         <div id="studentForms" class="mb-10">
-            <h3 class="text-xl lg:text-2xl font-semibold text-blue-500 mb-3">Student Forms</h3>
-
+            <h3 class="text-xl lg:text-2xl font-semibold text-blue-500 mb-3">Student Forms Overview</h3>
             <div class="mb-4 print:hidden flex justify-between items-center">
                 {{-- Search --}}
                 <form method="GET" action="{{ route('admin.forms.tracking') }}" class="mb-4">
-                    <input type="text" name="student_id" placeholder="Search Student ID" class="input w-2/3 lg:w-[180px] text-xs lg:text-sm border-blue-500 placeholder-gray-400 focus:ring-1 py-2 rounded-l-lg" />
+                    <input type="text" name="student_id" placeholder="Search by Student ID" class="input w-2/3 lg:w-[180px] text-xs lg:text-sm border-blue-500 placeholder-gray-400 focus:ring-1 py-2 rounded-l-lg" />
                     <button type="submit" class="text-xs lg:text-sm bg-blue-500 px-4 py-2 ring-1 ring-blue-500 ring-offset-1 ring-offset-white rounded-r-lg text-white hover:bg-blue-600">Search</button>
                 </form>
 
@@ -38,6 +40,19 @@
                 </div>
             </div>
 
+                    {{-- Student Form Completion Statistics --}}
+
+    {{-- Summary Cards --}}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        @foreach($studentCompletionStats as $studentStat)
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200">
+                <h4 class="text-xs lg:text-sm font-semibold text-gray-600 mb-1">{{ $studentStat['label'] }}</h4>
+                <p class="text-2xl lg:text-3xl font-bold text-blue-600">{{ number_format($studentStat['percentage'], 1) }}%</p>
+                <p class="text-[10px] lg:text-xs text-gray-500 mt-1">{{ $studentStat['completed'] }}/{{ $studentStat['total'] }} completed</p>
+            </div>
+        @endforeach
+    </div>
+
             <div id="TableWrapperStudent" class="overflow-y-auto min-w-full max-h-64 rounded-lg shadow border transition-all duration-300">
                 <table class="min-w-full text-[10px] lg:text-sm text-left z-10">
                     <thead class="bg-blue-100 text-gray-700 font-semibold sticky top-0 z-10">
@@ -52,19 +67,7 @@
                             @endforeach
                         </tr>
                         {{-- Header row 2: per-form labels --}}
-                        <tr class="bg-blue-50">
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            @foreach($formTypes as $type)
-                                @php $cols = $formColumns['student'][$type] ?? collect(); @endphp
-                                @forelse($cols as $col)
-                                    <th class="px-2 py-1 text-[10px] lg:text-xs">{{ $col['label'] }}</th>
-                                @empty
-                                    <th class="px-2 py-1 text-[10px] lg:text-xs">—</th>
-                                @endforelse
-                            @endforeach
-                        </tr>
+                        
                     </thead>
                     <tbody>
                         @foreach ($students as $student)
@@ -105,12 +108,12 @@
 
         {{-- ===================== MENTORS ===================== --}}
         <div id="mentorForms" class="mb-10 hidden">
-            <h3 class="text-2xl font-semibold text-purple-800 mb-3">Mentor Forms</h3>
+            <h3 class="text-2xl font-semibold text-purple-800 mb-3">Mentor Forms Overview</h3>
 
             <div class="mb-4 print:hidden flex justify-between items-center">
                 {{-- Search --}}
                 <form method="GET" action="{{ route('admin.forms.tracking') }}" class="mb-4">
-                    <input type="text" name="mentor_id" placeholder="Search Mentor ID" class="input w-2/3 lg:w-[180px] text-xs lg:text-sm print:hidden input border-purple-500 placeholder-gray-400 focus:ring-1 py-2 rounded-l-lg" />
+                    <input type="text" name="mentor_id" placeholder="Search by Mentor ID" class="input w-2/3 lg:w-[180px] text-xs lg:text-sm print:hidden input border-purple-500 placeholder-gray-400 focus:ring-1 py-2 rounded-l-lg" />
                     <button type="submit" class="text-xs lg:text-sm print:hidden bg-purple-500 ring-1 ring-purple-500 ring-offset-1 ring-offset-white px-4 py-2 rounded-r-lg text-white hover:bg-purple-600">Search</button>
                 </form>
 
@@ -126,6 +129,19 @@
                 </div>
             </div>
 
+            {{-- Mentor Form Completion Statistics --}}
+    
+    {{-- Summary Cards --}}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        @foreach($mentorCompletionStats as $mentorStat)
+            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4 border border-purple-200">
+                <h4 class="text-xs lg:text-sm font-semibold text-gray-600 mb-1">{{ $mentorStat['label'] }}</h4>
+                <p class="text-2xl lg:text-3xl font-bold text-purple-600">{{ number_format($mentorStat['percentage'], 1) }}%</p>
+                <p class="text-[10px] lg:text-xs text-gray-500 mt-1">{{ $mentorStat['completed'] }}/{{ $mentorStat['total'] }} completed</p>
+            </div>
+        @endforeach
+    </div>
+
             <div id="TableWrapperMentor" class="overflow-y-auto min-w-full max-h-64 rounded-lg shadow border transition-all duration-300">
                 <table class="text-[10px] lg:text-sm min-w-full text-left">
                     <thead class="bg-purple-100 text-gray-700 font-semibold sticky top-0 z-10">
@@ -140,19 +156,6 @@
                             @endforeach
                         </tr>
                         {{-- Header row 2 --}}
-                        <tr class="bg-purple-50">
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            @foreach($formTypes as $type)
-                                @php $cols = $formColumns['mentor'][$type] ?? collect(); @endphp
-                                @forelse($cols as $col)
-                                    <th class="px-2 py-1 text-[10px] lg:text-xs">{{ $col['label'] }}</th>
-                                @empty
-                                    <th class="px-2 py-1 text-[10px] lg:text-xs">—</th>
-                                @endforelse
-                            @endforeach
-                        </tr>
                     </thead>
                     <tbody>
                         @foreach ($mentors as $mentor)
@@ -193,12 +196,12 @@
 
         {{-- ===================== TEAM LEADERS ===================== --}}
         <div id="teamLeaderForms" class="mb-10 hidden">
-            <h3 class="text-2xl font-semibold text-yellow-400 mb-3">Team Leaders</h3>
+            <h3 class="text-2xl font-semibold text-yellow-400 mb-3">Team Leaders Overview</h3>
 
             <div class="mb-4 print:hidden flex justify-between items-center">
                 {{-- Search --}}
                 <form method="GET" action="{{ route('admin.forms.tracking') }}" class="mb-4">
-                    <input type="text" name="team_leader_id" placeholder="Search Team Leader ID" class="w-2/3 lg:w-[180px] text-xs lg:text-sm text-left print:hidden input border-yellow-400 placeholder-gray-400 focus:ring-1 py-2 rounded-l-lg" />
+                    <input type="text" name="team_leader_id" placeholder="Search by Team Leader ID" class="w-2/3 lg:w-[180px] text-xs lg:text-sm text-left print:hidden input border-yellow-400 placeholder-gray-400 focus:ring-1 py-2 rounded-l-lg" />
                     <button type="submit" class="text-xs lg:text-sm print:hidden bg-yellow-400 px-4 py-2 ring-1 ring-yellow-400 ring-offset-1 ring-offset-white rounded-r-lg text-white hover:bg-yellow-500">Search</button>
                 </form>
 
@@ -214,6 +217,19 @@
                 </div>
             </div>
 
+            {{-- Team Leader Form Completion Statistics --}}
+    
+    {{-- Summary Cards --}}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        @foreach($teamLeaderCompletionStats as $teamLeaderStat)
+            <div class="bg-gradient-to-br from-yellow-50 to-yellow-50 rounded-lg p-4 border border-yellow-200">
+                <h4 class="text-xs lg:text-sm font-semibold text-gray-600 mb-1">{{ $teamLeaderStat['label'] }}</h4>
+                <p class="text-2xl lg:text-3xl font-bold text-yellow-600">{{ number_format($teamLeaderStat['percentage'], 1) }}%</p>
+                <p class="text-[10px] lg:text-xs text-gray-500 mt-1">{{ $teamLeaderStat['completed'] }}/{{ $teamLeaderStat['total'] }} completed</p>
+            </div>
+        @endforeach
+    </div>
+
             <div id="TableWrapperTeamLeader" class="overflow-y-auto min-w-full max-h-64 rounded-lg shadow border transition-all duration-300">
                 <table class="text-[10px] lg:text-sm min-w-full text-left">
                     <thead class="bg-yellow-100 text-gray-700 font-semibold sticky top-0 z-10">
@@ -225,20 +241,6 @@
                             @foreach($formTypes as $type)
                                 @php $cols = $formColumns['team_leader'][$type] ?? collect(); @endphp
                                 <th class="px-4 py-2 text-center align-bottom" colspan="{{ max($cols->count(), 1) }}">{{ ucfirst($type) }}</th>
-                            @endforeach
-                        </tr>
-                        {{-- Header row 2 --}}
-                        <tr class="bg-yellow-50">
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            @foreach($formTypes as $type)
-                                @php $cols = $formColumns['team_leader'][$type] ?? collect(); @endphp
-                                @forelse($cols as $col)
-                                    <th class="px-2 py-1 text-[10px] lg:text-xs">{{ $col['label'] }}</th>
-                                @empty
-                                    <th class="px-2 py-1 text-[10px] lg:text-xs">—</th>
-                                @endforelse
                             @endforeach
                         </tr>
                     </thead>
@@ -279,6 +281,7 @@
             </div>
         </div>
 
+    </div>
     </div>
 
 <script>

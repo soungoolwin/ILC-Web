@@ -1,10 +1,11 @@
 <x-layout>
+    <div class="bg-gray-100 min-h-screen p-2">
     <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Check Appointment Availability</h2>
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('student.appointments.availability') }}" class="space-y-4 mb-6">
-            <div class="flex items-left space-x-4">
+            <div class="flex items-left grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Week Number -->
                 <div>
                 <label for="week_number" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1">Week</label>
@@ -33,7 +34,6 @@
         @endforeach
     </select>
 </div>
-
                 <!-- Time Slot -->
                 <div>
                     <label for="time_slot" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1 ">Time Slot</label>
@@ -65,10 +65,11 @@
             
             </div>
             <div>
-                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 mt-2 rounded-lg transition">
+                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
                     Search
                 </button>
             </div>
+            
 
             
         </form>

@@ -1,4 +1,6 @@
 <x-layout>
+    <div class="min-h-screen bg-gray-50 py-4 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6">
     
     {{-- Flash Messages --}}
     @if (session('success'))
@@ -13,10 +15,10 @@
         </div>
     @endif
 
-    <div class="flex justify-center text-xl lg:text-2xl font-bold text-gray-800 mt-10 mb-6">
+    <div class="flex justify-center text-xl lg:text-2xl font-bold text-gray-800 mb-6">
         Student Links
     </div>
-    <p class="flex justify-center text-center text-lg lg:text-xl font-semibold italic text-red-600 mb-4 mx-1">
+    <p class="flex justify-center text-center text-md lg:text-xl font-semibold bg-red-100 rounded-lg border-red-400 p-2 text-red-600 mb-4 mx-auto max-w-4xl">
         Please ensure that you have completed all forms before week 6.
     </p>
     <p class="flex justify-center text-center text-xs lg:text-sm text-gray-600 mb-4">
@@ -26,7 +28,7 @@
          If you need to redo a form, click "Undo".
     </p>
 
-    <div class="text-xs lg:text-sm max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6 space-y-6">
+    <div class="text-xs lg:text-sm max-w-4xl mx-auto lg:p-6 mt-6 space-y-6">
 
         {{-- Pre-test --}}
         @if(isset($forms['pretest']))
@@ -197,5 +199,7 @@
             </p>
         @endif
 
+    </div>
+    </div>
     </div>
 </x-layout>

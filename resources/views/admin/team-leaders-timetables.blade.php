@@ -1,5 +1,6 @@
 <x-layout>
-    <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
+    <div class="min-h-screen bg-gray-100 py-8 px-4">
+    <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Team Leaders Timetable</h2>
 
         <!-- Search Form -->
@@ -53,6 +54,14 @@
             </div>
             </div>
         </form>
+    
+    {{-- Summary Card --}}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 ">
+        <div class="bg-white p-4 rounded-lg shadow border-2 border-[#7D3C98] border-opacity-50 ">
+            <p class="text-4xl font-bold text-[#7D3C98]">{{ count($bookedLeaders) }} <span class="text-2xl text-gray-600">booked</span></p>
+            <p class="text-sm text-gray-600 mt-2">out of <span class="text-[#7D3C98] text-xl">{{ $allTeamLeaders->count() }}</span> total team leaders</p>
+        </div>
+    </div>
 
         <!-- Display Team Leaders Timetables -->
         @if ($teamLeaderTimetables->count() > 0)
@@ -100,5 +109,6 @@
         @else
             <p class="text-center text-gray-600">No records found for the selected criteria.</p>
         @endif
+    </div>
     </div>
 </x-layout>

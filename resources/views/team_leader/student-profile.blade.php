@@ -27,12 +27,12 @@
                             </div>
                         </div>
 
-                        <div>
+                        <!--<div>
                             <label class="block text-sm font-medium text-gray-500 mb-1">Student ID</label>
                             <div class="bg-green-50 rounded-lg px-4 py-3 border-2 border-green-200">
                                 <span class="text-gray-900">{{ $student->student_id ?? '65000000' }}</span>
-                            </div>
-                        </div>
+                            </div> 
+                        </div> -->
                         <!-- Faculty Display in View Mode -->
                         <div>
                             <label class="block text-sm font-medium text-gray-500 mb-1">Faculty</label>

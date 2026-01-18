@@ -1,17 +1,18 @@
 <x-layout>
+    <div class="min-h-screen">
     <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Check Availability</h2>
 
         <!-- Search Form -->
         <form method="GET" action="{{ route('timetables.availability') }}" class="space-y-4 mb-6">
             <div class="flex items-center space-x-4">
-                <!-- Table Number -->
+                <!-- Table Number 
                 <div>
                     <label for="table_number" class="block text-sm font-semibold text-gray-600">Table Number</label>
                     <input type="number" name="table_number" id="table_number" value="{{ request('table_number') }}"
                         placeholder="e.g., 5"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                </div>
+                </div> -->
 
                 <!-- Time Slot --- fix the timeslot changes here -->
                 <div>
@@ -50,8 +51,8 @@
             </div>
         </form>
 
-        <!-- Display Available Timetables -->
-        @if (count($availableTimetables) > 0)
+        <!-- Display Available Timetables only when search criteria are provided -->
+        @if (count($availableTimetables) > 0 && (request('time_slot') || request('day')))
             <table class="table-auto w-full border-collapse border border-gray-300">
                 <thead>
                     <tr>
@@ -79,4 +80,5 @@
             <p class="text-center text-gray-600">No available timetables match your search criteria.</p>
         @endif
     </div>
+</div>
 </x-layout>
