@@ -21,14 +21,14 @@
     <p class="flex justify-center text-center text-lg lg:text-xl font-semibold italic text-red-600 mb-4 mx-1">
         Please ensure that you have completed all forms before week 6.
     </p>
-    <p class="flex justify-center text-center text-xs lg:text-sm text-gray-600 mb-4">
+    <p class="flex justify-center text-center text-md lg:text-xl font-semibold bg-red-100 rounded-lg border-red-400 p-2 text-red-600 mb-4 mx-auto max-w-4xl">
         You can access the forms by clicking respective buttons below.
         Make sure that you clicked "Completed" after you finish each form.
         <br>
         If you need to redo a form, click "Undo".
     </p>
 
-    <div class="text-xs lg:text-sm max-w-4xl mx-auto p-6 mt-6 space-y-6">
+    <div class="text-xs lg:text-sm max-w-4xl mx-auto lg:p-6 mt-6 space-y-6">
 
         {{-- Pre-test --}}
         @if(isset($forms['pretest']))

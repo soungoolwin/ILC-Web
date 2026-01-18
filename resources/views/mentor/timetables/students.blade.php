@@ -53,7 +53,7 @@
                     <select name="table_number" id="table_number"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                         <option value="">Select Table</option>
-                        @foreach (range(1, 16) as $table)
+                        @foreach (range(1, 10) as $table)
                             <option value="{{ $table }}"
                                 {{ $request->table_number == $table ? 'selected' : '' }}>
                                 Table {{ $table }}
@@ -103,11 +103,15 @@
 
     timeSelect.addEventListener('change', function () {
         const selectedTime = this.value;
-        let tableCount = 16;
+        let tableCount = 10;
 
         // Show only 2 tables for 09:00-10:00 and 10:00-11:00
         if (selectedTime === '09:00-09:30' || selectedTime === '09:30-10:00' || selectedTime === '10:00-10:30' || selectedTime === '10:30-11:00') {
-            tableCount = 4;
+            tableCount = 2;
+        }
+
+        if (selectedTime === '15:00-15:30' || selectedTime === '15:30-16:00' || selectedTime === '16:00-16:30' || selectedTime === '16:30-17:00') {
+            tableCount = 5;
         }
 
         // Clear current options

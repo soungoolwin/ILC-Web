@@ -197,7 +197,18 @@ class TimetableController extends Controller
             '16:00-17:00'
             //,'17:00-18:00','18:00-19:00','19:00-20:00'
         ];
+
+        // table count filters based on time slots -> for availability view
         $tables = range(1, 16);
+        if (in_array($request->time_slot, ['16:00-17:00', '17:00-18:00', '18:00-19:00', '19:00-20:00'])) {
+            $tables = range(1, 5);
+        }
+        if (in_array($request->time_slot, ['09:00-10:00', '10:00-11:00'])) {
+            $tables = range(1, 2);
+        }
+        if (in_array($request->time_slot, ['11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00'])) {
+            $tables = range(1, 10);
+        }
 
         // Fetch reserved timetables with mentor_id
         $reservedTimetables = Timetable::select('day', 'time_slot', 'table_number', 'mentor_id')

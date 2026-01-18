@@ -1,4 +1,5 @@
 <x-layout>
+    <div class="min-h-screen bg-gray-100 p-4">
     <!-- Error Message -->
     @if ($errors->any())
         <div class="bg-red-100 text-red-800 p-4 rounded-md mb-6">
@@ -16,7 +17,7 @@
             {{ session('success') }}
         </div>
     @endif
-    <div class="max-w-6xl mx-auto justify-center items-center">
+    <div class="max-w-6xl bg-white rounded-lg mx-auto justify-center items-center p-6">
    <!-- <div class="flex flex-col items-center justify-center w-full lg:w-full mx-auto bg-[#7D3C98] p-4 shadow-md mt-2 mb-3">
          <div class="flex flex-col justify-center items-center bg-[#7D3C98] w-full lg:w-1/2 ">
             <div class=" flex max-w-xs justify-center bg-white hover:shadow-lg hover:scale-105 rounded-md">
@@ -203,5 +204,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </x-layout>

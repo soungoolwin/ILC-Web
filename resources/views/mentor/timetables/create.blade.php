@@ -94,11 +94,15 @@
 
     timeSelect.addEventListener('change', function () {
         const selectedTime = this.value;
-        let tableCount = 5;
+        let tableCount = 10;
 
         // Show only 2 tables for 09:00-10:00 and 10:00-11:00
         if (selectedTime === '09:00-10:00' || selectedTime === '10:00-11:00') {
             tableCount = 2;
+        }
+
+        if (selectedTime === '15:00-16:00' || selectedTime === '16:00-17:00') {
+            tableCount = 5;
         }
 
         // Clear current options
