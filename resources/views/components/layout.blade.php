@@ -203,11 +203,11 @@
                                 <div id="registerDropdownMenu"
                                     class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10">
                                     <a href="{{ route('register.student') }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hidden">
                                         Student
                                     </a>
                                     <a href="{{ route('register.mentor') }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hidden">
                                         Mentor
                                     </a>
                                     <a href="{{ route('register.team_leader') }}"
