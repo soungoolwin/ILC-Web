@@ -53,7 +53,6 @@
                         <th class="border border-gray-300 px-2 py-2">Name</th>
                         <th class="border border-gray-300 px-4 py-2 min-w-[150px]">Email</th>
                         <th class="border border-gray-300 px-4 py-2 min-w-[100px]">Role</th>
-                        <th class="border border-gray-300 px-2 py-2">Student ID</th>
                         <!-- <th class="border border-gray-300 px-2 py-2">Phone Number</th> -->
                         <th class="border border-gray-300 px-2 py-2">Actions</th>
                     </tr>
@@ -65,18 +64,6 @@
                             <td class="border border-gray-300 px-2 py-2 text-center">{{ $user->name }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $user->email }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $user->role }}</td>
-                            <td class="border border-gray-300 px-2 py-2 text-center">
-                            @if($user->role === 'mentor')
-                                {{ $mentors[$user->id]->mentor_id ?? 'N/A' }}
-                            @elseif($user->role === 'team_leader')
-                                {{ $user->teamLeader->team_leader_id ?? 'N/A' }}
-                            @elseif($user->role === 'admin')
-                                {{ $admins[$user->id]->admin_id ?? 'N/A' }}
-                            @elseif($user->role === 'student')
-                                {{ $students[$user->id]->student_id ?? 'N/A' }}
-                            @else
-                                N/A
-                            @endif</td>
                                 
                                 
                             <!-- <td class="border border-gray-300 px-2 py-2 text-center">
