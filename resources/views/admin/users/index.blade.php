@@ -30,7 +30,7 @@
         <form method="GET" action="{{ route('admin.users.index') }}" class="space-y-2 mb-6">
             <div class="flex items-left space-x-4">
                 <div>
-                    <label for="team_leader_id" class="block text-xs lg:text-md ml-2 mb-2 font-semibold text-gray-600">Search by User Email</label>
+                    <label for="email" class="block text-xs lg:text-md ml-2 mb-2 font-semibold text-gray-600">Search by User Email</label>
                     <input type="text" name="email" id="email" value="{{ $request->email }}"
                         placeholder="Enter User Email"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
@@ -53,6 +53,7 @@
                         <th class="border border-gray-300 px-2 py-2">Name</th>
                         <th class="border border-gray-300 px-4 py-2 min-w-[150px]">Email</th>
                         <th class="border border-gray-300 px-4 py-2 min-w-[100px]">Role</th>
+                        <th class="border border-gray-300 px-2 py-2">Student ID</th>
                         <!-- <th class="border border-gray-300 px-2 py-2">Phone Number</th> -->
                         <th class="border border-gray-300 px-2 py-2">Actions</th>
                     </tr>
@@ -64,6 +65,20 @@
                             <td class="border border-gray-300 px-2 py-2 text-center">{{ $user->name }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $user->email }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $user->role }}</td>
+                            <td class="border border-gray-300 px-2 py-2 text-center">
+                            @if($user->role === 'mentor')
+                                {{ $mentors[$user->id]->mentor_id ?? 'N/A' }}
+                            @elseif($user->role === 'team_leader')
+                                {{ $user->teamLeader->team_leader_id ?? 'N/A' }}
+                            @elseif($user->role === 'admin')
+                                {{ $admins[$user->id]->admin_id ?? 'N/A' }}
+                            @elseif($user->role === 'student')
+                                {{ $students[$user->id]->student_id ?? 'N/A' }}
+                            @else
+                                N/A
+                            @endif</td>
+                                
+                                
                             <!-- <td class="border border-gray-300 px-2 py-2 text-center">
                                 {{ $teamLeader->user->phone_number ?? 'N/A' }}</td> -->
                             <td class="border border-gray-300 px-2 py-2 text-center">
