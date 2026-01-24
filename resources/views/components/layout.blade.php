@@ -23,7 +23,8 @@
                 </div>
             </div>
             <!-- Navigation Bar with Login/Register -->
-            <div class="flex text-[10px] justify-end w-full px-1 py-1 mt-2 lg:px-4 lg:py-2 md:text-sm lg:text-base gap-xs lg:gap-2 mr-2">
+             
+            <div class="flex text-[10px] justify-end w-full px-1 py-1 lg:px-4 lg:py-2 md:text-sm lg:text-base gap-xs lg:gap-2 mr-2 border-b border-gray-200">
                 @if (Auth::check())
                     @if (Auth::user()->role === 'student')
                     @php
@@ -139,39 +140,40 @@
                         
                             <button id="dropdownButton"
                                 class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">Manage</button>
-                            <div id="dropdownMenu" class="flex text-xs lg:text-sm w-fit absolute top-[120px] right-[80px] mt-2 lg:mt-5 w-48 bg-white rounded-md shadow-md hidden z-10 border border-gray-200">
-                                <div class="flex flex-col w-fit border-r border-gray-200">
-                                        <p class="px-2 py-2 lg:px-4 lg:py-2 text-sm text-white font-semibold bg-blue-500">Users & Timetables</p>
+                            <div id="dropdownMenu" class="flex flex-col text-xs lg:text-sm w-fit absolute top-[125px] right-[175px] bg-white rounded-md shadow-md hidden z-10 border border-gray-200 p-1">
+                                        <p class="px-2 py-1.5 text-sm text-white font-semibold bg-blue-500 rounded-t-sm ">Users & Timetables</p>
                                         <a href="{{ route('admin.mentor_students_timetable') }}"
-                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-blue-500 hover:bg-gray-100">
+                                            class="block px-2 py-2 text-xs text-blue-500 hover:bg-gray-100">
                                             Mentor-Students Timetable
                                         </a>
                                         <a href="{{ route('admin.team_leaders_timetable') }}"
-                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-blue-500 hover:bg-gray-100">
+                                            class="block px-2 py-2 text-xs text-blue-500 hover:bg-gray-100">
                                             TeamLeader Timetable
                                         </a>
 
                                         <a href="{{ route('admin.users.index') }}"
-                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-blue-500 hover:bg-gray-100">
+                                            class="block px-2 py-2 text-xs text-blue-500 hover:bg-gray-100">
                                             Delete Users
                                         </a>
-                                </div>
-                                <div class="flex flex-col w-fit">
-                                        <p class="px-2 py-2 lg:px-4 lg:py-2 text-sm text-white font-semibold bg-yellow-400 ">Forms</p>
+                                        <p class="px-2 py-1.5 text-sm text-white font-semibold bg-yellow-400 ">Forms</p>
                                         <a href="{{ route('admin.forms.index') }}"
-                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-yellow-500 hover:bg-gray-100">
+                                            class="block px-2 py-2 text-xs text-yellow-500 hover:bg-gray-100">
                                             Manage Forms
                                         </a>
                                         <a href="{{ route('admin.forms.tracking') }}"
-                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-yellow-500 hover:bg-gray-100">
+                                            class="block px-2 py-2 text-xs text-yellow-500 hover:bg-gray-100">
                                             Track Form Completion
                                         </a>
                                         <a href="{{ route('admin.attendance.index') }}"
-                                            class="block px-2 py-2 lg:px-4 lg:py-2 text-xs text-yellow-500 hover:bg-gray-100">
+                                            class="block px-2 py-2 text-xs text-yellow-500 hover:bg-gray-100">
                                             Student Attendance Reports
                                         </a>
-                                </div>
-                            </div>
+                                        <p class="px-2 py-1.5 text-sm text-white font-semibold bg-green-600 rounded-b-sm">Analytics</p>
+                                        <a href=""
+                                            class="block px-2 py-2 text-xs text-green-600 hover:bg-gray-100">
+                                            Database Analytics
+                                        </a>
+                        </div>
                         
                         <a href="{{ route('admin.profile') }}"
                             class="nav-link inline-flex items-center text-white bg-[#7D3C98] px-2 py-1 lg:px-4 lg:py-2 rounded-md mr-2 border-[1.5px] border-[#7D3C98]">
@@ -207,7 +209,7 @@
                                         Student
                                     </a>
                                     <a href="{{ route('register.mentor') }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hidden">
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Mentor
                                     </a>
                                     <a href="{{ route('register.team_leader') }}"
@@ -220,13 +222,12 @@
                     @endif
                 @endif
             </div>
-        </header>
+        </header> 
 
         <!-- Main Content -->
         <main class="flex-1">
             {{ $slot }}
         </main>
-
         <!-- Footer -->
         <footer class="bg-[#7D3C98] text-xs lg:text-base text-center text-white p-4">
             <p>&copy; 2025 Designed by ICT Students. All rights reserved.</p>

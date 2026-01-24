@@ -11,7 +11,7 @@
                 <div>
                     <label for="day" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1 ml-4">Day</label>
                     <select name="day" id="day"
-                        class="w-full border border-gray-300 text-xs lg:text-sm rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                        class="w-full border border-gray-300 text-xs lg:text-sm rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition" onchange="this.form.submit()">
                         <option value="">All Days</option>
                         @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as $dayOption)
                             <option value="{{ $dayOption }}" {{ request('day') === $dayOption ? 'selected' : '' }}>
@@ -25,7 +25,7 @@
                 <div>
                     <label for="time_slot" class="block text-xs lg:text-sm font-semibold text-gray-600 mb-1 ml-4">Time Slot</label>
                     <select name="time_slot" id="time_slot"
-                        class="w-full border border-gray-300 text-xs lg:text-sm rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                        class="w-full border border-gray-300 text-xs lg:text-sm rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition" onchange="this.form.submit()">
                         <option value="">All Time Slots</option>
                         @foreach (['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00', '17:00-20:00'] as $slot)
                             <option value="{{ $slot }}" {{ request('time_slot') === $slot ? 'selected' : '' }}>
@@ -79,7 +79,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($teamLeaderTimetables as $timetable)
+                    @foreach ($teamLeaderTimetables->sortBy(['day', 'time_slot']) as $timetable)
                         <tr class="text-[10px] lg:text-base hover:bg-gray-100 transition-colors duration-200">
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->day }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->time_slot }}</td>

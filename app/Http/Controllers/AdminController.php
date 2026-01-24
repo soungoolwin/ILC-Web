@@ -6,6 +6,9 @@ use App\Models\TeamLeader;
 use App\Models\TeamLeaderTimetable;
 use App\Models\Timetable;
 use App\Models\User;
+use App\Models\Admin;
+use App\Models\Mentor;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -137,11 +140,32 @@ class AdminController extends Controller
     // View all users
     public function viewUsers(Request $request)
     {
-        $query = User::query();
+        $query = User::with(['mentors', 'students', 'teamLeaders', 'admins']);
 
         // Check if a search term is provided
         if ($request->filled('email')) {
             $query->where('email', 'like', '%' . $request->email . '%');
+        }
+
+        // Check if the generic 'student_id' input is filled
+        if ($request->filled('student_id')) {
+            $searchTerm = $request->student_id;
+
+        // Use whereHas to search inside the related tables
+        $query->where(function($q) use ($searchTerm) {
+            $q->whereHas('students', function($q) use ($searchTerm) {
+                $q->where('student_id', 'like', '%' . $searchTerm . '%');
+            })
+            ->orWhereHas('mentors', function($q) use ($searchTerm) {
+                $q->where('mentor_id', 'like', '%' . $searchTerm . '%');
+            })
+            ->orWhereHas('teamLeaders', function($q) use ($searchTerm) {
+                $q->where('team_leader_id', 'like', '%' . $searchTerm . '%');
+            })
+            ->orWhereHas('admins', function($q) use ($searchTerm) {
+                $q->where('admin_id', 'like', '%' . $searchTerm . '%');
+            });
+        });
         }
 
 
@@ -171,12 +195,12 @@ class AdminController extends Controller
         }
 
         if ($user->id === $authUser->id) {
-            return redirect()->route('admin.users.index')->with('error', 'You might just create a timeloop. do not delete your own account.');
+            return redirect()->route('admin.users.index')->with('error', 'You might just create a timeloop or a parallel dimension! DO NOT DELETE YOURSELF!');
         }
 
         // Delete the user
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('success', "'{$user->name}' was deleted successfully! Email - {$user->email}");
+        return redirect()->route('admin.users.index')->with('success', "'{$user->name}'  'Email - {$user->email}' was deleted successfully!");
     }
 }

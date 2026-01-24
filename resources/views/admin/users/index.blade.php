@@ -36,6 +36,12 @@
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
                 </div>
                 <div>
+                    <label for="student_id" class="block text-xs lg:text-md ml-2 mb-2 font-semibold text-gray-600">Search by Student ID</label>
+                    <input type="text" name="student_id" id="student_id" value="{{ $request->student_id }}"
+                        placeholder="Enter Student ID"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                </div>
+                <div>
                     <button type="submit" class="block mt-6 w-full bg-[#7D3C98] text-white font-bold text-xs lg:text-sm py-3 px-4 rounded-lg transition">
                         Search
                     </button>
@@ -53,21 +59,34 @@
                         <th class="border border-gray-300 px-2 py-2">Name</th>
                         <th class="border border-gray-300 px-4 py-2 min-w-[150px]">Email</th>
                         <th class="border border-gray-300 px-4 py-2 min-w-[100px]">Role</th>
+                        <th class="border border-gray-300 px-2 py-2 min-w-[100px]">Student ID</th>
+                        <th class="border border-gray-300 px-2 py-2 min-w-[100px]">Line ID</th>
+
                         <!-- <th class="border border-gray-300 px-2 py-2">Phone Number</th> -->
                         <th class="border border-gray-300 px-2 py-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $user)
+                    @foreach ($users->sortBy('id') as $user)
                         <tr class="text-[10px] lg:text-base hover:bg-gray-100 transition-colors duration-200">
                             <td class="border border-gray-300 px-2 py-2 text-center">{{ $user->id }}</td>
                             <td class="border border-gray-300 px-2 py-2 text-center">{{ $user->name }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $user->email }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $user->role }}</td>
+                            <td class="border border-gray-300 px-2 py-2 text-center"> 
+                                @if($user->role === 'student')
+                                    {{ $user->students->first()->student_id ?? 'N/A' }}
+                                @elseif($user->role === 'mentor')
+                                    {{ $user->mentors->first()->mentor_id ?? 'N/A' }}
+                                @elseif($user->role === 'team_leader')
+                                    {{ $user->teamLeaders->first()->team_leader_id ?? 'N/A' }}
+                                @elseif($user->role === 'admin')
+                                    {{ $user->admins->first()->admin_id ?? 'N/A' }}
+                                    
+                                @endif
+                            </td>
+                            <td class="border border-gray-300 px-2 py-2 text-center"> {{ $user->line_id ?? 'N/A' }} </td>
                                 
-                                
-                            <!-- <td class="border border-gray-300 px-2 py-2 text-center">
-                                {{ $teamLeader->user->phone_number ?? 'N/A' }}</td> -->
                             <td class="border border-gray-300 px-2 py-2 text-center">
                                 <form method="POST"
                                     action="{{ route('admin.users.delete', $user->id) }}"
