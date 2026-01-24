@@ -44,7 +44,7 @@ class TeamLeaderTimetableController extends Controller
             '09:00-11:00' => 2,
             '11:00-13:00' => 8,
             '13:00-15:00' => 9,
-            '15:00-17:00' => 8,
+            '15:00-17:00' => 9,
             //'17:00-20:00' => 3, add this on main semesters
         ];
 
@@ -73,7 +73,7 @@ class TeamLeaderTimetableController extends Controller
             '09:00-11:00' => 2,
             '11:00-13:00' => 8,
             '13:00-15:00' => 9,
-            '15:00-17:00' => 8,
+            '15:00-17:00' => 9,
         ];
 
         // Filtered Search Result
