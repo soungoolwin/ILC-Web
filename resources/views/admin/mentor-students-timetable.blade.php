@@ -1,5 +1,6 @@
 <x-layout>
-    <div class="w-full bg-white shadow-md rounded-lg p-6 mt-6">
+    <div class="min-h-screen bg-gray-50 py-4 px-4 sm:px-6 lg:px-8">
+    <div class="w-full mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Mentor-Student Timetable</h2>
 
         <!-- Search Form -->
@@ -107,4 +108,5 @@
             <p class="text-center text-gray-600">No records found for the selected criteria.</p>
         @endif
     </div>
+</div>
 </x-layout>
