@@ -63,7 +63,7 @@
                         <div id="signupDropdown"
                             class="absolute z-10 mt-2 hidden w-44 origin-top-right bottom-7 rounded-md bg-white shadow-lg -right-10">
                             <a href="/register/student"
-                                class="block px-4 py-2 text-sm text-[#7c369a] hover:text-purple-700 hover:bg-gray-50 hidden">
+                                class="block px-4 py-2 text-sm text-[#7c369a] hover:text-purple-700 hover:bg-gray-50">
                                 Student
                             </a>
                             <a href="/register/mentor"
