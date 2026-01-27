@@ -101,7 +101,7 @@
 
     timeSelect.addEventListener('change', function () {
         const selectedTime = this.value;
-        let tableCount = 10;
+        let tableCount = 12;
 
         // Show only different table amounts based on time slot
         if (selectedTime === '09:00-09:30' || selectedTime === '09:30-10:00' || selectedTime === '10:00-10:30' || selectedTime === '10:30-11:00') {
@@ -109,7 +109,7 @@
         }
 
         if (selectedTime === '15:00-15:30' || selectedTime === '15:30-16:00' || selectedTime === '16:00-16:30' || selectedTime === '16:30-17:00') {
-            tableCount = 5;
+            tableCount = 7;
         }
 
         // Clear current options
