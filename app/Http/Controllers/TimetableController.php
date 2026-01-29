@@ -37,7 +37,7 @@ class TimetableController extends Controller
     $request->validate([
         'day'          => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
         'time_slot'    => 'required|string|regex:/^\d{2}:\d{2}-\d{2}:\d{2}$/', // Format: HH:MM-HH:MM
-        'table_number' => 'required|integer|min:1|max:25',
+        'table_number' => 'required|integer|min:1|max:30',
     ]);
 
     // Split the one-hour time slot into two 30-minute slots
@@ -137,7 +137,7 @@ class TimetableController extends Controller
         $request->validate([
             'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
             'time_slot' => 'required|in:09:00-10:00,10:00-11:00,11:00-12:00,12:00-13:00,13:00-14:00,14:00-15:00,15:00-16:00,16:00-17:00,17:00-18:00,18:00-19:00,19:00-20:00',
-            'table_number' => 'required|integer|between:1,25',
+            'table_number' => 'required|integer|between:1,30', // update maximum acceptablt table number here
         ]);
 
         // Split the one-hour time slot into two 30-minute slots
@@ -199,15 +199,21 @@ class TimetableController extends Controller
         ];
 
         // table count filters based on time slots -> for availability view
-        $tables = range(1, 16);
+        $tables = range(1, 30);
         if (in_array($request->time_slot, ['16:00-17:00', '17:00-18:00', '18:00-19:00', '19:00-20:00'])) {
-            $tables = range(1, 5);
+            $tables = range(1, 7);
         }
         if (in_array($request->time_slot, ['09:00-10:00', '10:00-11:00'])) {
             $tables = range(1, 2);
         }
         if (in_array($request->time_slot, ['11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00'])) {
-            $tables = range(1, 10);
+            $tables = range(1, 12);
+        }
+        if (in_array($request->day, ['Tuesday']) && in_array($request->time_slot, ['13:00-14:00', '14:00-15:00'])) {
+            $tables = range(1, 30);
+        }
+        if (in_array($request->day, ['Wednesday']) && in_array($request->time_slot, ['12:00-13:00','14:00-15:00','15:00-16:00'])) {
+            $tables = range(1, 30);
         }
 
         // Fetch reserved timetables with mentor_id
