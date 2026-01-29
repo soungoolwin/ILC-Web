@@ -69,11 +69,11 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Table</option>
-                    @foreach (range(1, 10) as $table) <!-- Changed to 10 tables for students - Dennis -->
+                    @foreach (range(1, 12) as $table) <!-- Changed to 12 tables for students - Dennis -->
                         <option value="{{ $table }}">Table {{ $table }}</option>
                     @endforeach
                 </select>
-            </div>
+</div>
 
             <!-- Submit Button -->
 
@@ -98,12 +98,14 @@
 <script>
     const tableSelect = document.getElementById('table_number');
     const timeSelect = document.getElementById('time_slot');
+    const dateSelect = document.getElementById('day');
 
-    timeSelect.addEventListener('change', function () {
-        const selectedTime = this.value;
+    function updateTableOptions() {
+        const selectedTime = timeSelect.value;
+        const selectedDay = dateSelect.value;
         let tableCount = 12;
 
-        // Show only different table amounts based on time slot
+        // Show only 2 tables for 09:00-09:30, 9:30-10:00, 10:00-10:30, and 10:30-11:00
         if (selectedTime === '09:00-09:30' || selectedTime === '09:30-10:00' || selectedTime === '10:00-10:30' || selectedTime === '10:30-11:00') {
             tableCount = 2;
         }
@@ -111,6 +113,16 @@
         if (selectedTime === '15:00-15:30' || selectedTime === '15:30-16:00' || selectedTime === '16:00-16:30' || selectedTime === '16:30-17:00') {
             tableCount = 7;
         }
+
+        if (selectedDay === 'Tuesday' && (selectedTime === '14:00-14:30' || selectedTime === '14:30-15:00')) {
+            tableCount = 30;
+        }
+
+        if (selectedDay === 'Wednesday' && (selectedTime === '12:00-12:30' || selectedTime === '14:00-14:30' || selectedTime === '15:00-15:30' || selectedTime === '15:30-16:00')) {
+            tableCount = 30;
+        }
+
+
 
         // Clear current options
         tableSelect.innerHTML = '<option value="">Select a Table</option>';
@@ -122,5 +134,10 @@
             option.textContent = 'Table ' + i;
             tableSelect.appendChild(option);
         }
-    });
+    }
+
+    // Attach the shared function to BOTH event listeners
+    timeSelect.addEventListener('change', updateTableOptions); 
+    dateSelect.addEventListener('change', updateTableOptions); // New: Triggers update when day changes
 </script>
+

@@ -67,7 +67,7 @@
                 <label for="table_number" class="block text-sm font-semibold text-gray-600 mb-1">Table Number</label>
                 <select name="table_number" id="table_number"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                    @for ($i = 1; $i <= 5; $i++)
+                    @for ($i = 1; $i <= 12; $i++)
                         <option value="{{ $i }}" {{ $timetable->table_number == $i ? 'selected' : '' }}>
                             Table {{ $i }}
                         </option>
@@ -85,13 +85,16 @@
     </div>
 </x-layout>
 
-<!-- JavaScript to dynamically change table options based on time slot selection -->
+<!-- JavaScript to dynamically change table options based on time slot -->
 <script>
     const tableSelect = document.getElementById('table_number');
     const timeSelect = document.getElementById('time_slot');
+    const dateSelect = document.getElementById('day');
 
-    timeSelect.addEventListener('change', function () {
-        const selectedTime = this.value;
+    // Create a shared function to handle updates from either input
+    function updateTableOptions() { 
+        const selectedTime = timeSelect.value; // Updated: Access value directly instead of 'this'
+        const selectedDay = dateSelect.value;  // Updated: Access value directly
         let tableCount = 12;
 
         // Show only 2 tables for 09:00-10:00 and 10:00-11:00
@@ -101,6 +104,14 @@
 
         if (selectedTime === '15:00-16:00' || selectedTime === '16:00-17:00') {
             tableCount = 7;
+        }
+
+        if (selectedDay === 'Tuesday' && (selectedTime === '14:00-15:00')) {
+            tableCount = 30;
+        }
+
+        if (selectedDay === 'Wednesday' && (selectedTime === '12:00-13:00' || selectedTime === '14:00-15:00' || selectedTime === '15:00-16:00')) {
+            tableCount = 30;
         }
 
         // Clear current options
@@ -113,5 +124,9 @@
             option.textContent = 'Table ' + i;
             tableSelect.appendChild(option);
         }
-    });
+    }
+
+    // Attach the shared function to BOTH event listeners
+    timeSelect.addEventListener('change', updateTableOptions); 
+    dateSelect.addEventListener('change', updateTableOptions); // New: Triggers update when day changes
 </script>

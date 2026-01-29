@@ -27,7 +27,7 @@
     <select name="table_number" id="table_number"
         class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
         <option value="">All Tables</option>
-        @foreach (range(1, 16) as $table)
+        @foreach (range(1, 12) as $table)
             <option value="{{ $table }}" {{ (int) request('table_number') === $table ? 'selected' : '' }}>
                 {{ $table }}
             </option>
@@ -116,9 +116,11 @@
 <script>
     const tableSelect = document.getElementById('table_number');
     const timeSelect = document.getElementById('time_slot');
+    const dateSelect = document.getElementById('day');
 
-    timeSelect.addEventListener('change', function () {
-        const selectedTime = this.value;
+    function updateTableOptions() {
+        const selectedTime = timeSelect.value;
+        const selectedDay = dateSelect.value;
         let tableCount = 12;
 
         // Show only 2 tables for 09:00-09:30, 9:30-10:00, 10:00-10:30, and 10:30-11:00
@@ -130,6 +132,16 @@
             tableCount = 7;
         }
 
+        if (selectedDay === 'Tuesday' && (selectedTime === '14:00-14:30' || selectedTime === '14:30-15:00')) {
+            tableCount = 30;
+        }
+
+        if (selectedDay === 'Wednesday' && (selectedTime === '12:00-12:30' || selectedTime === '14:00-14:30' || selectedTime === '15:00-15:30' || selectedTime === '15:30-16:00')) {
+            tableCount = 30;
+        }
+
+
+
         // Clear current options
         tableSelect.innerHTML = '<option value="">Select a Table</option>';
 
@@ -140,5 +152,9 @@
             option.textContent = 'Table ' + i;
             tableSelect.appendChild(option);
         }
-    });
+    }
+
+    // Attach the shared function to BOTH event listeners
+    timeSelect.addEventListener('change', updateTableOptions); 
+    dateSelect.addEventListener('change', updateTableOptions); // New: Triggers update when day changes
 </script>

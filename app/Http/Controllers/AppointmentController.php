@@ -30,7 +30,7 @@ class AppointmentController extends Controller
             'week_number' => 'required|integer|min:1|max:16',
             'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
             'time_slot' => 'required|string|regex:/^\d{2}:\d{2}-\d{2}:\d{2}$/', // Format: HH:MM-HH:MM
-            'table_number' => 'required|integer|min:1|max:25',
+            'table_number' => 'required|integer|min:1|max:30',
         ]);
 
         //only 4 appointments per week
@@ -120,7 +120,7 @@ class AppointmentController extends Controller
             'week_number' => 'required|integer|min:1|max:16',
             'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
             'time_slot' => 'required|string|regex:/^\d{2}:\d{2}-\d{2}:\d{2}$/',
-            'table_number' => 'required|integer|min:1|max:25',
+            'table_number' => 'required|integer|min:1|max:30',
         ]);
 
             $weeklyCount = Appointment::where('student_id', $student->id)
