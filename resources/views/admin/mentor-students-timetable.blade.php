@@ -57,7 +57,7 @@
 
             
         </form>
-
+        
         <!-- Display Mentor-Student Timetables -->
         @if ($timetables->count() > 0)
         <div class="w-full flex justify-center items-center mx-auto" >
@@ -67,24 +67,29 @@
                         <th class="border border-gray-300 px-2 py-2">Week</th>
                         <th class="border border-gray-300 px-2 py-2">Day</th>
                         <th class="border border-gray-300 px-4 py-2">Time Slot</th>
-                        <th class="border border-gray-300 px-4 py-2 max-w-[80px]">Mentor</th>
+                        <th class="border border-gray-300 px-2 py-2 max-w-xs">Table No.</th>
+                        <th class="border border-gray-300 px-2 py-2">Mentor</th>
+                        <th class="border border-gray-300 px-2 py-2">Mentor Student ID</th>
                         <th class="border border-gray-300 px-8 py-2 min-w-[150px]">Students</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($timetables as $timetable)
+                    @foreach ($timetables as $timetable )
                         <tr class="text-[10px] lg:text-base hover:bg-gray-100 transition-colors duration-200">
                             <td class="border border-gray-300 px-2 py-2 text-center">{{ $timetable->week_number }}</td>
                             <td class="border border-gray-300 px-2 py-2 text-center">{{ $timetable->day }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->time_slot }}</td>
-                            <td class="border border-gray-300 px-4 py-2 max-w-[80px] text-center">
+                            <td class="border border-gray-300 px-2 py-2 text-center max-w-xs">{{ $timetable->table_number }}</td>
+                            <td class="border border-gray-300 px-2 py-2 text-center">
                                 <a href="{{ route('admin.mentors.show', $timetable->mentor->id) }}"
                                     class="text-black hover:underline hover:font-bold">
                                     {{ $timetable->mentor->user->name ?? 'N/A' }}
                                     ({{ $timetable->mentor->user->line_id ?? 'N/A' }})
                                 </a>
                             </td>
-                            <td class="border border-gray-300 px-8py-2 text-center text-[10px] lg:text-base">
+                            <td class="border border-gray-300 px-2 py-2 text-center">{{ $timetable->mentor->mentor_id ?? 'N/A' }}</td>
+
+                            <td class="border border-gray-300 px-8 py-2 text-center text-[10px] lg:text-base">
                                 @if ($timetable->appointments->isEmpty())
                                     <span>N/A</span>
                                 @else
