@@ -177,6 +177,7 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 
     Route::get('/admin/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
     Route::post('/admin/attendance/preview', [AttendanceController::class, 'preview'])->name('admin.attendance.preview');
+    Route::post('/admin/attendance/store', [AttendanceController::class, 'store'])->name('admin.attendance.store');
 
 
 });

@@ -3,6 +3,15 @@
     <div class="max-w-7xl mx-auto p-6">
         <h1 class="text-2xl font-bold mb-6 no-print">Attendance Results</h1>
 
+        <form action="{{ route('admin.attendance.store') }}" method="POST">
+                @csrf
+                {{-- Send the raw data as a JSON string --}}
+                <input type="hidden" name="attendance_data" value="{{ json_encode($rawAttendance) }}">
+                <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-700 transition shadow-md">
+                    Store Attendance to Database
+                </button>
+        </form>
+
         @forelse($grouped as $course => $ajarns)
             {{-- 2. Add an ID to the main course container --}}
             <div id="course-{{ $loop->index }}" class="mb-8 border rounded-lg shadow-sm bg-white">
