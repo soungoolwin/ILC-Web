@@ -211,6 +211,10 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     Route::get('/team-leader/mentors/{id}', [MentorController::class, 'teamLeaderShow'])->name('team_leader.mentors.show');
 });
 
+Route:: get('test', function () {
+    return view('test');
+})->name('test');
+
 Route::get('/components/newsletter', function () {
     return view('components.newsletter');
 })->name('newsletter');
