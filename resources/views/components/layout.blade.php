@@ -562,10 +562,10 @@
                     class="bg-slate-900 px-24 py-12 text-center text-xs text-white lg:px-48 lg:py-16 lg:text-sm"
                 >
                     <div
-                        class="grid grid-cols-4 items-center justify-start gap-4 border-b border-gray-700 pb-8 text-left lg:gap-4"
+                        class="grid grid-cols-4 items-center justify-start gap-6 border-b border-gray-700 pb-8 text-left lg:gap-4"
                     >
                         <div
-                            class="items-left flex min-h-[150px] max-w-sm flex-col gap-2 text-left"
+                            class="items-left mr-6 flex min-h-[150px] max-w-sm flex-col gap-2 text-left"
                         >
                             <div class="flex items-center gap-2">
                                 <img
@@ -601,38 +601,38 @@
                                 Quick Links
                             </h1>
                             <ul
-                                class="text-xs font-light text-gray-400 lg:text-sm"
+                                class="font-ligh text-xs text-gray-400 lg:text-sm"
                             >
-                                <li>
+                                <li class="mt-2">
                                     <a
                                         href=""
-                                        class="mt-2 hover:text-gray-300 hover:underline"
+                                        class="hover:text-gray-300 hover:underline"
                                     >
                                         About Us
                                     </a>
                                 </li>
-                                <li>
+                                <li class="mt-2">
                                     <a
                                         href=""
-                                        class="mt-2 hover:text-gray-300 hover:underline"
+                                        class="hover:text-gray-300 hover:underline"
                                     >
                                         Mentorship Program
                                     </a>
                                 </li>
-                                <li>
+                                <li class="mt-2">
                                     <a
                                         href=""
-                                        class="mt-2 hover:text-gray-300 hover:underline"
+                                        class="hover:text-gray-300 hover:underline"
                                     >
-                                        Address
+                                        Volunteer Opportunities
                                     </a>
                                 </li>
-                                <li>
+                                <li class="mt-2">
                                     <a
                                         href=""
-                                        class="mt-2 hover:text-gray-300 hover:underline"
+                                        class="hover:text-gray-300 hover:underline"
                                     >
-                                        Social Media
+                                        Resource Portal
                                     </a>
                                 </li>
                             </ul>
@@ -648,34 +648,34 @@
                             <ul
                                 class="text-xs font-light text-gray-400 lg:text-sm"
                             >
-                                <li>
+                                <li class="mt-2">
                                     <a
                                         href=""
-                                        class="mt-3 hover:text-gray-300 hover:underline"
+                                        class="hover:text-gray-300 hover:underline"
                                     >
                                         Undergraduate Mentoring
                                     </a>
                                 </li>
-                                <li>
+                                <li class="mt-2">
                                     <a
                                         href=""
-                                        class="mt-3 hover:text-gray-300 hover:underline"
+                                        class="hover:text-gray-300 hover:underline"
                                     >
                                         International Exchange
                                     </a>
                                 </li>
-                                <li>
+                                <li class="mt-2">
                                     <a
                                         href=""
-                                        class="mt-3 hover:text-gray-300 hover:underline"
+                                        class="hover:text-gray-300 hover:underline"
                                     >
                                         Become a Team Leader
                                     </a>
                                 </li>
-                                <li>
+                                <li class="mt-2">
                                     <a
                                         href=""
-                                        class="mt-3 hover:text-gray-300 hover:underline"
+                                        class="hover:text-gray-300 hover:underline"
                                     >
                                         Language Workshops
                                     </a>
@@ -693,9 +693,9 @@
                             <ul
                                 class="text-xs font-light text-gray-400 lg:text-sm"
                             >
-                                <li>Email: rsuip@rsu.ac.th</li>
-                                <li>Phone: +66 1234 5678</li>
-                                <li>
+                                <li class="mt-2">Email: rsuip@rsu.ac.th</li>
+                                <li class="mt-2">Phone: +66 1234 5678</li>
+                                <li class="mt-2">
                                     Address: 52/347, Mueang Ek, Pathum Thani
                                     12000, Thailand
                                 </li>

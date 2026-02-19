@@ -47,7 +47,7 @@
 
                     <div class="flex flex-wrap gap-4">
                         <a
-                            href="#join"
+                            href="{{ route('register.mentor') }}"
                             class="rounded-md bg-[#7D3C98] px-8 py-3 font-medium text-white shadow-lg shadow-purple-900/20 transition-all hover:bg-[#7D3C98]"
                         >
                             Join Mentorship
@@ -185,14 +185,14 @@
             </p>
             <div class="flex flex-wrap justify-center gap-4">
                 <a
-                    href="#join"
-                    class="rounded-md  bg-white px-8 py-3 font-medium text-[#7D3C98] shadow-lg shadow-purple-900/20 transition-all "
+                    href="{{ route('register.mentor') }}"
+                    class="rounded-md  bg-white px-8 py-3 font-medium text-[#7D3C98] shadow-md hover:opacity-90 transition-all "
                 >
                     Join Mentorship
                 </a>
                 <a
                     href="#about"
-                    class="rounded-md border border-gray-100 px-8 py-3 font-medium text-white backdrop-blur-sm transition-all"
+                    class="rounded-md border border-gray-100 px-8 py-3 font-medium text-white hover:bg-white/10 backdrop-blur-sm transition-all"
                 >
                     Contact Us
                 </a>
