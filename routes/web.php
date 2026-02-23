@@ -15,6 +15,7 @@ use App\Http\Controllers\StudentFormController;
 use App\Http\Controllers\MentorFormController;
 use App\Http\Controllers\AdminFileUploadLinkController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\GuestPageController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -23,8 +24,9 @@ use App\Http\Middleware\TeamLeaderMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('test');
+    return view('guest');
 });
+Route::get('/', [GuestPageController::class, 'showStats'])->name('guest');
 
 // Authentication Routes
 Route::middleware(RedirectIfAuthenticated::class)->group(function () {
@@ -211,9 +213,8 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     Route::get('/team-leader/mentors/{id}', [MentorController::class, 'teamLeaderShow'])->name('team_leader.mentors.show');
 });
 
-Route:: get('test', function () {
-    return view('test');
-})->name('test');
+//Guest Page Route
+
 
 Route::get('/components/newsletter', function () {
     return view('components.newsletter');

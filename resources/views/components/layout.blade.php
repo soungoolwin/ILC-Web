@@ -284,7 +284,7 @@
                                 </button>
                                 <div
                                     id="dropdownMenu"
-                                    class="absolute right-20 top-[110px] z-10 mt-2 hidden w-48 w-fit rounded-md border border-gray-300 bg-white text-xs shadow-xl lg:right-40 lg:top-[130px] lg:text-sm"
+                                    class="absolute right-20 top-[75px] z-10 mt-2 hidden w-48 w-fit rounded-md border border-gray-300 bg-white text-xs shadow-xl lg:right-40 lg:top-[75px] lg:text-sm"
                                 >
                                     <a
                                         href="{{ route("team_leader.view_timetables") }}"
@@ -559,13 +559,13 @@
             <!-- Footer -->
             @if (! Request::is("login") && ! Request::is("register/student") && ! Request::is("register/mentor") && ! Request::is("register/team-leader"))
                 <footer
-                    class="bg-slate-900 px-24 py-12 text-center text-xs text-white lg:px-48 lg:py-16 lg:text-sm"
+                    class="bg-slate-900 px-2 py-4 text-center text-xs text-white lg:px-24 lg:py-12 lg:text-sm"
                 >
                     <div
-                        class="grid grid-cols-4 items-center justify-start gap-6 border-b border-gray-700 pb-8 text-left lg:gap-4"
+                        class="grid grid-cols-1 items-center justify-start gap-8 border-b border-gray-700 pb-8 text-left lg:grid-cols-4 lg:gap-4"
                     >
                         <div
-                            class="items-left mr-6 flex min-h-[150px] max-w-sm flex-col gap-2 text-left"
+                            class="items-left mr-2 flex max-w-sm flex-col gap-4 text-left lg:mr-6 lg:min-h-[150px] lg:gap-6"
                         >
                             <div class="flex items-center gap-2">
                                 <img
@@ -593,7 +593,7 @@
                             </p>
                         </div>
                         <div
-                            class="items-left flex min-h-[150px] flex-col justify-start gap-1 text-left"
+                            class="items-left flex flex-col justify-start gap-1 text-left lg:min-h-[150px]"
                         >
                             <h1
                                 class="text-sm font-bold tracking-wider text-white md:text-base lg:text-lg"
@@ -638,7 +638,7 @@
                             </ul>
                         </div>
                         <div
-                            class="items-left flex min-h-[150px] flex-col justify-start gap-1 text-left"
+                            class="items-left flex flex-col justify-start gap-1 text-left lg:min-h-[150px]"
                         >
                             <h1
                                 class="text-sm font-bold tracking-wider text-white md:text-base lg:text-lg"
@@ -683,7 +683,7 @@
                             </ul>
                         </div>
                         <div
-                            class="items-left flex min-h-[150px] flex-col justify-start gap-1 text-left"
+                            class="items-left flex flex-col justify-start gap-1 text-left lg:min-h-[150px]"
                         >
                             <h1
                                 class="text-sm font-bold tracking-wider text-white md:text-base lg:text-lg"
@@ -703,7 +703,7 @@
                         </div>
                     </div>
                     <p
-                        class="pt-8 text-left text-xs font-light text-gray-400 lg:text-sm"
+                        class="py-2 text-left text-xs font-light text-gray-400 lg:py-8 lg:text-sm"
                     >
                         &copy; 2026 RSUGlobal!
                         <br />

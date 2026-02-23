@@ -4,6 +4,14 @@
             RSUGlobal! Portal
         </h1>
     </header>
+    <nav class="flex w-full justify-start px-4 py-2">
+        <a
+            href="{{ route("guest") }}"
+            class="px-4 py-4 text-sm text-gray-600 hover:underline"
+        >
+            < Go back to Home
+        </a>
+    </nav>
     <body class="flex flex-col items-center justify-evenly">
         <div
             class="mx-auto mb-3 mt-2 flex flex-col items-center justify-center rounded-lg bg-purple-100 p-4 px-2 shadow-md sm:w-full lg:w-3/4"
