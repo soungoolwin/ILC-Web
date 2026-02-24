@@ -498,7 +498,7 @@
                     @elseif (Request::is("login") || Request::is("register/student") || Request::is("register/mentor") || Request::is("register/team-leader"))
                         <div>
                             <a
-                                href="{{ route("test") }}"
+                                href="{{ route("guest") }}"
                                 class="nav-link inline-flex items-center rounded-md border-[1.5px] border-[#7D3C98] bg-[#7D3C98] px-2 py-1 text-white lg:px-4 lg:py-2"
                             >
                                 Home
