@@ -438,7 +438,7 @@
                                         Analytics
                                     </p>
                                     <a
-                                        href=""
+                                        href="{{ route('admin.database_analytics') }}"
                                         class="block px-2 py-2 text-xs text-green-600 hover:bg-gray-100"
                                     >
                                         Database Analytics

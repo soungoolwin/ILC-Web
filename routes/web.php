@@ -180,6 +180,8 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::get('/admin/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
     Route::post('/admin/attendance/preview', [AttendanceController::class, 'preview'])->name('admin.attendance.preview');
 
+    Route::get('/admin/database-analytics', [AdminController::class, 'databaseAnalytics'])->name('admin.database_analytics');
+
 
 });
 

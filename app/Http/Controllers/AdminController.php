@@ -203,4 +203,9 @@ class AdminController extends Controller
 
         return redirect()->route('admin.users.index')->with('success', "'{$user->name}'  'Email - {$user->email}' was deleted successfully!");
     }
+
+    public function databaseAnalytics()
+    {
+        return view('admin.databaseAnalytics');
+    }
 }
