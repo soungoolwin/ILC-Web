@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminAnalyticController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MentorController;
@@ -180,7 +181,7 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::get('/admin/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
     Route::post('/admin/attendance/preview', [AttendanceController::class, 'preview'])->name('admin.attendance.preview');
 
-    Route::get('/admin/database-analytics', [AdminController::class, 'databaseAnalytics'])->name('admin.database_analytics');
+    Route::get('/admin/database-analytics', [AdminAnalyticController::class, 'index'])->name('admin.database_analytics');
 
 
 });
