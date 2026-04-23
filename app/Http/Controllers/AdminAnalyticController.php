@@ -189,6 +189,30 @@ class AdminAnalyticController extends Controller
             ->map(fn ($day) => (int) ($teamLeaderTimetableCountsByDay[$day]->total ?? 0))
             ->all();
 
+        $appointmentHeatmap = $this->appointmentHeatmap($days);
+        $capacityByWeek = $this->capacityByWeek($appointmentRowsByWeek);
+        $overbookedTimetables = $this->overbookedTimetables();
+        $studentBookingDistribution = $this->studentBookingDistribution();
+        $mentorCapacityRows = $this->mentorCapacityRows();
+        $mentorFillRows = $mentorCapacityRows->sortByDesc('fill_rate')->take(10)->values();
+        $mentorTimetableRows = $mentorCapacityRows->sortByDesc('timetable_count')->take(10)->values();
+        $mentorFillLabels = $this->labelsOrFallback($mentorFillRows->pluck('name'), 'No mentor data');
+        $mentorFillData = $this->valuesOrFallback($mentorFillRows->pluck('fill_rate'));
+        $mentorTimetableLabels = $this->labelsOrFallback($mentorTimetableRows->pluck('name'), 'No mentor data');
+        $mentorTimetableData = $this->valuesOrFallback($mentorTimetableRows->pluck('timetable_count'));
+        $mentorStatusByFaculty = $this->mentorStatusBreakdown('faculty');
+        $mentorStatusByLanguage = $this->mentorStatusBreakdown('language');
+        $mentorStatusByLevel = $this->mentorStatusBreakdown('level');
+        $studentFacultyRows = $this->profileDimensionRows('student', 'faculty');
+        $studentLanguageRows = $this->profileDimensionRows('student', 'language');
+        $studentLevelRows = $this->profileDimensionRows('student', 'level');
+        $studentParticipation = $this->studentAppointmentParticipation();
+        $topStudentRows = $this->topStudentRows();
+        $mandatoryFormStats = $this->mandatoryFormStats();
+        $formCompletionTrend = $this->formCompletionTrend();
+        $teamLeaderSlotHeatmap = $this->teamLeaderSlotHeatmap();
+        $teamLeaderReservationStats = $this->teamLeaderReservationStats();
+
         $charts = [
             'roleDistribution' => (new LarapexChart)->donutChart()
                 ->setTitle('User Distribution')
@@ -353,7 +377,194 @@ class AdminAnalyticController extends Controller
                 ->setGrid('#e5e7eb', 0.45, 4)
                 ->setColors(['#16a34a'])
                 ->setDataLabels(),
+
+            'appointmentHeatmap' => (new LarapexChart)->heatMapChart()
+                ->setTitle('Appointments by Weekday and Time')
+                ->setSubtitle('Booked sessions by day and timetable slot')
+                ->setXAxis($appointmentHeatmap['labels'])
+                ->setDataset($appointmentHeatmap['series'])
+                ->setHeight(340)
+                ->setColors(['#0ea5e9']),
+
+            'capacityUsageByWeek' => (new LarapexChart)->barChart()
+                ->setTitle('Capacity Usage by Week')
+                ->setSubtitle('Booked appointments compared with available timetable capacity')
+                ->addData($capacityByWeek['booked'], 'Booked')
+                ->addData($capacityByWeek['capacity'], 'Capacity')
+                ->setXAxis($weekLabels)
+                ->setHeight(320)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#0ea5e9', '#94a3b8']),
+
+            'overbookedTimetables' => (new LarapexChart)->horizontalBarChart()
+                ->setTitle('Overbooked Timetables')
+                ->setSubtitle('Slots with more than 5 booked appointments')
+                ->addData($overbookedTimetables['data'], 'Appointments')
+                ->setXAxis($overbookedTimetables['labels'])
+                ->setHeight(340)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#ef4444'])
+                ->setDataLabels(),
+
+            'studentBookingDistribution' => (new LarapexChart)->donutChart()
+                ->setTitle('Student Booking Distribution')
+                ->setSubtitle('Students grouped by appointment count')
+                ->setLabels($studentBookingDistribution['labels'])
+                ->addData($studentBookingDistribution['data'])
+                ->setHeight(300)
+                ->setColors(['#94a3b8', '#0ea5e9', '#14b8a6', '#f59e0b', '#ef4444']),
+
+            'mentorFillRate' => (new LarapexChart)->horizontalBarChart()
+                ->setTitle('Mentor Fill Rate')
+                ->setSubtitle('Appointments booked as a percentage of mentor capacity')
+                ->addData($mentorFillData, 'Fill %')
+                ->setXAxis($mentorFillLabels)
+                ->setHeight(340)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#16a34a'])
+                ->setDataLabels(),
+
+            'mentorTimetableCount' => (new LarapexChart)->horizontalBarChart()
+                ->setTitle('Mentor Timetable Count')
+                ->setSubtitle('Mentors with the most created timetable slots')
+                ->addData($mentorTimetableData, 'Slots')
+                ->setXAxis($mentorTimetableLabels)
+                ->setHeight(340)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#0ea5e9'])
+                ->setDataLabels(),
+
+            'mentorStatusByFaculty' => (new LarapexChart)->barChart()
+                ->setTitle('Mentor Status by Faculty')
+                ->setSubtitle('Active, paused, and suspended mentors by faculty')
+                ->setStacked(true)
+                ->setDataset($mentorStatusByFaculty['series'])
+                ->setXAxis($mentorStatusByFaculty['labels'])
+                ->setHeight(320)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#16a34a', '#f59e0b', '#ef4444']),
+
+            'mentorStatusByLanguage' => (new LarapexChart)->barChart()
+                ->setTitle('Mentor Status by Language')
+                ->setSubtitle('Active, paused, and suspended mentors by language')
+                ->setStacked(true)
+                ->setDataset($mentorStatusByLanguage['series'])
+                ->setXAxis($mentorStatusByLanguage['labels'])
+                ->setHeight(320)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#16a34a', '#f59e0b', '#ef4444']),
+
+            'mentorStatusByLevel' => (new LarapexChart)->barChart()
+                ->setTitle('Mentor Status by Level')
+                ->setSubtitle('Active, paused, and suspended mentors by level')
+                ->setStacked(true)
+                ->setDataset($mentorStatusByLevel['series'])
+                ->setXAxis($mentorStatusByLevel['labels'])
+                ->setHeight(320)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#16a34a', '#f59e0b', '#ef4444']),
+
+            'studentsByFaculty' => (new LarapexChart)->barChart()
+                ->setTitle('Students by Faculty')
+                ->setSubtitle('Student accounts grouped by recorded faculty')
+                ->addData($this->valuesOrFallback($studentFacultyRows->pluck('total')), 'Students')
+                ->setXAxis($this->labelsOrFallback($studentFacultyRows->pluck('label'), 'No faculty data'))
+                ->setHeight(300)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#2563eb'])
+                ->setDataLabels(),
+
+            'studentsByLanguage' => (new LarapexChart)->barChart()
+                ->setTitle('Students by Language')
+                ->setSubtitle('Student accounts grouped by recorded language')
+                ->addData($this->valuesOrFallback($studentLanguageRows->pluck('total')), 'Students')
+                ->setXAxis($this->labelsOrFallback($studentLanguageRows->pluck('label'), 'No language data'))
+                ->setHeight(300)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#14b8a6'])
+                ->setDataLabels(),
+
+            'studentsByLevel' => (new LarapexChart)->barChart()
+                ->setTitle('Students by Level')
+                ->setSubtitle('Student accounts grouped by recorded level')
+                ->addData($this->valuesOrFallback($studentLevelRows->pluck('total')), 'Students')
+                ->setXAxis($this->labelsOrFallback($studentLevelRows->pluck('label'), 'No level data'))
+                ->setHeight(300)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#7c3aed'])
+                ->setDataLabels(),
+
+            'studentAppointmentParticipation' => (new LarapexChart)->donutChart()
+                ->setTitle('Student Appointment Participation')
+                ->setSubtitle('Students with at least one appointment compared with students without bookings')
+                ->setLabels($studentParticipation['labels'])
+                ->addData($studentParticipation['data'])
+                ->setHeight(300)
+                ->setColors(['#16a34a', '#94a3b8']),
+
+            'topStudentsByAppointmentCount' => (new LarapexChart)->horizontalBarChart()
+                ->setTitle('Top Students by Appointment Count')
+                ->setSubtitle('Most active students by booked appointment count')
+                ->addData($this->valuesOrFallback($topStudentRows->pluck('appointment_count')), 'Appointments')
+                ->setXAxis($this->labelsOrFallback($topStudentRows->pluck('name'), 'No student bookings'))
+                ->setHeight(340)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#f59e0b'])
+                ->setDataLabels(),
+
+            'mandatoryFormCompletionRate' => (new LarapexChart)->barChart()
+                ->setTitle('Mandatory Form Completion Rate')
+                ->setSubtitle('Completed mandatory submissions as a share of expected role/form pairs')
+                ->addData($mandatoryFormStats->pluck('percentage')->all(), 'Completion %')
+                ->setXAxis($mandatoryFormStats->pluck('label')->all())
+                ->setHeight(300)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#7c3aed'])
+                ->setDataLabels(),
+
+            'formCompletionTrend' => (new LarapexChart)->lineChart()
+                ->setTitle('Form Completion Trend')
+                ->setSubtitle('Recorded form submissions by date')
+                ->addData($formCompletionTrend['data'], 'Submissions')
+                ->setXAxis($formCompletionTrend['labels'])
+                ->setHeight(320)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setMarkers(['#0ea5e9'], 4, 6)
+                ->setStroke(3, ['#0ea5e9'], 'smooth')
+                ->setColors(['#0ea5e9']),
+
+            'incompleteMandatoryFormsByRole' => (new LarapexChart)->barChart()
+                ->setTitle('Incomplete Mandatory Forms by Role')
+                ->setSubtitle('Expected mandatory submissions that have not been completed')
+                ->addData($mandatoryFormStats->pluck('incomplete')->all(), 'Incomplete')
+                ->setXAxis($mandatoryFormStats->pluck('label')->all())
+                ->setHeight(300)
+                ->setGrid('#e5e7eb', 0.45, 4)
+                ->setColors(['#ef4444'])
+                ->setDataLabels(),
+
+            'teamLeaderSlotUsage' => (new LarapexChart)->heatMapChart()
+                ->setTitle('Team Leader Slot Usage')
+                ->setSubtitle('Team leader reservations by day and time')
+                ->setXAxis($teamLeaderSlotHeatmap['labels'])
+                ->setDataset($teamLeaderSlotHeatmap['series'])
+                ->setHeight(320)
+                ->setColors(['#f59e0b']),
+
+            'teamLeadersWithoutTimetable' => (new LarapexChart)->donutChart()
+                ->setTitle('Team Leaders Without Timetable')
+                ->setSubtitle('Reservation coverage for team leader accounts')
+                ->setLabels($teamLeaderReservationStats['labels'])
+                ->addData($teamLeaderReservationStats['data'])
+                ->setHeight(300)
+                ->setColors(['#16a34a', '#ef4444']),
         ];
+
+        $chartPicker = $this->chartPickerOptions();
+        $slideshowCharts = collect($chartPicker)
+            ->filter(fn ($option, $key) => isset($charts[$key]))
+            ->mapWithKeys(fn ($option, $key) => [$key => $this->cloneChartForSlideshow($charts[$key])])
+            ->all();
 
         $capacity = Timetable::count() * 5;
         $appointmentCount = Appointment::count();
@@ -412,8 +623,63 @@ class AdminAnalyticController extends Controller
             ],
         ];
 
+        $chartSections = [
+            [
+                'title' => 'Appointment Insights',
+                'description' => 'Booking demand, capacity, overbooking risk, and student booking patterns.',
+                'charts' => [
+                    ['key' => 'appointmentHeatmap', 'span' => 'lg:col-span-2'],
+                    ['key' => 'studentBookingDistribution'],
+                    ['key' => 'capacityUsageByWeek', 'span' => 'lg:col-span-2'],
+                    ['key' => 'overbookedTimetables'],
+                ],
+            ],
+            [
+                'title' => 'Mentor Insights',
+                'description' => 'Mentor capacity, timetable coverage, and status distribution by profile fields.',
+                'charts' => [
+                    ['key' => 'mentorFillRate'],
+                    ['key' => 'mentorTimetableCount'],
+                    ['key' => 'mentorStatusByFaculty'],
+                    ['key' => 'mentorStatusByLanguage'],
+                    ['key' => 'mentorStatusByLevel'],
+                ],
+            ],
+            [
+                'title' => 'Student Insights',
+                'description' => 'Student profile distribution, participation, and high-activity students.',
+                'charts' => [
+                    ['key' => 'studentsByFaculty'],
+                    ['key' => 'studentsByLanguage'],
+                    ['key' => 'studentsByLevel'],
+                    ['key' => 'studentAppointmentParticipation'],
+                    ['key' => 'topStudentsByAppointmentCount', 'span' => 'lg:col-span-2'],
+                ],
+            ],
+            [
+                'title' => 'Form Insights',
+                'description' => 'Mandatory form progress and submission activity over time.',
+                'charts' => [
+                    ['key' => 'mandatoryFormCompletionRate'],
+                    ['key' => 'incompleteMandatoryFormsByRole'],
+                    ['key' => 'formCompletionTrend', 'span' => 'lg:col-span-2'],
+                ],
+            ],
+            [
+                'title' => 'Team Leader Insights',
+                'description' => 'Team leader timetable coverage and reservation patterns.',
+                'charts' => [
+                    ['key' => 'teamLeaderSlotUsage', 'span' => 'lg:col-span-2'],
+                    ['key' => 'teamLeadersWithoutTimetable'],
+                ],
+            ],
+        ];
+
         return view('admin.databaseAnalytics', [
             'charts' => $charts,
+            'slideshowCharts' => $slideshowCharts,
+            'chartPicker' => $chartPicker,
+            'chartSections' => $chartSections,
             'stats' => $stats,
             'rolePanels' => $rolePanels,
             'facultyRows' => $facultyRows,
@@ -422,6 +688,362 @@ class AdminAnalyticController extends Controller
             'dayLoadRows' => $this->dayLoadRows($days, $appointmentRowsByDay, $timetableCountsByDay),
             'timeSlotRows' => $appointmentRowsByTimeSlot,
         ]);
+    }
+
+    private function chartPickerOptions(): array
+    {
+        return [
+            'roleDistribution' => ['label' => 'User Distribution'],
+            'appointmentsByWeek' => ['label' => 'Appointment Trend'],
+            'timetableAvailability' => ['label' => 'Timetable Capacity'],
+            'mentorStatus' => ['label' => 'Mentor Status'],
+            'appointmentsByDay' => ['label' => 'Daily Appointment Load'],
+            'appointmentsByTimeSlot' => ['label' => 'Appointments by Time Slot'],
+            'accountGrowth' => ['label' => 'Account Creation'],
+            'formInventory' => ['label' => 'Form Inventory'],
+            'formCompletion' => ['label' => 'Form Completion'],
+            'studentWeeklyActivity' => ['label' => 'Student Activity'],
+            'studentFormCompletionByType' => ['label' => 'Student Form Completion'],
+            'mentorWorkload' => ['label' => 'Mentor Workload'],
+            'mentorTimetableCoverage' => ['label' => 'Mentor Timetable Coverage'],
+            'mentorFormCompletionByType' => ['label' => 'Mentor Form Completion'],
+            'teamLeaderTimetableByDay' => ['label' => 'Team Leader Timetables'],
+            'teamLeaderFormCompletionByType' => ['label' => 'Team Leader Form Completion'],
+            'appointmentHeatmap' => ['label' => 'Appointment Heatmap'],
+            'capacityUsageByWeek' => ['label' => 'Capacity Usage by Week'],
+            'overbookedTimetables' => ['label' => 'Overbooked Timetables'],
+            'studentBookingDistribution' => ['label' => 'Student Booking Distribution'],
+            'mentorFillRate' => ['label' => 'Mentor Fill Rate'],
+            'mentorTimetableCount' => ['label' => 'Mentor Timetable Count'],
+            'mentorStatusByFaculty' => ['label' => 'Mentor Status by Faculty'],
+            'mentorStatusByLanguage' => ['label' => 'Mentor Status by Language'],
+            'mentorStatusByLevel' => ['label' => 'Mentor Status by Level'],
+            'studentsByFaculty' => ['label' => 'Students by Faculty'],
+            'studentsByLanguage' => ['label' => 'Students by Language'],
+            'studentsByLevel' => ['label' => 'Students by Level'],
+            'studentAppointmentParticipation' => ['label' => 'Student Participation'],
+            'topStudentsByAppointmentCount' => ['label' => 'Top Students by Appointments'],
+            'mandatoryFormCompletionRate' => ['label' => 'Mandatory Form Completion'],
+            'formCompletionTrend' => ['label' => 'Form Completion Trend'],
+            'incompleteMandatoryFormsByRole' => ['label' => 'Incomplete Mandatory Forms'],
+            'teamLeaderSlotUsage' => ['label' => 'Team Leader Slot Usage'],
+            'teamLeadersWithoutTimetable' => ['label' => 'Team Leaders Without Timetable'],
+        ];
+    }
+
+    private function cloneChartForSlideshow(LarapexChart $chart): LarapexChart
+    {
+        $clone = clone $chart;
+        $clone->id = 'slide'.\Illuminate\Support\Str::random(20);
+
+        return $clone;
+    }
+
+    private function appointmentHeatmap(array $days): array
+    {
+        $timeSlots = Timetable::query()
+            ->select('time_slot')
+            ->distinct()
+            ->orderBy('time_slot')
+            ->pluck('time_slot');
+
+        if ($timeSlots->isEmpty()) {
+            $timeSlots = collect(['No slots']);
+        }
+
+        $rows = Appointment::query()
+            ->join('timetables', 'appointments.timetable_id', '=', 'timetables.id')
+            ->select('timetables.day', 'timetables.time_slot', DB::raw('count(*) as total'))
+            ->groupBy('timetables.day', 'timetables.time_slot')
+            ->get();
+
+        return [
+            'labels' => $timeSlots->all(),
+            'series' => collect($days)->map(function ($day) use ($timeSlots, $rows) {
+                return [
+                    'name' => $day,
+                    'data' => $timeSlots->map(function ($slot) use ($day, $rows) {
+                        return (int) ($rows->first(fn ($row) => $row->day === $day && $row->time_slot === $slot)->total ?? 0);
+                    })->all(),
+                ];
+            })->all(),
+        ];
+    }
+
+    private function capacityByWeek($appointmentRowsByWeek): array
+    {
+        $capacityRowsByWeek = Timetable::query()
+            ->select('week_number', DB::raw('count(*) * 5 as capacity_total'))
+            ->groupBy('week_number')
+            ->get()
+            ->keyBy('week_number');
+
+        return [
+            'booked' => collect(range(1, 16))
+                ->map(fn ($week) => (int) ($appointmentRowsByWeek[(string) $week]->total ?? 0))
+                ->all(),
+            'capacity' => collect(range(1, 16))
+                ->map(fn ($week) => (int) ($capacityRowsByWeek[(string) $week]->capacity_total ?? 0))
+                ->all(),
+        ];
+    }
+
+    private function overbookedTimetables(): array
+    {
+        $rows = Appointment::query()
+            ->join('timetables', 'appointments.timetable_id', '=', 'timetables.id')
+            ->select(
+                'timetables.week_number',
+                'timetables.day',
+                'timetables.time_slot',
+                'timetables.table_number',
+                DB::raw('count(*) as total')
+            )
+            ->groupBy('timetables.week_number', 'timetables.day', 'timetables.time_slot', 'timetables.table_number')
+            ->havingRaw('count(*) > 5')
+            ->orderByDesc('total')
+            ->limit(12)
+            ->get();
+
+        return [
+            'labels' => $this->labelsOrFallback($rows->map(fn ($row) => 'W'.$row->week_number.' '.$row->day.' '.$row->time_slot.' T'.$row->table_number), 'No overbooked slots'),
+            'data' => $this->valuesOrFallback($rows->pluck('total')),
+        ];
+    }
+
+    private function studentBookingDistribution(): array
+    {
+        $counts = Appointment::query()
+            ->select('student_id', DB::raw('count(*) as total'))
+            ->groupBy('student_id')
+            ->pluck('total', 'student_id');
+
+        return [
+            'labels' => ['0 appointments', '1 appointment', '2 appointments', '3 appointments', '4+ appointments'],
+            'data' => [
+                max(0, Student::count() - $counts->count()),
+                $counts->filter(fn ($total) => (int) $total === 1)->count(),
+                $counts->filter(fn ($total) => (int) $total === 2)->count(),
+                $counts->filter(fn ($total) => (int) $total === 3)->count(),
+                $counts->filter(fn ($total) => (int) $total >= 4)->count(),
+            ],
+        ];
+    }
+
+    private function mentorCapacityRows()
+    {
+        return Mentor::query()
+            ->join('users', 'mentors.user_id', '=', 'users.id')
+            ->leftJoin('timetables', 'mentors.id', '=', 'timetables.mentor_id')
+            ->leftJoin('appointments', 'timetables.id', '=', 'appointments.timetable_id')
+            ->select(
+                'mentors.id',
+                'users.name',
+                DB::raw('count(distinct timetables.id) as timetable_count'),
+                DB::raw('count(appointments.id) as appointment_count')
+            )
+            ->groupBy('mentors.id', 'users.name')
+            ->get()
+            ->map(function ($row) {
+                $capacity = (int) $row->timetable_count * 5;
+                $row->capacity = $capacity;
+                $row->fill_rate = $capacity > 0 ? round(((int) $row->appointment_count / $capacity) * 100, 1) : 0;
+
+                return $row;
+            });
+    }
+
+    private function mentorStatusBreakdown(string $column): array
+    {
+        $statuses = ['active', 'paused', 'suspended'];
+        $rows = Mentor::query()
+            ->join('users', 'mentors.user_id', '=', 'users.id')
+            ->select(
+                DB::raw("coalesce(nullif(users.{$column}, ''), 'Unassigned') as label"),
+                'mentors.status',
+                DB::raw('count(*) as total')
+            )
+            ->groupBy(DB::raw("coalesce(nullif(users.{$column}, ''), 'Unassigned')"), 'mentors.status')
+            ->get();
+
+        $labels = $rows->groupBy('label')
+            ->map(fn ($items) => $items->sum('total'))
+            ->sortDesc()
+            ->keys()
+            ->take(8)
+            ->values();
+
+        if ($labels->isEmpty()) {
+            $labels = collect(['No data']);
+        }
+
+        return [
+            'labels' => $labels->all(),
+            'series' => collect($statuses)->map(function ($status) use ($labels, $rows) {
+                return [
+                    'name' => ucfirst($status),
+                    'data' => $labels->map(function ($label) use ($status, $rows) {
+                        return (int) ($rows->first(fn ($row) => $row->label === $label && $row->status === $status)->total ?? 0);
+                    })->all(),
+                ];
+            })->all(),
+        ];
+    }
+
+    private function profileDimensionRows(string $role, string $column)
+    {
+        return User::query()
+            ->where('role', $role)
+            ->select(DB::raw("coalesce(nullif({$column}, ''), 'Unassigned') as label"), DB::raw('count(*) as total'))
+            ->groupBy(DB::raw("coalesce(nullif({$column}, ''), 'Unassigned')"))
+            ->orderByDesc('total')
+            ->limit(8)
+            ->get();
+    }
+
+    private function studentAppointmentParticipation(): array
+    {
+        $totalStudents = Student::count();
+        $withAppointments = Appointment::query()
+            ->select('student_id')
+            ->distinct()
+            ->count('student_id');
+
+        return [
+            'labels' => ['With appointments', 'Without appointments'],
+            'data' => [$withAppointments, max(0, $totalStudents - $withAppointments)],
+        ];
+    }
+
+    private function topStudentRows()
+    {
+        return Student::query()
+            ->join('users', 'students.user_id', '=', 'users.id')
+            ->leftJoin('appointments', 'students.id', '=', 'appointments.student_id')
+            ->select('students.id', 'students.student_id', 'users.name', DB::raw('count(appointments.id) as appointment_count'))
+            ->groupBy('students.id', 'students.student_id', 'users.name')
+            ->havingRaw('count(appointments.id) > 0')
+            ->orderByDesc('appointment_count')
+            ->limit(10)
+            ->get();
+    }
+
+    private function mandatoryFormStats()
+    {
+        $roles = [
+            ['label' => 'Students', 'role' => 'student', 'people' => Student::count(), 'model' => StudentForm::class],
+            ['label' => 'Mentors', 'role' => 'mentor', 'people' => Mentor::count(), 'model' => MentorForm::class],
+            ['label' => 'Team Leaders', 'role' => 'team_leader', 'people' => TeamLeader::count(), 'model' => TeamLeaderForm::class],
+        ];
+
+        return collect($roles)->map(function ($role) {
+            $forms = Form::where('for_role', $role['role'])->where('is_mandatory', true)->count();
+            $expected = $role['people'] * $forms;
+            $completed = $role['model']::query()
+                ->join('forms', 'forms.id', '=', $role['model']::query()->getModel()->getTable().'.form_id')
+                ->where('forms.for_role', $role['role'])
+                ->where('forms.is_mandatory', true)
+                ->where('completion_status', true)
+                ->count();
+
+            return [
+                'label' => $role['label'],
+                'expected' => $expected,
+                'completed' => $completed,
+                'incomplete' => max(0, $expected - $completed),
+                'percentage' => $expected > 0 ? round(($completed / $expected) * 100, 1) : 0,
+            ];
+        });
+    }
+
+    private function formCompletionTrend(): array
+    {
+        $rows = collect([StudentForm::class, MentorForm::class, TeamLeaderForm::class])
+            ->flatMap(function ($model) {
+                return $model::query()
+                    ->select(DB::raw('date(submitted_datetime) as submitted_day'), DB::raw('count(*) as total'))
+                    ->whereNotNull('submitted_datetime')
+                    ->where('completion_status', true)
+                    ->groupBy(DB::raw('date(submitted_datetime)'))
+                    ->get();
+            })
+            ->groupBy('submitted_day')
+            ->map(fn ($items, $day) => ['day' => $day, 'total' => $items->sum('total')])
+            ->sortBy('day')
+            ->values();
+
+        if ($rows->isEmpty()) {
+            return ['labels' => ['No submissions'], 'data' => [0]];
+        }
+
+        return [
+            'labels' => $rows->pluck('day')->all(),
+            'data' => $rows->pluck('total')->map(fn ($total) => (int) $total)->all(),
+        ];
+    }
+
+    private function teamLeaderSlotHeatmap(): array
+    {
+        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        $timeSlots = TeamLeaderTimetable::query()
+            ->select('time_slot')
+            ->distinct()
+            ->orderBy('time_slot')
+            ->pluck('time_slot');
+
+        if ($timeSlots->isEmpty()) {
+            $timeSlots = collect(['No slots']);
+        }
+
+        $rows = TeamLeaderTimetable::query()
+            ->select('day', 'time_slot', DB::raw('count(*) as total'))
+            ->groupBy('day', 'time_slot')
+            ->get();
+
+        return [
+            'labels' => $timeSlots->all(),
+            'series' => collect($days)->map(function ($day) use ($timeSlots, $rows) {
+                return [
+                    'name' => $day,
+                    'data' => $timeSlots->map(function ($slot) use ($day, $rows) {
+                        return (int) ($rows->first(fn ($row) => $row->day === $day && $row->time_slot === $slot)->total ?? 0);
+                    })->all(),
+                ];
+            })->all(),
+        ];
+    }
+
+    private function teamLeaderReservationStats(): array
+    {
+        $total = TeamLeader::count();
+        $reserved = TeamLeaderTimetable::query()
+            ->select('team_leader_id')
+            ->distinct()
+            ->count('team_leader_id');
+
+        return [
+            'labels' => ['Reserved timetable', 'No timetable'],
+            'data' => [$reserved, max(0, $total - $reserved)],
+        ];
+    }
+
+    private function labelsOrFallback($values, string $fallback): array
+    {
+        $labels = collect($values)
+            ->filter(fn ($value) => $value !== null && $value !== '')
+            ->map(fn ($value) => (string) $value)
+            ->values();
+
+        return $labels->isEmpty() ? [$fallback] : $labels->all();
+    }
+
+    private function valuesOrFallback($values): array
+    {
+        $data = collect($values)
+            ->map(fn ($value) => is_numeric($value) ? $value + 0 : 0)
+            ->values();
+
+        return $data->isEmpty() ? [0] : $data->all();
     }
 
     private function formCompletionStats()
