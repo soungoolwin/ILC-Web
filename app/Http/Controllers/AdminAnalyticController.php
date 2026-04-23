@@ -856,14 +856,15 @@ class AdminAnalyticController extends Controller
     private function mentorStatusBreakdown(string $column): array
     {
         $statuses = ['active', 'paused', 'suspended'];
-        $rows = Mentor::query()
-            ->join('users', 'mentors.user_id', '=', 'users.id')
-            ->select(
-                DB::raw("coalesce(nullif(users.{$column}, ''), 'Unassigned') as label"),
-                'mentors.status',
-                DB::raw('count(*) as total')
-            )
-            ->groupBy(DB::raw("coalesce(nullif(users.{$column}, ''), 'Unassigned')"), 'mentors.status')
+
+        $rows = DB::table(DB::raw("
+            (select coalesce(nullif(users.{$column}, ''), 'Unassigned') as label,
+                    mentors.status
+             from mentors
+             inner join users on mentors.user_id = users.id) as sub
+        "))
+            ->select('label', 'status', DB::raw('count(*) as total'))
+            ->groupBy('label', 'status')
             ->get();
 
         $labels = $rows->groupBy('label')
@@ -892,10 +893,13 @@ class AdminAnalyticController extends Controller
 
     private function profileDimensionRows(string $role, string $column)
     {
-        return User::query()
-            ->where('role', $role)
-            ->select(DB::raw("coalesce(nullif({$column}, ''), 'Unassigned') as label"), DB::raw('count(*) as total'))
-            ->groupBy(DB::raw("coalesce(nullif({$column}, ''), 'Unassigned')"))
+        $sub = DB::table('users')
+            ->selectRaw("coalesce(nullif({$column}, ''), 'Unassigned') as label")
+            ->where('role', $role);
+
+        return DB::table($sub, 'sub')
+            ->select('label', DB::raw('count(*) as total'))
+            ->groupBy('label')
             ->orderByDesc('total')
             ->limit(8)
             ->get();
