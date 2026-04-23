@@ -141,9 +141,9 @@ class AdminAnalyticController extends Controller
             $accountGrowthLabels = collect([now()->toDateString()]);
         }
 
-        $facultyRows = User::query()
-            ->select(DB::raw("coalesce(nullif(faculty, ''), 'Unassigned') as faculty"), DB::raw('count(*) as total'))
-            ->groupBy(DB::raw("coalesce(nullif(faculty, ''), 'Unassigned')"))
+        $facultyRows = DB::table(DB::raw("(select coalesce(nullif(faculty, ''), 'Unassigned') as faculty_name from users) as sub"))
+            ->select('faculty_name as faculty', DB::raw('count(*) as total'))
+            ->groupBy('faculty_name')
             ->orderByDesc('total')
             ->limit(8)
             ->get();
