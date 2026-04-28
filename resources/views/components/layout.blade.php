@@ -27,6 +27,7 @@
                         <img
                             src="/images/rsuGlobal.png"
                             alt="RSU Logo"
+                            href="{{ route("guest") }}"
                             class="h-10 w-10 md:h-12 md:w-12"
                         />
                         <h1
@@ -499,7 +500,7 @@
                         <div>
                             <a
                                 href="{{ route("guest") }}"
-                                class="nav-link inline-flex items-center rounded-md border-[1.5px] border-[#7D3C98] bg-[#7D3C98] px-2 py-1 text-white lg:px-4 lg:py-2"
+                                class="nav-link mr-2 inline-flex items-center rounded-md border-[1.5px] border-[#7D3C98] bg-[#7D3C98] px-2 py-1 text-white lg:px-4 lg:py-2"
                             >
                                 Home
                             </a>
@@ -605,7 +606,7 @@
                             >
                                 <li class="mt-2">
                                     <a
-                                        href=""
+                                        href="{{ route("about") }}"
                                         class="hover:text-gray-300 hover:underline"
                                     >
                                         About Us
@@ -629,7 +630,7 @@
                                 </li>
                                 <li class="mt-2">
                                     <a
-                                        href=""
+                                        href="{{ route("newsletter") }}"
                                         class="hover:text-gray-300 hover:underline"
                                     >
                                         Resource Portal

@@ -15,7 +15,7 @@
                 ></div>
             </div>
 
-            <div class="container relative z-10 mx-auto px-2 py-12 lg:px-36 text-white">
+            <div class="container relative z-10 mx-auto px-2 py-12 text-white max-w-7xl">
                 <div class="max-w-2xl">
                     <div
                         class="mb-2 inline-flex items-center gap-2 rounded-full border border-gray-500 bg-gray-800/50 px-2 py-2 lg:px-3 lg:py-1 backdrop-blur-sm"
@@ -53,7 +53,7 @@
                             Join Mentorship
                         </a>
                         <a
-                            href="#about"
+                            href="{{ route('about') }}"
                             class="rounded-md border border-gray-600 bg-gray-800/40 px-3 py-2 lg:px-8 lg:py-3 font-medium text-white backdrop-blur-sm transition-all hover:bg-gray-700/60"
                         >
                             Learn More

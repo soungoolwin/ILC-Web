@@ -119,7 +119,16 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
 //Admin Routes
 Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::get('/admin/dashboard', action: function () {
-        return view('admin.dashboard');
+        $totalStudents   = \App\Models\User::whereHas('students')->count();
+        $totalMentors    = \App\Models\User::whereHas('mentors')->count();
+        $totalTeamLeaders= \App\Models\User::whereHas('teamLeaders')->count();
+        $totalForms      = \App\Models\Form::count();
+        $totalAppointments = \App\Models\Appointment::count();
+        $totalTimetables = \App\Models\Timetable::count();
+        return view('admin.dashboard', compact(
+            'totalStudents','totalMentors','totalTeamLeaders',
+            'totalForms','totalAppointments','totalTimetables'
+        ));
     })->name('admin.dashboard');
 
     Route::get("/admin/profile", [AdminController::class, 'show'])->name('admin.profile');
@@ -225,6 +234,10 @@ Route::get('/components/newsletter', function () {
 Route::get('/components/publications', function () {
     return view('components.publications');
 })->name('publications')->withoutMiddleware(RedirectIfAuthenticated::class);
+
+Route::get('/components/about', function () {
+    return view('components.about');
+})->name('about')->withoutMiddleware(RedirectIfAuthenticated::class);
 
 //Logout
 

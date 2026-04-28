@@ -7,9 +7,9 @@
     <nav class="flex w-full justify-start px-4 py-2">
         <a
             href="{{ route("guest") }}"
-            class="px-4 py-4 text-sm text-gray-600 hover:underline"
+            class="px-4 py-4 text-sm text-[#7D3C98] hover:underline"
         >
-            < Go back to Home
+            &larr; Go back to Home
         </a>
     </nav>
     <body class="flex flex-col items-center justify-evenly">
