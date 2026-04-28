@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\TeamLeader;
+use App\Http\Controllers\Controller;
 
 use App\Models\TeamLeaderTimetable;
 use Illuminate\Http\Request;

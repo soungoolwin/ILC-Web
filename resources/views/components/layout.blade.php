@@ -438,7 +438,7 @@
                                         Analytics
                                     </p>
                                     <a
-                                        href="{{ route('admin.database_analytics') }}"
+                                        href="{{ route("admin.database_analytics") }}"
                                         class="block px-2 py-2 text-xs text-green-600 hover:bg-gray-100"
                                     >
                                         Database Analytics
@@ -613,7 +613,7 @@
                                 </li>
                                 <li class="mt-2">
                                     <a
-                                        href=""
+                                        href="{{ route("register.mentor") }}"
                                         class="hover:text-gray-300 hover:underline"
                                     >
                                         Mentorship Program
@@ -666,7 +666,7 @@
                                 </li>
                                 <li class="mt-2">
                                     <a
-                                        href=""
+                                        href="{{ route("register.team_leader") }}"
                                         class="hover:text-gray-300 hover:underline"
                                     >
                                         Become a Team Leader

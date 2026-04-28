@@ -117,7 +117,7 @@
                         differences.
                     </p>
                     <a href="{{ route('newsletter') }}" class="text-xs text-[#7D3C98] justify-self-end hover:underline">
-                        Learn More &nbsp;
+                        Learn More &rarr;
                     </a>
                 </div>
                 <div class="flex flex-col items-left justify-center text-left gap-2 p-4 bg-white rounded-xl min-w-lg h-full max-h-64 border border-gray-200/20 shadow-md">
@@ -125,13 +125,13 @@
                         <svg class="bg-[#7d3c98]/20 rounded-lg p-1" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path fill="none" stroke="#7D3C98" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19.128a9.38 9.38 0 0 0 2.625.372a9.337 9.337 0 0 0 4.121-.952a4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0a3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0a2.625 2.625 0 0 1 5.25 0Z"/></svg>
 
                     <h2 class="text-lg font-semibold text-gray-800">
-                        Mentor of the Month
+                       RSU Global! Publications
                     </h2>
                     <p class="text-xs text-gray-500 min-h-[60px]">
-                        Share you own knowledge and experiences to help others grow and succeed. 
+                        Access publications, research papers, and resources to support your language learning journey and academic success. 
                     </p>
-                    <a href="#" class="text-xs text-[#7D3C98] justify-self-end hover:underline">
-                        Learn More &nbsp;
+                    <a href="{{ route('publications') }}" class="text-xs text-[#7D3C98] justify-self-end hover:underline">
+                        Learn More &rarr;
                     </a>
                 </div>
                 <div class="flex flex-col items-left justify-center text-left gap-2 p-4 bg-white rounded-xl min-w-lg h-full max-h-64 border border-gray-200/20 shadow-md">
@@ -144,7 +144,7 @@
                         Improve your academic writing, presentation skills, and confidence for your future career.
                     </p>
                     <a href="#" class="text-xs text-[#7D3C98] justify-self-end hover:underline">
-                        Learn More &nbsp;
+                        Learn More &rarr;
                     </a>
                 </div>
                 <div class="flex flex-col items-left justify-center text-left gap-2 p-4 bg-white rounded-xl min-w-lg h-full max-h-64 border border-gray-200/20 shadow-md">
@@ -155,8 +155,8 @@
                     <p class="text-xs text-gray-500 min-h-[60px]">
                         Access a library of video resources covering language learning, cultural insights, and success stories from our community.
                     </p>
-                    <a href="https://www.youtube.com/@RSUGlobal555/featured" class="text-xs text-[#7D3C98] justify-self-end hover:underline">
-                        Learn More &nbsp;
+                    <a href="https://www.youtube.com/@RSUGlobal555" target="_blank" class="text-xs text-[#7D3C98] justify-self-end hover:underline">
+                        Learn More &rarr;
                     </a>
                 </div>
         </div>

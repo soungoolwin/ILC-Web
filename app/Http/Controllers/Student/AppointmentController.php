@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Student;
+use App\Http\Controllers\Controller;
 
 use App\Models\Appointment;
 use App\Models\Timetable;

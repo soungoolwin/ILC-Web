@@ -1,22 +1,22 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminAnalyticController;
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\MentorController;
-use App\Http\Controllers\SignupController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\TeamLeaderController;
-use App\Http\Controllers\TeamLeaderFormController;
-use App\Http\Controllers\TeamLeaderTimetableController;
-use App\Http\Controllers\TimetableController;
-use App\Http\Controllers\AdminFormController;
-use App\Http\Controllers\StudentFormController;
-use App\Http\Controllers\MentorFormController;
-use App\Http\Controllers\AdminFileUploadLinkController;
-use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminAnalyticController;
+use App\Http\Controllers\Admin\AdminFormController;
+use App\Http\Controllers\Admin\AdminFileUploadLinkController;
+use App\Http\Controllers\Admin\AttendanceController;
+use App\Http\Controllers\Mentor\MentorController;
+use App\Http\Controllers\Mentor\MentorFormController;
+use App\Http\Controllers\Mentor\TimetableController;
+use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\Student\StudentFormController;
+use App\Http\Controllers\Student\AppointmentController;
+use App\Http\Controllers\TeamLeader\TeamLeaderController;
+use App\Http\Controllers\TeamLeader\TeamLeaderFormController;
+use App\Http\Controllers\TeamLeader\TeamLeaderTimetableController;
 use App\Http\Controllers\GuestPageController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SignupController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -218,10 +218,13 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
 
 //Guest Page Route
 
-
 Route::get('/components/newsletter', function () {
     return view('components.newsletter');
-})->name('newsletter');
+})->name('newsletter')->withoutMiddleware(RedirectIfAuthenticated::class);
+
+Route::get('/components/publications', function () {
+    return view('components.publications');
+})->name('publications')->withoutMiddleware(RedirectIfAuthenticated::class);
 
 //Logout
 
