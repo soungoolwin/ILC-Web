@@ -160,6 +160,7 @@ class MentorController extends Controller
             return redirect()->route('mentor.pause');
         }
     }
+    
 
     /**
      * Show the paused page.

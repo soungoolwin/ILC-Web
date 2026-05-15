@@ -88,40 +88,6 @@ class LoginController extends Controller
         return redirect()->route('mentor.dashboard');
     }
 
-    /**
-     * Handle mentor confirmation for the next semester.
-     */
-
-     public function confirmNextSemester(Request $request)
-{
-    $user = Auth::user();
-    $mentor = $user->mentors()->first();
-
-    if (!$mentor) {
-        return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
-    }
-
-    // Check the user's response
-    if ($request->input('confirm') === 'yes') {
-        // Increment mentor_sem, set status to active, and redirect to dashboard
-        $mentor->increment('mentor_sem');
-        $mentor->update([
-            'status' => 'active',
-            'last_checked_at' => Carbon::now(),
-        ]);
-
-        return redirect()->route('mentor.dashboard')->with('success', 'You have confirmed to be a mentor for the next semester.');
-    } else {
-        // Set status to paused and redirect to the paused page
-        $mentor->update([
-            'status' => 'paused',
-            'last_checked_at' => Carbon::now(),
-        ]);
-
-        return view('mentor.pause');
-    }
-}
-
     public function logout(Request $request)
     {
         Auth::logout();
