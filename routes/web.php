@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminAnalyticController;
 use App\Http\Controllers\Admin\AdminFormController;
 use App\Http\Controllers\Admin\AdminFileUploadLinkController;
+use App\Http\Controllers\Admin\AdminMentorTimetableController;
+use App\Http\Controllers\Admin\AdminTeamLeaderTimetableController;
 use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Mentor\MentorController;
 use App\Http\Controllers\Mentor\MentorFormController;
@@ -73,8 +75,7 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     Route::get('/mentor/timetables/reserve', [TimetableController::class, 'create'])->name('mentor.timetables.create');
     Route::post('/mentor/timetables/reserve', [TimetableController::class, 'store'])->name('mentor.timetables.store');
 
-    Route::get('/mentor/timetables/edit', [TimetableController::class, 'edit'])->name('mentor.timetables.edit');
-    Route::put('/mentor/timetables/update', [TimetableController::class, 'update'])->name('mentor.timetables.update');
+    Route::get('/mentor/timetables/show', [TimetableController::class, 'show'])->name('mentor.timetables.show');
 
     Route::get('/timetables/availability', [TimetableController::class, 'checkAvailability'])->name('timetables.availability');
 
@@ -139,6 +140,13 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 
     //to check timetable of mentor-student timetable
     Route::get('/admin/mentor-students-timetable', [AdminController::class, 'viewMentorStudentsTimetable'])->name('admin.mentor_students_timetable');
+
+    // Admin edits mentor/team-leader timetables (mentors and team leaders cannot edit their own)
+    Route::get('/admin/mentors/{mentor_id}/timetable/edit', [AdminMentorTimetableController::class, 'edit'])->name('admin.mentor_timetable.edit');
+    Route::put('/admin/mentors/{mentor_id}/timetable', [AdminMentorTimetableController::class, 'update'])->name('admin.mentor_timetable.update');
+
+    Route::get('/admin/team-leaders/{team_leader_id}/timetable/edit', [AdminTeamLeaderTimetableController::class, 'edit'])->name('admin.team_leader_timetable.edit');
+    Route::put('/admin/team-leaders/{team_leader_id}/timetable', [AdminTeamLeaderTimetableController::class, 'update'])->name('admin.team_leader_timetable.update');
 
     // Admin see all users and delete
     Route::get('/admin/users/index', [AdminController::class, 'viewUsers'])->name('admin.users.index'); // View all users

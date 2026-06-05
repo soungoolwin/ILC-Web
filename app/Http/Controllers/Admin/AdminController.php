@@ -116,6 +116,7 @@ class AdminController extends Controller
         $day = $request->input('day');
         $time_slot = $request->input('time_slot');
         $week_number = $request->input('week_number');
+        $mentor_id = $request->input('mentor_id');
 
         // Base query
         $query = Timetable::query();
@@ -130,6 +131,12 @@ class AdminController extends Controller
 
         if ($week_number) {
             $query->where('week_number', $week_number);
+        }
+
+        if ($mentor_id) {
+            $query->whereHas('mentor', function ($q) use ($mentor_id) {
+                $q->where('mentor_id', 'like', '%' . $mentor_id . '%');
+            });
         }
 
         // Fetch timetables with mentors and students

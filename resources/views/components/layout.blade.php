@@ -195,10 +195,10 @@
                                         Create Timetable
                                     </a>
                                     <a
-                                        href="{{ route("mentor.timetables.edit") }}"
+                                        href="{{ route("mentor.timetables.show") }}"
                                         class="block border-b border-gray-200 px-2 py-2 text-sm text-gray-700 hover:bg-gray-100 lg:px-4 lg:py-2"
                                     >
-                                        Edit Timetable
+                                        My Timetable
                                     </a>
                                     <a
                                         href="{{ route("mentor.timetables.students") }}"
