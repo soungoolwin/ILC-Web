@@ -47,11 +47,22 @@
                         @endforeach
                     </select>
                 </div>
+                <!-- Search by Mentor ID -->
+                <div>
+                    <label for="mentor_id" class="block text-xs lg:text-sm font-semibold text-gray-600 text-nowrap">Search by Mentor ID</label>
+                    <input type="text" name="mentor_id" id="mentor_id" value="{{ request('mentor_id') }}"
+                        class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
+                </div>
                 <!-- Search Button -->
             <div>
                 <button type="submit" class=" block mt-5 w-full bg-[#7D3C98] text-white font-bold text-xs lg:text-sm py-2 px-4 rounded-lg transition">
                     Search
                 </button>
+            </div>
+            <div>
+                <a href="{{ route('admin.mentor_students_timetable') }}" class="block mt-5 w-full bg-red-600 text-white text-xs lg:text-sm font-bold py-2 px-4 rounded-lg text-center hover:bg-gray-600 transition">
+                    Reset
+                </a>
             </div>
             </div>
 
@@ -71,6 +82,7 @@
                         <th class="border border-gray-300 px-2 py-2">Mentor</th>
                         <th class="border border-gray-300 px-2 py-2">Mentor Student ID</th>
                         <th class="border border-gray-300 px-8 py-2 min-w-[150px]">Students</th>
+                        <th class="border border-gray-300 px-2 py-2">Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,6 +115,12 @@
                                         </div>
                                     @endforeach
                                 @endif
+                            </td>
+                            <td class="border border-gray-300 px-2 py-2 text-center">
+                                <a href="{{ route('admin.mentor_timetable.edit', ['mentor_id' => $timetable->mentor->id, 'timetable_id' => $timetable->id]) }}"
+                                    class="inline-block bg-[#7D3C98] text-white text-[10px] lg:text-sm font-semibold py-1 px-3 rounded">
+                                    Edit
+                                </a>
                             </td>
                         </tr>
                     @endforeach

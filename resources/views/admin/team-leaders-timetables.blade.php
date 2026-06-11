@@ -76,6 +76,7 @@
                         <th class="border border-gray-300 px-4 py-2">Line ID</th>
                         <th class="border border-gray-300 px-2 py-2">Student ID</th>
                         <th class="border border-gray-300 px-4 py-2">Faculty</th>
+                        <th class="border border-gray-300 px-2 py-2">Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,6 +101,12 @@
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
                                 {{ $timetable->teamLeader->user->faculty ?? 'N/A' }}
+                            </td>
+                            <td class="border border-gray-300 px-2 py-2 text-center">
+                                <a href="{{ route('admin.team_leader_timetable.edit', $timetable->teamLeader->id) }}"
+                                    class="inline-block bg-[#7D3C98] text-white text-[10px] lg:text-sm font-semibold py-1 px-3 rounded">
+                                    Edit
+                                </a>
                             </td>
                         </tr>
                     @endforeach

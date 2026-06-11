@@ -1,16 +1,44 @@
 <x-layout>
     <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Search Students for a Timetable</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Your Students</h2>
 
-        <!-- Search Form -->
-        <form method="GET" action="{{ route('mentor.timetables.students') }}" class="space-y-4 mb-6">
-            <div class="grid grid-cols-2 gap-4">
-                <!-- Week Number ---- I changed the week numbers from  -->
-                <div>
-                    <label for="week_number" class="block text-sm font-semibold text-gray-600">Week Number</label>
+        @if (!$reservedTimetable)
+            <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-md">
+                You haven't reserved a timetable yet.
+                <a href="{{ route('mentor.timetables.create') }}" class="font-semibold underline">
+                    Reserve one here
+                </a>
+                to see your students.
+            </div>
+        @else
+            @php
+                $start = explode('-', $reservedTimetable->time_slot)[0];
+                $hour = (int) explode(':', $start)[0];
+                $hourlySlot = sprintf('%02d:00-%02d:00', $hour, $hour + 1);
+            @endphp
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <p class="text-xs font-semibold uppercase text-gray-500">Day</p>
+                    <p class="text-lg font-bold text-gray-800 mt-1">{{ $reservedTimetable->day }}</p>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <p class="text-xs font-semibold uppercase text-gray-500">Time Slot</p>
+                    <p class="text-lg font-bold text-gray-800 mt-1">{{ $hourlySlot }}</p>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <p class="text-xs font-semibold uppercase text-gray-500">Table Number</p>
+                    <p class="text-lg font-bold text-gray-800 mt-1">Table {{ $reservedTimetable->table_number }}</p>
+                </div>
+            </div>
+
+            <!-- Week Filter -->
+            <form method="GET" action="{{ route('mentor.timetables.students') }}" class="flex items-end gap-4 mb-6">
+                <div class="flex-1 max-w-xs">
+                    <label for="week_number" class="block text-sm font-semibold text-gray-600 mb-1">Filter by Week</label>
                     <select name="week_number" id="week_number"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                        <option value="">Select Week</option>
+                        <option value="">All Weeks</option>
                         @foreach (range(4, 13) as $week)
                             <option value="{{ $week }}" {{ $request->week_number == $week ? 'selected' : '' }}>
                                 Week {{ $week }}
@@ -18,113 +46,47 @@
                         @endforeach
                     </select>
                 </div>
-
-                <!-- Day -->
-                <div>
-                    <label for="day" class="block text-sm font-semibold text-gray-600">Day</label>
-                    <select name="day" id="day"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                        <option value="">Select Day</option>
-                        @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as $day)
-                            <option value="{{ $day }}" {{ $request->day == $day ? 'selected' : '' }}>
-                                {{ $day }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Time Slot -->
-                <div>
-                    <label for="time_slot" class="block text-sm font-semibold text-gray-600">Time Slot</label>
-                    <select name="time_slot" id="time_slot"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                        <option value="">Select Time Slot</option>
-                        @foreach (['09:00-09:30', '09:30-10:00', '10:00-10:30', '10:30-11:00', '11:00-11:30', '11:30-12:00', '12:00-12:30', '12:30-13:00', '13:00-13:30', '13:30-14:00', '14:00-14:30', '14:30-15:00', '15:00-15:30', '15:30-16:00', '16:00-16:30', '16:30-17:00'] as $slot)
-                            <option value="{{ $slot }}" {{ $request->time_slot == $slot ? 'selected' : '' }}>
-                                {{ $slot }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Table Number -->
-                <div>
-                    <label for="table_number" class="block text-sm font-semibold text-gray-600">Table Number</label>
-                    <select name="table_number" id="table_number"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
-                        <option value="">Select Table</option>
-                        @foreach (range(1, 10) as $table)
-                            <option value="{{ $table }}"
-                                {{ $request->table_number == $table ? 'selected' : '' }}>
-                                Table {{ $table }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <!-- Search Button -->
-            <div>
-                <button type="submit" class="w-full bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
-                    Search
+                <button type="submit" class="bg-[#7D3C98] text-white font-bold py-2 px-4 rounded-lg transition">
+                    Apply
                 </button>
-            </div>
-        </form>
+                @if ($request->filled('week_number'))
+                    <a href="{{ route('mentor.timetables.students') }}"
+                       class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg transition hover:bg-gray-300">
+                        Reset
+                    </a>
+                @endif
+            </form>
 
-        <!-- Display Results -->
-        @if ($students->isNotEmpty())
-            <table class="table-auto w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr>
-                        <th class="border border-gray-300 px-4 py-2">Students</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($students as $student)
+            <!-- Display Results -->
+            @if ($students->isNotEmpty())
+                <table class="table-auto w-full border-collapse border border-gray-300">
+                    <thead class="bg-[#7D3C98] text-white">
                         <tr>
-                            <td class="border border-gray-300 px-4 py-2 text-center">
-                                <a href="{{ route('mentor.students.show', $student->id) }}"
-                                    class="text-blue-600 hover:underline">
-                                    {{ $student->user->name ?? 'N/A' }}
-                                </a>
-                            </td>
+                            <th class="border border-gray-300 px-4 py-2 text-left">Student</th>
+                            <th class="border border-gray-300 px-4 py-2 text-left">Student ID</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @else
-            <p class="text-center text-gray-600">No students registered for the specified timetable.</p>
+                    </thead>
+                    <tbody>
+                        @foreach ($students as $student)
+                            <tr class="hover:bg-gray-100 transition-colors duration-200">
+                                <td class="border border-gray-300 px-4 py-2">
+                                    <a href="{{ route('mentor.students.show', $student->id) }}"
+                                        class="text-blue-600 hover:underline">
+                                        {{ $student->user->name ?? 'N/A' }}
+                                    </a>
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    {{ $student->student_id ?? 'N/A' }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p class="text-center text-gray-600">
+                    No students {{ $request->filled('week_number') ? 'for week ' . $request->week_number : 'registered for your timetable' }}.
+                </p>
+            @endif
         @endif
     </div>
-
-    <script>
-    const tableSelect = document.getElementById('table_number');
-    const timeSelect = document.getElementById('time_slot');
-
-    timeSelect.addEventListener('change', function () {
-        const selectedTime = this.value;
-        let tableCount = 12;
-
-        // Show only 2 tables for 09:00-10:00 and 10:00-11:00
-        if (selectedTime === '09:00-09:30' || selectedTime === '09:30-10:00' || selectedTime === '10:00-10:30' || selectedTime === '10:30-11:00') {
-            tableCount = 2;
-        }
-
-        if (selectedTime === '15:00-15:30' || selectedTime === '15:30-16:00' || selectedTime === '16:00-16:30' || selectedTime === '16:30-17:00') {
-            tableCount = 7;
-        }
-
-        // Clear current options
-        tableSelect.innerHTML = '<option value="">Select a Table</option>';
-
-        // Add new options
-        for (let i = 1; i <= tableCount; i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.textContent = 'Table ' + i;
-            tableSelect.appendChild(option);
-        }
-    });
-</script>
-
 </x-layout>
