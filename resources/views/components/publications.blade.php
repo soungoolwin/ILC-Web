@@ -6,7 +6,7 @@
     </header>
     <nav class="flex w-full justify-start px-4 py-2">
         <a
-            href="{{ route("guest") }}"
+            onClick="window.history.back()"
             class="px-4 py-4 text-sm text-[#7D3C98] hover:underline"
         >
             &larr; Go back to Home

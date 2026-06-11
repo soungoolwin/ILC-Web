@@ -179,10 +179,10 @@
                     Join Mentorship
                 </a>
                 <a
-                    href="#about"
+                    href="{{ route('newsletter') }}"
                     class="text-xs lg:text-sm rounded-md border border-gray-100 px-2 py-2 lg:px-8 lg:py-3 font-medium text-white hover:bg-white/10 backdrop-blur-sm transition-all"
                 >
-                    Contact Us
+                    Newsletter
                 </a>
             </div>
         </div>

@@ -186,7 +186,7 @@
                                 </button>
                                 <div
                                     id="dropdownMenu"
-                                    class="absolute right-[110px] top-[110px] z-10 mt-2 hidden w-48 w-fit rounded-md border border-gray-300 bg-white text-xs shadow-xl lg:right-[200px] lg:top-[130px] lg:mt-3 lg:text-sm"
+                                    class="absolute right-[110px] top-[110px] z-10 mt-2 hidden w-48 w-fit rounded-md border border-gray-300 bg-white text-xs shadow-xl lg:right-[200px] lg:top-[50px] lg:mt-3 lg:text-sm"
                                 >
                                     <a
                                         href="{{ route("mentor.timetables.create") }}"
@@ -535,7 +535,7 @@
                                         </a>
                                         <a
                                             href="{{ route("register.mentor") }}"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            class="block hidden px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         >
                                             Mentor
                                         </a>
@@ -622,10 +622,10 @@
                                 </li>
                                 <li class="mt-2">
                                     <a
-                                        href=""
+                                        href="{{ route("publications") }}"
                                         class="hover:text-gray-300 hover:underline"
                                     >
-                                        Volunteer Opportunities
+                                        Publications
                                     </a>
                                 </li>
                                 <li class="mt-2">
@@ -633,7 +633,7 @@
                                         href="{{ route("newsletter") }}"
                                         class="hover:text-gray-300 hover:underline"
                                     >
-                                        Resource Portal
+                                        Newsletter
                                     </a>
                                 </li>
                             </ul>
@@ -657,14 +657,7 @@
                                         Undergraduate Mentoring
                                     </a>
                                 </li>
-                                <li class="mt-2">
-                                    <a
-                                        href=""
-                                        class="hover:text-gray-300 hover:underline"
-                                    >
-                                        International Exchange
-                                    </a>
-                                </li>
+
                                 <li class="mt-2">
                                     <a
                                         href="{{ route("register.team_leader") }}"
@@ -694,8 +687,10 @@
                             <ul
                                 class="text-xs font-light text-gray-400 lg:text-sm"
                             >
-                                <li class="mt-2">Email: rsuip@rsu.ac.th</li>
-                                <li class="mt-2">Phone: +66 1234 5678</li>
+                                <li class="mt-2">
+                                    Email: superduperreadyeddie@rsu.ac.th
+                                </li>
+                                <li class="mt-2">Phone: -</li>
                                 <li class="mt-2">
                                     Address: 52/347, Mueang Ek, Pathum Thani
                                     12000, Thailand
