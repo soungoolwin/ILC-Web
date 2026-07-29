@@ -28,6 +28,7 @@ class TeamLeaderFormController extends Controller
             'form_id' => $form->id,
         ]);
 
+        $record->semester_id = $teamLeader->semester_id;
         $record->completion_status = true;
         $record->submitted_datetime = now();
         $record->save();

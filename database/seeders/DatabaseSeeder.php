@@ -7,6 +7,7 @@ use App\Models\FileUploadLink;
 use App\Models\Form;
 use App\Models\Mentor;
 use App\Models\MentorForm;
+use App\Models\Semester;
 use App\Models\Student;
 use App\Models\StudentForm;
 use App\Models\TeamLeader;
@@ -32,6 +33,18 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => bcrypt('adminpassword'),
         ]);
+
+        $semester = Semester::firstOrCreate(
+            ['is_current' => true],
+            [
+                'name' => Semester::nameFor(now()->year, 1),
+                'year' => now()->year,
+                'term' => 1,
+                'start_date' => now()->startOfYear(),
+                'end_date' => now()->startOfYear()->addMonths(5),
+                'is_current' => true,
+            ]
+        );
 
         $forms = $this->createDemoForms();
         $this->createDemoUploadLinks();
@@ -158,6 +171,7 @@ class DatabaseSeeder extends Seeder
         foreach ($teamLeaders as $index => $teamLeader) {
             TeamLeaderTimetable::create([
                 'team_leader_id' => $teamLeader->id,
+                'semester_id' => $teamLeader->semester_id,
                 'day' => $days[$index % count($days)],
                 'time_slot' => $timeSlots[$index % count($timeSlots)],
             ]);
@@ -187,6 +201,7 @@ class DatabaseSeeder extends Seeder
                 if (fake()->numberBetween(1, 100) <= $completionPercent) {
                     $modelClass::create([
                         $foreignKey => $person->id,
+                        'semester_id' => $person->semester_id,
                         'form_id' => $form->id,
                         'completion_status' => true,
                         'submitted_datetime' => fake()->dateTimeBetween('-45 days', 'now'),

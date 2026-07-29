@@ -17,6 +17,7 @@ class MentorFormController extends Controller
             'mentor_id' => $mentor->id,
             'form_id' => $form->id,
         ]);
+        $record->semester_id = $mentor->semester_id;
         $record->completion_status = true;
         $record->submitted_datetime = now();
         $record->save();

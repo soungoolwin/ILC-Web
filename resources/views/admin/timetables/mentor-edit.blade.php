@@ -128,6 +128,11 @@
     });
     syncWeekState();
 
+    // Server-computed capacity per day/time slot, driven by the current
+    // semester's settings (Admin > Semesters). Keep this as the only
+    // source of truth — don't hardcode table counts here.
+    const capacityMatrix = @json($capacityMatrix ?? []);
+
     const tableSelect = document.getElementById('table_number');
     const timeSelect = document.getElementById('time_slot');
     const dateSelect = document.getElementById('day');
@@ -136,23 +141,7 @@
         const selectedTime = timeSelect.value;
         const selectedDay = dateSelect.value;
         const currentValue = tableSelect.value;
-        let tableCount = 12;
-
-        if (selectedTime === '09:00-10:00' || selectedTime === '10:00-11:00') {
-            tableCount = 2;
-        }
-
-        if (selectedTime === '15:00-16:00' || selectedTime === '16:00-17:00') {
-            tableCount = 7;
-        }
-
-        if (selectedDay === 'Tuesday' && (selectedTime === '14:00-15:00')) {
-            tableCount = 30;
-        }
-
-        if (selectedDay === 'Wednesday' && (selectedTime === '12:00-13:00' || selectedTime === '14:00-15:00' || selectedTime === '15:00-16:00')) {
-            tableCount = 30;
-        }
+        const tableCount = capacityMatrix[selectedDay]?.[selectedTime] ?? 12;
 
         tableSelect.innerHTML = '';
         for (let i = 1; i <= tableCount; i++) {

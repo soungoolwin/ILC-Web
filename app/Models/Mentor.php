@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Scopes\CurrentSemesterScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+#[ScopedBy([CurrentSemesterScope::class])]
 class Mentor extends Model
 {
     use HasFactory;
@@ -16,6 +19,11 @@ class Mentor extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class);
     }
 
     public function mentorForms() {

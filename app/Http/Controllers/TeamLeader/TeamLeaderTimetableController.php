@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\TeamLeader;
 use App\Http\Controllers\Controller;
 
+use App\Models\Semester;
 use App\Models\TeamLeaderTimetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,8 +12,8 @@ class TeamLeaderTimetableController extends Controller
 {
     public function create()
     {
-        $timeSlots = ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00']; // add '17:00-20:00' on main semesters
-        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        $timeSlots = Semester::TEAM_LEADER_TIME_SLOTS;
+        $days = Semester::DAYS;
         return view('team_leader.timetables.create', compact('timeSlots', 'days'));
     }
 
@@ -30,7 +31,7 @@ class TeamLeaderTimetableController extends Controller
         // Validate the request
         $request->validate([
             'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
-            'time_slot' => 'required|in:09:00-11:00,11:00-13:00,13:00-15:00,15:00-17:00', //add ,17:00-20:00 on main semesters
+            'time_slot' => 'required|in:' . implode(',', Semester::TEAM_LEADER_TIME_SLOTS),
         ]);
 
 
@@ -40,14 +41,7 @@ class TeamLeaderTimetableController extends Controller
             ->where('day', $request->day)
             ->count();
 
-        // Enforce slot limits with special rule for Tuesday 09:00-11:00
-        $slotLimits = [
-            '09:00-11:00' => 2,
-            '11:00-13:00' => 4,
-            '13:00-15:00' => 4,
-            '15:00-17:00' => 4,
-            //'17:00-20:00' => 3, add this on main semesters
-        ];
+        $slotLimits = Semester::current()->teamLeaderSlotLimits();
 
         if ($count >= $slotLimits[$request->time_slot]) {
             return back()->withErrors(['error' => 'All slots are full for the selected time and day.']);
@@ -58,6 +52,7 @@ class TeamLeaderTimetableController extends Controller
         // Create the reservation
         $new = TeamLeaderTimetable::create([
             'team_leader_id' => $teamLeader->id,
+            'semester_id' => $teamLeader->semester_id,
             'time_slot' => $request->time_slot,
             'day' => $request->day,
         ]);
@@ -67,15 +62,10 @@ class TeamLeaderTimetableController extends Controller
 
     public function checkAvailability(Request $request)
     {
-        $timeSlots = ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00'];
-        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        $timeSlots = Semester::TEAM_LEADER_TIME_SLOTS;
+        $days = Semester::DAYS;
 
-        $slotLimits = [
-            '09:00-11:00' => 2,
-            '11:00-13:00' => 4,
-            '13:00-15:00' => 4,
-            '15:00-17:00' => 4,
-        ];
+        $slotLimits = Semester::current()->teamLeaderSlotLimits();
 
         // Filtered Search Result
         $availability = null;

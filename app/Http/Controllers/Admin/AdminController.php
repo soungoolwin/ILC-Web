@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Admin;
 use App\Models\Mentor;
 use App\Models\Student;
+use App\Scopes\CurrentSemesterScope;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -148,7 +149,14 @@ class AdminController extends Controller
     // View all users
     public function viewUsers(Request $request)
     {
-        $query = User::with(['mentors', 'students', 'teamLeaders', 'admins']);
+        // The admin directory shows people from every semester, not just the
+        // current one, so relations opt out of CurrentSemesterScope here.
+        $query = User::with([
+            'mentors' => fn ($q) => $q->withoutGlobalScope(CurrentSemesterScope::class),
+            'students' => fn ($q) => $q->withoutGlobalScope(CurrentSemesterScope::class),
+            'teamLeaders' => fn ($q) => $q->withoutGlobalScope(CurrentSemesterScope::class),
+            'admins',
+        ]);
 
         // Check if a search term is provided
         if ($request->filled('email')) {
@@ -162,13 +170,16 @@ class AdminController extends Controller
         // Use whereHas to search inside the related tables
         $query->where(function($q) use ($searchTerm) {
             $q->whereHas('students', function($q) use ($searchTerm) {
-                $q->where('student_id', 'like', '%' . $searchTerm . '%');
+                $q->withoutGlobalScope(CurrentSemesterScope::class)
+                    ->where('student_id', 'like', '%' . $searchTerm . '%');
             })
             ->orWhereHas('mentors', function($q) use ($searchTerm) {
-                $q->where('mentor_id', 'like', '%' . $searchTerm . '%');
+                $q->withoutGlobalScope(CurrentSemesterScope::class)
+                    ->where('mentor_id', 'like', '%' . $searchTerm . '%');
             })
             ->orWhereHas('teamLeaders', function($q) use ($searchTerm) {
-                $q->where('team_leader_id', 'like', '%' . $searchTerm . '%');
+                $q->withoutGlobalScope(CurrentSemesterScope::class)
+                    ->where('team_leader_id', 'like', '%' . $searchTerm . '%');
             })
             ->orWhereHas('admins', function($q) use ($searchTerm) {
                 $q->where('admin_id', 'like', '%' . $searchTerm . '%');

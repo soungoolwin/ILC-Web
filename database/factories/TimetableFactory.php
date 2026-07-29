@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Mentor;
+use App\Models\Semester;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class TimetableFactory extends Factory
     {
         return [
             'mentor_id' => Mentor::factory(),
+            'semester_id' => Semester::current()?->id ?? Semester::factory(),
             'day' => $this->faker->randomElement(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']),
             'time_slot' => $this->faker->randomElement(['9:00-9:30', '9:30-10:00']),
             'table_number' => $this->faker->numberBetween(1, 25),

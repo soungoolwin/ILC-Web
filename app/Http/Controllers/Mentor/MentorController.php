@@ -7,6 +7,8 @@ use App\Models\Mentor;
 use App\Models\Form;
 use App\Models\MentorForm;
 use App\Models\FileUploadLink;
+use App\Models\Semester;
+use App\Scopes\CurrentSemesterScope;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -165,25 +167,44 @@ class MentorController extends Controller
     public function confirmNextSemester(Request $request)
     {
         $user = Auth::user();
-        $mentor = $user->mentors()->first();
 
-        if (!$mentor) {
+        // At this point the mentor has no row for the current semester yet
+        // (that's why they were sent here), so look up their most recent one.
+        $lastMentor = $user->mentors()
+            ->withoutGlobalScope(CurrentSemesterScope::class)
+            ->latest('id')
+            ->first();
+
+        if (!$lastMentor) {
             return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
         }
 
         // Check the user's response
         if ($request->input('confirm') === 'yes') {
-            // Increment mentor_sem, set status to active, and redirect to dashboard
-            $mentor->increment('mentor_sem');
-            $mentor->update([
+            $semester = Semester::current();
+
+            if (!$semester) {
+                return redirect()->route('mentor.dashboard')->withErrors(['error' => 'No active semester is set up yet.']);
+            }
+
+            // Create a new row for the current semester instead of mutating
+            // the previous term's row, so both remain in the history.
+            Mentor::create([
+                'user_id' => $lastMentor->user_id,
+                'semester_id' => $semester->id,
+                'mentor_id' => $lastMentor->mentor_id,
+                'mentor_image' => $lastMentor->mentor_image,
+                'mentor_sem' => $lastMentor->mentor_sem + 1,
                 'status' => 'active',
                 'last_checked_at' => Carbon::now(),
             ]);
 
+            $lastMentor->update(['last_checked_at' => Carbon::now()]);
+
             return redirect()->route('mentor.dashboard')->with('success', 'You have confirmed to be a mentor for the next semester.');
         } else {
-            // Set status to paused and redirect to the paused page
-            $mentor->update([
+            // Not continuing: mark the last row paused, no new row is created.
+            $lastMentor->update([
                 'status' => 'paused',
                 'last_checked_at' => Carbon::now(),
             ]);
@@ -195,7 +216,10 @@ class MentorController extends Controller
     public function pause()
     {
         $user = Auth::user();
-        $mentor = $user->mentors()->first();
+        $mentor = $user->mentors()
+            ->withoutGlobalScope(CurrentSemesterScope::class)
+            ->latest('id')
+            ->first();
 
         if (!$mentor) {
             return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
@@ -204,9 +228,10 @@ class MentorController extends Controller
         return view('mentor.pause', compact('mentor'));
     }
 
-    public function nextSemester(Mentor $mentor)
+    public function nextSemester($mentorId)
     {
-        // Add your logic for handling the next semester
+        $mentor = Mentor::withoutGlobalScope(CurrentSemesterScope::class)->findOrFail($mentorId);
+
         return view('mentor.nextsem', compact('mentor'));
     }
 }

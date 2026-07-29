@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\SemesterController;
 use App\Http\Controllers\Admin\AdminAnalyticController;
 use App\Http\Controllers\Admin\AdminFormController;
 use App\Http\Controllers\Admin\AdminFileUploadLinkController;
@@ -151,6 +152,13 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     // Admin see all users and delete
     Route::get('/admin/users/index', [AdminController::class, 'viewUsers'])->name('admin.users.index'); // View all users
     Route::delete('/admin/users/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete'); // Delete a user
+
+    // Admin: manage semesters (start a new semester without wiping data)
+    Route::get('/admin/semesters', [SemesterController::class, 'index'])->name('admin.semesters.index');
+    Route::post('/admin/semesters', [SemesterController::class, 'store'])->name('admin.semesters.store');
+    Route::get('/admin/semesters/{semester}/edit', [SemesterController::class, 'edit'])->name('admin.semesters.edit');
+    Route::put('/admin/semesters/{semester}', [SemesterController::class, 'update'])->name('admin.semesters.update');
+    Route::put('/admin/semesters/{semester}/activate', [SemesterController::class, 'activate'])->name('admin.semesters.activate');
 
     //See Profiles
     Route::get('/admin/mentors/{id}', [MentorController::class, 'adminShow'])->name('admin.mentors.show');

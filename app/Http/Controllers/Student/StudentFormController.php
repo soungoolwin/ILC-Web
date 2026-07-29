@@ -17,6 +17,7 @@ class StudentFormController extends Controller
             'student_id' => $student->id,
             'form_id' => $form->id,
         ]);
+        $record->semester_id = $student->semester_id;
         $record->completion_status = true;
         $record->submitted_datetime = now();
         $record->save();
