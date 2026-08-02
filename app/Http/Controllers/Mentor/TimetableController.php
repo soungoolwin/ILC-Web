@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mentor;
+use App\Http\Controllers\Controller;
 
 use App\Models\Appointment;
 use App\Models\Timetable;
@@ -17,13 +18,27 @@ class TimetableController extends Controller
         $existingTimetable = Timetable::where('mentor_id', $mentor_id)->exists();
 
         if ($existingTimetable) {
-            // Redirect to the edit page if timetables exist
-            return redirect()->route('mentor.timetables.edit', ['mentor_id' => $mentor_id])
-                ->with('info', 'You already have a reserved timetable. You can edit it.');
+            // Mentors can view but not edit — send them to the read-only show page.
+            return redirect()->route('mentor.timetables.show')
+                ->with('info', 'You already have a reserved timetable. Please contact an admin to make any changes.');
         }
 
         // Otherwise, show the reservation creation page
         return view('mentor.timetables.create');
+    }
+
+    public function show()
+    {
+        $mentor_id = Auth::user()->mentors->first()->id;
+
+        $timetable = Timetable::where('mentor_id', $mentor_id)->first();
+
+        if (!$timetable) {
+            return redirect()->route('mentor.timetables.create')
+                ->with('info', 'You haven\'t reserved a timetable yet.');
+        }
+
+        return view('mentor.timetables.show', compact('timetable'));
     }
 
     /**
@@ -94,26 +109,6 @@ class TimetableController extends Controller
     return redirect()->route('mentor.dashboard')
         ->with('success', 'Timetable reserved successfully.');
 }
-    public function edit(Request $request)
-    {
-
-        $mentor_id = Auth::user()->mentors->first()->id;
-
-        // Check if there are any timetables for this mentor
-        $existingTimetable = Timetable::where('mentor_id', $mentor_id)->exists();
-        if (!$existingTimetable) {
-            // Redirect to the create page if no timetables exist
-            return redirect()->route('mentor.timetables.create')
-                ->with('info', 'You haven\'t reserved yet. Please reserve your timetable first.');
-        }
-
-        // Proceed with edit logic if records exist
-        $timetable = Timetable::where('mentor_id', $mentor_id)
-            ->firstOrFail();
-
-        return view('mentor.timetables.edit', compact('timetable'));
-    }
-
     private function splitTimeSlot(string $timeSlot): array
     {
         [$start, $end] = explode('-', $timeSlot);
@@ -128,59 +123,6 @@ class TimetableController extends Controller
 
         return [$firstSlot, $secondSlot];
     }
-
-    public function update(Request $request)
-    {
-        $mentor_id = Auth::user()->mentors->first()->id;
-
-        // Validate the request
-        $request->validate([
-            'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
-            'time_slot' => 'required|in:09:00-10:00,10:00-11:00,11:00-12:00,12:00-13:00,13:00-14:00,14:00-15:00,15:00-16:00,16:00-17:00,17:00-18:00,18:00-19:00,19:00-20:00',
-            'table_number' => 'required|integer|between:1,30', // update maximum acceptablt table number here
-        ]);
-
-        // Split the one-hour time slot into two 30-minute slots
-        $timeSlots = $this->splitTimeSlot($request->time_slot);
-
-        // Check for conflicts with other mentors' reservations
-        $conflicts = Timetable::where('mentor_id', '!=', $mentor_id)
-            ->where('day', $request->day)
-            ->where('table_number', $request->table_number)
-            ->whereIn('time_slot', $timeSlots)
-            ->exists();
-
-        if ($conflicts) {
-            return back()->withErrors(['conflict' => 'The selected time slot and table number is already reserved by another mentor.']);
-        }
-
-        // Fetch all the mentor's reserved timetables, ordered by week number
-        $timetables = Timetable::where('mentor_id', $mentor_id)
-            ->orderBy('week_number')
-            ->get();
-
-        // Check if the timetables exist
-        if ($timetables->isEmpty()) {
-            return back()->withErrors(['error' => 'No reservations found to update.']);
-        }
-
-        // Update the rows
-        $updatedIndex = 0; // Tracks the position for the time slot to update
-        foreach ($timetables as $timetable) {
-            $timeSlotIndex = $updatedIndex % 2; // Alternates between 0 (first half) and 1 (second half)
-
-            $timetable->update([
-                'day' => $request->day,
-                'time_slot' => $timeSlots[$timeSlotIndex],
-                'table_number' => $request->table_number,
-            ]);
-
-            $updatedIndex++;
-        }
-
-        return redirect()->route('mentor.dashboard')->with('success', 'Reservation updated successfully.');
-    }
-
 
     public function checkAvailability(Request $request)
     {
@@ -273,35 +215,31 @@ class TimetableController extends Controller
 
     public function searchStudents(Request $request)
     {
-        $students = collect(); // Default empty collection for students
+        $mentor = Auth::user()->mentors->first();
+        $reservedTimetable = Timetable::where('mentor_id', $mentor->id)->first();
 
-        // Check if the form is submitted with input values
-        if ($request->filled(['week_number', 'day', 'time_slot', 'table_number'])) {
-            // Validate the input
+        $students = collect();
+
+        if ($reservedTimetable) {
             $request->validate([
-                'week_number' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16',
-                'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
-                'time_slot' => 'required|string',
-                'table_number' => 'required|integer|min:1|max:25',
+                'week_number' => 'nullable|in:4,5,6,7,8,9,10,11,12,13',
             ]);
 
-            // Fetch the timetable based on the provided search criteria
-            $timetable = Timetable::where('week_number', $request->week_number)
-                ->where('day', $request->day)
-                ->where('time_slot', $request->time_slot)
-                ->where('table_number', $request->table_number)
-                ->first();
+            $query = Appointment::whereHas('timetable', function ($q) use ($mentor) {
+                $q->where('mentor_id', $mentor->id);
+            })->with('student.user');
 
-            // If a timetable is found, fetch the students registered for it
-            if ($timetable) {
-                $students = Appointment::where('timetable_id', $timetable->id)
-                    ->with('student.user') // Load the student user data
-                    ->get()
-                    ->pluck('student') // Extract the student objects
-                    ->unique('id');    // Ensure unique students
+            if ($request->filled('week_number')) {
+                $query->whereHas('timetable', function ($q) use ($request) {
+                    $q->where('week_number', $request->week_number);
+                });
             }
+
+            $students = $query->get()
+                ->pluck('student')
+                ->unique('id');
         }
 
-        return view('mentor.timetables.students', compact('students', 'request'));
+        return view('mentor.timetables.students', compact('students', 'request', 'reservedTimetable'));
     }
 }

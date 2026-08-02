@@ -1,22 +1,24 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminAnalyticController;
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\MentorController;
-use App\Http\Controllers\SignupController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\TeamLeaderController;
-use App\Http\Controllers\TeamLeaderFormController;
-use App\Http\Controllers\TeamLeaderTimetableController;
-use App\Http\Controllers\TimetableController;
-use App\Http\Controllers\AdminFormController;
-use App\Http\Controllers\StudentFormController;
-use App\Http\Controllers\MentorFormController;
-use App\Http\Controllers\AdminFileUploadLinkController;
-use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminAnalyticController;
+use App\Http\Controllers\Admin\AdminFormController;
+use App\Http\Controllers\Admin\AdminFileUploadLinkController;
+use App\Http\Controllers\Admin\AdminMentorTimetableController;
+use App\Http\Controllers\Admin\AdminTeamLeaderTimetableController;
+use App\Http\Controllers\Admin\AttendanceController;
+use App\Http\Controllers\Mentor\MentorController;
+use App\Http\Controllers\Mentor\MentorFormController;
+use App\Http\Controllers\Mentor\TimetableController;
+use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\Student\StudentFormController;
+use App\Http\Controllers\Student\AppointmentController;
+use App\Http\Controllers\TeamLeader\TeamLeaderController;
+use App\Http\Controllers\TeamLeader\TeamLeaderFormController;
+use App\Http\Controllers\TeamLeader\TeamLeaderTimetableController;
 use App\Http\Controllers\GuestPageController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SignupController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -73,8 +75,7 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     Route::get('/mentor/timetables/reserve', [TimetableController::class, 'create'])->name('mentor.timetables.create');
     Route::post('/mentor/timetables/reserve', [TimetableController::class, 'store'])->name('mentor.timetables.store');
 
-    Route::get('/mentor/timetables/edit', [TimetableController::class, 'edit'])->name('mentor.timetables.edit');
-    Route::put('/mentor/timetables/update', [TimetableController::class, 'update'])->name('mentor.timetables.update');
+    Route::get('/mentor/timetables/show', [TimetableController::class, 'show'])->name('mentor.timetables.show');
 
     Route::get('/timetables/availability', [TimetableController::class, 'checkAvailability'])->name('timetables.availability');
 
@@ -119,7 +120,16 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
 //Admin Routes
 Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::get('/admin/dashboard', action: function () {
-        return view('admin.dashboard');
+        $totalStudents   = \App\Models\User::whereHas('students')->count();
+        $totalMentors    = \App\Models\User::whereHas('mentors')->count();
+        $totalTeamLeaders= \App\Models\User::whereHas('teamLeaders')->count();
+        $totalForms      = \App\Models\Form::count();
+        $totalAppointments = \App\Models\Appointment::count();
+        $totalTimetables = \App\Models\Timetable::count();
+        return view('admin.dashboard', compact(
+            'totalStudents','totalMentors','totalTeamLeaders',
+            'totalForms','totalAppointments','totalTimetables'
+        ));
     })->name('admin.dashboard');
 
     Route::get("/admin/profile", [AdminController::class, 'show'])->name('admin.profile');
@@ -130,6 +140,13 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 
     //to check timetable of mentor-student timetable
     Route::get('/admin/mentor-students-timetable', [AdminController::class, 'viewMentorStudentsTimetable'])->name('admin.mentor_students_timetable');
+
+    // Admin edits mentor/team-leader timetables (mentors and team leaders cannot edit their own)
+    Route::get('/admin/mentors/{mentor_id}/timetable/edit', [AdminMentorTimetableController::class, 'edit'])->name('admin.mentor_timetable.edit');
+    Route::put('/admin/mentors/{mentor_id}/timetable', [AdminMentorTimetableController::class, 'update'])->name('admin.mentor_timetable.update');
+
+    Route::get('/admin/team-leaders/{team_leader_id}/timetable/edit', [AdminTeamLeaderTimetableController::class, 'edit'])->name('admin.team_leader_timetable.edit');
+    Route::put('/admin/team-leaders/{team_leader_id}/timetable', [AdminTeamLeaderTimetableController::class, 'update'])->name('admin.team_leader_timetable.update');
 
     // Admin see all users and delete
     Route::get('/admin/users/index', [AdminController::class, 'viewUsers'])->name('admin.users.index'); // View all users
@@ -218,10 +235,17 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
 
 //Guest Page Route
 
-
 Route::get('/components/newsletter', function () {
     return view('components.newsletter');
-})->name('newsletter');
+})->name('newsletter')->withoutMiddleware(RedirectIfAuthenticated::class);
+
+Route::get('/components/publications', function () {
+    return view('components.publications');
+})->name('publications')->withoutMiddleware(RedirectIfAuthenticated::class);
+
+Route::get('/components/about', function () {
+    return view('components.about');
+})->name('about')->withoutMiddleware(RedirectIfAuthenticated::class);
 
 //Logout
 

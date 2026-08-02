@@ -28,6 +28,8 @@
                 <div class="max-w-3xl">
 
                     <!-- Badge -->
+            <div class="container relative z-10 mx-auto px-2 py-12 text-white max-w-7xl">
+                <div class="max-w-2xl">
                     <div
                         class="mb-6 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 shadow-lg backdrop-blur-md">
                         <span class="relative flex h-2.5 w-2.5">
@@ -78,6 +80,10 @@
                         <!-- Secondary Button -->
                         <a href="#about"
                             class="group inline-flex items-center gap-2 rounded-lg border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-white hover:bg-white hover:text-[#7D3C98] lg:px-8 lg:py-3.5">
+                        <a
+                            href="{{ route('about') }}"
+                            class="rounded-md border border-gray-600 bg-gray-800/40 px-3 py-2 lg:px-8 lg:py-3 font-medium text-white backdrop-blur-sm transition-all hover:bg-gray-700/60"
+                        >
                             Learn More
 
                             <span class="transition-transform duration-300 group-hover:translate-x-1">
@@ -243,6 +249,8 @@
                         <span class="transition-transform duration-300 group-hover:translate-x-1">
                             →
                         </span>
+                    <a href="{{ route('newsletter') }}" class="text-xs text-[#7D3C98] justify-self-end hover:underline">
+                        Learn More &rarr;
                     </a>
                 </div>
 
@@ -277,6 +285,14 @@
                         <span class="transition-transform duration-300 group-hover:translate-x-1">
                             →
                         </span>
+                    <h2 class="text-lg font-semibold text-gray-800">
+                       RSU Global! Publications
+                    </h2>
+                    <p class="text-xs text-gray-500 min-h-[60px]">
+                        Access publications, research papers, and resources to support your language learning journey and academic success. 
+                    </p>
+                    <a href="{{ route('publications') }}" class="text-xs text-[#7D3C98] justify-self-end hover:underline">
+                        Learn More &rarr;
                     </a>
                 </div>
 
@@ -311,6 +327,8 @@
                         <span class="transition-transform duration-300 group-hover:translate-x-1">
                             →
                         </span>
+                    <a href="#" class="text-xs text-[#7D3C98] justify-self-end hover:underline">
+                        Learn More &rarr;
                     </a>
                 </div>
 
@@ -344,6 +362,8 @@
                         <span class="transition-transform duration-300 group-hover:translate-x-1">
                             →
                         </span>
+                    <a href="https://www.youtube.com/@RSUGlobal555" target="_blank" class="text-xs text-[#7D3C98] justify-self-end hover:underline">
+                        Learn More &rarr;
                     </a>
                 </div>
 
@@ -391,6 +411,30 @@
 
                 </div>
 
+        
+        </div>
+        <div class="flex flex-col justify-center py-24 gap-2 text-center bg-[#7D3C98]">
+            <h1 class="mb-2 text-4xl font-bold tracking-wide text-white text-center">
+                Ready to start your journey?
+            </h1>
+            <p
+                class="break-word mx-auto mb-4 max-w-xl text-sm leading-relaxed text-white text-center"
+            >
+                Whether you want to improve your English or become a mentor, there's a place for your at RSUGlobal!.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a
+                    href="{{ route('register.mentor') }}"
+                    class="text-xs lg:text-sm rounded-md  bg-white px-2 py-2 lg:px-8 lg:py-3 font-medium text-[#7D3C98] shadow-md hover:opacity-90 transition-all "
+                >
+                    Join Mentorship
+                </a>
+                <a
+                    href="{{ route('newsletter') }}"
+                    class="text-xs lg:text-sm rounded-md border border-gray-100 px-2 py-2 lg:px-8 lg:py-3 font-medium text-white hover:bg-white/10 backdrop-blur-sm transition-all"
+                >
+                    Newsletter
+                </a>
             </div>
         </div>
 

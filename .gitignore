@@ -23,3 +23,5 @@ yarn-error.log
 .codegpt
 .prettierrc
 .claude
+CLAUDE.md
+AGENT.md

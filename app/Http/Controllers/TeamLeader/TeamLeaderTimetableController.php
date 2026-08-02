@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\TeamLeader;
+use App\Http\Controllers\Controller;
 
 use App\Models\TeamLeaderTimetable;
 use Illuminate\Http\Request;
@@ -42,9 +43,9 @@ class TeamLeaderTimetableController extends Controller
         // Enforce slot limits with special rule for Tuesday 09:00-11:00
         $slotLimits = [
             '09:00-11:00' => 2,
-            '11:00-13:00' => 10,
-            '13:00-15:00' => 10,
-            '15:00-17:00' => 10,
+            '11:00-13:00' => 4,
+            '13:00-15:00' => 4,
+            '15:00-17:00' => 4,
             //'17:00-20:00' => 3, add this on main semesters
         ];
 
@@ -71,9 +72,9 @@ class TeamLeaderTimetableController extends Controller
 
         $slotLimits = [
             '09:00-11:00' => 2,
-            '11:00-13:00' => 10,
-            '13:00-15:00' => 10,
-            '15:00-17:00' => 10,
+            '11:00-13:00' => 4,
+            '13:00-15:00' => 4,
+            '15:00-17:00' => 4,
         ];
 
         // Filtered Search Result

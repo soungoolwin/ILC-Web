@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mentor;
+use App\Http\Controllers\Controller;
 
 use App\Models\Mentor;
 use App\Models\Form;

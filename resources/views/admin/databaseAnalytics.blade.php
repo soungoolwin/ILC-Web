@@ -26,6 +26,9 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-2">
+                    <button type="button" data-chart-back class="hidden rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50">
+                        &larr; Back to grid
+                    </button>
                     <button type="button" data-chart-prev class="rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50">
                         Previous
                     </button>
@@ -96,7 +99,7 @@
                 </svg>
             </button>
 
-            <div data-chart-chrome class="flex flex-wrap items-center justify-center gap-2 border-t border-gray-100 px-4 py-3">
+            <div data-chart-chrome data-chart-dots-bar class="flex flex-wrap items-center justify-center gap-2 border-t border-gray-100 px-4 py-3">
                 @foreach ($slideshowCharts as $key => $chart)
                     <button
                         type="button"
@@ -439,7 +442,7 @@
             const slides = Array.from(root.querySelectorAll('[data-chart-slide]'));
             const choices = Array.from(root.querySelectorAll('[data-chart-choice]'));
             const dots = Array.from(root.querySelectorAll('[data-chart-dot]'));
-            const chrome = Array.from(root.querySelectorAll('[data-chart-chrome]'));
+            const dotsBar = root.querySelector('[data-chart-dots-bar]');
             const frames = Array.from(root.querySelectorAll('[data-chart-frame]'));
             const menu = root.querySelector('[data-chart-menu]');
             const menuToggle = root.querySelector('[data-chart-menu-toggle]');
@@ -447,6 +450,7 @@
             const counter = root.querySelector('[data-chart-counter]');
             const prevButton = root.querySelector('[data-chart-prev]');
             const nextButton = root.querySelector('[data-chart-next]');
+            const backButton = root.querySelector('[data-chart-back]');
             const fullscreenButton = root.querySelector('[data-chart-fullscreen]');
             const fullscreenEnterIcon = root.querySelector('[data-fullscreen-enter-icon]');
             const fullscreenExitIcon = root.querySelector('[data-fullscreen-exit-icon]');
@@ -456,6 +460,8 @@
             let activeKey = allKeys[0] || null;
             let timer = null;
             let fallbackFullscreen = false;
+            // Focus mode: when true inside fullscreen, show only the active chart instead of the grid.
+            let focused = false;
 
             function savedKeys() {
                 try {
@@ -499,14 +505,20 @@
                 const activeSlide = requestedSlide || selectedSlides[0];
                 activeKey = activeSlide.dataset.chartSlide;
 
+                const fullscreen = isFullscreen();
+                const grid = fullscreen && !focused;
+
                 slides.forEach((slide) => {
                     const isEnabled = enabledKeys().includes(slide.dataset.chartSlide);
                     const isActive = slide.dataset.chartSlide === activeKey;
-                    slide.classList.toggle('opacity-100', isActive);
-                    slide.classList.toggle('opacity-0', !isActive);
-                    slide.classList.toggle('pointer-events-none', !isActive);
-                    slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
-                    slide.classList.toggle('hidden', !isEnabled);
+                    // Grid: every enabled chart is visible. Windowed or focus: only the active one is.
+                    const visible = grid ? isEnabled : isActive;
+                    slide.classList.toggle('opacity-100', visible);
+                    slide.classList.toggle('opacity-0', !visible);
+                    slide.classList.toggle('pointer-events-none', !visible);
+                    slide.setAttribute('aria-hidden', visible ? 'false' : 'true');
+                    // In grid we hide disabled slides; in single-slide modes we hide everything except active.
+                    slide.classList.toggle('hidden', grid ? !isEnabled : !isActive);
                 });
 
                 dots.forEach((dot) => {
@@ -518,8 +530,13 @@
                 });
 
                 const activeIndex = selectedSlides.findIndex((slide) => slide.dataset.chartSlide === activeKey);
-                title.textContent = activeSlide.dataset.chartLabel;
-                counter.textContent = `${activeIndex + 1} of ${selectedSlides.length}`;
+                if (grid) {
+                    title.textContent = `All charts (${enabledKeys().length})`;
+                    counter.textContent = '';
+                } else {
+                    title.textContent = activeSlide.dataset.chartLabel;
+                    counter.textContent = `${activeIndex + 1} of ${selectedSlides.length}`;
+                }
                 window.dispatchEvent(new Event('resize'));
             }
 
@@ -537,6 +554,10 @@
 
             function restartTimer() {
                 window.clearInterval(timer);
+                // No auto-advance in fullscreen grid mode — all charts are already visible.
+                if (isFullscreen()) {
+                    return;
+                }
                 timer = window.setInterval(() => move(1), 8000);
             }
 
@@ -545,44 +566,96 @@
             }
 
             function syncFullscreenState() {
-                const active = isFullscreen();
+                const fullscreen = isFullscreen();
+                // Exiting fullscreen always drops focus mode so we return cleanly to the windowed slideshow.
+                if (!fullscreen) {
+                    focused = false;
+                }
+                const grid = fullscreen && !focused;
+                const focus = fullscreen && focused;
+
                 root.classList.toggle('fixed', fallbackFullscreen);
                 root.classList.toggle('inset-0', fallbackFullscreen);
                 root.classList.toggle('z-50', fallbackFullscreen);
-                root.classList.toggle('m-0', active);
-                root.classList.toggle('flex', active);
-                root.classList.toggle('h-screen', active);
-                root.classList.toggle('flex-col', active);
-                root.classList.toggle('rounded-none', active);
-                root.classList.toggle('border-0', active);
-                stage.classList.toggle('min-h-[360px]', !active);
-                stage.classList.toggle('flex-1', active);
-                stage.classList.toggle('min-h-0', active);
-                stage.classList.toggle('w-full', active);
-                chrome.forEach((element) => {
-                    element.classList.toggle('hidden', active);
-                });
+                root.classList.toggle('m-0', fullscreen);
+                root.classList.toggle('flex', fullscreen);
+                root.classList.toggle('h-screen', fullscreen);
+                root.classList.toggle('flex-col', fullscreen);
+                root.classList.toggle('rounded-none', fullscreen);
+                root.classList.toggle('border-0', fullscreen);
+
+                // Stage layout differs per mode:
+                //   windowed  → relative box with absolute-stacked slides
+                //   grid      → CSS grid, scrollable, auto row height
+                //   focus     → fullscreen single-slide overlay (like the old fullscreen behavior)
+                stage.classList.toggle('min-h-[360px]', !fullscreen);
+                stage.classList.toggle('overflow-hidden', !grid); // windowed + focus don't scroll
+                stage.classList.toggle('flex-1', fullscreen);
+                stage.classList.toggle('min-h-0', fullscreen);
+                stage.classList.toggle('w-full', fullscreen);
+                stage.classList.toggle('overflow-y-auto', grid);
+                stage.classList.toggle('grid', grid);
+                stage.classList.toggle('grid-cols-1', grid);
+                stage.classList.toggle('lg:grid-cols-2', grid);
+                stage.classList.toggle('gap-4', grid);
+                stage.classList.toggle('p-4', grid);
+
+                // Toolbar buttons:
+                //   dots strip → windowed only
+                //   prev/next  → windowed + focus (navigates adjacent chart)
+                //   counter    → windowed + focus
+                //   back       → focus only
+                if (dotsBar) {
+                    dotsBar.classList.toggle('hidden', fullscreen);
+                }
+                prevButton.classList.toggle('hidden', grid);
+                nextButton.classList.toggle('hidden', grid);
+                counter.classList.toggle('hidden', grid);
+                if (backButton) {
+                    backButton.classList.toggle('hidden', !focus);
+                }
+
                 slides.forEach((slide) => {
-                    slide.classList.toggle('px-4', !active);
-                    slide.classList.toggle('py-4', !active);
-                    slide.classList.toggle('px-6', active);
-                    slide.classList.toggle('lg:px-10', active);
-                    slide.classList.toggle('py-0', active);
-                    slide.classList.toggle('flex', active);
-                    slide.classList.toggle('items-center', active);
-                    slide.classList.toggle('justify-center', active);
+                    // Grid: relative flow children. Windowed and focus: absolute single-slide overlay.
+                    slide.classList.toggle('absolute', !grid);
+                    slide.classList.toggle('inset-0', !grid);
+                    slide.classList.toggle('relative', grid);
+                    slide.classList.toggle('min-h-[360px]', grid);
+                    slide.classList.toggle('w-full', grid);
+                    slide.classList.toggle('min-w-0', grid);
+                    slide.classList.toggle('overflow-hidden', grid);
+                    slide.classList.toggle('cursor-pointer', grid); // hint that grid cells are clickable
+                    slide.classList.toggle('px-4', !fullscreen);
+                    slide.classList.toggle('px-6', fullscreen);
+                    slide.classList.toggle('lg:px-10', fullscreen);
+                    // Padding: windowed + grid use py-4; focus uses py-2 so the chart can stretch.
+                    slide.classList.toggle('py-4', !focus);
+                    slide.classList.toggle('py-2', focus);
+                    // Focus mode centers the single chart in the available space.
+                    slide.classList.toggle('flex', focus);
+                    slide.classList.toggle('items-center', focus);
+                    slide.classList.toggle('justify-center', focus);
                 });
                 frames.forEach((frame) => {
-                    frame.classList.toggle('w-full', active);
-                    frame.classList.toggle('max-w-none', active);
-                    frame.classList.toggle('mx-auto', active);
+                    frame.classList.toggle('w-full', fullscreen);
+                    frame.classList.toggle('max-w-full', grid); // only clamp in grid; focus should stretch
+                    frame.classList.toggle('mx-auto', fullscreen);
                 });
                 menu.classList.add('hidden');
-                fullscreenEnterIcon.classList.toggle('hidden', active);
-                fullscreenExitIcon.classList.toggle('hidden', !active);
-                fullscreenButton.setAttribute('aria-label', active ? 'Exit full screen' : 'Enter full screen');
-                fullscreenButton.setAttribute('title', active ? 'Exit full screen' : 'Full screen');
-                window.setTimeout(() => window.dispatchEvent(new Event('resize')), 150);
+                fullscreenEnterIcon.classList.toggle('hidden', fullscreen);
+                fullscreenExitIcon.classList.toggle('hidden', !fullscreen);
+                fullscreenButton.setAttribute('aria-label', fullscreen ? 'Exit full screen' : 'Enter full screen');
+                fullscreenButton.setAttribute('title', fullscreen ? 'Exit full screen' : 'Full screen');
+
+                // Refresh slide visibility for the new mode.
+                setActive(activeKey);
+                restartTimer();
+                // Apex picks up its container size from window.resize. Dispatch on the next frame and again
+                // after layout settles so it re-renders into the new container size instead of staying at the old size.
+                requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+                [200, 500, 1000].forEach((delay) => {
+                    window.setTimeout(() => window.dispatchEvent(new Event('resize')), delay);
+                });
             }
 
             async function toggleFullscreen() {
@@ -653,6 +726,28 @@
                 toggleFullscreen();
                 restartTimer();
             });
+
+            // Click a slide while in fullscreen grid to enter focus mode for that chart.
+            slides.forEach((slide) => {
+                slide.addEventListener('click', () => {
+                    if (!isFullscreen() || focused) {
+                        return;
+                    }
+                    focused = true;
+                    setActive(slide.dataset.chartSlide);
+                    syncFullscreenState();
+                });
+            });
+
+            if (backButton) {
+                backButton.addEventListener('click', () => {
+                    if (!isFullscreen()) {
+                        return;
+                    }
+                    focused = false;
+                    syncFullscreenState();
+                });
+            }
 
             menuToggle.addEventListener('click', (event) => {
                 event.stopPropagation();

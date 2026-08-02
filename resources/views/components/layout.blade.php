@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0 final-scale=1.0 user-scalable=no" />
@@ -160,6 +161,28 @@
                                     class="duration-400 z-12 tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-100 px-3 py-2 text-sm font-medium text-red-600 opacity-0 shadow-md transition-opacity">
                                     Log Out
                                     <div class="tooltip-arrow" data-popper-arrow></div>
+                                <div
+                                    id="dropdownMenu"
+                                    class="absolute right-[110px] top-[110px] z-10 mt-2 hidden w-48 w-fit rounded-md border border-gray-300 bg-white text-xs shadow-xl lg:right-[200px] lg:top-[50px] lg:mt-3 lg:text-sm"
+                                >
+                                    <a
+                                        href="{{ route("mentor.timetables.create") }}"
+                                        class="block border-b border-gray-200 px-2 py-2 text-sm text-gray-700 hover:bg-gray-100 lg:px-4 lg:py-2"
+                                    >
+                                        Create Timetable
+                                    </a>
+                                    <a
+                                        href="{{ route("mentor.timetables.show") }}"
+                                        class="block border-b border-gray-200 px-2 py-2 text-sm text-gray-700 hover:bg-gray-100 lg:px-4 lg:py-2"
+                                    >
+                                        My Timetable
+                                    </a>
+                                    <a
+                                        href="{{ route("mentor.timetables.students") }}"
+                                        class="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-100 lg:px-4 lg:py-2"
+                                    >
+                                        See Your Students
+                                    </a>
                                 </div>
                             </form>
                         </div>
@@ -276,12 +299,97 @@
                                 <a href="{{ route('admin.database_analytics') }}"
                                     class="block px-2 py-2 text-xs text-green-600 hover:bg-gray-100">
                                     Database Analytics
+                                <!-- Management Dropdown -->
+
+                                <button
+                                    id="dropdownButton"
+                                    class="nav-link inline-flex items-center rounded-md border-[1.5px] border-[#7D3C98] bg-[#7D3C98] px-2 py-1 text-white lg:px-4 lg:py-2"
+                                >
+                                    Manage
+                                </button>
+                                <div
+                                    id="dropdownMenu"
+                                    class="absolute right-[175px] top-[75px] z-10 flex hidden w-fit flex-col rounded-md border border-gray-200 bg-white p-1 text-xs shadow-md lg:text-sm"
+                                >
+                                    <p
+                                        class="rounded-t-sm bg-blue-500 px-2 py-1.5 text-sm font-semibold text-white"
+                                    >
+                                        Users & Timetables
+                                    </p>
+                                    <a
+                                        href="{{ route("admin.mentor_students_timetable") }}"
+                                        class="block px-2 py-2 text-xs text-blue-500 hover:bg-gray-100"
+                                    >
+                                        Mentor-Students Timetable
+                                    </a>
+                                    <a
+                                        href="{{ route("admin.team_leaders_timetable") }}"
+                                        class="block px-2 py-2 text-xs text-blue-500 hover:bg-gray-100"
+                                    >
+                                        TeamLeader Timetable
+                                    </a>
+
+                                    <a
+                                        href="{{ route("admin.users.index") }}"
+                                        class="block px-2 py-2 text-xs text-blue-500 hover:bg-gray-100"
+                                    >
+                                        Delete Users
+                                    </a>
+                                    <p
+                                        class="bg-yellow-400 px-2 py-1.5 text-sm font-semibold text-white"
+                                    >
+                                        Forms
+                                    </p>
+                                    <a
+                                        href="{{ route("admin.forms.index") }}"
+                                        class="block px-2 py-2 text-xs text-yellow-500 hover:bg-gray-100"
+                                    >
+                                        Manage Forms
+                                    </a>
+                                    <a
+                                        href="{{ route("admin.forms.tracking") }}"
+                                        class="block px-2 py-2 text-xs text-yellow-500 hover:bg-gray-100"
+                                    >
+                                        Track Form Completion
+                                    </a>
+                                    <a
+                                        href="{{ route("admin.attendance.index") }}"
+                                        class="block px-2 py-2 text-xs text-yellow-500 hover:bg-gray-100"
+                                    >
+                                        Student Attendance Reports
+                                    </a>
+                                    <p
+                                        class="rounded-b-sm bg-green-600 px-2 py-1.5 text-sm font-semibold text-white"
+                                    >
+                                        Analytics
+                                    </p>
+                                    <a
+                                        href="{{ route("admin.database_analytics") }}"
+                                        class="block px-2 py-2 text-xs text-green-600 hover:bg-gray-100"
+                                    >
+                                        Database Analytics
+                                    </a>
+                                </div>
+
+                                <a
+                                    href="{{ route("admin.profile") }}"
+                                    class="nav-link inline-flex items-center rounded-md border-[1.5px] border-[#7D3C98] bg-[#7D3C98] px-2 py-1 text-white lg:px-4 lg:py-2"
+                                >
+                                    {{ Auth::user()->name }}
                                 </a>
                             </div>
 
                             <a href="{{ route('admin.profile') }}"
                                 class="nav-link inline-flex items-center rounded-md border-[1.5px] border-[#7D3C98] bg-[#7D3C98] px-2 py-1 text-white lg:px-4 lg:py-2">
                                 {{ Auth::user()->name }}
+                        @endif
+                    @elseif (Request::is("login") || Request::is("register/student") || Request::is("register/mentor") || Request::is("register/team-leader"))
+                        <div>
+                            <a
+                                href="{{ route("guest") }}"
+                                class="nav-link mr-2 inline-flex items-center rounded-md border-[1.5px] border-[#7D3C98] bg-[#7D3C98] px-2 py-1 text-white lg:px-4 lg:py-2"
+                            >
+                                Home
                             </a>
 
                             <!-- Logout Button -->
@@ -345,6 +453,29 @@
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Team Leader
                                     </a>
+                                    <div
+                                        id="registerDropdownMenu"
+                                        class="absolute right-0 z-10 mt-2 hidden w-48 rounded-md bg-white shadow-lg"
+                                    >
+                                        <a
+                                            href="{{ route("register.student") }}"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        >
+                                            Student
+                                        </a>
+                                        <a
+                                            href="{{ route("register.mentor") }}"
+                                            class="block hidden px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        >
+                                            Mentor
+                                        </a>
+                                        <a
+                                            href="{{ route("register.team_leader") }}"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        >
+                                            Team Leader
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -437,6 +568,40 @@
                                     <a href=""
                                         class="inline-flex transition-all duration-200 hover:translate-x-1 hover:text-[#B98CCB]">
                                         Resource Portal
+                            </h1>
+                            <ul
+                                class="font-ligh text-xs text-gray-400 lg:text-sm"
+                            >
+                                <li class="mt-2">
+                                    <a
+                                        href="{{ route("about") }}"
+                                        class="hover:text-gray-300 hover:underline"
+                                    >
+                                        About Us
+                                    </a>
+                                </li>
+                                <li class="mt-2">
+                                    <a
+                                        href="{{ route("register.mentor") }}"
+                                        class="hover:text-gray-300 hover:underline"
+                                    >
+                                        Mentorship Program
+                                    </a>
+                                </li>
+                                <li class="mt-2">
+                                    <a
+                                        href="{{ route("publications") }}"
+                                        class="hover:text-gray-300 hover:underline"
+                                    >
+                                        Publications
+                                    </a>
+                                </li>
+                                <li class="mt-2">
+                                    <a
+                                        href="{{ route("newsletter") }}"
+                                        class="hover:text-gray-300 hover:underline"
+                                    >
+                                        Newsletter
                                     </a>
                                 </li>
 
@@ -471,6 +636,11 @@
                                 <li>
                                     <a href=""
                                         class="inline-flex transition-all duration-200 hover:translate-x-1 hover:text-[#B98CCB]">
+                                <li class="mt-2">
+                                    <a
+                                        href="{{ route("register.team_leader") }}"
+                                        class="hover:text-gray-300 hover:underline"
+                                    >
                                         Become a Team Leader
                                     </a>
                                 </li>
@@ -505,6 +675,15 @@
                                 </li>
 
                                 <li>
+                            </h1>
+                            <ul
+                                class="text-xs font-light text-gray-400 lg:text-sm"
+                            >
+                                <li class="mt-2">
+                                    Email: superduperreadyeddie@rsu.ac.th
+                                </li>
+                                <li class="mt-2">Phone: -</li>
+                                <li class="mt-2">
                                     Address: 52/347, Mueang Ek, Pathum Thani
                                     12000, Thailand
                                 </li>
