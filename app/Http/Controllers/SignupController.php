@@ -4,13 +4,44 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Mentor;
+use App\Models\Semester;
 use App\Models\Student;
 use App\Models\TeamLeader;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SignupController extends Controller
 {
+    /**
+     * Find an existing user by email for the given role, or create a new
+     * one. Returning participants keep their user account across
+     * semesters instead of being blocked by a unique-email check.
+     */
+    private function findOrCreateUser(array $data, string $role, string $idField): User
+    {
+        $existing = User::where('email', $data['email'])->first();
+
+        if ($existing) {
+            abort_if($existing->role !== $role, 422, 'This email is already registered under a different role.');
+
+            return $existing;
+        }
+
+        return User::create([
+            'name' => $data['name'],
+            'nickname' => $data['nickname'],
+            'email' => $data['email'],
+            'password' => bcrypt($data[$idField]),
+            'role' => $role,
+            'line_id' => $data['line_id'] ?? null,
+            'phone_number' => $data['phone_number'] ?? null,
+            'faculty' => $data['faculty'] ?? null,
+            'language' => $data['language'] ?? null,
+            'level' => $data['level'] ?? null,
+        ]);
+    }
+
     public function showStudentRegistrationForm()
     {
         return view('auth.register-student'); // Create this Blade view
@@ -34,29 +65,28 @@ class SignupController extends Controller
      */
     public function registerStudent(Request $request)
     {
+        $semester = Semester::current();
+
+        if (!$semester) {
+            return back()->withErrors(['error' => 'No active semester is set up yet. Contact an admin.'])->withInput();
+        }
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'student_id' => 'required|string|unique:students,student_id',
+            'email' => 'required|string|email|max:255',
+            'student_id' => [
+                'required', 'string',
+                Rule::unique('students', 'student_id')->where('semester_id', $semester->id),
+            ],
             'id_confirmation' => 'required|string|same:student_id',
         ]);
 
-        $user = User::create([
-            'name' => $data['name'],
-            'nickname' => $data['nickname'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['student_id']), // Use bcrypt for hashing
-            'role' => 'student',
-            'line_id' => $data['line_id'] ?? null,
-            'phone_number' => $data['phone_number'] ?? null,
-            'faculty' => $data['faculty'] ?? null,
-            'language' => $data['language'] ?? null,
-            'level' => $data['level'] ?? null,
-        ]);
+        $user = $this->findOrCreateUser($data, 'student', 'student_id');
 
         Student::create([
             'user_id' => $user->id,
+            'semester_id' => $semester->id,
             'student_id' => $data['student_id'],
         ]);
 
@@ -68,14 +98,23 @@ class SignupController extends Controller
      */
     public function registerMentor(Request $request)
     {
+        $semester = Semester::current();
+
+        if (!$semester) {
+            return back()->withErrors(['error' => 'No active semester is set up yet. Contact an admin.'])->withInput();
+        }
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users|ends_with:@rsu.ac.th',
+            'email' => 'required|string|email|max:255|ends_with:@rsu.ac.th',
             //'password' => 'required|string|min:8|confirmed',
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
-            'mentor_id' => 'required|string|unique:mentors,mentor_id',
+            'mentor_id' => [
+                'required', 'string',
+                Rule::unique('mentors', 'mentor_id')->where('semester_id', $semester->id),
+            ],
             'faculty' => 'required|string|max:255',
             'language' => 'required|string|max:255',
             'level' => 'required|string|max:255',
@@ -84,21 +123,11 @@ class SignupController extends Controller
             'email.ends_with' => 'The email must be a valid rsu.ac.th address.',
         ]);
 
-        $user = User::create([
-            'name' => $data['name'],
-            'nickname' => $data['nickname'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['mentor_id']), // Use bcrypt for hashing
-            'role' => 'mentor',
-            'line_id' => $data['line_id'],
-            'phone_number' => $data['phone_number'],
-            'faculty' => $data['faculty'],
-            'language' => $data['language'],
-            'level' => $data['level'],
-        ]);
+        $user = $this->findOrCreateUser($data, 'mentor', 'mentor_id');
 
         Mentor::create([
             'user_id' => $user->id,
+            'semester_id' => $semester->id,
             'mentor_id' => $data['mentor_id'],
         ]);
 
@@ -149,14 +178,23 @@ class SignupController extends Controller
 
     public function registerTeamLeader(Request $request)
     {
+        $semester = Semester::current();
+
+        if (!$semester) {
+            return back()->withErrors(['error' => 'No active semester is set up yet. Contact an admin.'])->withInput();
+        }
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users|ends_with:@rsu.ac.th',
+            'email' => 'required|string|email|max:255|ends_with:@rsu.ac.th',
             //'password' => 'required|string|min:8|confirmed',
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
-            'team_leader_id' => 'required|string|unique:team_leaders,team_leader_id',
+            'team_leader_id' => [
+                'required', 'string',
+                Rule::unique('team_leaders', 'team_leader_id')->where('semester_id', $semester->id),
+            ],
             'faculty' => 'required|string|max:255',
             'language' => 'required|string|max:255',
             'level' => 'required|string|max:255',
@@ -165,21 +203,11 @@ class SignupController extends Controller
             'email.ends_with' => 'The email must be a valid rsu.ac.th address.',
         ]);
 
-        $user = User::create([
-            'name' => $data['name'],
-            'nickname' => $data['nickname'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['team_leader_id']), // Use bcrypt for hashing
-            'role' => 'team_leader',
-            'line_id' => $data['line_id'],
-            'phone_number' => $data['phone_number'],
-            'faculty' => $data['faculty'],
-            'language' => $data['language'],
-            'level' => $data['level'],
-        ]);
+        $user = $this->findOrCreateUser($data, 'team_leader', 'team_leader_id');
 
         TeamLeader::create([
             'user_id' => $user->id,
+            'semester_id' => $semester->id,
             'team_leader_id' => $data['team_leader_id'],
         ]);
 

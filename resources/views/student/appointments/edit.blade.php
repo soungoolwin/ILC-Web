@@ -88,6 +88,11 @@
 </x-layout>
 
 <script>
+    // Server-computed capacity per day/half-hour slot, driven by the
+    // current semester's settings (Admin > Semesters). Keep this as the
+    // only source of truth — don't hardcode table counts here.
+    const capacityMatrix = @json($capacityMatrix ?? []);
+
     const tableSelect = document.getElementById('table_number');
     const timeSelect = document.getElementById('time_slot');
     const dateSelect = document.getElementById('day');
@@ -95,26 +100,7 @@
     function updateTableOptions() {
         const selectedTime = timeSelect.value;
         const selectedDay = dateSelect.value;
-        let tableCount = 12;
-
-        // Show only 2 tables for 09:00-09:30, 9:30-10:00, 10:00-10:30, and 10:30-11:00
-        if (selectedTime === '09:00-09:30' || selectedTime === '09:30-10:00' || selectedTime === '10:00-10:30' || selectedTime === '10:30-11:00') {
-            tableCount = 2;
-        }
-
-        if (selectedTime === '15:00-15:30' || selectedTime === '15:30-16:00' || selectedTime === '16:00-16:30' || selectedTime === '16:30-17:00') {
-            tableCount = 7;
-        }
-
-        if (selectedDay === 'Tuesday' && (selectedTime === '14:00-14:30' || selectedTime === '14:30-15:00')) {
-            tableCount = 30;
-        }
-
-        if (selectedDay === 'Wednesday' && (selectedTime === '12:00-12:30' || selectedTime === '14:00-14:30' || selectedTime === '15:00-15:30' || selectedTime === '15:30-16:00')) {
-            tableCount = 30;
-        }
-
-
+        const tableCount = capacityMatrix[selectedDay]?.[selectedTime] ?? 12;
 
         // Clear current options
         tableSelect.innerHTML = '<option value="">Select a Table</option>';

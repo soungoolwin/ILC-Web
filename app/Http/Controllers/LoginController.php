@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Scopes\CurrentSemesterScope;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -61,51 +61,55 @@ class LoginController extends Controller
      */
     private function handleMentorLogin($user)
     {
+        // Row for the current semester (via CurrentSemesterScope). If it
+        // exists, this mentor is already set up for this term.
         $mentor = $user->mentors()->first();
 
-        if (!$mentor) {
-            return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
-        }
-        
-        if ($mentor->status === 'paused') {
-            return redirect()->route('mentor.pause');
-        }
+        if ($mentor) {
+            if ($mentor->status === 'paused') {
+                return redirect()->route('mentor.pause');
+            }
 
-        // Get the current date
-        $currentDate = Carbon::now();
+            if ($mentor->status === 'suspended') {
+                return redirect()->route('mentor.suspended');
+            }
 
-        // Only trigger the checker after July 31st, 2025
-        $checkerStartDate = Carbon::create(2024, 8, 1);
-        if ($currentDate->lessThan($checkerStartDate)) {
-            // Redirect to the mentor dashboard if before the checker start date
             return redirect()->route('mentor.dashboard');
         }
 
-        // Semester end dates
-        $semesterEndDates = [
-            Carbon::create($currentDate->year, 12, 31),
-            Carbon::create($currentDate->year, 7, 31),
-        ];
+        // No row for the current semester: figure out whether this is a
+        // brand-new mentor (never registered) or a returning one who
+        // hasn't confirmed for the new semester yet.
+        $lastMentor = $user->mentors()
+            ->withoutGlobalScope(CurrentSemesterScope::class)
+            ->latest('id')
+            ->first();
 
-        // Determine the last semester end date
-        $lastSemesterEndDate = $currentDate->greaterThan($semesterEndDates[1]) ? $semesterEndDates[1] : $semesterEndDates[0];
-
-        // Check if the mentor has already been checked after the last semester end date
-        if ($mentor->last_checked_at) {
-            $lastCheckedAt = Carbon::parse($mentor->last_checked_at);
-
-            if ($lastCheckedAt->lessThanOrEqualTo($lastSemesterEndDate)) {
-                if ($mentor->mentor_sem > 2) {
-                    $mentor->update(['status' => 'suspended']);
-                    return redirect()->route('mentor.suspended');
-                } elseif ($mentor->mentor_sem <=  2 && $mentor->status !== 'suspended') {
-                    return redirect()->route('mentor.nextsem', compact('mentor'));
-                }
-            }
+        if (!$lastMentor) {
+            return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
         }
 
-        // Default redirect for mentors
-        return redirect()->route('mentor.dashboard');
+        if ($lastMentor->status === 'paused') {
+            return redirect()->route('mentor.pause');
+        }
+
+        if ($lastMentor->status === 'suspended') {
+            return redirect()->route('mentor.suspended');
+        }
+
+        // How many semesters has this mentor already completed? Once
+        // they've done more than 2, they're suspended instead of being
+        // offered another term.
+        $semestersCompleted = $user->mentors()
+            ->withoutGlobalScope(CurrentSemesterScope::class)
+            ->count();
+
+        if ($semestersCompleted > 2) {
+            $lastMentor->update(['status' => 'suspended']);
+            return redirect()->route('mentor.suspended');
+        }
+
+        return redirect()->route('mentor.nextsem', ['mentor' => $lastMentor]);
     }
     public function logout(Request $request)
     {
