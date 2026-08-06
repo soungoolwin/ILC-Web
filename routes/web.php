@@ -255,6 +255,10 @@ Route::get('/components/about', function () {
     return view('components.about');
 })->name('about')->withoutMiddleware(RedirectIfAuthenticated::class);
 
+Route::get('/components/course127', function () {
+    return view('components.course127');
+})->name('course.127')->withoutMiddleware(RedirectIfAuthenticated::class);
+
 //Logout
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

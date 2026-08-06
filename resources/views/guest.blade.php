@@ -238,7 +238,7 @@
                     <p class="text-xs text-gray-500 min-h-[60px]">
                         Improve your academic writing, presentation skills, and confidence for your future career.
                     </p>
-                    <a href="#"
+                    <a href="{{ route('course.127') }}" target="_blank" rel="noopener noreferrer"
                         class="inline-flex w-fit items-center gap-2 rounded-lg bg-[#7D3C98]/10 px-4 py-2 text-sm font-medium text-[#7D3C98] transition-all duration-300 hover:bg-[#7D3C98] hover:text-white">
                         Learn More
                         <span class="transition-transform duration-300 group-hover:translate-x-1">
