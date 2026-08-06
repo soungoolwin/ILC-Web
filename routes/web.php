@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('guest');
 });
+Route::get('/playlist', [GuestPageController::class, 'showAllPlaylists'])->name('playlist');
 Route::get('/', [GuestPageController::class, 'showStats'])->name('guest');
 
 // Authentication Routes

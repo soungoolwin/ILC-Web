@@ -272,6 +272,125 @@
             </div>
 
         </div>
+
+        {{-- Learn through Youtube --}}
+        <section class="bg-gray-50 py-10">
+            <div class="mx-auto max-w-7xl px-6 lg:px-24">
+
+                <!-- Section Heading -->
+                <div class="mb-12 text-center">
+                    <span
+                        class="inline-block rounded-full bg-[#7D3C98]/10 px-4 py-1 text-sm font-medium text-[#7D3C98]">
+                        Learning Resources
+                    </span>
+
+                    <h2 class="mt-4 text-3xl font-bold text-gray-800 lg:text-4xl">
+                        Learn Through Videos
+                    </h2>
+
+                    <p class="mx-auto mt-3 max-w-2xl text-gray-500">
+                        Watch videos to improve your English, discover campus life,
+                        and learn from experienced mentors at RSUGlobal! PAL.
+                    </p>
+                </div>
+
+                <!-- Featured Playlists -->
+                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+                    <!-- Playlist 1 -->
+                    <div
+                        class="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+
+                        <div class="aspect-video">
+                            <iframe class="h-full w-full"
+                                src="https://www.youtube.com/embed/videoseries?si=Q5b73A-YgzcNTEIK&amp;list=PLarQ3z7ST7hQ"
+                                title="Playlist 1" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                            </iframe>
+
+                        </div>
+
+                        <div class="p-5">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                Introduction to RSUGlobal! PAL
+                            </h3>
+
+                            <p class="mt-2 text-sm text-gray-500">
+                                An introduction to the RIC Language Center and the Data-Driven Seamless Learning
+                                theoretical framework it utilizes.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Playlist 2 -->
+                    <div
+                        class="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+
+                        <div class="aspect-video">
+
+                            <iframe class="h-full w-full"
+                                src="https://www.youtube.com/embed/videoseries?si=6eP_e4G01FvD8fQH&amp;list=PLDZT8TYo9mV0"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+
+                        <div class="p-5">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                Mentor Experiences and Insights
+                            </h3>
+
+                            <p class="mt-2 text-sm text-gray-500">
+                                RSU ILC Student x @eainvlog interview
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Playlist 3 -->
+                    <div
+                        class="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+
+                        <div class="aspect-video">
+
+                            <iframe class="h-full w-full"
+                                src="https://www.youtube.com/embed/videoseries?si=IQrfdPWyLZe6BGtY&amp;list=PLYf849xZ_Fx5YWS7vFujvhY3h2N6_C7nM"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+
+                        <div class="p-5">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                RSU Global! Passport
+                            </h3>
+
+                            <p class="mt-2 text-sm text-gray-500">
+                                For this event, Thai students have to complete 3 interactive stations, then complete
+                                Station #4 - where they register and select their mentoring session for next week @ RSU
+                                Global!
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Button -->
+                <div class="mt-12 text-center">
+                    <a href="{{ route('playlist') }}" target="_blank"
+                        class="inline-flex items-center gap-2 rounded-lg bg-[#7D3C98] px-8 py-3 font-medium text-white transition-all duration-300 hover:bg-[#6C3483] hover:shadow-lg">
+
+                        View All Playlists
+
+                        <span class="transition-transform duration-300 hover:translate-x-1">
+                            →
+                        </span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
         <div class="flex flex-col justify-center py-24 gap-2 text-center bg-[#7D3C98]">
             <h1 class="mb-2 text-4xl font-bold tracking-wide text-white text-center">
                 Ready to start your journey?
