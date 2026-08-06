@@ -18,4 +18,9 @@ class GuestPageController extends Controller
         // Data is passed here. If the route points here, the view WILL receive these variables.
         return view('guest', compact('totalUsers', 'totalMentors', 'totalTeamLeaders', 'totalStudents'));
     }
+
+    public function showAllPlaylists()
+    {
+        return view('youtube');
+    }
 }
