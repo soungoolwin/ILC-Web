@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Scopes\CurrentSemesterScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+#[ScopedBy([CurrentSemesterScope::class])]
 class TeamLeaderForm extends Model
 {
     use HasFactory;
@@ -15,6 +18,7 @@ class TeamLeaderForm extends Model
     // Fields that are mass assignable
     protected $fillable = [
         'team_leader_id',
+        'semester_id',
         'form_id',
         'completion_status',
         'submitted_datetime',
@@ -30,6 +34,11 @@ class TeamLeaderForm extends Model
     public function teamLeader()
     {
         return $this->belongsTo(TeamLeader::class);
+    }
+
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class);
     }
 }
 

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Semester;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,6 +20,7 @@ class MentorFactory extends Factory
     {
         return [
             'user_id' => User::factory()->create(['role' => 'mentor'])->id,
+            'semester_id' => Semester::current()?->id ?? Semester::factory(),
             'mentor_id' => $this->faker->unique()->randomNumber(7),
         ];
     }

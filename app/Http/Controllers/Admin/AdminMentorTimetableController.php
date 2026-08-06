@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mentor;
+use App\Models\Semester;
 use App\Models\Timetable;
 use Illuminate\Http\Request;
 
@@ -34,8 +35,10 @@ class AdminMentorTimetableController extends Controller
 
         $weekNumbers = $allTimetables->pluck('week_number')->unique()->sort()->values();
 
+        $capacityMatrix = ($mentor->semester ?? Semester::current())->hourSlotMatrix();
+
         return view('admin.timetables.mentor-edit', compact(
-            'timetable', 'mentor', 'weekNumbers', 'defaultScope', 'defaultWeek'
+            'timetable', 'mentor', 'weekNumbers', 'defaultScope', 'defaultWeek', 'capacityMatrix'
         ));
     }
 
@@ -52,6 +55,13 @@ class AdminMentorTimetableController extends Controller
         ]);
 
         $timeSlots = $this->splitTimeSlot($request->time_slot);
+
+        $capacity = ($mentor->semester ?? Semester::current())->tableCapacityForHourSlot($request->day, $request->time_slot);
+        if ($request->table_number > $capacity) {
+            return back()->withErrors([
+                'conflict' => "Only {$capacity} tables are available for {$request->day} {$request->time_slot}.",
+            ])->withInput();
+        }
 
         // Conflict check — scoped to the same week if editing a single week,
         // otherwise across all weeks.

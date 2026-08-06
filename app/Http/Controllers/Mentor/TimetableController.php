@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mentor;
 use App\Http\Controllers\Controller;
 
 use App\Models\Appointment;
+use App\Models\Semester;
 use App\Models\Timetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,9 @@ class TimetableController extends Controller
         }
 
         // Otherwise, show the reservation creation page
-        return view('mentor.timetables.create');
+        $capacityMatrix = Semester::current()->hourSlotMatrix();
+
+        return view('mentor.timetables.create', compact('capacityMatrix'));
     }
 
     public function show()
@@ -58,37 +61,30 @@ class TimetableController extends Controller
     // Split the one-hour time slot into two 30-minute slots
     $timeSlots = $this->splitTimeSlot($request->time_slot);
 
+    // Enforce this semester's configured table capacity for the slot.
+    $capacity = Semester::current()->tableCapacityForHourSlot($request->day, $request->time_slot);
+    if ($request->table_number > $capacity) {
+        return back()->withErrors([
+            'conflict' => "Only {$capacity} tables are available for {$request->day} {$request->time_slot}.",
+        ]);
+    }
+
     // Insert 32 rows (2 slots per week for 16 weeks)
     /* !Change Week Range in Here! */
     $timetables = [];
     foreach (range(4, 13) as $week_number) {
         foreach ($timeSlots as $timeSlot) {
-            if ($timeSlot !== '9:00-10:00' && $timeSlot !== '10:00-11:00') {
-                // Create a new timetable entry for each mentor
-                $timetables[] = [
-                    'mentor_id'    => $mentor->id,
-                    'day'          => $request->day,
-                    'time_slot'    => $timeSlot,
-                    'table_number' => $request->table_number,
-                    'week_number'  => (string) $week_number,
-                    'reserved'     => false,
-                    'created_at'   => now(),
-                    'updated_at'   => now(),
-                ];
-            } else {
-                if ($request->table_number <= 4) {   // ✅ fixed here
-                    $timetables[] = [
-                        'mentor_id'    => $mentor->id,
-                        'day'          => $request->day,
-                        'time_slot'    => $timeSlot,
-                        'table_number' => $request->table_number,
-                        'week_number'  => (string) $week_number,
-                        'reserved'     => false,
-                        'created_at'   => now(),
-                        'updated_at'   => now(),
-                    ];
-                }
-            }
+            $timetables[] = [
+                'mentor_id'    => $mentor->id,
+                'semester_id'  => $mentor->semester_id,
+                'day'          => $request->day,
+                'time_slot'    => $timeSlot,
+                'table_number' => $request->table_number,
+                'week_number'  => (string) $week_number,
+                'reserved'     => false,
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ];
         }
     }
 
@@ -127,36 +123,9 @@ class TimetableController extends Controller
     public function checkAvailability(Request $request)
     {
         // Define all possible combinations of days, one-hour time slots, and tables
-        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-        $timeSlots = [
-            '09:00-10:00',
-            '10:00-11:00',
-            '11:00-12:00',
-            '12:00-13:00',
-            '13:00-14:00',
-            '14:00-15:00',
-            '15:00-16:00',
-            '16:00-17:00'
-            //,'17:00-18:00','18:00-19:00','19:00-20:00'
-        ];
-
-        // table count filters based on time slots -> for availability view
-        $tables = range(1, 30);
-        if (in_array($request->time_slot, ['16:00-17:00', '17:00-18:00', '18:00-19:00', '19:00-20:00'])) {
-            $tables = range(1, 7);
-        }
-        if (in_array($request->time_slot, ['09:00-10:00', '10:00-11:00'])) {
-            $tables = range(1, 2);
-        }
-        if (in_array($request->time_slot, ['11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00'])) {
-            $tables = range(1, 12);
-        }
-        if (in_array($request->day, ['Tuesday']) && in_array($request->time_slot, ['13:00-14:00', '14:00-15:00'])) {
-            $tables = range(1, 30);
-        }
-        if (in_array($request->day, ['Wednesday']) && in_array($request->time_slot, ['12:00-13:00','14:00-15:00','15:00-16:00'])) {
-            $tables = range(1, 30);
-        }
+        $days = Semester::DAYS;
+        $timeSlots = Semester::HOUR_SLOTS;
+        $semester = Semester::current();
 
         // Fetch reserved timetables with mentor_id
         $reservedTimetables = Timetable::select('day', 'time_slot', 'table_number', 'mentor_id')
@@ -168,6 +137,8 @@ class TimetableController extends Controller
         $availableTimetables = [];
         foreach ($days as $day) {
             foreach ($timeSlots as $timeSlot) {
+                // Table count is per day+time slot, per this semester's config.
+                $tables = range(1, $semester->tableCapacityForHourSlot($day, $timeSlot));
                 foreach ($tables as $table) {
                     // Split the one-hour time slot into two 30-minute slots
                     [$firstSlot, $secondSlot] = $this->splitTimeSlot($timeSlot);

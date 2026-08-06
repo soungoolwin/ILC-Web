@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Semester;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,6 +22,7 @@ class TeamLeaderFactory extends Factory
             'user_id' => User::factory()->create([
                 'role' => 'team_leader'
             ])->id,
+            'semester_id' => Semester::current()?->id ?? Semester::factory(),
             'team_leader_id' => 'TL' . $this->faker->unique()->numberBetween(1000, 9999),
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Semester;
 use App\Models\Student;
 use App\Models\Timetable;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -20,6 +21,7 @@ class AppointmentFactory extends Factory
     {
         return [
             'student_id' => Student::factory(),
+            'semester_id' => Semester::current()?->id ?? Semester::factory(),
             'timetable_id' => Timetable::factory(),
         ];
     }

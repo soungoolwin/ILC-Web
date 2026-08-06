@@ -410,6 +410,12 @@
                                     >
                                         Delete Users
                                     </a>
+                                    <a
+                                        href="{{ route("admin.semesters.index") }}"
+                                        class="block px-2 py-2 text-xs text-blue-500 hover:bg-gray-100"
+                                    >
+                                        Semesters
+                                    </a>
                                     <p
                                         class="bg-yellow-400 px-2 py-1.5 text-sm font-semibold text-white"
                                     >

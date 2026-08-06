@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 
 use App\Models\Appointment;
+use App\Models\Semester;
 use App\Models\Timetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,9 @@ class AppointmentController extends Controller
             ->orderBy('time_slot')
             ->get();
 
-        return view('student.appointments.create', compact('timetables'));
+        $capacityMatrix = Semester::current()->halfHourSlotMatrix();
+
+        return view('student.appointments.create', compact('timetables', 'capacityMatrix'));
     }
 
     public function store(Request $request)
@@ -79,6 +82,7 @@ class AppointmentController extends Controller
         // Create the appointment
         Appointment::create([
             'student_id' => $student->id,
+            'semester_id' => $student->semester_id,
             'timetable_id' => $timetable->id,
         ]);
 
@@ -104,7 +108,9 @@ class AppointmentController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        return view('student.appointments.edit', compact('appointment'));
+        $capacityMatrix = Semester::current()->halfHourSlotMatrix();
+
+        return view('student.appointments.edit', compact('appointment', 'capacityMatrix'));
     }
 
 
