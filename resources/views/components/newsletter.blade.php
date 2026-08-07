@@ -1,7 +1,7 @@
 <x-layout>
     <header class="flex w-full justify-center bg-[#7D3C98] text-center">
         <h1 class="m-6 text-center text-4xl font-thin text-white">
-            RSUGlobal! Portal
+            GLCC Portal
         </h1>
     </header>
     <nav class="flex w-full justify-start px-4 py-2">
@@ -49,7 +49,7 @@
                         download
                         class="mb-2 mt-2 text-blue-600 underline hover:scale-105"
                     >
-                        RSUGlobal! Newsletter Issue ( 001 ) - September 2025
+                        GLCC Newsletter Issue ( 001 ) - September 2025
                     </a>
                 </p>
                 <p class="mb-2 text-xs font-thin">
@@ -58,7 +58,7 @@
                         download
                         class="mb-2 mt-2 text-blue-600 underline hover:scale-105"
                     >
-                        RSUGlobal! Newsletter Issue ( 002 ) - October 2025
+                        GLCC Newsletter Issue ( 002 ) - October 2025
                     </a>
                 </p>
                 <p class="mb-2 text-xs font-thin">
@@ -67,7 +67,7 @@
                         download
                         class="mb-2 mt-2 text-blue-600 underline hover:scale-105"
                     >
-                        RSUGlobal! Newsletter Issue ( 003 ) - November 2025
+                        GLCC Newsletter Issue ( 003 ) - November 2025
                     </a>
                 </p>
             </div>

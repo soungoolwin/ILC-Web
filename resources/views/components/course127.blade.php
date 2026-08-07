@@ -10,7 +10,7 @@
 
     <header class="flex w-full justify-center bg-[#7D3C98] text-center">
         <h1 class="m-6 text-center text-4xl font-thin text-white">
-            RSUGlobal! Portal
+            GLCC Portal
         </h1>
     </header>
     <nav class="flex w-full justify-start px-4 py-2">

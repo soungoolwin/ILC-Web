@@ -8,7 +8,7 @@
         />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <title>RSU GLOBAL! PAL Center</title>
+        <title>GLCC PAL Center</title>
         @vite("resources/css/app.css")
     </head>
 
@@ -33,7 +33,7 @@
                         <h1
                             class="mx-auto text-sm font-bold tracking-wider text-[#7D3C98] md:text-base lg:text-2xl"
                         >
-                            RSU GLOBAL!
+                            GLCC
                             <span
                                 class="mt-[-4px] block text-xs font-normal tracking-normal text-gray-600 md:text-sm lg:text-xs"
                             >
@@ -583,7 +583,7 @@
                                 <h1
                                     class="max-w-sm text-sm font-bold tracking-wider text-[#7D3C98] md:text-base lg:text-2xl"
                                 >
-                                    RSU GLOBAL!
+                                    GLCC
                                     <span
                                         class="mt-[-4px] block text-xs font-normal tracking-normal text-gray-600 md:text-sm lg:text-xs"
                                     >
@@ -707,7 +707,7 @@
                     <p
                         class="py-2 text-left text-xs font-light text-gray-400 lg:py-8 lg:text-sm"
                     >
-                        &copy; 2026 RSUGlobal!
+                        &copy; 2026 GLCC
                         <br />
                         Designed by ICT Students. All rights reserved.
                     </p>

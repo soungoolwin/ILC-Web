@@ -26,7 +26,7 @@
         <p class="text-[12px] text-white text-center text-[12px]">Please fill out this survey to help us improve the RSU PAL Centre website and services. When answering the questions, please provide as much detail as possible instead of yes and no only. We appreciate your feedback!</p>
 </div>
     </div> -->
-        <h2 class="text-center mb-2 mt-2 text-[28px] italic">RSUGlobal! PAL Center</h2>
+        <h2 class="text-center mb-2 mt-2 text-[28px] italic">GLCC PAL Center</h2>
         {{-- Youtube Video --}}
         <div class="flex flex-col w-full lg:w-1/2 px-2 justify-center items-center mx-auto">
             <iframe class="aspect-video" src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>

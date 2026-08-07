@@ -32,7 +32,7 @@
             <div class="p-4 bg-[#7D3C98]">
                 <h3 class="text-xl font-semibold text-white">{{$username}}'s TeamLeader Shift</h3>
             </div>
-            
+
             <!-- Schedule Table -->
             <div class="p-4 justify-center items-center">
                 <table class="min-w-full">
@@ -63,7 +63,7 @@
                                 </td>
                             </tr>
             <div class="p-4 bg-gray-50 border-t border-gray-200 flex justify-end">
-                <a href="{{ route('team_leader.timetable.create') }}" 
+                <a href="{{ route('team_leader.timetable.create') }}"
                    class="bg-[#7D3C98] text-white px-4 py-2 rounded hover:bg-purple-800 transition-colors text-sm">
                     Reserve a slot
                 </a>
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <h2 class="text-center mb-2 mt-2 text-[28px] italic">RSUGlobal! PAL Center</h2>
+    <h2 class="text-center mb-2 mt-2 text-[28px] italic">GLCC PAL Center</h2>
         {{-- Youtube Video --}}
         <div class="flex flex-col w-full lg:w-1/2 px-2 justify-center items-center mx-auto">
             <iframe class="aspect-video" src="https://www.youtube.com/embed/rbr0DHSeyNw?si=6iKLSEYSv8j6Qv-z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
