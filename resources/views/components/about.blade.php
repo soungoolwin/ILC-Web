@@ -26,7 +26,7 @@
             </div>
             <h1 class="mb-4 text-4xl font-bold leading-tight md:text-5xl">
                 About
-                <span class="text-[#7D3C98]">RSU Global!</span>
+                <span class="text-[#7D3C98]">GLCC</span>
             </h1>
             <p
                 class="max-w-xl text-sm leading-relaxed text-gray-300 lg:text-base"
@@ -56,11 +56,11 @@
                 Our Story
             </div>
             <h2 class="mb-4 text-3xl font-bold text-gray-800">
-                What is RSU Global! PAL Center?
+                What is GLCC PAL Center?
             </h2>
             <div class="grid gap-6 lg:grid-cols-2">
                 <p class="leading-relaxed text-gray-600">
-                    RSU Global! is the official Peer-Assisted Learning (PAL)
+                    GLCC is the official Peer-Assisted Learning (PAL)
                     center at Rangsit University, Thailand. Founded by Dr.
                     Edward Devere Bacon and co-led by Aj. Gary Ambito
                     Torremucha, the center was established with a clear purpose:
@@ -69,7 +69,7 @@
                     environment.
                 </p>
                 <p class="leading-relaxed text-gray-600">
-                    Unlike traditional language classrooms, RSU Global! pairs
+                    Unlike traditional language classrooms, GLCC pairs
                     students with trained peer mentors — international students
                     fluent in English — who guide them through structured
                     sessions covering speaking, listening, academic writing, and
@@ -155,7 +155,7 @@
                 The Platform & Its Roles
             </h2>
             <p class="mb-8 max-w-2xl text-sm leading-relaxed text-gray-500">
-                The RSU Global! portal connects three groups of people — each
+                The GLCC portal connects three groups of people — each
                 with a distinct role that keeps the program running smoothly.
             </p>
             <div class="grid gap-6 sm:grid-cols-3">
@@ -281,7 +281,7 @@
                 How You Can Contribute
             </h2>
             <p class="mb-8 max-w-2xl text-sm leading-relaxed text-gray-500">
-                RSU Global! runs because people choose to give their time and
+                GLCC runs because people choose to give their time and
                 skill. Here's how you can be part of it.
             </p>
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -349,7 +349,7 @@
                         Explore Our Research
                     </h4>
                     <p class="text-xs leading-relaxed text-gray-500">
-                        RSU Global! is built on peer-reviewed research. Browse
+                        GLCC is built on peer-reviewed research. Browse
                         published papers by the center's directors — covering
                         intercultural competence, PAL outcomes, and language
                         acquisition.
@@ -372,7 +372,7 @@
                 Leadership
             </div>
             <h2 class="mb-8 text-3xl font-bold text-gray-800">
-                Who Runs RSU Global!
+                Who Runs GLCC
             </h2>
             <div class="grid gap-6 sm:grid-cols-2">
                 <div
@@ -391,7 +391,7 @@
                             Director & Founder
                         </p>
                         <p class="text-xs leading-relaxed text-gray-500">
-                            Dr. Bacon founded RSU Global! with the goal of
+                            Dr. Bacon founded GLCC with the goal of
                             creating a sustainable, research-driven peer
                             learning model at Rangsit University. His work spans
                             intercultural communication, EFL academic writing,
@@ -417,7 +417,7 @@
                         </p>
                         <p class="text-xs leading-relaxed text-gray-500">
                             Aj. Gary co-leads the program and oversees the
-                            day-to-day operations of RSU Global!, mentoring the
+                            day-to-day operations of GLCC, mentoring the
                             team leaders and mentors, and collaborating on the
                             research that underpins the program's continuous
                             improvement.
@@ -442,7 +442,7 @@
                         Grounded in Peer-Reviewed Research
                     </h3>
                     <p class="text-sm leading-relaxed text-gray-500">
-                        Everything RSU Global! does is informed by published
+                        Everything GLCC does is informed by published
                         academic research. The center's directors have authored
                         17+ papers in Scopus-indexed journals and international
                         conference proceedings, covering intercultural

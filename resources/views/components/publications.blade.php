@@ -1,7 +1,7 @@
 <x-layout>
     <header class="flex w-full justify-center bg-[#7D3C98] text-center">
         <h1 class="m-6 text-center text-4xl font-thin text-white">
-            RSUGlobal! Portal
+            GLCC Portal
         </h1>
     </header>
     <nav class="flex w-full justify-start px-4 py-2">
@@ -17,7 +17,7 @@
             {{-- Title & Description --}}
             <div class="mb-4 rounded-lg bg-purple-100 p-5 shadow-md">
                 <h2 class="mb-2 text-2xl font-semibold text-[#7D3C98]">
-                    RSU Global! Research Publications
+                    GLCC Research Publications
                 </h2>
                 <p class="text-sm leading-relaxed text-gray-700">
                     Below is the list of all the research papers published by

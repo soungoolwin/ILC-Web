@@ -11,7 +11,7 @@
                 </span>
 
                 <h1 class="mt-5 text-4xl font-bold text-gray-800 lg:text-5xl">
-                    RSUGlobal! Video Library
+                    GLCC Video Library
                 </h1>
 
                 <div class="mt-5 flex items-center justify-center gap-4">

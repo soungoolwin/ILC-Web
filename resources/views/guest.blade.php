@@ -164,7 +164,7 @@
         <div class="flex flex-col justify-center gap-4 px-2 py-12 lg:px-24 lg:py-24 text-center bg-gray-50 rounded-lg">
             <div>
                 <h1 class="mb-4 px-6 text-4xl font-bold tracking-wide text-gray-800">
-                    Why join RSUGlobal! PAL?
+                    Why join GLCC PAL?
                 </h1>
                 <p class="break-word mx-auto mb-4 px-4 max-w-xl text-sm leading-relaxed text-gray-400">
                     We believe in the power of peer-to-peer learning to break
@@ -182,7 +182,7 @@
                     </svg>
 
                     <h2 class="text-lg font-semibold text-gray-800">
-                        RSU Global! Newsletter
+                        GLCC Newsletter
                     </h2>
                     <p class="text-xs text-gray-500 min-h-[60px]">
                         Get matched with experienced mentors who can help you
@@ -208,7 +208,7 @@
                     </svg>
 
                     <h2 class="text-lg font-semibold text-gray-800">
-                        RSU Global! Publications
+                        GLCC Publications
                     </h2>
                     <p class="text-xs text-gray-500 min-h-[60px]">
                         Access publications, research papers, and resources to support your language learning journey
@@ -290,7 +290,7 @@
 
                     <p class="mx-auto mt-3 max-w-2xl text-gray-500">
                         Watch videos to improve your English, discover campus life,
-                        and learn from experienced mentors at RSUGlobal! PAL.
+                        and learn from experienced mentors at GLCC PAL.
                     </p>
                 </div>
 
@@ -313,7 +313,7 @@
 
                         <div class="p-5">
                             <h3 class="text-lg font-semibold text-gray-800">
-                                Introduction to RSUGlobal! PAL
+                                Introduction to GLCC PAL
                             </h3>
 
                             <p class="mt-2 text-sm text-gray-500">
@@ -362,7 +362,7 @@
 
                         <div class="p-5">
                             <h3 class="text-lg font-semibold text-gray-800">
-                                RSU Global! Passport
+                                GLCC Passport
                             </h3>
 
                             <p class="mt-2 text-sm text-gray-500">
@@ -396,7 +396,7 @@
                 Ready to start your journey?
             </h1>
             <p class="break-word mx-auto mb-4 max-w-xl text-sm leading-relaxed text-white text-center">
-                Whether you want to improve your English or become a mentor, there's a place for you at RSUGlobal!.
+                Whether you want to improve your English or become a mentor, there's a place for you at GLCC.
             </p>
             <div class="flex flex-wrap justify-center gap-4">
                 <a href="{{ route('register.mentor') }}"
