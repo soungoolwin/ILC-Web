@@ -1,83 +1,65 @@
 <x-layout>
-    <header class="flex w-full justify-center bg-[#7D3C98] text-center">
-        <h1 class="m-6 text-center text-4xl font-thin text-white">
-            GLCC Portal
-        </h1>
-    </header>
-    <nav class="flex w-full justify-start px-4 py-2">
-        <a
-            href="{{ route("guest") }}"
-            class="px-4 py-4 text-sm text-[#7D3C98] hover:underline"
-        >
-            &larr; Go back to Home
-        </a>
-    </nav>
-    <body class="flex flex-col items-center justify-evenly">
-        <div
-            class="mx-auto mb-3 mt-2 flex flex-col items-center justify-center rounded-lg bg-purple-100 p-4 px-2 shadow-md sm:w-full lg:w-3/4"
-        >
-            <p>
-                Download November Newsletter
+    @php
+        $newsletters = [
+            [
+                "issue" => "003",
+                "month" => "November 2025",
+                "folder" => "november-2025",
+                "pdf" => "News_November 2025.pdf",
+            ],
+            [
+                "issue" => "002",
+                "month" => "October 2025",
+                "folder" => "october-2025",
+                "pdf" => "News_October 2025.pdf",
+            ],
+            [
+                "issue" => "001",
+                "month" => "September 2025",
+                "folder" => "september-2025",
+                "pdf" => "News_September 2025.pdf",
+            ],
+        ];
+    @endphp
+
+    <div class="min-h-screen bg-slate-50">
+        <header class="bg-[#7D3C98] text-white">
+            <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
                 <a
-                    href="{{ asset("images/News_November 2025.pdf") }}"
-                    download
-                    class="mb-2 mt-2 text-blue-600 underline hover:scale-105"
+                    href="{{ route("guest") }}"
+                    class="inline-flex items-center gap-2 text-sm text-purple-100 hover:text-white"
                 >
-                    Here
+                    <span aria-hidden="true">&larr;</span>
+                    Back to home
                 </a>
-            </p>
-            <embed
-                src="{{ asset("images/News_November 2025.pdf") }}#toolbar=0"
-                type="application/pdf"
-                width="100%"
-                height="600px"
-                class="mt-2 rounded shadow"
-            />
-        </div>
-        <div
-            class="items-left mx-auto mb-3 mt-2 flex flex-row justify-center rounded-lg bg-purple-100 p-4 px-2 shadow-md sm:w-full lg:w-3/4"
-        >
-            <div
-                class="items-left justify-left w-1/2 flex-row border-r border-gray-300 bg-purple-100 p-4"
-            >
-                <p class="bg-white-200 mb-2 text-xl font-thin">
-                    Download All Newsletters
-                </p>
-                <p class="mb-2 text-xs font-thin">
-                    <a
-                        href="{{ asset("images/News_September 2025.pdf") }}"
-                        download
-                        class="mb-2 mt-2 text-blue-600 underline hover:scale-105"
-                    >
-                        GLCC Newsletter Issue ( 001 ) - September 2025
-                    </a>
-                </p>
-                <p class="mb-2 text-xs font-thin">
-                    <a
-                        href="{{ asset("images/News_October 2025.pdf") }}"
-                        download
-                        class="mb-2 mt-2 text-blue-600 underline hover:scale-105"
-                    >
-                        GLCC Newsletter Issue ( 002 ) - October 2025
-                    </a>
-                </p>
-                <p class="mb-2 text-xs font-thin">
-                    <a
-                        href="{{ asset("images/News_November 2025.pdf") }}"
-                        download
-                        class="mb-2 mt-2 text-blue-600 underline hover:scale-105"
-                    >
-                        GLCC Newsletter Issue ( 003 ) - November 2025
-                    </a>
+                <h1 class="mt-6 text-4xl font-bold">GLCC Newsletter</h1>
+                <p class="mt-2 text-purple-100">
+                    Select a page to view it full size.
                 </p>
             </div>
-            <div
-                class="items-left justify-left w-1/2 flex-row bg-purple-100 p-4"
-            >
-                <p class="bg-white-200 mb-2 text-xl font-thin">
-                    Additional Links
-                </p>
-            </div>
-        </div>
-    </body>
+        </header>
+
+        <main class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            @foreach ($newsletters as $newsletter)
+                @php
+                    $pages = collect(range(1, 4))
+                        ->map(fn ($page) => asset("images/newsletters/{$newsletter["folder"]}/page-{$page}.png"))
+                        ->all();
+                @endphp
+
+                <div
+                    @class([
+                        "mt-12 border-t border-slate-200 pt-10" => ! $loop->first,
+                    ])
+                >
+                    <x-pdf-page-grid
+                        :title="$newsletter['month']"
+                        :eyebrow="'Issue '.$newsletter['issue']"
+                        :pages="$pages"
+                        :download-url="asset('images/'.$newsletter['pdf'])"
+                    />
+                </div>
+            @endforeach
+        </main>
+    </div>
 </x-layout>
