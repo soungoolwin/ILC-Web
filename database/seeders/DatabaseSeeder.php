@@ -181,7 +181,7 @@ class DatabaseSeeder extends Seeder
     private function markFullTimetables(): void
     {
         Timetable::withCount('appointments')->get()->each(function (Timetable $timetable) {
-            if ($timetable->appointments_count >= 5) {
+            if ($timetable->appointments_count >= Semester::STUDENTS_PER_SESSION) {
                 $timetable->update(['reserved' => true]);
             }
         });
@@ -219,14 +219,15 @@ class DatabaseSeeder extends Seeder
         $key = "{$day}-{$timeSlot}-{$week}";
 
         // Initialize used tables if not set
-        if (!isset($usedTables[$key])) {
+        if (! isset($usedTables[$key])) {
             $usedTables[$key] = [];
         }
 
         // Find an available table number from 1 to 25
         for ($table = 1; $table <= 25; $table++) {
-            if (!in_array($table, $usedTables[$key])) {
+            if (! in_array($table, $usedTables[$key])) {
                 $usedTables[$key][] = $table;
+
                 return $table;
             }
         }

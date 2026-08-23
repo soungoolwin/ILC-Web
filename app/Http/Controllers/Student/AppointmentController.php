@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Student;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Semester;
 use App\Models\Timetable;
@@ -37,19 +37,18 @@ class AppointmentController extends Controller
             'table_number' => 'required|integer|min:1|max:30',
         ]);
 
-        //only 4 appointments per week
-            $weeklyCount = Appointment::where('student_id', $student->id)
-                ->whereHas('timetable', function ($query) use ($request) {
-                    $query->where('week_number', $request->week_number);
-                })
-                ->count();
+        // only 4 appointments per week
+        $weeklyCount = Appointment::where('student_id', $student->id)
+            ->whereHas('timetable', function ($query) use ($request) {
+                $query->where('week_number', $request->week_number);
+            })
+            ->count();
 
-            if ($weeklyCount >= 4) {
-                return back()->withErrors([
-                    'error' => "You already have 4 appointments in week {$request->week_number}."
-                ]);
-            }
-
+        if ($weeklyCount >= 4) {
+            return back()->withErrors([
+                'error' => "You already have 4 appointments in week {$request->week_number}.",
+            ]);
+        }
 
         // Find the timetable record
         $timetable = Timetable::where('week_number', $request->week_number)
@@ -58,7 +57,7 @@ class AppointmentController extends Controller
             ->where('table_number', $request->table_number)
             ->first();
 
-        if (!$timetable) {
+        if (! $timetable) {
             return back()->withErrors(['error' => 'The selected timetable does not exist.']);
         }
 
@@ -75,7 +74,7 @@ class AppointmentController extends Controller
         /* ! Change the student limit per mentor here ! */
         $appointmentCount = Appointment::where('timetable_id', $timetable->id)->count();
 
-        if ($appointmentCount >= 5) {
+        if ($appointmentCount >= Semester::STUDENTS_PER_SESSION) {
             return back()->withErrors(['error' => 'This time slot is already fully booked.']);
         }
 
@@ -90,21 +89,20 @@ class AppointmentController extends Controller
         /* ! Change the student limit per mentor here ! */
         $updatedAppointmentCount = Appointment::where('timetable_id', $timetable->id)->count();
 
-        if ($updatedAppointmentCount >= 5) {
+        if ($updatedAppointmentCount >= Semester::STUDENTS_PER_SESSION) {
             $timetable->update(['reserved' => true]);
         }
 
         return redirect()->route('student.dashboard')->with('success', 'Appointment created successfully.');
     }
 
-    
     public function edit($id)
     {
         $appointment = Appointment::with('timetable')->findOrFail($id);
 
         $student = Auth::user()->students()->first();
 
-        if (!$student || $student->id !== $appointment->student_id) {
+        if (! $student || $student->id !== $appointment->student_id) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -113,13 +111,12 @@ class AppointmentController extends Controller
         return view('student.appointments.edit', compact('appointment', 'capacityMatrix'));
     }
 
-
     public function update(Request $request, $id)
     {
         $appointment = Appointment::with('timetable')->findOrFail($id);
         $student = Auth::user()->students()->first();
 
-        if (!$student || $student->id !== $appointment->student_id) {
+        if (! $student || $student->id !== $appointment->student_id) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -130,17 +127,17 @@ class AppointmentController extends Controller
             'table_number' => 'required|integer|min:1|max:30',
         ]);
 
-            $weeklyCount = Appointment::where('student_id', $student->id)
-                ->whereHas('timetable', function ($query) use ($request) {
-                    $query->where('week_number', $request->week_number);
-                })
-                ->count();
+        $weeklyCount = Appointment::where('student_id', $student->id)
+            ->whereHas('timetable', function ($query) use ($request) {
+                $query->where('week_number', $request->week_number);
+            })
+            ->count();
 
-            if ($weeklyCount >= 4) {
-                return back()->withErrors([
-                    'error' => "You already have 4 appointments in week {$request->week_number}."
-                ]);
-            }
+        if ($weeklyCount >= 4) {
+            return back()->withErrors([
+                'error' => "You already have 4 appointments in week {$request->week_number}.",
+            ]);
+        }
 
         // Save the old timetable BEFORE changing it
         $oldTimetable = $appointment->timetable;
@@ -152,7 +149,7 @@ class AppointmentController extends Controller
             ->where('table_number', $request->table_number)
             ->first();
 
-        if (!$timetable) {
+        if (! $timetable) {
             return back()->withErrors(['error' => 'The selected timetable does not exist.']);
         }
 
@@ -171,7 +168,7 @@ class AppointmentController extends Controller
             ->where('id', '!=', $appointment->id)
             ->count();
 
-        if ($count >= 5) {
+        if ($count >= Semester::STUDENTS_PER_SESSION) {
             return back()->withErrors(['error' => 'This time slot is already fully booked.']);
         }
 
@@ -182,19 +179,18 @@ class AppointmentController extends Controller
         // Clean up old timetable if it exists
         if ($oldTimetable && $oldTimetable->id !== $timetable->id) {
             $oldCount = Appointment::where('timetable_id', $oldTimetable->id)->count();
-            if ($oldCount < 5) {
+            if ($oldCount < Semester::STUDENTS_PER_SESSION) {
                 $oldTimetable->update(['reserved' => false]);
             }
         }
 
         // Reserve new if it's now full
-        if ($count + 1 >= 5) {
+        if ($count + 1 >= Semester::STUDENTS_PER_SESSION) {
             $timetable->update(['reserved' => true]);
         }
 
         return redirect()->route('student.dashboard')->with('success', 'Appointment updated successfully.');
     }
-
 
     public function checkAvailability(Request $request)
     {
