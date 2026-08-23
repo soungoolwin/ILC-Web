@@ -675,6 +675,14 @@ Login is rate-limited to 5 attempts per minute to prevent brute-force attacks.
 
 ## Development
 
+### Docker Compose
+
+Start the Laravel application and Vite development server with:
+
+```bash
+docker compose up --build
+```
+
 ### Running Tests
 
 ```bash
