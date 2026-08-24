@@ -26,17 +26,12 @@ services:
   vite:
     image: node:22-alpine
     working_dir: /app
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true
     volumes:
       - .:/app
       - node_modules:/app/node_modules
     ports:
       - "5173:5173"
-    command: >
-      sh -c "npm ci &&
-             node --input-type=module -e 'import(\"vite\").then(async v => { const s = await v.createServer({ server: { host: \"0.0.0.0\", port: 5173, hmr: { host: \"localhost\" }, watch: { usePolling: true } } }); await s.listen(); s.printUrls(); });'"
+    command: sh -c "npm ci && npx vite --config vite.docker.config.js"
 
 volumes:
   composer_vendor:
