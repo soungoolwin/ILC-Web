@@ -27,11 +27,11 @@
     <select name="table_number" id="table_number"
         class="text-xs lg:text-sm w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition">
         <option value="">All Tables</option>
-        @foreach (range(1, 12) as $table)
+        @for ($table = 1; $table <= $maxTableCapacity; $table++)
             <option value="{{ $table }}" {{ (int) request('table_number') === $table ? 'selected' : '' }}>
                 {{ $table }}
             </option>
-        @endforeach
+        @endfor
     </select>
 </div>
                 <!-- Time Slot -->
@@ -100,14 +100,22 @@
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable['is_reserved'] }}
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
-                                <a href="{{ route('student.mentors.show', ['id' => $timetable['mentor_id']]) }}" class="text-[8px] lg:text-sm text-blue-500 hover:underline">
+                                @if ($timetable['mentor_id'])
+                                    <a href="{{ route('student.mentors.show', ['id' => $timetable['mentor_id']]) }}" class="text-[8px] lg:text-sm text-blue-500 hover:underline">
+                                        {{ $timetable['mentor'] }}
+                                    </a>
+                                @else
                                     {{ $timetable['mentor'] }}
-                                </a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+        </div>
+        <div class="mt-4">
+            {{ $availableTimetables->links() }}
+        </div>
         @else
             <p class="text-center text-gray-600">No available timetables match your search criteria.</p>
         @endif
@@ -117,39 +125,24 @@
     const tableSelect = document.getElementById('table_number');
     const timeSelect = document.getElementById('time_slot');
     const dateSelect = document.getElementById('day');
+    const capacityMatrix = @json($capacityMatrix ?? []);
+    const maxTableCapacity = @json($maxTableCapacity ?? 1);
 
     function updateTableOptions() {
         const selectedTime = timeSelect.value;
         const selectedDay = dateSelect.value;
-        let tableCount = 12;
-
-        // Show only 2 tables for 09:00-09:30, 9:30-10:00, 10:00-10:30, and 10:30-11:00
-        if (selectedTime === '09:00-09:30' || selectedTime === '09:30-10:00' || selectedTime === '10:00-10:30' || selectedTime === '10:30-11:00') {
-            tableCount = 2;
-        }
-
-        if (selectedTime === '15:00-15:30' || selectedTime === '15:30-16:00' || selectedTime === '16:00-16:30' || selectedTime === '16:30-17:00') {
-            tableCount = 7;
-        }
-
-        if (selectedDay === 'Tuesday' && (selectedTime === '14:00-14:30' || selectedTime === '14:30-15:00')) {
-            tableCount = 30;
-        }
-
-        if (selectedDay === 'Wednesday' && (selectedTime === '12:00-12:30' || selectedTime === '14:00-14:30' || selectedTime === '15:00-15:30' || selectedTime === '15:30-16:00')) {
-            tableCount = 30;
-        }
-
-
+        const tableCount = capacityMatrix[selectedDay]?.[selectedTime] ?? maxTableCapacity;
+        const previousTable = tableSelect.value;
 
         // Clear current options
-        tableSelect.innerHTML = '<option value="">Select a Table</option>';
+        tableSelect.innerHTML = '<option value="">All Tables</option>';
 
         // Add new options
         for (let i = 1; i <= tableCount; i++) {
             const option = document.createElement('option');
             option.value = i;
             option.textContent = 'Table ' + i;
+            option.selected = String(i) === previousTable;
             tableSelect.appendChild(option);
         }
     }
@@ -157,4 +150,5 @@
     // Attach the shared function to BOTH event listeners
     timeSelect.addEventListener('change', updateTableOptions); 
     dateSelect.addEventListener('change', updateTableOptions); // New: Triggers update when day changes
+    updateTableOptions();
 </script>

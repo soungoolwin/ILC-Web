@@ -68,11 +68,11 @@
             <div>
                 <label for="table_number">Table Number</label>
                 <select id= "table_number" name="table_number" required class="w-full border rounded px-4 py-2">
-                    @foreach (range(1, 12) as $table)
+                    @for ($table = 1; $table <= $maxTableCapacity; $table++)
                         <option value="{{ $table }}" {{ $slot->table_number == $table ? 'selected' : '' }}>
                             Table {{ $table }}
                         </option>
-                    @endforeach
+                    @endfor
                 </select>
             </div>
 
@@ -92,6 +92,7 @@
     // current semester's settings (Admin > Semesters). Keep this as the
     // only source of truth — don't hardcode table counts here.
     const capacityMatrix = @json($capacityMatrix ?? []);
+    const maxTableCapacity = @json($maxTableCapacity ?? 1);
 
     const tableSelect = document.getElementById('table_number');
     const timeSelect = document.getElementById('time_slot');
@@ -100,7 +101,8 @@
     function updateTableOptions() {
         const selectedTime = timeSelect.value;
         const selectedDay = dateSelect.value;
-        const tableCount = capacityMatrix[selectedDay]?.[selectedTime] ?? 12;
+        const tableCount = capacityMatrix[selectedDay]?.[selectedTime] ?? maxTableCapacity;
+        const previousTable = tableSelect.value;
 
         // Clear current options
         tableSelect.innerHTML = '<option value="">Select a Table</option>';
@@ -110,6 +112,7 @@
             const option = document.createElement('option');
             option.value = i;
             option.textContent = 'Table ' + i;
+            option.selected = String(i) === previousTable;
             tableSelect.appendChild(option);
         }
     }
@@ -117,4 +120,5 @@
     // Attach the shared function to BOTH event listeners
     timeSelect.addEventListener('change', updateTableOptions); 
     dateSelect.addEventListener('change', updateTableOptions); // New: Triggers update when day changes
+    updateTableOptions();
 </script>

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Appointment;
 use App\Models\Mentor;
 use App\Models\Semester;
 use App\Models\Timetable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminMentorTimetableController extends Controller
 {
@@ -91,16 +93,60 @@ class AdminMentorTimetableController extends Controller
             return back()->withErrors(['error' => 'No reservations found to update.']);
         }
 
-        // Each week has two half-hour rows. Group by week and assign first/second half deterministically.
+        // Preflight unassigned slots that students may already have booked.
+        // They are claimable by this mentor, but the combined bookings must
+        // still fit at one table and must not duplicate a student's booking.
+        $targets = collect();
         foreach ($timetables->groupBy('week_number') as $rowsInWeek) {
             foreach ($rowsInWeek->values() as $idx => $tt) {
-                $tt->update([
+                $targetTimeSlot = $timeSlots[$idx % 2];
+                $target = Timetable::whereKeyNot($tt->id)
+                    ->whereNull('mentor_id')
+                    ->where('week_number', $tt->week_number)
+                    ->where('day', $request->day)
+                    ->where('time_slot', $targetTimeSlot)
+                    ->where('table_number', $request->table_number)
+                    ->first();
+
+                if ($target) {
+                    $combinedCount = $tt->appointments()->count() + $target->appointments()->count();
+                    $sourceStudents = $tt->appointments()->pluck('student_id');
+                    $hasDuplicateStudent = $sourceStudents->isNotEmpty()
+                        && $target->appointments()->whereIn('student_id', $sourceStudents)->exists();
+
+                    if ($combinedCount > Semester::STUDENTS_PER_SESSION || $hasDuplicateStudent) {
+                        return back()->withErrors([
+                            'conflict' => 'The selected table already has student bookings that cannot be merged with this mentor shift.',
+                        ])->withInput();
+                    }
+                }
+
+                $targets->push([$tt, $target, $targetTimeSlot]);
+            }
+        }
+
+        DB::transaction(function () use ($targets, $mentor, $request) {
+            foreach ($targets as [$source, $target, $targetTimeSlot]) {
+                if ($target) {
+                    Appointment::where('timetable_id', $source->id)
+                        ->update(['timetable_id' => $target->id]);
+
+                    $source->delete();
+                    $target->update([
+                        'mentor_id' => $mentor->id,
+                        'reserved' => $target->appointments()->count() >= Semester::STUDENTS_PER_SESSION,
+                    ]);
+
+                    continue;
+                }
+
+                $source->update([
                     'day' => $request->day,
-                    'time_slot' => $timeSlots[$idx % 2],
+                    'time_slot' => $targetTimeSlot,
                     'table_number' => $request->table_number,
                 ]);
             }
-        }
+        });
 
         $message = $request->scope === 'week'
             ? "Mentor reservation updated for week {$request->week_number}."
