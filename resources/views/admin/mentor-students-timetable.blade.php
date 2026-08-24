@@ -93,13 +93,17 @@
                             <td class="border border-gray-300 px-4 py-2 text-center">{{ $timetable->time_slot }}</td>
                             <td class="border border-gray-300 px-2 py-2 text-center max-w-xs">{{ $timetable->table_number }}</td>
                             <td class="border border-gray-300 px-2 py-2 text-center">
-                                <a href="{{ route('admin.mentors.show', $timetable->mentor->id) }}"
-                                    class="text-black hover:underline hover:font-bold">
-                                    {{ $timetable->mentor->user->name ?? 'N/A' }}
-                                    ({{ $timetable->mentor->user->line_id ?? 'N/A' }})
-                                </a>
+                                @if ($timetable->mentor)
+                                    <a href="{{ route('admin.mentors.show', $timetable->mentor->id) }}"
+                                        class="text-black hover:underline hover:font-bold">
+                                        {{ $timetable->mentor->user->name ?? 'N/A' }}
+                                        ({{ $timetable->mentor->user->line_id ?? 'N/A' }})
+                                    </a>
+                                @else
+                                    Not assigned
+                                @endif
                             </td>
-                            <td class="border border-gray-300 px-2 py-2 text-center">{{ $timetable->mentor->mentor_id ?? 'N/A' }}</td>
+                            <td class="border border-gray-300 px-2 py-2 text-center">{{ $timetable->mentor?->mentor_id ?? 'N/A' }}</td>
 
                             <td class="border border-gray-300 px-8 py-2 text-center text-[10px] lg:text-base">
                                 @if ($timetable->appointments->isEmpty())
@@ -117,10 +121,14 @@
                                 @endif
                             </td>
                             <td class="border border-gray-300 px-2 py-2 text-center">
-                                <a href="{{ route('admin.mentor_timetable.edit', ['mentor_id' => $timetable->mentor->id, 'timetable_id' => $timetable->id]) }}"
-                                    class="inline-block bg-[#7D3C98] text-white text-[10px] lg:text-sm font-semibold py-1 px-3 rounded">
-                                    Edit
-                                </a>
+                                @if ($timetable->mentor)
+                                    <a href="{{ route('admin.mentor_timetable.edit', ['mentor_id' => $timetable->mentor->id, 'timetable_id' => $timetable->id]) }}"
+                                        class="inline-block bg-[#7D3C98] text-white text-[10px] lg:text-sm font-semibold py-1 px-3 rounded">
+                                        Edit
+                                    </a>
+                                @else
+                                    N/A
+                                @endif
                             </td>
                         </tr>
                     @endforeach

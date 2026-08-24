@@ -88,10 +88,12 @@ class TimetableController extends Controller
         }
     }
 
-    // Check for unique constraint violations
+    // Only another mentor shift is a conflict. Student-created table slots
+    // have no mentor yet and can be claimed by this shift.
     $conflicts = Timetable::where('day', $request->day)
         ->whereIn('time_slot', $timeSlots)
         ->where('table_number', $request->table_number)
+        ->whereNotNull('mentor_id')
         ->exists();
 
     if ($conflicts) {
@@ -100,7 +102,21 @@ class TimetableController extends Controller
         ]);
     }
 
-    Timetable::insert($timetables);
+    foreach ($timetables as $attributes) {
+        $slot = Timetable::firstOrNew([
+            'semester_id' => $attributes['semester_id'],
+            'day' => $attributes['day'],
+            'time_slot' => $attributes['time_slot'],
+            'table_number' => $attributes['table_number'],
+            'week_number' => $attributes['week_number'],
+        ]);
+
+        $slot->mentor_id = $mentor->id;
+        if (! $slot->exists) {
+            $slot->reserved = false;
+        }
+        $slot->save();
+    }
 
     return redirect()->route('mentor.dashboard')
         ->with('success', 'Timetable reserved successfully.');
@@ -129,6 +145,7 @@ class TimetableController extends Controller
 
         // Fetch reserved timetables with mentor_id
         $reservedTimetables = Timetable::select('day', 'time_slot', 'table_number', 'mentor_id')
+            ->whereNotNull('mentor_id')
             ->distinct()
             ->get()
             ->toArray();

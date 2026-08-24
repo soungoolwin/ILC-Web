@@ -239,7 +239,7 @@ class TeamLeaderController extends Controller
             })
             ->get()
             ->groupBy(function ($timetable) {
-                return $timetable->mentor->user->name ?? 'Unknown Mentor';
+                return $timetable->mentor?->user?->name ?? 'Unassigned';
             });
 
         return view('team_leader.view_timetables', compact('timetables', 'request'));

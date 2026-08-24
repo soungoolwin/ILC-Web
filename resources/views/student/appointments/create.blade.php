@@ -69,9 +69,9 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm transition"
                     required>
                     <option value="">Select a Table</option>
-                    @foreach (range(1, 12) as $table) <!-- Changed to 12 tables for students - Dennis -->
+                    @for ($table = 1; $table <= $maxTableCapacity; $table++)
                         <option value="{{ $table }}">Table {{ $table }}</option>
-                    @endforeach
+                    @endfor
                 </select>
 </div>
 
@@ -100,6 +100,7 @@
     // current semester's settings (Admin > Semesters). Keep this as the
     // only source of truth — don't hardcode table counts here.
     const capacityMatrix = @json($capacityMatrix ?? []);
+    const maxTableCapacity = @json($maxTableCapacity ?? 1);
 
     const tableSelect = document.getElementById('table_number');
     const timeSelect = document.getElementById('time_slot');
@@ -108,7 +109,7 @@
     function updateTableOptions() {
         const selectedTime = timeSelect.value;
         const selectedDay = dateSelect.value;
-        const tableCount = capacityMatrix[selectedDay]?.[selectedTime] ?? 12;
+        const tableCount = capacityMatrix[selectedDay]?.[selectedTime] ?? maxTableCapacity;
 
         // Clear current options
         tableSelect.innerHTML = '<option value="">Select a Table</option>';
@@ -126,4 +127,3 @@
     timeSelect.addEventListener('change', updateTableOptions); 
     dateSelect.addEventListener('change', updateTableOptions); // New: Triggers update when day changes
 </script>
-
