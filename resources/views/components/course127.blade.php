@@ -23,24 +23,26 @@
                 </div>
                 
                 <!-- Top Right Badges & Functional Amber Download Button -->
-                <div class="flex flex-wrap items-center gap-3">
-                    <span style="background-color: #4A235A;" class="inline-flex items-center justify-center rounded-xl px-5 py-2.5 min-w-[125px] text-xs font-black text-purple-100 border border-purple-400/40 shadow-xs gap-2 hover:scale-105 hover:brightness-110 hover:shadow-md transition-all duration-200 cursor-default">
-                        <svg class="h-4 w-4 text-purple-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span>Term 1, 2026</span>
-                    </span>
-                    <span style="background-color: #145A32;" class="inline-flex items-center justify-center rounded-xl px-5 py-2.5 min-w-[110px] text-xs font-black text-emerald-100 border border-emerald-400/40 shadow-xs gap-2 hover:scale-105 hover:brightness-110 hover:shadow-md transition-all duration-200 cursor-default">
-                        <svg class="h-4 w-4 text-emerald-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span>3 Credits</span>
-                    </span>
+                <div class="flex flex-col gap-2.5 w-full sm:w-auto">
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <span style="background-color: #4A235A;" class="inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-xs font-black text-purple-100 border border-purple-400/40 shadow-xs gap-2 hover:scale-105 hover:brightness-110 hover:shadow-md transition-all duration-200 cursor-default">
+                            <svg class="h-4 w-4 text-purple-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="whitespace-nowrap">Term 1, 2026</span>
+                        </span>
+                        <span style="background-color: #145A32;" class="inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-xs font-black text-emerald-100 border border-emerald-400/40 shadow-xs gap-2 hover:scale-105 hover:brightness-110 hover:shadow-md transition-all duration-200 cursor-default">
+                            <svg class="h-4 w-4 text-emerald-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="whitespace-nowrap">3 Credits</span>
+                        </span>
+                    </div>
                     <!-- Functional Automatic PDF Download Button via Backend Controller Route -->
                     <a 
                         href="{{ route('course127.download') }}" 
                         download="RSU 127 Course Syllabus.pdf" 
                         style="background-color: #D68910;" 
-                        class="inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-xs font-black text-white shadow-lg hover:bg-amber-600 hover:scale-105 hover:shadow-xl transition-all duration-200 border border-amber-300"
+                        class="w-full inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-xs font-black text-white shadow-lg hover:bg-amber-600 hover:scale-[1.02] hover:shadow-xl transition-all duration-200 border border-amber-300"
                     >
                         <svg class="mr-2 h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        Download PDF
+                        <span>Download PDF</span>
                     </a>
                 </div>
             </div>
@@ -221,62 +223,62 @@
                 </section>
 
                 <!-- 5. Course Requirements & Assessment Grid -->
+                <style>
+                    @keyframes fillBoost40 {
+                        0% { width: 0%; filter: brightness(1.2); }
+                        80% { width: 43%; filter: brightness(1.25); }
+                        100% { width: 40%; filter: brightness(1.2); }
+                    }
+                    @keyframes fillBoost30 {
+                        0% { width: 0%; filter: brightness(1.2); }
+                        80% { width: 33%; filter: brightness(1.25); }
+                        100% { width: 30%; filter: brightness(1.2); }
+                    }
+                    @keyframes fillBoost15 {
+                        0% { width: 0%; filter: brightness(1.2); }
+                        80% { width: 17%; filter: brightness(1.25); }
+                        100% { width: 15%; filter: brightness(1.2); }
+                    }
+                    @keyframes fillBoost10 {
+                        0% { width: 0%; filter: brightness(1.2); }
+                        80% { width: 12%; filter: brightness(1.25); }
+                        100% { width: 10%; filter: brightness(1.2); }
+                    }
+                    @keyframes fillBoost5 {
+                        0% { width: 0%; filter: brightness(1.2); }
+                        80% { width: 7%; filter: brightness(1.25); }
+                        100% { width: 5%; filter: brightness(1.2); }
+                    }
+                    .assessment-row {
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                    }
+                    .assessment-row:hover .bar-40 {
+                        animation: fillBoost40 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                        box-shadow: 0 0 12px rgba(91, 44, 111, 0.5);
+                    }
+                    .assessment-row:hover .bar-30 {
+                        animation: fillBoost30 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                        box-shadow: 0 0 12px rgba(125, 60, 152, 0.5);
+                    }
+                    .assessment-row:hover .bar-15 {
+                        animation: fillBoost15 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                        box-shadow: 0 0 12px rgba(79, 70, 229, 0.5);
+                    }
+                    .assessment-row:hover .bar-10 {
+                        animation: fillBoost10 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                        box-shadow: 0 0 12px rgba(37, 99, 235, 0.5);
+                    }
+                    .assessment-row:hover .bar-5 {
+                        animation: fillBoost5 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                        box-shadow: 0 0 12px rgba(5, 150, 105, 0.5);
+                    }
+                </style>
+
                 <div class="grid grid-cols-1 gap-8 lg:gap-10 lg:grid-cols-2 mb-10">
                     
                     <!-- Assessment Breakdown -->
                     <section id="assessment" class="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm flex flex-col justify-between space-y-6">
-                        <style>
-                            @keyframes fillBoost40 {
-                                0% { width: 0%; filter: brightness(1.2); }
-                                80% { width: 43%; filter: brightness(1.25); }
-                                100% { width: 40%; filter: brightness(1.2); }
-                            }
-                            @keyframes fillBoost30 {
-                                0% { width: 0%; filter: brightness(1.2); }
-                                80% { width: 33%; filter: brightness(1.25); }
-                                100% { width: 30%; filter: brightness(1.2); }
-                            }
-                            @keyframes fillBoost15 {
-                                0% { width: 0%; filter: brightness(1.2); }
-                                80% { width: 17%; filter: brightness(1.25); }
-                                100% { width: 15%; filter: brightness(1.2); }
-                            }
-                            @keyframes fillBoost10 {
-                                0% { width: 0%; filter: brightness(1.2); }
-                                80% { width: 12%; filter: brightness(1.25); }
-                                100% { width: 10%; filter: brightness(1.2); }
-                            }
-                            @keyframes fillBoost5 {
-                                0% { width: 0%; filter: brightness(1.2); }
-                                80% { width: 7%; filter: brightness(1.25); }
-                                100% { width: 5%; filter: brightness(1.2); }
-                            }
-                            .assessment-row {
-                                cursor: pointer;
-                                transition: all 0.2s ease;
-                            }
-                            .assessment-row:hover .bar-40 {
-                                animation: fillBoost40 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-                                box-shadow: 0 0 12px rgba(91, 44, 111, 0.5);
-                            }
-                            .assessment-row:hover .bar-30 {
-                                animation: fillBoost30 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-                                box-shadow: 0 0 12px rgba(125, 60, 152, 0.5);
-                            }
-                            .assessment-row:hover .bar-15 {
-                                animation: fillBoost15 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-                                box-shadow: 0 0 12px rgba(79, 70, 229, 0.5);
-                            }
-                            .assessment-row:hover .bar-10 {
-                                animation: fillBoost10 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-                                box-shadow: 0 0 12px rgba(37, 99, 235, 0.5);
-                            }
-                            .assessment-row:hover .bar-5 {
-                                animation: fillBoost5 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-                                box-shadow: 0 0 12px rgba(5, 150, 105, 0.5);
-                            }
-                        </style>
-
                         <div>
                             <div class="flex items-center justify-between border-b border-slate-100 pb-4">
                                 <div class="flex items-center gap-4">
@@ -350,36 +352,40 @@
                     </section>
 
                     <!-- Grading Criteria Table -->
-                    <section id="grading" class="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm space-y-4">
-                        <div class="flex items-center gap-4 border-b border-slate-100 pb-4">
-                            <div style="background-color: #1E8449;" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white shadow-xs">
-                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z"></path></svg>
+                    <section id="grading" class="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm flex flex-col justify-between space-y-6">
+                        <div>
+                            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                                <div class="flex items-center gap-4">
+                                    <div style="background-color: #1E8449;" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white shadow-xs">
+                                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5"></path></svg>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-lg font-black text-slate-900">Grading Criteria</h2>
+                                        <p class="text-xs font-bold text-slate-500">Letter Grade Scale</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <h2 class="text-lg font-black text-slate-900">Grading Criteria</h2>
-                                <p class="text-xs font-bold text-slate-500">Letter Grade Scale</p>
-                            </div>
-                        </div>
 
-                        <div class="overflow-hidden rounded-xl border border-slate-200 text-xs mt-4">
-                            <table class="w-full text-left">
-                                <thead class="bg-slate-100 text-slate-800 uppercase font-extrabold">
-                                    <tr>
-                                        <th class="px-4 py-2.5">Score Range</th>
-                                        <th class="px-4 py-2.5 text-center">Grade</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-slate-100 font-bold text-slate-800">
-                                    <tr class="bg-slate-50/50"><td class="px-4 py-2.5 text-slate-900 font-medium">85 &ndash; 100</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">A</td></tr>
-                                    <tr><td class="px-4 py-2.5 text-slate-900 font-medium">80 &ndash; 84</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">B+</td></tr>
-                                    <tr class="bg-slate-50/50"><td class="px-4 py-2.5 text-slate-900 font-medium">75 &ndash; 79</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">B</td></tr>
-                                    <tr><td class="px-4 py-2.5 text-slate-900 font-medium">70 &ndash; 74</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">C+</td></tr>
-                                    <tr class="bg-slate-50/50"><td class="px-4 py-2.5 text-slate-900 font-medium">65 &ndash; 69</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">C</td></tr>
-                                    <tr><td class="px-4 py-2.5 text-slate-900 font-medium">60 &ndash; 64</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">D+</td></tr>
-                                    <tr class="bg-slate-50/50"><td class="px-4 py-2.5 text-slate-900 font-medium">50 &ndash; 59</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">D</td></tr>
-                                    <tr><td class="px-4 py-2.5 text-slate-900 font-medium">49 or below</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">F</td></tr>
-                                </tbody>
-                            </table>
+                            <div class="overflow-hidden rounded-xl border border-slate-200 text-xs mt-6">
+                                <table class="w-full text-left">
+                                    <thead class="bg-slate-100 text-slate-800 uppercase font-extrabold">
+                                        <tr>
+                                            <th class="px-4 py-2.5">Score Range</th>
+                                            <th class="px-4 py-2.5 text-center">Grade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 font-bold text-slate-800">
+                                        <tr class="bg-slate-50/50"><td class="px-4 py-2.5 text-slate-900 font-medium">85 &ndash; 100</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">A</td></tr>
+                                        <tr><td class="px-4 py-2.5 text-slate-900 font-medium">80 &ndash; 84</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">B+</td></tr>
+                                        <tr class="bg-slate-50/50"><td class="px-4 py-2.5 text-slate-900 font-medium">75 &ndash; 79</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">B</td></tr>
+                                        <tr><td class="px-4 py-2.5 text-slate-900 font-medium">70 &ndash; 74</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">C+</td></tr>
+                                        <tr class="bg-slate-50/50"><td class="px-4 py-2.5 text-slate-900 font-medium">65 &ndash; 69</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">C</td></tr>
+                                        <tr><td class="px-4 py-2.5 text-slate-900 font-medium">60 &ndash; 64</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">D+</td></tr>
+                                        <tr class="bg-slate-50/50"><td class="px-4 py-2.5 text-slate-900 font-medium">50 &ndash; 59</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">D</td></tr>
+                                        <tr><td class="px-4 py-2.5 text-slate-900 font-medium">49 or below</td><td class="px-4 py-2.5 text-center font-extrabold text-slate-900">F</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </section>
                 </div>
@@ -467,12 +473,48 @@
                     <div class="space-y-4">
                         
                         <!-- Week 1 -->
-                        <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-2">
+                        <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-3">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span style="background-color: #5B2C6F;" class="rounded-md px-3 py-1 text-xs font-black text-white">Week 1 &bull; Aug 20-21</span>
                                 <span class="text-xs font-extrabold text-slate-600">Introduction</span>
                             </div>
                             <h3 class="text-base font-extrabold text-slate-900">Introduction to Intercultural Communication</h3>
+
+                            <!-- Interactive Resource Buttons -->
+                            <div class="pt-2 flex flex-wrap items-center gap-2.5">
+                                <a 
+                                    href="{{ route('materials.class01') }}" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    style="background-color: #5B2C6F;"
+                                    class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold text-white shadow-xs border border-purple-800 hover:bg-[#4A235A] hover:scale-105 hover:shadow-md transition-all duration-200"
+                                >
+                                    <svg class="h-4 w-4 text-purple-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 9h1m0 4h6m-6 4h6"></path>
+                                    </svg>
+                                    <span>Class 01 (Slides)</span>
+                                    <svg class="h-3.5 w-3.5 text-purple-300 ml-0.5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+
+                                <a 
+                                    href="{{ route('materials.chapter01') }}" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    style="background-color: #7D3C98;"
+                                    class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold text-white shadow-xs border border-purple-600 hover:bg-[#6C3483] hover:scale-105 hover:shadow-md transition-all duration-200"
+                                >
+                                    <svg class="h-4 w-4 text-purple-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                    </svg>
+                                    <span>Chapter 01 (Textbook)</span>
+                                    <svg class="h-3.5 w-3.5 text-purple-200 ml-0.5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
 
                         <!-- Week 2 -->
@@ -487,7 +529,6 @@
                         <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-2">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span style="background-color: #5B2C6F;" class="rounded-md px-3 py-1 text-xs font-black text-white">Week 3 &bull; Sept 3-4</span>
-                                <span class="rounded-full bg-emerald-700 px-2.5 py-0.5 text-xs font-black text-white">RSU Passport (5%)</span>
                             </div>
                             <h3 class="text-base font-extrabold text-slate-900">AI-Assisted Training for Intercultural Peer Mentoring</h3>
                         </div>
@@ -496,11 +537,14 @@
                         <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-2">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span style="background-color: #5B2C6F;" class="rounded-md px-3 py-1 text-xs font-black text-white">Week 4 &bull; Sept 10-11</span>
-                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Reflection Homework #1</span>
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <span class="rounded-full bg-emerald-700 px-2.5 py-0.5 text-xs font-black text-white">RSU Passport</span>
+                                    <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">RSU Stargate</span>
+                                </div>
                             </div>
                             <h3 class="text-base font-extrabold text-slate-900">Cultural Identity, Gender, and Intercultural Communication</h3>
                             <div style="background-color: #5B2C6F;" class="mt-3 rounded-lg p-2.5 text-xs font-black text-white">
-                                &bull; ONLINE PAL CENTER REFLECTION HOMEWORK #1
+                                ONLINE PAL CENTER REFLECTION HOMEWORK #1
                             </div>
                         </div>
 
@@ -508,11 +552,14 @@
                         <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-2">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span style="background-color: #5B2C6F;" class="rounded-md px-3 py-1 text-xs font-black text-white">Week 5 &bull; Sept 17-18</span>
-                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Reflection Homework #2</span>
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <span class="rounded-full bg-emerald-700 px-2.5 py-0.5 text-xs font-black text-white">Mentoring</span>
+                                    <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Memorable experiences</span>
+                                </div>
                             </div>
                             <h3 class="text-base font-extrabold text-slate-900">Cultural Dimensions and Communication Contexts</h3>
                             <div style="background-color: #5B2C6F;" class="mt-3 rounded-lg p-2.5 text-xs font-black text-white">
-                                &bull; ONLINE PAL CENTER REFLECTION HOMEWORK #2
+                                ONLINE PAL CENTER REFLECTION HOMEWORK #2
                             </div>
                         </div>
 
@@ -520,11 +567,11 @@
                         <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-2">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span style="background-color: #5B2C6F;" class="rounded-md px-3 py-1 text-xs font-black text-white">Week 6 &bull; Sept 24-25</span>
-                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Reflection Homework #3</span>
+                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Shopping</span>
                             </div>
                             <h3 class="text-base font-extrabold text-slate-900">Verbal Communication Across Cultures</h3>
                             <div style="background-color: #5B2C6F;" class="mt-3 rounded-lg p-2.5 text-xs font-black text-white">
-                                &bull; ONLINE PAL CENTER REFLECTION HOMEWORK #3
+                                ONLINE PAL CENTER REFLECTION HOMEWORK #3
                             </div>
                         </div>
 
@@ -532,11 +579,11 @@
                         <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-2">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span style="background-color: #5B2C6F;" class="rounded-md px-3 py-1 text-xs font-black text-white">Week 7 &bull; Oct 1-2</span>
-                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Reflection Homework #4</span>
+                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">RSU Stargate</span>
                             </div>
                             <h3 class="text-base font-extrabold text-slate-900">Nonverbal Communication Across Cultures</h3>
                             <div style="background-color: #5B2C6F;" class="mt-3 rounded-lg p-2.5 text-xs font-black text-white">
-                                &bull; ONLINE PAL CENTER REFLECTION HOMEWORK #4
+                                ONLINE PAL CENTER REFLECTION HOMEWORK #4
                             </div>
                         </div>
 
@@ -544,11 +591,11 @@
                         <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-2">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span style="background-color: #5B2C6F;" class="rounded-md px-3 py-1 text-xs font-black text-white">Week 8 &bull; Oct 15-16</span>
-                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Reflection Homework #5</span>
+                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">My dream job</span>
                             </div>
                             <h3 class="text-base font-extrabold text-slate-900">Religion and Intercultural Communication</h3>
                             <div style="background-color: #5B2C6F;" class="mt-3 rounded-lg p-2.5 text-xs font-black text-white">
-                                &bull; ONLINE RSU GLOBAL! REFLECTION HOMEWORK #5
+                                ONLINE RSU GLOBAL! REFLECTION HOMEWORK #5
                             </div>
                         </div>
 
@@ -556,11 +603,11 @@
                         <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-2">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span style="background-color: #5B2C6F;" class="rounded-md px-3 py-1 text-xs font-black text-white">Week 9 &bull; Oct 22-23</span>
-                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Reflection Homework #6</span>
+                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">RSU Stargate</span>
                             </div>
                             <h3 class="text-base font-extrabold text-slate-900">Stereotypes, Prejudice, Bias, and Cultural Representation</h3>
                             <div style="background-color: #5B2C6F;" class="mt-3 rounded-lg p-2.5 text-xs font-black text-white">
-                                &bull; ONLINE PAL CENTER REFLECTION HOMEWORK #6
+                                ONLINE PAL CENTER REFLECTION HOMEWORK #6
                             </div>
                         </div>
 
@@ -568,11 +615,11 @@
                         <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-2">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span style="background-color: #5B2C6F;" class="rounded-md px-3 py-1 text-xs font-black text-white">Week 10 &bull; Oct 29-30</span>
-                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Reflection Homework #7</span>
+                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Childhood and school life</span>
                             </div>
                             <h3 class="text-base font-extrabold text-slate-900">Intercultural Conflict and Relationships</h3>
                             <div style="background-color: #5B2C6F;" class="mt-3 rounded-lg p-2.5 text-xs font-black text-white">
-                                &bull; ONLINE PAL CENTER REFLECTION HOMEWORK #7
+                                ONLINE PAL CENTER REFLECTION HOMEWORK #7
                             </div>
                         </div>
 
@@ -580,11 +627,11 @@
                         <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-2">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span style="background-color: #5B2C6F;" class="rounded-md px-3 py-1 text-xs font-black text-white">Week 11 &bull; Nov 5-6</span>
-                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Reflection Homework #8</span>
+                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Advertisements</span>
                             </div>
                             <h3 class="text-base font-extrabold text-slate-900">Intercultural Communication in Education and the Workplace</h3>
                             <div style="background-color: #5B2C6F;" class="mt-3 rounded-lg p-2.5 text-xs font-black text-white">
-                                &bull; ONLINE PAL CENTER REFLECTION HOMEWORK #8
+                                ONLINE PAL CENTER REFLECTION HOMEWORK #8
                             </div>
                         </div>
 
@@ -592,11 +639,11 @@
                         <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-2">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span style="background-color: #5B2C6F;" class="rounded-md px-3 py-1 text-xs font-black text-white">Week 12 &bull; Nov 12-13</span>
-                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Reflection Homework #9</span>
+                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">RSU Stargate</span>
                             </div>
                             <h3 class="text-base font-extrabold text-slate-900">Digital Intercultural Communication and Artificial Intelligence</h3>
                             <div style="background-color: #5B2C6F;" class="mt-3 rounded-lg p-2.5 text-xs font-black text-white">
-                                &bull; ONLINE PAL CENTER REFLECTION HOMEWORK #9
+                                ONLINE PAL CENTER REFLECTION HOMEWORK #9
                             </div>
                         </div>
 
@@ -604,11 +651,11 @@
                         <div class="schedule-card-hover rounded-xl border-2 border-purple-200 bg-purple-50/40 p-5 space-y-2">
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span style="background-color: #5B2C6F;" class="rounded-md px-3 py-1 text-xs font-black text-white">Week 13 &bull; Nov 19-20</span>
-                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Reflection Homework #10</span>
+                                <span class="rounded-full bg-amber-600 px-2.5 py-0.5 text-xs font-black text-white">Careers</span>
                             </div>
                             <h3 class="text-base font-extrabold text-slate-900">Developing Intercultural Competence in Practice</h3>
                             <div style="background-color: #5B2C6F;" class="mt-3 rounded-lg p-2.5 text-xs font-black text-white">
-                                &bull; ONLINE PAL CENTER REFLECTION HOMEWORK #10
+                                ONLINE PAL CENTER REFLECTION HOMEWORK #10
                             </div>
                         </div>
 

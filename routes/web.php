@@ -291,6 +291,50 @@ Route::get('/components/course127/pdf', function () {
     abort(404, 'Syllabus PDF file not found.');
 })->name('course127.pdf')->withoutMiddleware(RedirectIfAuthenticated::class);
 
-// Logout
+Route::get('/materials/class-01', function () {
+    $possibleFiles = [
+        'Class 01 (Slides).pdf',
+        'Class 01.pdf',
+        'Class_01.pdf',
+        'class-01.pdf',
+        'Class 01.PDF'
+    ];
+    foreach ($possibleFiles as $file) {
+        foreach (['materials/', 'images/', ''] as $sub) {
+            $path = public_path($sub . $file);
+            if (file_exists($path)) {
+                return response()->file($path, [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="Class 01 (Slides).pdf"',
+                ]);
+            }
+        }
+    }
+    abort(404, 'Class 01 Slides PDF file not found.');
+})->name('materials.class01')->withoutMiddleware(RedirectIfAuthenticated::class);
+
+Route::get('/materials/chapter-01', function () {
+    $possibleFiles = [
+        'Chapter 01 (Textbook).pdf',
+        'Chapter 01.pdf',
+        'Chapter_01.pdf',
+        'chapter-01.pdf',
+        'Chapter 01.PDF'
+    ];
+    foreach ($possibleFiles as $file) {
+        foreach (['materials/', 'images/', ''] as $sub) {
+            $path = public_path($sub . $file);
+            if (file_exists($path)) {
+                return response()->file($path, [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="Chapter 01 (Textbook).pdf"',
+                ]);
+            }
+        }
+    }
+    abort(404, 'Chapter 01 Textbook PDF file not found.');
+})->name('materials.chapter01')->withoutMiddleware(RedirectIfAuthenticated::class);
+
+//Logout
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
