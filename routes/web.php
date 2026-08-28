@@ -297,11 +297,11 @@ Route::get('/materials/class-01', function () {
         'Class 01.pdf',
         'Class_01.pdf',
         'class-01.pdf',
-        'Class 01.PDF'
+        'Class 01.PDF',
     ];
     foreach ($possibleFiles as $file) {
         foreach (['materials/', 'images/', ''] as $sub) {
-            $path = public_path($sub . $file);
+            $path = public_path($sub.$file);
             if (file_exists($path)) {
                 return response()->file($path, [
                     'Content-Type' => 'application/pdf',
@@ -319,11 +319,11 @@ Route::get('/materials/chapter-01', function () {
         'Chapter 01.pdf',
         'Chapter_01.pdf',
         'chapter-01.pdf',
-        'Chapter 01.PDF'
+        'Chapter 01.PDF',
     ];
     foreach ($possibleFiles as $file) {
         foreach (['materials/', 'images/', ''] as $sub) {
-            $path = public_path($sub . $file);
+            $path = public_path($sub.$file);
             if (file_exists($path)) {
                 return response()->file($path, [
                     'Content-Type' => 'application/pdf',
@@ -335,6 +335,6 @@ Route::get('/materials/chapter-01', function () {
     abort(404, 'Chapter 01 Textbook PDF file not found.');
 })->name('materials.chapter01')->withoutMiddleware(RedirectIfAuthenticated::class);
 
-//Logout
+// Logout
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
