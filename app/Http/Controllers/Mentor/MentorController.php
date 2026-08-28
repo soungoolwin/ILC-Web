@@ -1,19 +1,19 @@
 <?php
 
 namespace App\Http\Controllers\Mentor;
-use App\Http\Controllers\Controller;
 
-use App\Models\Mentor;
-use App\Models\Form;
-use App\Models\MentorForm;
+use App\Http\Controllers\Controller;
 use App\Models\FileUploadLink;
+use App\Models\Form;
+use App\Models\Mentor;
+use App\Models\MentorForm;
 use App\Models\Semester;
 use App\Scopes\CurrentSemesterScope;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 
 class MentorController extends Controller
 {
@@ -59,8 +59,6 @@ class MentorController extends Controller
         return view('mentor.links', compact('forms', 'completion', 'fileUploadLinks'));
     }
 
-
-
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -72,7 +70,7 @@ class MentorController extends Controller
             'nickname' => 'nullable|string|max:255',
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:20',
-            'mentor_id' => 'required|string|unique:mentors,mentor_id,' . $mentor->id,
+            'mentor_id' => 'required|string|unique:mentors,mentor_id,'.$mentor->id,
             'current_password' => 'nullable|string|min:8',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
@@ -92,7 +90,7 @@ class MentorController extends Controller
 
         // Update password if provided and valid
         if ($request->filled('current_password')) {
-            if (!Hash::check($request->current_password, $user->password)) {
+            if (! Hash::check($request->current_password, $user->password)) {
                 return back()->withErrors(['current_password' => 'Current password is incorrect.']);
             }
 
@@ -109,7 +107,7 @@ class MentorController extends Controller
         $user = Auth::user();
         $mentor = $user->mentors()->first();
 
-        if (!$mentor) {
+        if (! $mentor) {
             return redirect()->back()->withErrors(['error' => 'Mentor record not found.']);
         }
 
@@ -120,12 +118,12 @@ class MentorController extends Controller
 
         // Delete the old image if it exists
         if ($mentor->mentor_image) {
-            Storage::delete('mentor_image/' . $mentor->mentor_image);
+            Storage::delete('mentor_image/'.$mentor->mentor_image);
         }
 
         // Generate the new image name using the mentor's nickname
         $nickname = $user->id ?? 'mentor'; // Fallback to 'mentor' if nickname is null
-        $imageName = $nickname . '.jpg';
+        $imageName = $nickname.'.jpg';
 
         // Move the uploaded file to the public/mentor_image directory
         $request->mentor_image->move(public_path('mentor_image'), $imageName);
@@ -140,24 +138,28 @@ class MentorController extends Controller
     public function status_check($user)
     {
         $mentor = Auth::$user()->mentors()->first();
+
         return $mentor->status;
     }
 
     public function adminShow($id)
     {
         $mentor = Mentor::with('user')->findOrFail($id); // Fetch mentor with user info
+
         return view('admin.mentor-profile', compact('mentor'));
     }
 
     public function teamLeaderShow($id)
     {
         $mentor = Mentor::with('user')->findOrFail($id);
+
         return view('team_leader.mentor-profile', compact('mentor'));
     }
 
     public function studentShow($id)
     {
         $mentor = Mentor::with('user')->findOrFail($id); // Fetch mentor with user info
+
         return view('student.mentor-profile', compact('mentor'));
     }
 
@@ -175,7 +177,7 @@ class MentorController extends Controller
             ->latest('id')
             ->first();
 
-        if (!$lastMentor) {
+        if (! $lastMentor) {
             return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
         }
 
@@ -183,7 +185,7 @@ class MentorController extends Controller
         if ($request->input('confirm') === 'yes') {
             $semester = Semester::current();
 
-            if (!$semester) {
+            if (! $semester) {
                 return redirect()->route('mentor.dashboard')->withErrors(['error' => 'No active semester is set up yet.']);
             }
 
@@ -221,7 +223,7 @@ class MentorController extends Controller
             ->latest('id')
             ->first();
 
-        if (!$mentor) {
+        if (! $mentor) {
             return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
         }
 

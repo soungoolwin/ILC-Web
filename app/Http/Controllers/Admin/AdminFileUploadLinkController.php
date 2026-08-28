@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\FileUploadLink;
+use Illuminate\Http\Request;
 
 class AdminFileUploadLinkController extends Controller
 {

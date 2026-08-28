@@ -41,4 +41,3 @@ class StudentForm extends Model
         return $this->belongsTo(Semester::class);
     }
 }
-

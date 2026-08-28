@@ -67,7 +67,7 @@ class SignupController extends Controller
     {
         $semester = Semester::current();
 
-        if (!$semester) {
+        if (! $semester) {
             return back()->withErrors(['error' => 'No active semester is set up yet. Contact an admin.'])->withInput();
         }
 
@@ -100,7 +100,7 @@ class SignupController extends Controller
     {
         $semester = Semester::current();
 
-        if (!$semester) {
+        if (! $semester) {
             return back()->withErrors(['error' => 'No active semester is set up yet. Contact an admin.'])->withInput();
         }
 
@@ -108,7 +108,7 @@ class SignupController extends Controller
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|ends_with:@rsu.ac.th',
-            //'password' => 'required|string|min:8|confirmed',
+            // 'password' => 'required|string|min:8|confirmed',
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'mentor_id' => [
@@ -119,7 +119,7 @@ class SignupController extends Controller
             'language' => 'required|string|max:255',
             'level' => 'required|string|max:255',
             'men_id_confirmation' => 'required|string|same:mentor_id',
-        ],[
+        ], [
             'email.ends_with' => 'The email must be a valid rsu.ac.th address.',
         ]);
 
@@ -134,19 +134,18 @@ class SignupController extends Controller
         return redirect()->route('login')->with('success', 'Mentor account created successfully!');
     }
 
-
     public function registerAdmin(Request $request)
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users|ends_with:@rsu.ac.th',
-            //'password' => 'required|string|min:8|confirmed',
+            // 'password' => 'required|string|min:8|confirmed',
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'admin_id' => 'required|string|unique:admins,admin_id',
             'adm_id_confirmation' => 'required|string|same:admin_id',
-        ],[
+        ], [
             'email.ends_with' => 'The email must be a valid rsu.ac.th address.',
         ]);
 
@@ -160,16 +159,13 @@ class SignupController extends Controller
             'phone_number' => $data['phone_number'],
         ]);
 
-
         $admin = Admin::create([
             'user_id' => $user->id,
             'admin_id' => $data['admin_id'],
         ]);
 
-
         return redirect()->route('login')->with('success', 'Admin account created successfully!');
     }
-
 
     public function showTeamLeaderRegistrationForm()
     {
@@ -180,7 +176,7 @@ class SignupController extends Controller
     {
         $semester = Semester::current();
 
-        if (!$semester) {
+        if (! $semester) {
             return back()->withErrors(['error' => 'No active semester is set up yet. Contact an admin.'])->withInput();
         }
 
@@ -188,7 +184,7 @@ class SignupController extends Controller
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|ends_with:@rsu.ac.th',
-            //'password' => 'required|string|min:8|confirmed',
+            // 'password' => 'required|string|min:8|confirmed',
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'team_leader_id' => [
@@ -199,7 +195,7 @@ class SignupController extends Controller
             'language' => 'required|string|max:255',
             'level' => 'required|string|max:255',
             'tl_id_confirmation' => 'required|string|same:team_leader_id',
-        ],[
+        ], [
             'email.ends_with' => 'The email must be a valid rsu.ac.th address.',
         ]);
 

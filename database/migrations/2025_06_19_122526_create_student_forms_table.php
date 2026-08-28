@@ -23,4 +23,3 @@ class CreateStudentFormsTable extends Migration
         Schema::dropIfExists('student_forms');
     }
 }
-

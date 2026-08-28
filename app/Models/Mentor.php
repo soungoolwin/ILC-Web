@@ -11,7 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 class Mentor extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
+
     protected $casts = [
         'last_checked_at' => 'datetime',
     ];
@@ -26,7 +28,8 @@ class Mentor extends Model
         return $this->belongsTo(Semester::class);
     }
 
-    public function mentorForms() {
+    public function mentorForms()
+    {
         return $this->hasMany(\App\Models\MentorForm::class);
     }
 

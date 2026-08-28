@@ -30,7 +30,7 @@ class AdminTeamLeaderTimetableController extends Controller
 
         $request->validate([
             'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
-            'time_slot' => 'required|in:' . implode(',', Semester::TEAM_LEADER_TIME_SLOTS),
+            'time_slot' => 'required|in:'.implode(',', Semester::TEAM_LEADER_TIME_SLOTS),
         ]);
 
         $slotLimits = $teamLeader->semester->teamLeaderSlotLimits();

@@ -20,9 +20,10 @@ class AdminMiddleware
             $user = Auth::user();
 
             if ($user->role !== 'admin') {
-                return redirect('/' . $user->role . '/dashboard');
+                return redirect('/'.$user->role.'/dashboard');
             }
         }
+
         return $next($request);
     }
 }

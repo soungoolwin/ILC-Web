@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\Mentor;
+use App\Models\Student;
 use App\Models\TeamLeader;
 use App\Models\TeamLeaderTimetable;
 use App\Models\Timetable;
 use App\Models\User;
-use App\Models\Admin;
-use App\Models\Mentor;
-use App\Models\Student;
 use App\Scopes\CurrentSemesterScope;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,9 +22,9 @@ class AdminController extends Controller
         $user = Auth::user();
         $admin = $user->admins()->first();
 
-
         return view('admin.profile', compact('user', 'admin'));
     }
+
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -39,7 +39,7 @@ class AdminController extends Controller
             'phone_number' => 'nullable|string|max:20',
 
             // Fields from the `admins` table
-            'admin_id' => 'required|string|unique:admins,admin_id,' . $admin->id,
+            'admin_id' => 'required|string|unique:admins,admin_id,'.$admin->id,
 
             // Password fields
             'current_password' => 'nullable|string|min:8',
@@ -61,7 +61,7 @@ class AdminController extends Controller
 
         // Update password if provided and valid
         if ($request->filled('current_password')) {
-            if (!Hash::check($request->current_password, $user->password)) {
+            if (! Hash::check($request->current_password, $user->password)) {
                 return back()->withErrors(['current_password' => 'Current password is incorrect.']);
             }
 
@@ -72,7 +72,8 @@ class AdminController extends Controller
 
         return redirect()->route('admin.profile')->with('success', 'Profile updated successfully.');
     }
-    //for check timetable of team leader
+
+    // for check timetable of team leader
     public function viewTeamLeadersTimetable(Request $request)
     {
         // Fetch the search parameters
@@ -86,7 +87,7 @@ class AdminController extends Controller
             if ($hasReservation) {
                 $bookedLeaders[] = $leader->id;
             }
-        }   
+        }
 
         // Query the team leaders timetable based on search parameters
         $query = TeamLeaderTimetable::query();
@@ -101,16 +102,16 @@ class AdminController extends Controller
 
         if ($team_leader_id) {
             $query->whereHas('teamLeader', function ($q) use ($team_leader_id) {
-                $q->where('team_leader_id', 'like', '%' . $team_leader_id . '%');
+                $q->where('team_leader_id', 'like', '%'.$team_leader_id.'%');
             });
         }
 
         $teamLeaderTimetables = $query->with('teamLeader.user')->get();
 
-        return view('admin.team-leaders-timetables', compact('teamLeaderTimetables', 'request','allTeamLeaders','bookedLeaders'));
+        return view('admin.team-leaders-timetables', compact('teamLeaderTimetables', 'request', 'allTeamLeaders', 'bookedLeaders'));
     }
 
-    //for check timetable of mentor-student timetable
+    // for check timetable of mentor-student timetable
     public function viewMentorStudentsTimetable(Request $request)
     {
         // Fetch search criteria
@@ -136,7 +137,7 @@ class AdminController extends Controller
 
         if ($mentor_id) {
             $query->whereHas('mentor', function ($q) use ($mentor_id) {
-                $q->where('mentor_id', 'like', '%' . $mentor_id . '%');
+                $q->where('mentor_id', 'like', '%'.$mentor_id.'%');
             });
         }
 
@@ -160,34 +161,32 @@ class AdminController extends Controller
 
         // Check if a search term is provided
         if ($request->filled('email')) {
-            $query->where('email', 'like', '%' . $request->email . '%');
+            $query->where('email', 'like', '%'.$request->email.'%');
         }
 
         // Check if the generic 'student_id' input is filled
         if ($request->filled('student_id')) {
             $searchTerm = $request->student_id;
 
-        // Use whereHas to search inside the related tables
-        $query->where(function($q) use ($searchTerm) {
-            $q->whereHas('students', function($q) use ($searchTerm) {
-                $q->withoutGlobalScope(CurrentSemesterScope::class)
-                    ->where('student_id', 'like', '%' . $searchTerm . '%');
-            })
-            ->orWhereHas('mentors', function($q) use ($searchTerm) {
-                $q->withoutGlobalScope(CurrentSemesterScope::class)
-                    ->where('mentor_id', 'like', '%' . $searchTerm . '%');
-            })
-            ->orWhereHas('teamLeaders', function($q) use ($searchTerm) {
-                $q->withoutGlobalScope(CurrentSemesterScope::class)
-                    ->where('team_leader_id', 'like', '%' . $searchTerm . '%');
-            })
-            ->orWhereHas('admins', function($q) use ($searchTerm) {
-                $q->where('admin_id', 'like', '%' . $searchTerm . '%');
+            // Use whereHas to search inside the related tables
+            $query->where(function ($q) use ($searchTerm) {
+                $q->whereHas('students', function ($q) use ($searchTerm) {
+                    $q->withoutGlobalScope(CurrentSemesterScope::class)
+                        ->where('student_id', 'like', '%'.$searchTerm.'%');
+                })
+                    ->orWhereHas('mentors', function ($q) use ($searchTerm) {
+                        $q->withoutGlobalScope(CurrentSemesterScope::class)
+                            ->where('mentor_id', 'like', '%'.$searchTerm.'%');
+                    })
+                    ->orWhereHas('teamLeaders', function ($q) use ($searchTerm) {
+                        $q->withoutGlobalScope(CurrentSemesterScope::class)
+                            ->where('team_leader_id', 'like', '%'.$searchTerm.'%');
+                    })
+                    ->orWhereHas('admins', function ($q) use ($searchTerm) {
+                        $q->where('admin_id', 'like', '%'.$searchTerm.'%');
+                    });
             });
-        });
         }
-
-
 
         // Paginate the results
         $users = $query->paginate(50);
@@ -201,7 +200,7 @@ class AdminController extends Controller
         $authUser = Auth::user();
 
         // Ensure the deleter is an admin
-        if (!$authUser || $authUser->role !== 'admin') {
+        if (! $authUser || $authUser->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
 

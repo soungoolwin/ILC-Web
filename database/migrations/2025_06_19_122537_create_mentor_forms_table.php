@@ -23,4 +23,3 @@ class CreateMentorFormsTable extends Migration
         Schema::dropIfExists('mentor_forms');
     }
 }
-

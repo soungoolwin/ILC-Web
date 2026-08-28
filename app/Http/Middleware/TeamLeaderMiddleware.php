@@ -20,9 +20,10 @@ class TeamLeaderMiddleware
             $user = Auth::user();
 
             if ($user->role !== 'team_leader') {
-                return redirect('/' . $user->role . '/dashboard');
+                return redirect('/'.$user->role.'/dashboard');
             }
         }
+
         return $next($request);
     }
 }

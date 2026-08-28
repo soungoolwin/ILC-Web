@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
 
-use App\Models\Form;
-use Illuminate\Http\Request;
-use App\Models\Student;
-use App\Models\Mentor;
-use App\Models\TeamLeader;
+use App\Http\Controllers\Controller;
 use App\Models\FileUploadLink;
+use App\Models\Form;
+use App\Models\Mentor;
+use App\Models\Student;
+use App\Models\TeamLeader;
+use Illuminate\Http\Request;
 
 class AdminFormController extends Controller
 {
@@ -26,7 +26,7 @@ class AdminFormController extends Controller
         }
 
         $forms = $query->orderBy('for_role')->get();
-        
+
         $uploadLinks = FileUploadLink::query()
             ->when($request->filled('for_role'), function ($q) use ($request) {
                 $q->where('for_role', $request->for_role);
@@ -97,6 +97,7 @@ class AdminFormController extends Controller
     public function destroy(Form $form)
     {
         $form->delete();
+
         return redirect()->route('admin.forms.index')->with('success', 'Form deleted successfully!');
     }
 
@@ -121,9 +122,11 @@ class AdminFormController extends Controller
 
         // Ensure all role/type keys exist even if empty
         foreach ($roles as $role) {
-            if (!isset($forms[$role])) $forms[$role] = collect();
+            if (! isset($forms[$role])) {
+                $forms[$role] = collect();
+            }
             foreach ($defaultFormTypes as $type) {
-                if (!isset($forms[$role][$type])) {
+                if (! isset($forms[$role][$type])) {
                     $forms[$role][$type] = collect(); // empty = no form created for that type
                 }
             }
@@ -135,15 +138,15 @@ class AdminFormController extends Controller
         $teamLeaderId = $request->query('team_leader_id');
 
         $students = Student::with(['user', 'studentForms'])
-            ->when($studentId, fn($q) => $q->where('student_id', 'like', "%{$studentId}%"))
+            ->when($studentId, fn ($q) => $q->where('student_id', 'like', "%{$studentId}%"))
             ->get();
 
         $mentors = Mentor::with(['user', 'mentorForms'])
-            ->when($mentorId, fn($q) => $q->where('mentor_id', 'like', "%{$mentorId}%"))
+            ->when($mentorId, fn ($q) => $q->where('mentor_id', 'like', "%{$mentorId}%"))
             ->get();
 
         $teamleaders = TeamLeader::with(['user', 'teamLeaderForms'])
-            ->when($teamLeaderId, fn($q) => $q->where('team_leader_id', 'like', "%{$teamLeaderId}%"))
+            ->when($teamLeaderId, fn ($q) => $q->where('team_leader_id', 'like', "%{$teamLeaderId}%"))
             ->get();
 
         // ---- 3) Build per-form statuses + per-type summaries ----
@@ -160,9 +163,11 @@ class AdminFormController extends Controller
 
                 foreach ($formList as $form) {
                     $record = $student->studentForms->firstWhere('form_id', $form->id);
-                    $isCompleted = $record && (bool)($record->completion_status ?? true);
+                    $isCompleted = $record && (bool) ($record->completion_status ?? true);
                     $studentStatusesByForm[$student->id][$type][$form->id] = $isCompleted ? 'completed' : 'not_completed';
-                    if ($isCompleted) $done++;
+                    if ($isCompleted) {
+                        $done++;
+                    }
                 }
 
                 $studentSummaries[$student->id][$type] = ['completed' => $done, 'total' => $total];
@@ -179,9 +184,11 @@ class AdminFormController extends Controller
 
                 foreach ($formList as $form) {
                     $record = $mentor->mentorForms->firstWhere('form_id', $form->id);
-                    $isCompleted = $record && (bool)($record->completion_status ?? true);
+                    $isCompleted = $record && (bool) ($record->completion_status ?? true);
                     $mentorStatusesByForm[$mentor->id][$type][$form->id] = $isCompleted ? 'completed' : 'not_completed';
-                    if ($isCompleted) $done++;
+                    if ($isCompleted) {
+                        $done++;
+                    }
                 }
 
                 $mentorSummaries[$mentor->id][$type] = ['completed' => $done, 'total' => $total];
@@ -198,9 +205,11 @@ class AdminFormController extends Controller
 
                 foreach ($formList as $form) {
                     $record = $leader->teamLeaderForms->firstWhere('form_id', $form->id);
-                    $isCompleted = $record && (bool)($record->completion_status ?? true);
+                    $isCompleted = $record && (bool) ($record->completion_status ?? true);
                     $teamLeaderStatusesByForm[$leader->id][$type][$form->id] = $isCompleted ? 'completed' : 'not_completed';
-                    if ($isCompleted) $done++;
+                    if ($isCompleted) {
+                        $done++;
+                    }
                 }
 
                 $teamLeaderSummaries[$leader->id][$type] = ['completed' => $done, 'total' => $total];
@@ -212,113 +221,108 @@ class AdminFormController extends Controller
         $formColumns = [];
         foreach ($roles as $role) {
             foreach ($defaultFormTypes as $type) {
-                $formColumns[$role][$type] = $forms[$role][$type]->map(fn($f) => [
+                $formColumns[$role][$type] = $forms[$role][$type]->map(fn ($f) => [
                     'id' => $f->id,
                     'label' => $f->form_name ?? ('Form #'.$f->id),
                 ])->values();
             }
         }
 
-        
-
         // ---- 5) Calculate completion statistics for students, mentors, teamleaders ----
-            $studentCompletionStats = [];
+        $studentCompletionStats = [];
 
-            foreach ($defaultFormTypes as $type) {
-                // Get all forms of this type across all students
-                $formList = $forms['student'][$type];
-                $totalPossible = $formList->count() * $students->count();
-                $completedCount = 0;
+        foreach ($defaultFormTypes as $type) {
+            // Get all forms of this type across all students
+            $formList = $forms['student'][$type];
+            $totalPossible = $formList->count() * $students->count();
+            $completedCount = 0;
 
-                foreach ($students as $student) {
-                    foreach ($formList as $form) {
-                        $status = $studentStatusesByForm[$student->id][$type][$form->id] ?? 'not_completed';
-                        if ($status === 'completed') {
-                            $completedCount++;
-                        }
+            foreach ($students as $student) {
+                foreach ($formList as $form) {
+                    $status = $studentStatusesByForm[$student->id][$type][$form->id] ?? 'not_completed';
+                    if ($status === 'completed') {
+                        $completedCount++;
                     }
                 }
-
-                $studentCompletionStats[] = [
-                    'label' => ucfirst($type),
-                    'percentage' => $totalPossible > 0 ? round(($completedCount / $totalPossible) * 100, 1) : 0,
-                    'completed' => $completedCount,
-                    'total' => $totalPossible
-                ];
             }
 
-            $mentorCompletionStats = [];
+            $studentCompletionStats[] = [
+                'label' => ucfirst($type),
+                'percentage' => $totalPossible > 0 ? round(($completedCount / $totalPossible) * 100, 1) : 0,
+                'completed' => $completedCount,
+                'total' => $totalPossible,
+            ];
+        }
 
-            foreach ($defaultFormTypes as $type) {
-                // Get all forms of this type across all mentors
-                $formList = $forms['mentor'][$type];
-                $totalPossible = $formList->count() * $mentors->count();
-                $completedCount = 0;
+        $mentorCompletionStats = [];
 
-                foreach ($mentors as $mentor) {
-                    foreach ($formList as $form) {
-                        $status = $mentorStatusesByForm[$mentor->id][$type][$form->id] ?? 'not_completed';
-                        if ($status === 'completed') {
-                            $completedCount++;
-                        }
+        foreach ($defaultFormTypes as $type) {
+            // Get all forms of this type across all mentors
+            $formList = $forms['mentor'][$type];
+            $totalPossible = $formList->count() * $mentors->count();
+            $completedCount = 0;
+
+            foreach ($mentors as $mentor) {
+                foreach ($formList as $form) {
+                    $status = $mentorStatusesByForm[$mentor->id][$type][$form->id] ?? 'not_completed';
+                    if ($status === 'completed') {
+                        $completedCount++;
                     }
                 }
-
-                $mentorCompletionStats[] = [
-                    'label' => ucfirst($type),
-                    'percentage' => $totalPossible > 0 ? round(($completedCount / $totalPossible) * 100, 1) : 0,
-                    'completed' => $completedCount,
-                    'total' => $totalPossible
-                ];
             }
 
-            $teamLeaderCompletionStats = [];
+            $mentorCompletionStats[] = [
+                'label' => ucfirst($type),
+                'percentage' => $totalPossible > 0 ? round(($completedCount / $totalPossible) * 100, 1) : 0,
+                'completed' => $completedCount,
+                'total' => $totalPossible,
+            ];
+        }
 
-            foreach ($defaultFormTypes as $type) {
-                // Get all forms of this type across all team leaders
-                $formList = $forms['team_leader'][$type];
-                $totalPossible = $formList->count() * $teamleaders->count();
-                $completedCount = 0;
+        $teamLeaderCompletionStats = [];
 
-                foreach ($teamleaders as $leader) {
-                    foreach ($formList as $form) {
-                        $status = $teamLeaderStatusesByForm[$leader->id][$type][$form->id] ?? 'not_completed';
-                        if ($status === 'completed') {
-                            $completedCount++;
-                        }
+        foreach ($defaultFormTypes as $type) {
+            // Get all forms of this type across all team leaders
+            $formList = $forms['team_leader'][$type];
+            $totalPossible = $formList->count() * $teamleaders->count();
+            $completedCount = 0;
+
+            foreach ($teamleaders as $leader) {
+                foreach ($formList as $form) {
+                    $status = $teamLeaderStatusesByForm[$leader->id][$type][$form->id] ?? 'not_completed';
+                    if ($status === 'completed') {
+                        $completedCount++;
                     }
                 }
-
-                $teamLeaderCompletionStats[] = [
-                    'label' => ucfirst($type),
-                    'percentage' => $totalPossible > 0 ? round(($completedCount / $totalPossible) * 100, 1) : 0,
-                    'completed' => $completedCount,
-                    'total' => $totalPossible
-                ];
             }
 
-            // For compatibility with your blade that expects $formTypes
-            $formTypes = $defaultFormTypes;
+            $teamLeaderCompletionStats[] = [
+                'label' => ucfirst($type),
+                'percentage' => $totalPossible > 0 ? round(($completedCount / $totalPossible) * 100, 1) : 0,
+                'completed' => $completedCount,
+                'total' => $totalPossible,
+            ];
+        }
 
-            return view('admin.forms.tracking', compact(
-                'forms',
-                'formTypes',
-                'students',
-                'mentors',
-                'teamleaders',
-                'studentStatusesByForm',
-                'mentorStatusesByForm',
-                'teamLeaderStatusesByForm',
-                'studentSummaries',
-                'mentorSummaries',
-                'teamLeaderSummaries',
-                'formColumns',
-                'studentCompletionStats',
-                'mentorCompletionStats',
-                'teamLeaderCompletionStats'
-            ));
+        // For compatibility with your blade that expects $formTypes
+        $formTypes = $defaultFormTypes;
+
+        return view('admin.forms.tracking', compact(
+            'forms',
+            'formTypes',
+            'students',
+            'mentors',
+            'teamleaders',
+            'studentStatusesByForm',
+            'mentorStatusesByForm',
+            'teamLeaderStatusesByForm',
+            'studentSummaries',
+            'mentorSummaries',
+            'teamLeaderSummaries',
+            'formColumns',
+            'studentCompletionStats',
+            'mentorCompletionStats',
+            'teamLeaderCompletionStats'
+        ));
     }
-
-
-
 }

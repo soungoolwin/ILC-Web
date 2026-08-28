@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
 
-use ArielMejiaDev\LarapexCharts\LarapexChart;
+use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Form;
 use App\Models\Mentor;
@@ -15,6 +14,7 @@ use App\Models\TeamLeaderForm;
 use App\Models\TeamLeaderTimetable;
 use App\Models\Timetable;
 use App\Models\User;
+use ArielMejiaDev\LarapexCharts\LarapexChart;
 use Illuminate\Support\Facades\DB;
 
 class AdminAnalyticController extends Controller
@@ -82,6 +82,7 @@ class AdminAnalyticController extends Controller
         $openByDay = collect($days)
             ->map(function ($day) use ($timetableCountsByDay) {
                 $row = $timetableCountsByDay[$day] ?? null;
+
                 return max(0, (int) ($row->total ?? 0) - (int) ($row->reserved_total ?? 0));
             })
             ->all();

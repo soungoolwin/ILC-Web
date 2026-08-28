@@ -163,8 +163,8 @@ class AdminMentorTimetableController extends Controller
         $startTime = \Carbon\Carbon::createFromFormat('H:i', $start);
         $endTime = \Carbon\Carbon::createFromFormat('H:i', $end);
 
-        $firstSlot = $startTime->format('H:i') . '-' . $startTime->copy()->addMinutes(30)->format('H:i');
-        $secondSlot = $startTime->copy()->addMinutes(30)->format('H:i') . '-' . $endTime->format('H:i');
+        $firstSlot = $startTime->format('H:i').'-'.$startTime->copy()->addMinutes(30)->format('H:i');
+        $secondSlot = $startTime->copy()->addMinutes(30)->format('H:i').'-'.$endTime->format('H:i');
 
         return [$firstSlot, $secondSlot];
     }
