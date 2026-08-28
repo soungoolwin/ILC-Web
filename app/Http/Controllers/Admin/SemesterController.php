@@ -15,7 +15,7 @@ class SemesterController extends Controller
         // Prefill the "start a new semester" form with the current
         // semester's capacity settings so an admin isn't retyping them
         // from scratch every term.
-        $defaults = Semester::current() ?? new Semester();
+        $defaults = Semester::current() ?? new Semester;
 
         return view('admin.semesters.index', compact('semesters', 'defaults'));
     }

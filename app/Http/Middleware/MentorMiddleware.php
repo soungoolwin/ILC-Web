@@ -21,13 +21,14 @@ class MentorMiddleware
 
             // Ensure the user is a mentor
             if ($user->role !== 'mentor') {
-                return redirect('/' . $user->role . '/dashboard');
+                return redirect('/'.$user->role.'/dashboard');
             }
 
             // Check mentor-specific status
             $mentor = $user->mentors()->first();
 
         }
+
         return $next($request);
     }
 }

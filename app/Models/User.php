@@ -42,7 +42,7 @@ class User extends Authenticatable
         ];
     }
 
-    //Relationships
+    // Relationships
     public function students()
     {
         return $this->hasMany(Student::class);
@@ -57,6 +57,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Admin::class);
     }
+
     public function teamLeaders()
     {
         return $this->hasMany(TeamLeader::class);

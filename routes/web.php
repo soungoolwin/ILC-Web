@@ -1,25 +1,25 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\SemesterController;
 use App\Http\Controllers\Admin\AdminAnalyticController;
-use App\Http\Controllers\Admin\AdminFormController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminFileUploadLinkController;
+use App\Http\Controllers\Admin\AdminFormController;
 use App\Http\Controllers\Admin\AdminMentorTimetableController;
 use App\Http\Controllers\Admin\AdminTeamLeaderTimetableController;
 use App\Http\Controllers\Admin\AttendanceController;
+use App\Http\Controllers\Admin\SemesterController;
+use App\Http\Controllers\GuestPageController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Mentor\MentorController;
 use App\Http\Controllers\Mentor\MentorFormController;
 use App\Http\Controllers\Mentor\TimetableController;
+use App\Http\Controllers\SignupController;
+use App\Http\Controllers\Student\AppointmentController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\StudentFormController;
-use App\Http\Controllers\Student\AppointmentController;
 use App\Http\Controllers\TeamLeader\TeamLeaderController;
 use App\Http\Controllers\TeamLeader\TeamLeaderFormController;
 use App\Http\Controllers\TeamLeader\TeamLeaderTimetableController;
-use App\Http\Controllers\GuestPageController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\SignupController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\MentorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -51,10 +51,7 @@ Route::middleware(RedirectIfAuthenticated::class)->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1');
 
-
 });
-
-
 
 // Mentor Routes
 Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
@@ -68,12 +65,12 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     Route::delete('/mentor/links/{form}/undo', [MentorFormController::class, 'undo'])->name('mentor.forms.undo');
 
     // Mentor Profile Management
-    Route::get("/mentor/profile", [MentorController::class, 'show'])->name('mentor.profile');
+    Route::get('/mentor/profile', [MentorController::class, 'show'])->name('mentor.profile');
     Route::put('/mentor/profile', [MentorController::class, 'update'])->name('mentor.update');
 
     Route::post('/mentor/image/upload', [MentorController::class, 'uploadImage'])->name('mentor.image.upload');
 
-    //Timetable Routes
+    // Timetable Routes
     Route::get('/mentor/timetables/reserve', [TimetableController::class, 'create'])->name('mentor.timetables.create');
     Route::post('/mentor/timetables/reserve', [TimetableController::class, 'store'])->name('mentor.timetables.store');
 
@@ -83,9 +80,8 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
 
     Route::get('/mentor/timetables/students', [TimetableController::class, 'searchStudents'])->name('mentor.timetables.students');
 
-
     Route::get('/mentor/nextsem/{mentor}', [MentorController::class, 'nextSemester'])->name('mentor.nextsem');
-    //Route for mentor checker
+    // Route for mentor checker
     Route::post('/mentor/confirm-next-semester', [MentorController::class, 'confirmNextSemester'])->name('mentor.confirmNextSemester');
     // Mentor suspend and pause routes
     Route::get('/mentor/pause', [MentorController::class, 'pause'])->name('mentor.pause');
@@ -94,8 +90,7 @@ Route::middleware([MentorMiddleware::class, 'auth'])->group(function () {
     Route::get('/mentor/students/{id}', [StudentController::class, 'mentorShow'])->name('mentor.students.show');
 });
 
-
-//Student Routes
+// Student Routes
 Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
 
@@ -105,7 +100,7 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
     Route::delete('/student/links/{form}/undo', [StudentFormController::class, 'undo'])->name('student.forms.undo');
 
     // Student Profile Management
-    Route::get("/student/profile", [StudentController::class, 'show'])->name('student.profile');
+    Route::get('/student/profile', [StudentController::class, 'show'])->name('student.profile');
     Route::put('/student/profile', [StudentController::class, 'update'])->name('student.update');
 
     Route::get('/student/mentors/{id}', [MentorController::class, 'studentShow'])->name('student.mentors.show');
@@ -118,29 +113,29 @@ Route::middleware([StudentMiddleware::class, 'auth'])->group(function () {
     Route::get('/student/appointments/availability', [AppointmentController::class, 'checkAvailability'])->name('student.appointments.availability');
 });
 
-
-//Admin Routes
+// Admin Routes
 Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::get('/admin/dashboard', action: function () {
-        $totalStudents   = \App\Models\User::whereHas('students')->count();
-        $totalMentors    = \App\Models\User::whereHas('mentors')->count();
-        $totalTeamLeaders= \App\Models\User::whereHas('teamLeaders')->count();
-        $totalForms      = \App\Models\Form::count();
+        $totalStudents = \App\Models\User::whereHas('students')->count();
+        $totalMentors = \App\Models\User::whereHas('mentors')->count();
+        $totalTeamLeaders = \App\Models\User::whereHas('teamLeaders')->count();
+        $totalForms = \App\Models\Form::count();
         $totalAppointments = \App\Models\Appointment::count();
         $totalTimetables = \App\Models\Timetable::count();
+
         return view('admin.dashboard', compact(
-            'totalStudents','totalMentors','totalTeamLeaders',
-            'totalForms','totalAppointments','totalTimetables'
+            'totalStudents', 'totalMentors', 'totalTeamLeaders',
+            'totalForms', 'totalAppointments', 'totalTimetables'
         ));
     })->name('admin.dashboard');
 
-    Route::get("/admin/profile", [AdminController::class, 'show'])->name('admin.profile');
+    Route::get('/admin/profile', [AdminController::class, 'show'])->name('admin.profile');
     Route::put('/admin/profile', [AdminController::class, 'update'])->name('admin.update');
 
-    //to check timetable of team leader
+    // to check timetable of team leader
     Route::get('/admin/team-leaders-timetables', [AdminController::class, 'viewTeamLeadersTimetable'])->name('admin.team_leaders_timetable');
 
-    //to check timetable of mentor-student timetable
+    // to check timetable of mentor-student timetable
     Route::get('/admin/mentor-students-timetable', [AdminController::class, 'viewMentorStudentsTimetable'])->name('admin.mentor_students_timetable');
 
     // Admin edits mentor/team-leader timetables (mentors and team leaders cannot edit their own)
@@ -161,7 +156,7 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     Route::put('/admin/semesters/{semester}', [SemesterController::class, 'update'])->name('admin.semesters.update');
     Route::put('/admin/semesters/{semester}/activate', [SemesterController::class, 'activate'])->name('admin.semesters.activate');
 
-    //See Profiles
+    // See Profiles
     Route::get('/admin/mentors/{id}', [MentorController::class, 'adminShow'])->name('admin.mentors.show');
     Route::get('/admin/students/{id}', [StudentController::class, 'adminShow'])->name('admin.students.show');
     Route::get('/admin/team-leaders/{id}', [TeamLeaderController::class, 'adminShow'])->name('admin.team_leaders.show');
@@ -188,7 +183,7 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
     // Display the details of a specific form
     Route::get('admin/forms/{form}', [AdminFormController::class, 'show'])->name('admin.forms.show');
 
-    //Admin Form Tracking
+    // Admin Form Tracking
     Route::get('/admin/form-tracking', [AdminFormController::class, 'tracking'])->name('admin.forms.tracking');
 
     Route::get('/admin/file_upload_links/create', [AdminFileUploadLinkController::class, 'create'])->name('admin.file_upload_links.create');
@@ -209,10 +204,9 @@ Route::middleware([AdminMiddleware::class, 'auth'])->group(function () {
 
     Route::get('/admin/database-analytics', [AdminAnalyticController::class, 'index'])->name('admin.database_analytics');
 
-
 });
 
-//Team Leader Routes
+// Team Leader Routes
 Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     Route::get('/team-leader/dashboard', [TeamLeaderController::class, 'dashboard'])->name('team_leader.dashboard');
 
@@ -227,11 +221,11 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     Route::get('/team-leader/profile', [TeamLeaderController::class, 'show'])->name('team_leader.profile');
     Route::put('/team-leader/profile', [TeamLeaderController::class, 'update'])->name('team_leader.update');
 
-    //for reserve their timetables
+    // for reserve their timetables
     Route::get('/team-leader/timetable', [TeamLeaderTimetableController::class, 'create'])->name('team_leader.timetable.create');
     Route::post('/team-leader/timetable', [TeamLeaderTimetableController::class, 'store'])->name('team_leader.timetable.store');
 
-    //Check Availability
+    // Check Availability
     Route::get('/team-leader/timetable/availability', [TeamLeaderTimetableController::class, 'checkAvailability'])
         ->name('team_leader.timetable.availability');
 
@@ -242,7 +236,7 @@ Route::middleware([TeamLeaderMiddleware::class, 'auth'])->group(function () {
     Route::get('/team-leader/mentors/{id}', [MentorController::class, 'teamLeaderShow'])->name('team_leader.mentors.show');
 });
 
-//Guest Page Route
+// Guest Page Route
 
 Route::get('/components/newsletter', function () {
     return view('components.newsletter');
@@ -265,10 +259,10 @@ Route::get('/components/course127/download', function () {
         'RSU 127 Course Syllabus (Term 1, 2569).pdf',
         'RSU 127 Course Syllabus.pdf',
         'RSU_127_Course_Syllabus.pdf',
-        'RSU 127 Course Syllabus (Term 1, 2026).pdf'
+        'RSU 127 Course Syllabus (Term 1, 2026).pdf',
     ];
     foreach ($possibleFiles as $file) {
-        $path = public_path('images/' . $file);
+        $path = public_path('images/'.$file);
         if (file_exists($path)) {
             return response()->download($path, 'RSU 127 Course Syllabus.pdf', [
                 'Content-Type' => 'application/pdf',
@@ -283,10 +277,10 @@ Route::get('/components/course127/pdf', function () {
         'RSU 127 Course Syllabus (Term 1, 2569).pdf',
         'RSU 127 Course Syllabus.pdf',
         'RSU_127_Course_Syllabus.pdf',
-        'RSU 127 Course Syllabus (Term 1, 2026).pdf'
+        'RSU 127 Course Syllabus (Term 1, 2026).pdf',
     ];
     foreach ($possibleFiles as $file) {
-        $path = public_path('images/' . $file);
+        $path = public_path('images/'.$file);
         if (file_exists($path)) {
             return response()->file($path, [
                 'Content-Type' => 'application/pdf',
@@ -297,6 +291,6 @@ Route::get('/components/course127/pdf', function () {
     abort(404, 'Syllabus PDF file not found.');
 })->name('course127.pdf')->withoutMiddleware(RedirectIfAuthenticated::class);
 
-//Logout
+// Logout
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

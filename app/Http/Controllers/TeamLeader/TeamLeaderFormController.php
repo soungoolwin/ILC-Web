@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\TeamLeader;
-use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use App\Models\Form;
 use App\Models\TeamLeaderForm;
+use Illuminate\Support\Facades\Auth;
 
 class TeamLeaderFormController extends Controller
 {
@@ -18,7 +17,7 @@ class TeamLeaderFormController extends Controller
         $teamLeader = $user->teamLeaders()->first();
 
         // Optional: check if team leader exists
-        if (!$teamLeader) {
+        if (! $teamLeader) {
             return redirect()->back()->with('error', 'Team leader not found.');
         }
 
@@ -46,6 +45,4 @@ class TeamLeaderFormController extends Controller
 
         return redirect()->back()->with('success', 'Completion has been undone.');
     }
-
-
 }

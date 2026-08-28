@@ -23,4 +23,3 @@ class CreateTeamLeaderFormsTable extends Migration
         Schema::dropIfExists('teamleader_forms');
     }
 }
-

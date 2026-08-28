@@ -20,10 +20,10 @@ class TeamLeaderFactory extends Factory
     {
         return [
             'user_id' => User::factory()->create([
-                'role' => 'team_leader'
+                'role' => 'team_leader',
             ])->id,
             'semester_id' => Semester::current()?->id ?? Semester::factory(),
-            'team_leader_id' => 'TL' . $this->faker->unique()->numberBetween(1000, 9999),
+            'team_leader_id' => 'TL'.$this->faker->unique()->numberBetween(1000, 9999),
         ];
     }
 }

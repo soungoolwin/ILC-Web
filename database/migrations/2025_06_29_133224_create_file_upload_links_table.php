@@ -22,4 +22,3 @@ class CreateFileUploadLinksTable extends Migration
         Schema::dropIfExists('file_upload_links');
     }
 }
-

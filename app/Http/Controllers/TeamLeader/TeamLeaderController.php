@@ -1,19 +1,19 @@
 <?php
 
 namespace App\Http\Controllers\TeamLeader;
-use App\Http\Controllers\Controller;
 
-use App\Models\TeamLeader;
-use App\Models\User;
-use App\Models\Timetable;
+use App\Http\Controllers\Controller;
+use App\Models\FileUploadLink;
 use App\Models\Form;
+use App\Models\TeamLeader;
 use App\Models\TeamLeaderForm;
 use App\Models\TeamLeaderTimetable;
-use App\Models\FileUploadLink;
+use App\Models\Timetable;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 
 class TeamLeaderController extends Controller
 {
@@ -26,7 +26,7 @@ class TeamLeaderController extends Controller
         $teamLeader = $user->teamLeaders()->first();
 
         // Create team leader profile if it doesn't exist
-        if (!$teamLeader) {
+        if (! $teamLeader) {
             // Only try to set columns that exist in the database
             try {
                 $teamLeader = TeamLeader::create([
@@ -50,7 +50,7 @@ class TeamLeaderController extends Controller
         $teamLeader = $user->teamLeaders()->first();
 
         // If teamLeader doesn't exist, create it
-        if (!$teamLeader) {
+        if (! $teamLeader) {
             $teamLeader = TeamLeader::create([
                 'user_id' => $user->id,
             ]);
@@ -66,7 +66,7 @@ class TeamLeaderController extends Controller
         return view('team_leader.dashboard', compact('timetables', 'username'));
     }
 
-    //team leader links
+    // team leader links
 
     public function links()
     {
@@ -102,7 +102,6 @@ class TeamLeaderController extends Controller
         return view('team_leader.links', compact('forms', 'completion', 'fileUploadLinks'));
     }
 
-
     /**
      * Update team leader profile information.
      */
@@ -111,7 +110,7 @@ class TeamLeaderController extends Controller
         $user = Auth::user();
         $teamLeader = $user->teamLeaders()->first();
 
-        if (!$teamLeader) {
+        if (! $teamLeader) {
             return redirect()->back()->withErrors(['error' => 'Team leader profile not found.']);
         }
 
@@ -119,7 +118,7 @@ class TeamLeaderController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'nickname' => 'nullable|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,'.$user->id,
             'line_id' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:20',
             'faculty' => 'nullable|string|max:255',
@@ -155,7 +154,7 @@ class TeamLeaderController extends Controller
 
         // Update password if provided and valid
         if ($request->filled('current_password')) {
-            if (!Hash::check($request->current_password, $user->password)) {
+            if (! Hash::check($request->current_password, $user->password)) {
                 return back()->withErrors(['current_password' => 'Current password is incorrect.']);
             }
 
@@ -175,7 +174,7 @@ class TeamLeaderController extends Controller
         $user = Auth::user();
         $teamLeader = $user->teamLeaders()->first();
 
-        if (!$teamLeader) {
+        if (! $teamLeader) {
             return redirect()->back()->withErrors(['error' => 'Team leader record not found.']);
         }
 
@@ -186,14 +185,14 @@ class TeamLeaderController extends Controller
 
         // Create directory if it doesn't exist
         $uploadPath = public_path('teamleader_image');
-        if (!File::exists($uploadPath)) {
+        if (! File::exists($uploadPath)) {
             File::makeDirectory($uploadPath, 0755, true);
         }
 
         // Delete the old image if it exists - only if column exists
         try {
             if ($teamLeader->teamleader_image) {
-                $oldImagePath = public_path('teamleader_image/' . $teamLeader->teamleader_image);
+                $oldImagePath = public_path('teamleader_image/'.$teamLeader->teamleader_image);
                 if (File::exists($oldImagePath)) {
                     File::delete($oldImagePath);
                 }
@@ -205,7 +204,7 @@ class TeamLeaderController extends Controller
         // Generate the new image name using the team leader's nickname
         $nickname = $user->id ?? 'teamleader'; // Fallback to 'teamleader' if nickname is null
         $extension = $request->teamleader_image->getClientOriginalExtension();
-        $imageName = $nickname . '_' . time() . '.' . $extension;
+        $imageName = $nickname.'_'.time().'.'.$extension;
 
         // Move the uploaded file to the public/teamleader_image directory
         $request->teamleader_image->move($uploadPath, $imageName);
@@ -213,7 +212,7 @@ class TeamLeaderController extends Controller
         // Update the team leader record with the new image name - only if column exists
         try {
             $teamLeader->update([
-                'teamleader_image' => $imageName
+                'teamleader_image' => $imageName,
             ]);
         } catch (\Exception $e) {
             // Skip if column doesn't exist
@@ -244,8 +243,6 @@ class TeamLeaderController extends Controller
 
         return view('team_leader.view_timetables', compact('timetables', 'request'));
     }
-
-
 
     /* OLD CODE for viewing timetables
 
@@ -282,8 +279,7 @@ class TeamLeaderController extends Controller
     public function adminShow($id)
     {
         $teamLeader = TeamLeader::with('user')->findOrFail($id);
+
         return view('admin.team-leader-profile', compact('teamLeader'));
     }
-
-    
 }

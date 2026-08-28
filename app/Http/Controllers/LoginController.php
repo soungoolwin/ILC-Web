@@ -85,7 +85,7 @@ class LoginController extends Controller
             ->latest('id')
             ->first();
 
-        if (!$lastMentor) {
+        if (! $lastMentor) {
             return redirect()->route('mentor.profile')->withErrors(['error' => 'Mentor profile not found.']);
         }
 
@@ -106,11 +106,13 @@ class LoginController extends Controller
 
         if ($semestersCompleted > 2) {
             $lastMentor->update(['status' => 'suspended']);
+
             return redirect()->route('mentor.suspended');
         }
 
         return redirect()->route('mentor.nextsem', ['mentor' => $lastMentor]);
     }
+
     public function logout(Request $request)
     {
         Auth::logout();

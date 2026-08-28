@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\TeamLeader;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use App\Models\Semester;
 use App\Models\TeamLeaderTimetable;
 use Illuminate\Http\Request;
@@ -14,6 +14,7 @@ class TeamLeaderTimetableController extends Controller
     {
         $timeSlots = Semester::TEAM_LEADER_TIME_SLOTS;
         $days = Semester::DAYS;
+
         return view('team_leader.timetables.create', compact('timeSlots', 'days'));
     }
 
@@ -31,10 +32,8 @@ class TeamLeaderTimetableController extends Controller
         // Validate the request
         $request->validate([
             'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
-            'time_slot' => 'required|in:' . implode(',', Semester::TEAM_LEADER_TIME_SLOTS),
+            'time_slot' => 'required|in:'.implode(',', Semester::TEAM_LEADER_TIME_SLOTS),
         ]);
-
-
 
         // Count the number of reservations for the selected time slot and day
         $count = TeamLeaderTimetable::where('time_slot', $request->time_slot)
@@ -46,8 +45,6 @@ class TeamLeaderTimetableController extends Controller
         if ($count >= $slotLimits[$request->time_slot]) {
             return back()->withErrors(['error' => 'All slots are full for the selected time and day.']);
         }
-
-
 
         // Create the reservation
         $new = TeamLeaderTimetable::create([

@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Mentor;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Semester;
 use App\Models\Timetable;
@@ -36,7 +36,7 @@ class TimetableController extends Controller
 
         $timetable = Timetable::where('mentor_id', $mentor_id)->first();
 
-        if (!$timetable) {
+        if (! $timetable) {
             return redirect()->route('mentor.timetables.create')
                 ->with('info', 'You haven\'t reserved a timetable yet.');
         }
@@ -48,79 +48,80 @@ class TimetableController extends Controller
      * Store the new timetable reservation.
      */
     public function store(Request $request)
-{
-    $mentor = Auth::user()->mentors()->first();
+    {
+        $mentor = Auth::user()->mentors()->first();
 
-    // Validate input
-    $request->validate([
-        'day'          => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
-        'time_slot'    => 'required|string|regex:/^\d{2}:\d{2}-\d{2}:\d{2}$/', // Format: HH:MM-HH:MM
-        'table_number' => 'required|integer|min:1|max:30',
-    ]);
-
-    // Split the one-hour time slot into two 30-minute slots
-    $timeSlots = $this->splitTimeSlot($request->time_slot);
-
-    // Enforce this semester's configured table capacity for the slot.
-    $capacity = Semester::current()->tableCapacityForHourSlot($request->day, $request->time_slot);
-    if ($request->table_number > $capacity) {
-        return back()->withErrors([
-            'conflict' => "Only {$capacity} tables are available for {$request->day} {$request->time_slot}.",
+        // Validate input
+        $request->validate([
+            'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday',
+            'time_slot' => 'required|string|regex:/^\d{2}:\d{2}-\d{2}:\d{2}$/', // Format: HH:MM-HH:MM
+            'table_number' => 'required|integer|min:1|max:30',
         ]);
-    }
 
-    // Insert 32 rows (2 slots per week for 16 weeks)
-    /* !Change Week Range in Here! */
-    $timetables = [];
-    foreach (range(4, 13) as $week_number) {
-        foreach ($timeSlots as $timeSlot) {
-            $timetables[] = [
-                'mentor_id'    => $mentor->id,
-                'semester_id'  => $mentor->semester_id,
-                'day'          => $request->day,
-                'time_slot'    => $timeSlot,
-                'table_number' => $request->table_number,
-                'week_number'  => (string) $week_number,
-                'reserved'     => false,
-                'created_at'   => now(),
-                'updated_at'   => now(),
-            ];
+        // Split the one-hour time slot into two 30-minute slots
+        $timeSlots = $this->splitTimeSlot($request->time_slot);
+
+        // Enforce this semester's configured table capacity for the slot.
+        $capacity = Semester::current()->tableCapacityForHourSlot($request->day, $request->time_slot);
+        if ($request->table_number > $capacity) {
+            return back()->withErrors([
+                'conflict' => "Only {$capacity} tables are available for {$request->day} {$request->time_slot}.",
+            ]);
         }
-    }
 
-    // Only another mentor shift is a conflict. Student-created table slots
-    // have no mentor yet and can be claimed by this shift.
-    $conflicts = Timetable::where('day', $request->day)
-        ->whereIn('time_slot', $timeSlots)
-        ->where('table_number', $request->table_number)
-        ->whereNotNull('mentor_id')
-        ->exists();
-
-    if ($conflicts) {
-        return back()->withErrors([
-            'conflict' => 'The selected time slot and table number is already reserved.',
-        ]);
-    }
-
-    foreach ($timetables as $attributes) {
-        $slot = Timetable::firstOrNew([
-            'semester_id' => $attributes['semester_id'],
-            'day' => $attributes['day'],
-            'time_slot' => $attributes['time_slot'],
-            'table_number' => $attributes['table_number'],
-            'week_number' => $attributes['week_number'],
-        ]);
-
-        $slot->mentor_id = $mentor->id;
-        if (! $slot->exists) {
-            $slot->reserved = false;
+        // Insert 32 rows (2 slots per week for 16 weeks)
+        /* !Change Week Range in Here! */
+        $timetables = [];
+        foreach (range(4, 13) as $week_number) {
+            foreach ($timeSlots as $timeSlot) {
+                $timetables[] = [
+                    'mentor_id' => $mentor->id,
+                    'semester_id' => $mentor->semester_id,
+                    'day' => $request->day,
+                    'time_slot' => $timeSlot,
+                    'table_number' => $request->table_number,
+                    'week_number' => (string) $week_number,
+                    'reserved' => false,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
         }
-        $slot->save();
+
+        // Only another mentor shift is a conflict. Student-created table slots
+        // have no mentor yet and can be claimed by this shift.
+        $conflicts = Timetable::where('day', $request->day)
+            ->whereIn('time_slot', $timeSlots)
+            ->where('table_number', $request->table_number)
+            ->whereNotNull('mentor_id')
+            ->exists();
+
+        if ($conflicts) {
+            return back()->withErrors([
+                'conflict' => 'The selected time slot and table number is already reserved.',
+            ]);
+        }
+
+        foreach ($timetables as $attributes) {
+            $slot = Timetable::firstOrNew([
+                'semester_id' => $attributes['semester_id'],
+                'day' => $attributes['day'],
+                'time_slot' => $attributes['time_slot'],
+                'table_number' => $attributes['table_number'],
+                'week_number' => $attributes['week_number'],
+            ]);
+
+            $slot->mentor_id = $mentor->id;
+            if (! $slot->exists) {
+                $slot->reserved = false;
+            }
+            $slot->save();
+        }
+
+        return redirect()->route('mentor.dashboard')
+            ->with('success', 'Timetable reserved successfully.');
     }
 
-    return redirect()->route('mentor.dashboard')
-        ->with('success', 'Timetable reserved successfully.');
-}
     private function splitTimeSlot(string $timeSlot): array
     {
         [$start, $end] = explode('-', $timeSlot);
@@ -130,8 +131,8 @@ class TimetableController extends Controller
         $endTime = \Carbon\Carbon::createFromFormat('H:i', $end);
 
         // Generate two 30-minute slots
-        $firstSlot = $startTime->format('H:i') . '-' . $startTime->copy()->addMinutes(30)->format('H:i');
-        $secondSlot = $startTime->copy()->addMinutes(30)->format('H:i') . '-' . $endTime->format('H:i');
+        $firstSlot = $startTime->format('H:i').'-'.$startTime->copy()->addMinutes(30)->format('H:i');
+        $secondSlot = $startTime->copy()->addMinutes(30)->format('H:i').'-'.$endTime->format('H:i');
 
         return [$firstSlot, $secondSlot];
     }

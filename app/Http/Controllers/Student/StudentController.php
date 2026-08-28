@@ -1,16 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Student;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
+use App\Models\Appointment;
+use App\Models\FileUploadLink;
+use App\Models\Form;
 use App\Models\Student;
+use App\Models\StudentForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Appointment;
-use App\Models\Form;
-use App\Models\StudentForm;
-use App\Models\FileUploadLink;
 
 class StudentController extends Controller
 {
@@ -19,11 +19,10 @@ class StudentController extends Controller
         $user = Auth::user();
         $student = $user->students()->first();
 
-
         return view('student.profile', compact('user', 'student'));
     }
 
-        //student links
+    // student links
 
     public function links()
     {
@@ -36,7 +35,7 @@ class StudentController extends Controller
             ->orderBy('form_type')
             ->orderBy('created_at')
             ->get()
-            ->groupBy('form_type'); 
+            ->groupBy('form_type');
 
         $completion = []; // nested: [$type][$formId] = bool
 
@@ -58,9 +57,6 @@ class StudentController extends Controller
         return view('student.links', compact('forms', 'fileUploadLink', 'completion'));
     }
 
-
-
-
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -75,7 +71,7 @@ class StudentController extends Controller
             'phone_number' => 'nullable|string|max:20',
 
             // Fields from the `students` table
-            'student_id' => 'required|string|unique:students,student_id,' . $student->id,
+            'student_id' => 'required|string|unique:students,student_id,'.$student->id,
 
             // Password fields
             'current_password' => 'nullable|string|min:8',
@@ -97,7 +93,7 @@ class StudentController extends Controller
 
         // Update password if provided and valid
         if ($request->filled('current_password')) {
-            if (!Hash::check($request->current_password, $user->password)) {
+            if (! Hash::check($request->current_password, $user->password)) {
                 return back()->withErrors(['current_password' => 'Current password is incorrect.']);
             }
 
@@ -112,14 +108,17 @@ class StudentController extends Controller
     public function adminShow($id)
     {
         $student = Student::with('user')->findOrFail($id); // Fetch student with user info
+
         return view('admin.student-profile', compact('student'));
     }
 
     public function teamLeaderShow($id)
     {
         $student = Student::with('user')->findOrFail($id);
+
         return view('team_leader.student-profile', compact('student'));
     }
+
     // StudentController.php
     public function mentorShow($id)
     {
@@ -131,7 +130,7 @@ class StudentController extends Controller
     }
 
     // Dashboard to show appointment details
-    
+
     public function dashboard()
     {
         $student = Auth::user()->students()->first();

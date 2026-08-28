@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Mentor;
-use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use App\Models\Form;
 use App\Models\MentorForm;
+use Illuminate\Support\Facades\Auth;
 
 class MentorFormController extends Controller
 {
@@ -35,6 +34,7 @@ class MentorFormController extends Controller
 
         if ($record) {
             $record->delete();
+
             return back()->with('success', 'Form completion undone.');
         }
 
