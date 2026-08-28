@@ -36,7 +36,7 @@
                     </div>
                     <!-- Functional Automatic PDF Download Button via Backend Controller Route -->
                     <a 
-                        href="{{ route('course127.download') }}" 
+                        href="{{ route('course127.pdf') }}" 
                         download="RSU 127 Course Syllabus.pdf" 
                         style="background-color: #D68910;" 
                         class="w-full inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-xs font-black text-white shadow-lg hover:bg-amber-600 hover:scale-[1.02] hover:shadow-xl transition-all duration-200 border border-amber-300"
@@ -745,7 +745,7 @@
                         <div class="p-6 space-y-5 bg-purple-50/40">
                             <!-- Bulletproof Backend Download Route -->
                             <a 
-                                href="{{ route('course127.download') }}" 
+                                href="{{ route('course127.pdf') }}" 
                                 download="RSU 127 Course Syllabus.pdf" 
                                 style="background-color: #D68910;"
                                 class="flex w-full items-center justify-center gap-2.5 rounded-xl px-5 py-4 text-sm font-black text-white shadow-lg hover:bg-amber-600 hover:shadow-xl hover:scale-[1.02] transition-all duration-200 group border border-amber-300"

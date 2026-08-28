@@ -250,68 +250,33 @@ Route::get('/components/about', function () {
     return view('components.about');
 })->name('about')->withoutMiddleware(RedirectIfAuthenticated::class);
 
+// Course 127 Syllabus Page Route
 Route::get('/components/course127', function () {
     return view('components.course127');
-})->name('course.127')->withoutMiddleware(RedirectIfAuthenticated::class);
+})->name('course.127');
 
-Route::get('/components/course127/download', function () {
-    $possibleFiles = [
-        'RSU 127 Course Syllabus (Term 1, 2569).pdf',
-        'RSU 127 Course Syllabus.pdf',
-        'RSU_127_Course_Syllabus.pdf',
-        'RSU 127 Course Syllabus (Term 1, 2026).pdf',
-    ];
-    foreach ($possibleFiles as $file) {
-        $path = public_path('images/'.$file);
-        if (file_exists($path)) {
-            return response()->download($path, 'RSU 127 Course Syllabus.pdf', [
-                'Content-Type' => 'application/pdf',
-            ]);
-        }
-    }
-    abort(404, 'Syllabus PDF file not found.');
-})->name('course127.download')->withoutMiddleware(RedirectIfAuthenticated::class);
-
+// Course 127 Syllabus PDF (Consolidated route: handles both inline viewing and downloads)
 Route::get('/components/course127/pdf', function () {
-    $possibleFiles = [
-        'RSU 127 Course Syllabus (Term 1, 2569).pdf',
-        'RSU 127 Course Syllabus.pdf',
-        'RSU_127_Course_Syllabus.pdf',
-        'RSU 127 Course Syllabus (Term 1, 2026).pdf',
-    ];
-    foreach ($possibleFiles as $file) {
-        $path = public_path('images/'.$file);
-        if (file_exists($path)) {
-            return response()->file($path, [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="RSU 127 Course Syllabus.pdf"',
-            ]);
-        }
-    }
-    abort(404, 'Syllabus PDF file not found.');
-})->name('course127.pdf')->withoutMiddleware(RedirectIfAuthenticated::class);
+    return response()->file(public_path('images/RSU 127 Course Syllabus (Term 1, 2569).pdf'), [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="RSU 127 Course Syllabus.pdf"',
+    ]);
+})->name('course127.pdf');
 
+// Course Materials (Week 1 Class Slides & Chapter Textbook)
 Route::get('/materials/class-01', function () {
-    $path = public_path('images/Class 01.pdf');
-    if (file_exists($path)) {
-        return response()->file($path, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="Class 01 (Slides).pdf"',
-        ]);
-    }
-    abort(404, 'Class 01 Slides PDF file not found.');
-})->name('materials.class01')->withoutMiddleware(RedirectIfAuthenticated::class);
+    return response()->file(public_path('images/Class 01.pdf'), [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="Class 01 (Slides).pdf"',
+    ]);
+})->name('materials.class01');
 
 Route::get('/materials/chapter-01', function () {
-    $path = public_path('images/Chapter 01.pdf');
-    if (file_exists($path)) {
-        return response()->file($path, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="Chapter 01 (Textbook).pdf"',
-        ]);
-    }
-    abort(404, 'Chapter 01 Textbook PDF file not found.');
-})->name('materials.chapter01')->withoutMiddleware(RedirectIfAuthenticated::class);
+    return response()->file(public_path('images/Chapter 01.pdf'), [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="Chapter 01 (Textbook).pdf"',
+    ]);
+})->name('materials.chapter01');
 
 // Logout
 
