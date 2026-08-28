@@ -2,6 +2,36 @@
     @php
         $newsletters = [
             [
+                "issue" => "008",
+                "month" => "April 2026",
+                "folder" => "april-2026",
+                "pdf" => "News_April 2026.pdf",
+            ],
+            [
+                "issue" => "007",
+                "month" => "March 2026",
+                "folder" => "march-2026",
+                "pdf" => "News_March 2026.pdf",
+            ],
+            [
+                "issue" => "006",
+                "month" => "February 2026",
+                "folder" => "february-2026",
+                "pdf" => "News_February 2026.pdf",
+            ],
+            [
+                "issue" => "005",
+                "month" => "January 2026",
+                "folder" => "january-2026",
+                "pdf" => "News_January 2026.pdf",
+            ],
+            [
+                "issue" => "004",
+                "month" => "December 2025",
+                "folder" => "december-2025",
+                "pdf" => "News_December 2025.pdf",
+            ],
+            [
                 "issue" => "003",
                 "month" => "November 2025",
                 "folder" => "november-2025",
